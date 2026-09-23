@@ -24,7 +24,8 @@ Com a janela de \numDirecaoJanela{} dias, o \cref{prop:nulo-da-direcao} dá \num
 \numDirecaoContaTaxa{} alarmes por bloco num mundo sem direção nenhuma.
 
 O primeiro fracasso do capítulo é o que acontece quando se acredita nessa promessa. Medindo o mundo
-simétrico --- \numDirecaoSementes{} mundos sorteados de \numDirecaoBlocosPorMundo{} blocos cada ---, a dispersão da
+simétrico --- \numDirecaoSementes{} mundos sorteados de \numDirecaoBlocosPorMundo{} blocos cada,
+\numDirecaoBlocosNulo{} blocos no total ---, a dispersão da
 estatística é de \numDirecaoNuloDispersao{} em vez dos \numDirecaoConta{} da conta, e a taxa de
 alarme é de \numDirecaoNuloTaxa{} por bloco: \numDirecaoRazaoDasTaxas{} vezes o prometido. O limiar
 que entrega a promessa é \numDirecaoLimiarMedido{}, contra \numDirecaoLimiar{} da conta --- um terço mais
@@ -49,9 +50,9 @@ sem trocar de tamanho, indo a \numDirecaoIndiceInvertida{}, \numDirecaoIbovespaI
 \numDirecaoIndiceRazao{} desvios em \numDirecaoIndiceDias{} dias, e a do Ibovespa
 \numDirecaoIbovespaRazao{}.
 
-Os três mercados têm, então, direção, e ela é grande: \numDirecaoBitcoinRazao{} desvios no Bitcoin. O
-Ibovespa entra na mesma conta com \numDirecaoIbovespaDias{} dias, que dão
-\numDirecaoIbovespaBlocos{} blocos de um ano.
+Os três mercados têm, então, direção, e ela é grande: \numDirecaoBitcoinRazao{} desvios no Bitcoin, que
+entra na conta com \numDirecaoBitcoinDias{} dias, em \numDirecaoBitcoinBlocos{} blocos de um ano, contra
+\numDirecaoIbovespaDias{} dias e \numDirecaoIbovespaBlocos{} blocos do Ibovespa.
 O que falta é a segunda metade da promessa --- quanto tempo um vigia leva para vê-la enquanto o mundo
 corre.
 
@@ -68,7 +69,7 @@ mundos com direção declarada, nos dois limiares.
     direção do & estatística & acerto no & acerto no \\
     mundo & medida & limiar da conta & limiar honesto \\
     \hline
-    nenhuma & \numDirecaoEstatisticaSimetrico & \numDirecaoAcertoSimetrico & \numDirecaoAcertoHonestoSimetrico \\
+    \numDirecaoAssimetriaSimetrico & \numDirecaoEstatisticaSimetrico & \numDirecaoAcertoSimetrico & \numDirecaoAcertoHonestoSimetrico \\
     \numDirecaoAssimetriaDoisCentesimos & \numDirecaoEstatisticaDoisCentesimos & \numDirecaoAcertoDoisCentesimos & \numDirecaoAcertoHonestoDoisCentesimos \\
     \numDirecaoAssimetriaCincoCentesimos & \numDirecaoEstatisticaCincoCentesimos & \numDirecaoAcertoCincoCentesimos & \numDirecaoAcertoHonestoCincoCentesimos \\
     \numDirecaoAssimetriaDezCentesimos & \numDirecaoEstatisticaDezCentesimos & \numDirecaoAcertoDezCentesimos & \numDirecaoAcertoHonestoDezCentesimos \\
@@ -88,6 +89,13 @@ uma direção declarada, posta de propósito no mundo --- é vista em
 \numDirecaoIndiceMomento{}, quase o dobro disso. E a primeira linha mostra o preço: no mundo sem
 direção nenhuma, o vigia ainda gasta \numDirecaoAcertoHonestoSimetrico{} dos seus blocos em alarme
 falso, e é esse o piso contra o qual qualquer acerto tem de ser lido.
+
+A dispersão da estatística sobe junto com a direção do mundo: ela vai de
+\numDirecaoDispersaoSimetrico{} no mundo sem direção a \numDirecaoDispersaoQuarentaCentesimos{} no mais
+assimétrico, passando por \numDirecaoDispersaoDoisCentesimos{},
+\numDirecaoDispersaoCincoCentesimos{}, \numDirecaoDispersaoDezCentesimos{} e
+\numDirecaoDispersaoVinteCentesimos{}. Um mundo com direção é também um mundo mais difícil de ler, e as
+duas coisas não se separam: a mesma assimetria que o vigia procura é a que embaralha a estatística.
 
 \begin{figure}[htbp]
   \centering
@@ -116,8 +124,10 @@ e a seta do tempo aparece só quando se somam muitos anos.
 
 A figura mostra a consequência. Dos \numDirecaoIndiceBlocos{} anos do índice,
 \numDirecaoIndiceBlocosAcima{} passam do limiar honesto, o que é
-\numDirecaoIndiceAcertoHonesto{} dos anos --- e dois deles são os anos de quebra, com a estatística em
-\numDirecaoIndiceDispersaoBlocos{} de dispersão puxada por eles. Um vigia que decide ao fim de cada ano mede se aquele ano teve um tombo, e a seta do tempo fica para
+\numDirecaoIndiceAcertoHonesto{} dos anos, contra \numDirecaoIbovespaAcertoHonesto{} no Ibovespa e
+\numDirecaoBitcoinAcertoHonesto{} no Bitcoin --- e
+dois deles são os anos de quebra, com a estatística em \numDirecaoIndiceDispersaoBlocos{} de dispersão
+puxada por eles. Um vigia que decide ao fim de cada ano mede se aquele ano teve um tombo, e a seta do tempo fica para
 depois.
 
 \section{O que fica}
