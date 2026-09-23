@@ -15,7 +15,7 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 from importlib.metadata import PackageNotFoundError, version
 
 from . import (calendario, dados, dependencia, estabilidade, graficos, intervencao, mudanca,
-               promessa, regimes, vigia, volatilidade)
+               partilha, promessa, regimes, vigia, volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -26,7 +26,8 @@ except PackageNotFoundError:
     VERSAO = "0.1.0"
 
 __all__ = ["calendario", "dados", "dependencia", "estabilidade", "graficos", "intervencao",
-           "mudanca", "promessa", "regimes", "vigia", "volatilidade", "VERSAO", "auto_teste"]
+           "mudanca", "partilha", "promessa", "regimes", "vigia", "volatilidade", "VERSAO",
+           "auto_teste"]
 
 
 def auto_teste() -> list:
@@ -265,6 +266,39 @@ def auto_teste() -> list:
         problemas.append("o vigia que lê o calendário não alarmou no mundo de sete níveis")
     elif float((semanal.index[semanal.to_numpy()].dayofweek == 0).mean()) > 0.6:
         problemas.append("o vigia que lê o calendário continua preso a um dia da semana")
+
+    # --- a partilha do relógio (partilha.py) ---
+
+    # padronizar não olha para a frente: a escala de hoje sai só dos dias anteriores a hoje
+    base_partilha = np.abs(rng.normal(0.0, 0.01, 800)) + 0.002
+    mexida = base_partilha.copy()
+    mexida[600] *= 7.0
+    if partilha.padronizado(base_partilha, 21)[500] != partilha.padronizado(mexida, 21)[500]:
+        problemas.append("padronizar olhou para a frente: mudar um dia futuro mudou o padrão de hoje")
+
+    # uma série constante padroniza em um, e uma barreira em cima dela não deixa passar nada
+    constante_partilha = np.full(900, 0.01)
+    if not np.allclose(partilha.padronizado(constante_partilha, 21)[21:], 1.0):
+        problemas.append("série constante deveria padronizar em um")
+    if partilha.absorvido(constante_partilha, 1, 1, inicio=300, horizonte=100) != 0.0:
+        problemas.append("barreira em cima de série constante deixou passar perda")
+
+    # o ciclo é o horizonte dividido pelas atualizações, e zero atualizações é o horizonte inteiro
+    if partilha.ciclos(25, 25, 500) != (20, 20):
+        problemas.append("o ciclo não é o horizonte dividido pelas atualizações: %s"
+                         % (partilha.ciclos(25, 25, 500),))
+    if partilha.ciclos(0, 5, 500)[0] != 500:
+        problemas.append("sem atualização, o ciclo da escala deveria ser o horizonte inteiro")
+    if partilha.ciclos(500, 500, 500) != (1, 1):
+        problemas.append("atualizar todo dia deveria dar ciclo um")
+
+    # a partilha cobre todos os pares pedidos, e com uma série só a dispersão é zero
+    uma = [np.abs(mudanca.degrau(4000, np.random.default_rng(91), fator=2.0, quando=1500))]
+    medida = partilha.partilha(uma, (10,), (0.5, 1.0), inicio=1500, horizonte=200)
+    if set(medida["media"]) != {(10, 0.5), (10, 1.0)}:
+        problemas.append("a partilha não devolveu todos os pares pedidos")
+    if any(v != 0.0 for v in medida["dispersao"].values()):
+        problemas.append("com uma série só, a dispersão da partilha deveria ser zero")
 
     # o salvamento grava os dois formatos
     import tempfile

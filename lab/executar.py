@@ -88,8 +88,12 @@ def formata(valor) -> str:
     if isinstance(valor, float):
         texto = "%.4g" % valor
         if "e" in texto:
+            # A notação científica sai em \ensuremath, e não em modo matemático cru: o livro cita
+            # a grandeza no meio de uma frase, e um \times solto derruba a compilação. Defeito que
+            # só apareceu quando a primeira grandeza pequena foi medida.
             mantissa, expoente = texto.split("e")
-            return mantissa.replace(".", ",") + " \\times 10^{%d}" % int(expoente)
+            return ("\\ensuremath{%s \\times 10^{%d}}"
+                    % (mantissa.replace(".", ","), int(expoente)))
         return texto.replace(".", ",")
     return str(valor)
 
