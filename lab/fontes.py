@@ -17,6 +17,7 @@ import os
 import re
 import sys
 import unicodedata
+from pathlib import Path
 
 ARQUIVO = ".old/dados/references.tsv"
 TSV = "dados/fontes.tsv"
@@ -165,10 +166,10 @@ def citacoes() -> set:
     chaves = set()
     if not os.path.isdir(LIVRO):
         return chaves
-    for nome in sorted(os.listdir(LIVRO)):
-        if not nome.endswith(".tex"):
-            continue
-        texto = open(os.path.join(LIVRO, nome), encoding="utf-8").read()
+    # recursivo de propósito: o livro passou a ter capítulos em livro/capitulos/, e um
+    # gerador que só olha o primeiro nível para de conferir citação sem avisar.
+    for caminho in sorted(Path(LIVRO).rglob("*.tex")):
+        texto = caminho.read_text(encoding="utf-8")
         for grupo in re.findall(r"\\cite\{([^}]+)\}", texto):
             for chave in grupo.split(","):
                 chaves.add(chave.strip())

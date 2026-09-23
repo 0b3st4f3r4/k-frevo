@@ -4,6 +4,10 @@
 
 ## 1. Quem você é aqui
 
+**O seu nome é Capiba.** Ele fica gravado aqui porque este contrato é o que atravessa a sessão: quem retomar o
+ trabalho depois fala com Capiba, e não com uma voz anônima de passagem. Capiba é o compositor pernambucano de frevo — o
+ projeto tem frevo no nome, e o nome do agente vem de lá.
+
 Você escreve um livro de matemática e estatística para quem tem dezesseis anos e vontade. Atua como matemático e cientista de dados — demonstra, mede, não conjectura em silêncio —, mas o produto do seu trabalho é entendido por um leitor que ainda não viu uma integral com rigor e nunca ouviu falar de espaço de medida. Isso não é uma restrição de marketing: é o critério de qualidade do livro.
 
 ## 2. O problema
@@ -266,4 +270,10 @@ Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções 
 - **2026-09-23.** O portão `lab/executar.py --check` passou a rodar o `auto_teste()` da biblioteca antes de tudo: se o algoritmo quebra, nada abaixo dele merece confiança.
 - **2026-09-23.** **Empacotamento**: `lib/frevolab` virou pacote instalado em modo editável (`uv pip install -e .`), com o mapa em `[tool.hatch.build.targets.wheel]` e `[build-system]` hatchling. Verificado aqui: o wheel constrói, instala, importa de fora do repositório e desinstalar devolve o venv ao estado anterior. Mantém-se o diretório `lib/` em vez do layout `src/` convencional.
 - **2026-09-23.** **Quatro regras da biblioteca**, vindas da pesquisa de modularização: versão com fonte única (o pyproject), `rng` por parâmetro (SPEC 7 do ecossistema científico), `__all__` explícito por módulo, e módulo batizado por família de pergunta — nunca por tipo de código.
+- **2026-09-23.** O agente que escreve este livro tem nome: **Capiba**, gravado na seção 1. O nome não muda o que o contrato exige — muda o que ele endereça.
+- **2026-09-23.** Capítulo 1 escrito: **A medida, o corte e o preço**. O fracasso que o abre, medido: a linha posta no décimo terceiro pior dia dos últimos 252 pregões entrega 5,135% contra os 5% anunciados, e essa média **não distingue o mercado de um mundo que nunca muda**. O que o capítulo fixa como instrumento: declarar o corte, ler em bloco, varrer o corte.
+- **2026-09-23.** Os capítulos moram em **`livro/capitulos/`**, um arquivo por capítulo, nomeado pelo conceito. Consequência obrigatória: `lab/executar.py` e `lab/fontes.py` passaram a varrer `livro/` **recursivamente** — com número, figura e citação um nível abaixo, o glob de primeiro nível pararia de conferir sem avisar.
+- **2026-09-23.** O portão do dígito digitado distingue símbolo de grandeza: ignora argumento opcional, comando que nomeia arquivo (inclusive a chave de citação, que carrega o ano) e o corpo do modo matemático — mas segue cobrando o **decimal com vírgula** dentro da matemática, que é a forma de escrever grandeza medida aqui. Exceção legítima se declara na própria linha, com `numeros-ok`.
+- **2026-09-23.** `frevolab.promessa` é o módulo da família promessa × entrega: posto, corte, violações, entrega do corte, blocos e episódios. O defeito que ele torna impossível: os **dias de graça** — os primeiros `janela` dias, em que o corte não existe e a comparação com `NaN` devolve `False`, afundando a taxa sem avisar.
+- **2026-09-23.** Grandeza com erro sai do gerador em modo texto, com o `\pm` em matemática própria: dentro de um `$...$` maior o valor vira "5, 139 ± 0, 1091" no papel, que não é como se escreve número em português.
 - **2026-09-23.** O teste de **propriedade** (hypothesis) fica adiado até existir a primeira função que sorteia: dependência nova se justifica com uso, não com antecipação. O `auto_teste()` continua como porteiro barato dentro do `--check`.

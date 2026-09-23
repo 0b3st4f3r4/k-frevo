@@ -78,7 +78,10 @@ def formata(valor) -> str:
     if isinstance(valor, dict) and "valor" in valor:
         corpo = formata(valor["valor"])
         if "erro" in valor:
-            corpo += " \\pm " + formata(valor["erro"])
+            # o \pm sai em modo matematico proprio, de proposito: dentro de um $...$ maior
+            # o comma ganha espaco de pontuacao e o valor vira "5, 139 +-" no papel, que
+            # nao e como se escreve numero em portugues.
+            corpo += " $\\pm$ " + formata(valor["erro"])
         return corpo
     if isinstance(valor, int):
         return "%d" % valor
@@ -138,7 +141,13 @@ def roda(forcar: bool) -> int:
 
 
 def arquivos_do_livro() -> list:
-    return [p for p in sorted(LIVRO.glob("*.tex")) if p.name not in GERADOS]
+    """Toda fonte do livro, inclusive os capítulos em livro/capitulos/.
+
+    Recursivo de propósito: enquanto capítulo e número moravam no mesmo nível, um glob de
+    primeiro nível bastava. Com os capítulos em subpasta, ele deixa de conferir número,
+    figura e dígito dentro deles — e deixa em silêncio, que é o pior jeito de deixar.
+    """
+    return [p for p in sorted(LIVRO.rglob("*.tex")) if p.name not in GERADOS]
 
 
 def conferir_frescor(falhas: list) -> None:
@@ -160,7 +169,8 @@ def conferir_numeros(avisos: list, falhas: list) -> None:
     for caminho in arquivos_do_livro():
         for n, linha in enumerate(caminho.read_text(encoding="utf-8").splitlines(), start=1):
             for nome in re.findall(r"\\(num[0-9A-Za-z]+)", linha):
-                usados.setdefault(nome, []).append("%s:%d" % (caminho.name, n))
+                usados.setdefault(nome, []).append(
+                    "%s:%d" % (caminho.relative_to(LIVRO).as_posix(), n))
     for nome, onde in sorted(usados.items()):
         if nome not in definidos:
             falhas.append("número citado e não medido: \\%s em %s" % (nome, ", ".join(onde)))
@@ -186,9 +196,25 @@ def conferir_figuras(avisos: list, falhas: list) -> None:
 
 
 def conferir_digitos(avisos: list) -> None:
+    r"""Dígito no corpo do livro vira aviso: grandeza medida se cita, não se digita.
+
+    A conferência precisa de três faxinas antes de olhar, senão acusa notação em vez de
+    dado. Sai o argumento opcional (o 1,5em de um itemize), sai o comando que nomeia
+    arquivo (\input, \includegraphics, que carregam "01" no nome) e sai o que está entre
+    cifrões, onde $n+1$ é símbolo e não medição.
+
+    O modo matemático não sai inteiro, porém: dele ainda se cobra o decimal com vírgula,
+    que é justamente como este livro escreve grandeza medida. Sem isso, um número digitado
+    à mão se esconderia entre cifrões — e o portão é para pegá-lo, não para ficar bonito.
+    Quando o dígito é legítimo (exemplo mínimo, nome próprio), a própria linha o declara
+    com "numeros-ok", de modo que a exceção fica escrita no lugar onde ela vale.
+    """
     for caminho in arquivos_do_livro():
-        dentro = False
-        for n, linha in enumerate(caminho.read_text(encoding="utf-8").splitlines(), start=1):
+        linhas = caminho.read_text(encoding="utf-8").splitlines()
+        # arquivo sem \begin{document} é fragmento de capítulo: tudo nele está dentro
+        dentro = not any("\\begin{document}" in l for l in linhas)
+        em_mostrador = False
+        for n, linha in enumerate(linhas, start=1):
             if "\\begin{document}" in linha:
                 dentro = True
                 continue
@@ -197,9 +223,25 @@ def conferir_digitos(avisos: list) -> None:
             corpo = re.sub(r"(?<!\\)%.*", "", linha)
             corpo = re.sub(r"\\(num[0-9A-Za-z]+)", "", corpo)
             corpo = re.sub(r"\\includegraphics(?:\[[^]]*\])?\{[^}]+\}", "", corpo)
-            if re.search(r"\d", corpo):
+            corpo = re.sub(r"\\(?:input|include)\{[^}]+\}", "", corpo)
+            # a chave de citação carrega o ano (oconnell2026extreme) e não é dígito digitado
+            corpo = re.sub(r"\\cite[tp]?\{[^}]+\}", "", corpo)
+
+            abre, fecha = "\\[" in corpo, "\\]" in corpo
+            if em_mostrador or abre:
+                matematicas.append(corpo)
+                corpo = ""
+            else:
+                matematicas = re.findall(r"\$[^$]*\$", corpo)
+                corpo = re.sub(r"\$[^$]*\$", "", corpo)
+            em_mostrador = (em_mostrador or abre) and not fecha
+
+            digitos = len(re.findall(r"\d", re.sub(r"\[[^]]*\]", "", corpo)))
+            dentro_da_matematica = sum(len(re.findall(r"\d+,\d+", m)) for m in matematicas)
+            if digitos or dentro_da_matematica:
                 avisos.append("dígito digitado à mão: %s:%d — %s"
-                              % (caminho.name, n, corpo.strip()[:80]))
+                              % (caminho.relative_to(LIVRO).as_posix(), n, corpo.strip()[:80]
+                                 or "no modo matemático"))
 
 
 def conferir_cadernos_sem_algoritmo(avisos: list) -> None:

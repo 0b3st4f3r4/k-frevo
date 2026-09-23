@@ -14,7 +14,7 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 """
 from importlib.metadata import PackageNotFoundError, version
 
-from . import dados, graficos, volatilidade
+from . import dados, graficos, promessa, volatilidade
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -24,7 +24,7 @@ try:
 except PackageNotFoundError:
     VERSAO = "0.1.0"
 
-__all__ = ["dados", "graficos", "volatilidade", "VERSAO", "auto_teste"]
+__all__ = ["dados", "graficos", "promessa", "volatilidade", "VERSAO", "auto_teste"]
 
 
 def auto_teste() -> list:
@@ -68,6 +68,48 @@ def auto_teste() -> list:
         problemas.append("janela rolante com comprimento errado")
     if abs(rolante.iloc[-1] - retornos.iloc[-300:].std() * np.sqrt(252)) > 1e-9:
         problemas.append("janela rolante não fecha na última janela completa")
+
+    # --- a promessa e a entrega (promessa.py) ---
+
+    # o posto é inteiro: 5% de 252 não existe, e o corte é o 13º pior
+    if [promessa.posto(j) for j in (21, 252, 1260)] != [2, 13, 63]:
+        problemas.append("posto errado: %s" % [promessa.posto(j) for j in (21, 252, 1260)])
+    if abs(promessa.entrega_do_corte(252) - 13 / 253) > 1e-15:
+        problemas.append("a conta do corte não é k/(n+1)")
+
+    # o corte não olha para a frente: o de `t` é o k-ésimo pior da janela que termina em t-1
+    curta = pd.Series(rng.normal(0.0, 0.01, 1000))
+    linha = promessa.corte(curta, 21)
+    for t in (21, 500, 999):
+        esperado = float(np.sort(curta.to_numpy()[t - 21:t])[1])
+        if abs(float(linha.iloc[t]) - esperado) > 1e-15:
+            problemas.append("corte em t=%d não é o 2º pior da janela que termina ontem" % t)
+
+    # dias de graça não existem: a série de violações tem exatamente len - janela entradas
+    if len(promessa.violacoes(curta, 21)) != len(curta) - 21:
+        problemas.append("violações com dias de graça: %d entradas para %d dias"
+                         % (len(promessa.violacoes(curta, 21)), len(curta)))
+
+    # a proposição, num mundo que nunca muda: a entrega média é a conta do corte
+    uniforme = pd.Series(rng.uniform(0.0, 1.0, 50000))
+    medida = promessa.entrega(uniforme, 21)["taxa"]
+    if abs(medida - promessa.entrega_do_corte(21)) > 0.02:
+        problemas.append("mundo uniforme: entrega %.4f longe da conta do corte %.4f"
+                         % (medida, promessa.entrega_do_corte(21)))
+
+    # as duas leituras são da mesma conta: a taxa é a média das violações
+    d = promessa.entrega(curta, 21, bloco=60)
+    if d["violacoes"] != int(promessa.violacoes(curta, 21).sum()):
+        problemas.append("o resumo da entrega não fecha com as violações")
+
+    # episódios: blocos consecutivos acima do limite são um episódio, não vários
+    contagem_teste = pd.Series([0.0, 0.0, 5.0, 5.0, 0.0, 0.0, 6.0, 0.0])
+    if len(promessa.episodios_acima(contagem_teste, 3)) != 2:
+        problemas.append("episódios acima do limite não agrupam blocos consecutivos")
+    if len(promessa.episodios_acima(contagem_teste, 9)) != 0:
+        problemas.append("episódios acima do limite contam o que não passou do limite")
+    if promessa.episodios_acima(contagem_teste, 3)[1]["pico"] != 6.0:
+        problemas.append("o pico do episódio não é o maior bloco dele")
 
     # o salvamento grava os dois formatos
     import tempfile
