@@ -1,0 +1,14 @@
+.venv
+__pycache__/
+.uvcache/
+.tmp/
+.dsh-*/
+.old/
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.synctex*

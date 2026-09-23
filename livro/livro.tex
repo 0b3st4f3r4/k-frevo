@@ -1,0 +1,102 @@
+% =============================================================================
+% O LIVRO — escrito à mão, em português do Brasil.
+%
+% Esta é a raiz do artefato central. O que vive aqui é texto; número medido vem
+% de livro/numeros.tex e figura vem de livro/figuras/ (as duas geradas por
+% lab/executar.py), e a bibliografia vem de livro/fontes.tex (gerada por
+% lab/fontes.py). Arquivo gerado não se edita à mão.
+%
+% Estrutura (AGENTS.md §6): raiz, cinco voltas, travessia, dois andares, fecho.
+% Nenhum capítulo entra sem o fracasso concreto que o abre, com número na mão.
+% =============================================================================
+\documentclass[11pt,a4paper]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}   % herdado do arquivo: microtype exige fonte escalável
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{margin=1.15in}
+\usepackage{microtype}
+\usepackage{bm}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue!70!black,
+            citecolor=green!50!black, urlcolor=blue!80!black}
+\usepackage[capitalise,noabbrev]{cleveref}
+\usepackage{url}
+
+% Nomes em português. A distribuição local não traz o pacote de idioma do babel
+% (herdado do arquivo: "Unknown option 'brazilian'"), então os poucos nomes que o
+% LaTeX cunha são trocados à mão.
+\renewcommand{\contentsname}{Sumário}
+\renewcommand{\chaptername}{Capítulo}
+\renewcommand{\bibname}{Fontes}
+\renewcommand{\proofname}{Prova}
+
+\newtheorem{teorema}{Teorema}[chapter]
+\newtheorem{lema}[teorema]{Lema}
+\newtheorem{proposicao}[teorema]{Proposição}
+\newtheorem{corolario}[teorema]{Corolário}
+\theoremstyle{definition}
+\newtheorem{definicao}[teorema]{Definição}
+\newtheorem{exemplo}[teorema]{Exemplo}
+\theoremstyle{remark}
+\newtheorem{observacao}[teorema]{Observação}
+
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+
+\title{A incerteza quando o mundo muda}
+\author{}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+% Números medidos, figuras e fontes: gerados, nunca editados à mão.
+\input{numeros.tex}
+
+% -----------------------------------------------------------------------------
+% Nota de abertura: provisória, e é ela que mostra o encanamento funcionando.
+% -----------------------------------------------------------------------------
+\chapter*{Como este livro mede}
+\addcontentsline{toc}{chapter}{Como este livro mede}
+
+Este livro não afirma nada sem mostrar como se mede. Cada número que aparece no
+texto sai de um caderno de experimento: um caderno por medição, executável
+sozinho, com os parâmetros no topo para quem quiser mexer. O caderno termina
+gravando o resultado num arquivo, e cada figura sai duas vezes --- em papel, para
+este livro, e em imagem, para inspeção.
+
+O texto então não escreve o número: ele cita o comando que o laboratório gerou.
+Isso parece detalhe e não é: um número digitado à mão pode divergir da medição
+sem que ninguém perceba, e um número citado não pode, porque não existe em dois
+lugares.
+
+A medição de abertura serve de exemplo. Ela lê uma série longa de preços e mede a
+volatilidade em duas escalas de tempo: \numVolHistorica{} ao longo de todo o
+histórico e \numVolRecente{} no último ano, uma razão de \numRazaoVol{} em
+\numDiasMedidos{} dias úteis. A figura mostra as duas curvas que produzem esses
+números.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E00_pipeline_1.pdf}
+  \caption{Preço e volatilidade da mesma série, em duas escalas de tempo. A linha
+    tracejada é a volatilidade do histórico inteiro; a curva azul é a janela móvel
+    de um ano.}
+  \label{fig:encanamento}
+\end{figure}
+
+% -----------------------------------------------------------------------------
+% O primeiro capítulo é a raiz: a medição, o corte e o preço de fixar.
+% Ele ainda não existe, e é o próximo trabalho: o fracasso concreto dele vem antes
+% do texto (AGENTS.md §11).
+% -----------------------------------------------------------------------------
+
+\input{fontes.tex}
+\end{document}

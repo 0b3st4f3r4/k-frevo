@@ -1,0 +1,269 @@
+# AGENTS.md — Contrato do projeto
+
+> Este arquivo substitui integralmente o contrato anterior, arquivado em `.old/AGENTS.md`. A regra que vale para tudo o que se segue: **nada do caminho antigo é roteiro**. O `.old` é pedreira de insumos e de sonhos — dados, fontes, resultados que se provaram verdadeiros —, e toda vez que o trabalho novo coincidir com ele, a coincidência é registrada como coincidência.
+
+## 1. Quem você é aqui
+
+Você escreve um livro de matemática e estatística para quem tem dezesseis anos e vontade. Atua como matemático e cientista de dados — demonstra, mede, não conjectura em silêncio —, mas o produto do seu trabalho é entendido por um leitor que ainda não viu uma integral com rigor e nunca ouviu falar de espaço de medida. Isso não é uma restrição de marketing: é o critério de qualidade do livro.
+
+## 2. O problema
+
+Observa-se um processo, decide-se enquanto ele corre, e a lei que o gera **não é fixa**. A pergunta que o livro persegue é uma só, em três palavras: o que se pode **garantir**, **medir** e **otimizar** quando o mundo não para de mudar?
+
+O destino técnico **não está fixado**. O projeto anterior chegou a uma técnica própria; aqui, a técnica é o que o livro construir — se construir. O que está fixado são as perguntas, e elas estão na seção 5.
+
+## 3. Postura autoral (trancada)
+
+1. **Versão zero.** Nada de observação editorial, nada de meta-comentário sobre o processo de escrever, nada de "nesta versão corrigimos". O texto final não tem cicatriz.
+2. **Sem teleologia.** Nada de "sobrevivência", "destino" ou "deificação" como interpretação. Usos técnicos legítimos (função de sobrevivência) permanecem.
+3. **Sem metáfora de deficiência ou condição clínica.** Escreve-se *invisibilidade*, *esquecimento*, *rigidez* — nunca o vocabulário da doença.
+4. **Didatismo é requisito de primeira classe, não enfeite.** Definição, intuição e exemplo numérico mínimo, nesta ordem, em toda seção. Se um leitor de dezesseis anos com vontade não consegue seguir o capítulo sem pular, o capítulo está errado — e é o capítulo que se conserta, não o leitor.
+5. **Nada de símbolo sem sentido.** Nenhum símbolo aparece antes de ter nome, motivo e exemplo. Quando um objeto novo entra, ele entra porque um fracasso concreto o exigiu (seção 4).
+6. **Idioma: português do Brasil**, no corpo, nas provas e nas figuras. Citações bibliográficas mantêm o idioma original.
+
+## 4. A forma do livro: espiral
+
+O livro é **uma espiral, não uma escada**. Não existe uma parte de "princípios" separada da parte de "aplicação". Cada capítulo faz o mesmo movimento:
+
+1. **abre num fracasso concreto** — algo que se tenta fazer com o que já se sabe e que não funciona, com número ou exemplo na mão;
+2. **traz o princípio mínimo** que resolve aquele fracasso, e só ele — construído do zero, demonstrando o que for demonstrável ali;
+3. **mede** o que o princípio promete, com uma medição que o leitor pode repetir;
+4. **volta ao problema**, agora com uma peça a mais, e deixa um fracasso novo visível para o capítulo seguinte.
+
+Consequências duras desta escolha:
+
+- é proibido usar antes de definir. Se um capítulo precisa de um objeto que ainda não foi construído, o capítulo anterior está errado;
+- a tabela de conteúdos é **derivada**, não imposta: ela existe para servir à espiral, e pode mudar quando um fracasso exigir outra peça;
+- cada capítulo fecha um arco. Capítulo que só introduz material, sem resolver nada e sem medir nada, não entra.
+
+## 5. As perguntas (lista viva)
+
+### 5.1 Critério de admissão
+
+Só entra na lista principal a pergunta que tem as quatro partes:
+
+- **(i) enunciado observável** — falado em termos do que se vê ou se mede;
+- **(ii) medição** — um procedimento que produz um número, repetível;
+- **(iii) refutador** — um resultado concreto que a derrubaria; sem ele a pergunta **sai** da lista principal e vai para "questões de enquadramento", declarada como tal, sem fingir que é ciência;
+- **(iv) referência a bater** — o que se faz hoje no lugar dela; uma pergunta cuja resposta empata com a prática corrente não vale um capítulo.
+
+A lista é **viva**: entra pergunta nova quando aparecer um refutador digno; sai quando o refutador for encontrado.
+
+**Contagem declarada.** Quarenta e três perguntas cruas foram levantadas a partir do que o `.old` deixou aberto — as fronteiras que ele mesmo declarou, os dados que entraram no repositório e nunca foram usados como sistema, e as peças que ele nomeou e não construiu. A agregação por refutador comum deixou dezoito; a fusão de A1 com B1 (é uma estatística, não duas) deixou dezessete; a travessia entre famílias acrescentou cinco. **Total: vinte e duas**, mais uma em amadurecimento.
+
+### 5.2 Família A — o que continua valendo quando o mundo muda
+
+*Fracasso que a abre:* o ajuste que descrevia bem até ontem continua em uso hoje, e erra — sempre para o mesmo lado.
+
+- **A1 — Uma estatística, duas respostas: o conjunto que continua valendo e o instante em que deixou de valer.** *(funde A1 com B1: é a mesma medida lida ao contrário)*
+  - *medição:* sobre o mesmo fluxo com regimes declarados, o conjunto recuperado e o instante detectado; falso alarme enquanto nada muda, latência quando muda.
+  - *refuta:* um mundo em que a estatística acerta o conjunto e erra o instante, ou o contrário, de forma **sistemática** — o que mostraria que são duas medidas, não uma.
+  - *bate:* filtro e detector calibrados em separado, cada um no seu orçamento.
+- **A2 — Andar junto não é ser causa.**
+  - *medição:* com um calendário conhecido no meio (carga elétrica diária, feriados, temperatura), o método separa causa de relógio? e até que força de correlação espúria ele resiste?
+  - *refuta:* uma variável espúria de correlação 0,999 sobrevivendo à interseção entre regimes.
+  - *bate:* correlação e escolha de variáveis por validação cruzada.
+- **A3 — Quantas explicações cabem nos mesmos dados?**
+  - *medição:* o número de explicações equivalentes, e como ele cai ao acrescentar um mundo novo.
+  - *refuta:* duas explicações diferentes, ambas compatíveis com os mesmos dados, que o método consiga separar.
+  - *bate:* componentes principais e rotações, que não declaram o que fica ambíguo.
+- **A4 — Ver mundos basta, ou é preciso mexer no mundo?**
+  - *medição:* regimes só observados contra regimes em que algo foi mexido de propósito, no mesmo sistema.
+  - *refuta:* um caso em que observar apenas já identifica tudo o que intervir identificaria.
+  - *bate:* observação pura, com o maior número de regimes que os dados permitirem.
+
+### 5.3 Família B — saber que mudou sem se enganar
+
+*Fracasso que a abre:* vigiar a cada instante e, ao fim de um mês, ter tantos alarmes falsos que ninguém mais acredita no vigia. *(B1 foi fundida em A1.)*
+
+- **B2 — A mudança que vem pela cauda passa despercebida.**
+  - *medição:* latência e falso alarme sob choque de cauda e sob aproximação lenta de uma transição.
+  - *refuta:* uma mudança real não detectada que custe mais do que o alarme falso que se evitou.
+  - *bate:* os indicadores clássicos de alerta precoce.
+- **B3 — O "acerto em 90%" vale em todos os bolsos do mundo?**
+  - *medição:* a cobertura dentro de cada região do espaço de entrada, com o custo assimétrico de errar para cima e para baixo.
+  - *refuta:* dados em que a promessa vale na média, falha onde mais importa, e nenhum diagnóstico declarado percebe.
+  - *bate:* o intervalo de quantis empíricos, sem adaptação.
+- **B4 — Alarme que não muda nada é alarme?**
+  - *medição:* o que acontece **depois** do disparo — o que se faz dele — e o custo de decidir sem esperar por ele.
+  - *refuta:* um caso em que o alarme só chega quando o prejuízo já foi pago, e isso é a regra, não a exceção.
+  - *bate:* atualizar em intervalos fixos, sem vigia nenhum.
+
+### 5.4 Família C — quando as coisas ruins vêm juntas
+
+*Fracasso que a abre:* proteger cada risco separadamente e mesmo assim quebrar, porque no dia ruim tudo caiu junto.
+
+- **C1 — O dia em que tudo cai junto.**
+  - *medição:* a fração da perda conjunta que a proteção individual não cobre, contra o número de pernas e contra a força da dependência.
+  - *refuta:* uma carteira em que a proteção individual cobre a conjunta no nível prometido.
+  - *bate:* somar as proteções marginais e supor que cada uma cobre a sua parte.
+- **C2 — A dependência tem humores.**
+  - *medição:* a dependência fora da diagonal — admitindo que as pernas não são intercambiáveis — e a sua mudança ao longo do tempo, em três domínios diferentes.
+  - *refuta:* um dado em que uma única medida bivariada basta para descrever a cauda conjunta.
+  - *bate:* a correlação de posto, que é a medida do miolo.
+- **C3 — Quanto custa a proteção que de fato protege?**
+  - *medição:* o orçamento, em dados e em capital, para cobrir a perda conjunta no nível prometido, com pouquíssimos eventos disponíveis.
+  - *refuta:* uma barreira correta custando o mesmo que a errada.
+  - *bate:* a barreira calibrada margem a margem.
+
+### 5.5 Família D — o preço de aprender
+
+*Fracasso que a abre:* atualizar o modelo toda semana custa caro, atualizar todo mês deixa ele cego, e ninguém sabe dizer onde está o meio.
+
+- **D1 — Atualizar mais devagar melhora, atrasa ou fixa o erro?**
+  - *medição:* custo contra benefício do amortecimento, e onde o ciclo de atualização para, em dado real com realimentação.
+  - *refuta:* um sistema realimentado em que amortecer move o ponto de parada para o ótimo.
+  - *bate:* atualizar a cada janela fixa.
+- **D2 — Quantos bits custa decidir bem, e quanto custa cada atualização?**
+  - *medição:* desempenho contra riqueza de representação do estado, e o custo por atualização medido — não suposto.
+  - *refuta:* uma política pobre empatando com a rica, ou uma atualização que saia de graça.
+  - *bate:* políticas fixas e atualização periódica.
+- **D3 — Todo sistema que aprende tem teto.**
+  - *medição:* a capacidade total medida contra o número de estados internos, com entrada bem e mal condicionada.
+  - *refuta:* uma capacidade medida acima do número de estados.
+  - *bate:* contar os parâmetros da saída adaptável.
+
+### 5.6 Família E — tempo, memória e esquecimento
+
+*Fracasso que a abre:* um sistema que lembra de tudo e, ainda assim, não distingue passado de futuro.
+
+- **E1 — Lembrar muito sem ter direção: isso acontece no dado?**
+  - *medição:* memória (quanta informação um instante carrega do anterior) contra irreversibilidade (se o filme rodando ao contrário é plausível), medidas em separado em séries reais, com o teste de inverter o relógio.
+  - *refuta:* uma série com memória longa e direção forte que a medida não distinga.
+  - *bate:* usar autocorrelação como sinônimo de direção.
+- **E2 — Se a lei não for a mais simples, o que sobrevive do critério?**
+  - *medição:* reversibilidade em processos com três estados, que são irreversíveis sem serem gaussianos.
+  - *refuta:* o critério gaussiano acertando por acaso fora do seu caso.
+  - *bate:* o critério por covariância, aplicado a tudo.
+- **E3 — Esquecer tem ponto sem volta.**
+  - *medição:* a distância até o ponto em que o passado deixa de ser recuperável, e o custo de reconstruí-lo antes disso.
+  - *refuta:* um sistema em que a perda de recuperabilidade não cresce com o horizonte.
+  - *bate:* o critério pelos autovalores, que é cego fora do caso simétrico.
+- **E4 — Duas máquinas iguais lembram igual?**
+  - *medição:* a assinatura de condicionamento e de transiente entre treinos com a mesma receita e os mesmos dados.
+  - *refuta:* uma assinatura que não se repete.
+  - *bate:* usar apenas o erro final como métrica de um treino.
+
+### 5.7 Família F — travessias
+
+Estas não cabem em nenhuma gaveta: nascem do cruzamento entre duas famílias, quando o objeto de uma é medido com o instrumento da outra.
+
+- **F1 — O vigia vê dependência?** *(B × C)*
+  - *medição:* latência e falso alarme contra uma mudança que existe **só** na dependência, sem mudança de margem.
+  - *refuta:* a mudança de dependência sendo detectada pelo vigia de margem, sem instrumento extra.
+  - *bate:* o vigia da margem sozinho.
+- **F2 — Proteger compete com adaptar?** *(C × D)*
+  - *medição:* o orçamento total partilhado entre recalibrar a barreira e atualizar o modelo, com o total fixo.
+  - *refuta:* orçamentos que de fato não competem — cada um com a sua fonte.
+  - *bate:* tratar os dois como independentes.
+- **F3 — Qual é o esquecimento mínimo que ainda aprende?** *(D × E)*
+  - *medição:* desempenho contra taxa de esquecimento, varrendo dos dois extremos para o meio.
+  - *refuta:* um sistema que aprende sem apagar nada.
+  - *bate:* janela deslizante de tamanho fixo.
+- **F4 — A direção do tempo pode ser vigiada com garantia?** *(B × E)*
+  - *medição:* alarme sobre a irreversibilidade, no mesmo orçamento de falso alarme de A1.
+  - *refuta:* disparo sob um processo comprovadamente reversível.
+  - *bate:* limiar fixo sobre a entropia produzida.
+- **F5 — A perda conjunta tem direção?** *(C × E)*
+  - *medição:* a assimetria temporal na queda conjunta — quem cai primeiro, e se isso se repete.
+  - *refuta:* simetria temporal na cauda conjunta.
+  - *bate:* tratar a dependência como simétrica no tempo.
+- **F6 — Invariância é memória compartilhada entre mundos?** *(A × E)* — **em amadurecimento: falta refutador construível.**
+  - *medição:* o que sobrevive à troca de regime, contra a memória que um segmento carrega do anterior.
+  - *refuta a construir:* invariância entre mundos sem nada compartilhado entre eles.
+  - *bate:* procurar invariância só dentro de um regime.
+
+## 6. A ordem: raiz, voltas, travessia e andares
+
+A ordem **não é escolhida**: ela sai de quem precisa de quem. Ela pode mudar quando um fracasso exigir outra peça — mas mudar exige dizer qual dependência foi quebrada.
+
+| movimento | conteúdo | por que nesta posição |
+|---|---|---|
+| **raiz** | a medição, o corte e o preço de fixar | nada acima funciona sem isso: uma afirmação sem procedimento não é afirmação, e fixar finitamente é o que cria a possibilidade de errar. É também o fracasso mais palpável para o leitor |
+| **volta 1** | o orçamento e as formas que a mudança tem (média, cauda, dependência, calendário) | quatro famílias usam esses dois objetos; sem eles, A, B, C e D não podem nem ser enunciadas |
+| **volta 2** | estabilidade e a sua quebra, como uma medida só | A1 e B1 são a mesma estatística lida ao contrário: ensiná-las separadas ensina o mesmo objeto duas vezes |
+| **volta 3** | a geometria do condicionamento | indistinguível, irrecuperável e mal condicionado são o mesmo objeto com três nomes, e ele é pré-requisito de qualquer promessa de identificabilidade ou de capacidade |
+| **volta 4** | quando as coisas caem juntas | terceira aparição do motivo promessa × entrega, agora na cauda |
+| **volta 5** | o preço de aprender, com o esquecimento junto | D e E são um mapa só: a atualização que apaga o passado é a que aprende o presente |
+| **travessia** | as perguntas que ninguém fez dentro de uma gaveta | F1 a F5 medem o objeto de uma família com o instrumento de outra; é onde a lista cresce sozinha |
+| **andar 1** | o que não se compra | o espelho do orçamento: não se compra o mundo que faltou, não se recupera o que foi apagado, não se vê dependência pela margem, não se identifica além do segundo momento |
+| **andar 2** | o enquadramento: tempo, memória e individuação | vem depois porque a frase só vale depois de medida — a seta é o que não se reconstruiu |
+| **fecho** | a pergunta da raiz, refeita com tudo o que se tem | fecha a espiral sem repeti-la: o corte agora se paga com preço conhecido |
+
+O motivo que reaparece em três voltas — **promessa × entrega**, em cobertura, em proteção e em capacidade — é a hipótese de fio condutor do livro: *uma contabilidade entre o que se promete e o que se paga*, em dados, em trabalho e em memória. Hipótese, não conclusão: ela se confirma ou cai quando as voltas existirem em texto.
+
+## 7. Artefatos
+
+Um artefato central, uma biblioteca e dois insumos. Nada além disso existe por herança.
+
+| artefato | o que é | quem manda nele |
+|---|---|---|
+| `livro/` | **o livro**, em LaTeX, escrito à mão, em pt-BR — o produto do projeto | o autor; compila com `latexmk` sem erro nem referência quebrada |
+| `lib/frevolab/` | **a biblioteca oficial**: todo algoritmo do projeto, com nome, teste próprio (`frevolab.auto_teste()`) e versão. É **pacote instalado em modo editável** (`uv pip install -e .`), com o mapa declarado em `[tool.hatch.build.targets.wheel]`, de modo que o caderno escreve `import frevolab` e não mexe no caminho de importação. Algoritmo dentro de caderno não é testável, não é reusável e não é revisável — só é legível na ordem em que foi escrito | quem escreve o algoritmo; `lab/executar.py --check` roda o `auto_teste()` |
+| `lab/` | **o laboratório**: um **caderno por experimento** em `lab/experimentos/`, executável sozinho, com os parâmetros no topo marcados `# <- brinque com:`; cada caderno grava `lab/resultados/<id>.json` e as figuras em `livro/figuras/`, em `.pdf` e em `.png` | os cadernos; `lab/executar.py` executa os que mudaram e escreve `livro/numeros.tex` |
+| `dados/fontes.tsv` | **o corpus** de fontes: uma linha por fonte, o número da linha é o identificador, e a chave de citação sai do sobrenome do primeiro autor mais o ano | curadoria manual; `lab/fontes.py` gera `livro/fontes.tex` e confere que toda citação do livro tem linha no corpus |
+
+**O que não existe, e não deve ser criado sem necessidade demonstrada:** caderno executável **monolítico** — um caderno por experimento é a regra, e o que não volta é o caderno único que carrega o projeto inteiro; grafo de conhecimento com nós, arestas e camadas; tabela de agentes; auditoria cruzada entre artefatos. O projeto anterior pagou caro pela manutenção de quatro artefatos que precisavam ser reconciliados. Aqui são quatro, e a reconciliação é estrutural (seção 9), não um portão a mais.
+
+## 8. Método
+
+1. **Toda afirmação numérica nova vem de um caderno do laboratório.** Não se digita um número no livro: cita-se a medição (seção 9).
+2. **Todo enunciado matemático é provado ou marcado como conjectura**, no próprio texto, sem meia-palavra.
+3. **Algoritmo mora na biblioteca; o caderno chama.** Conta implementada dentro de caderno é defeito, não atalho: ela não pode ser testada fora dali nem reusada pelo capítulo seguinte. O caderno importa `frevolab`, roda e constrói o gráfico.
+4. **Toda fonte citada existe no corpus**, com linha e link.
+5. **Resultado de simulação não vira resultado sobre o mundo.** Quando a pergunta é sobre o mundo, a medição vai aos dados reais; quando é sobre uma estrutura matemática, a simulação basta e isso fica dito.
+6. **Nada de dependência pesada** (PyTorch, JAX) sem necessidade demonstrada; simulação didática cabe em numpy e scipy.
+7. **A medição declara o seu erro** — barra, intervalo, ou o motivo de não haver.
+8. **Regras da biblioteca**, e valem para todo código que entra nela. A versão tem **fonte única**: o `pyproject.toml` (duas cópias divergem em silêncio). Toda função que sorteia recebe `rng` **por parâmetro** e não toca a semente global. Cada módulo declara a sua superfície pública em `__all__`; o que não está lá é interno. E módulo se batiza **por conceito** — a família da pergunta —, nunca por tipo de código: `utils` é proibido, porque aceita tudo e não diz nada.
+
+## 9. Portões
+
+Dois, e os dois são mecânicos:
+
+1. **Números e figuras amarrados.** `lab/executar.py` escreve `livro/numeros.tex` com um comando por grandeza, e o livro cita o comando em vez de digitar o número. Um número digitado à mão é defeito, não atalho: ele não pode divergir do laboratório porque não existe em dois lugares. Figura segue a mesma regra — o caderno a gera, o livro a inclui por caminho.
+2. **Caderno em dia.** O critério é o **hash da fonte das células de código**, gravado em `metadata.execucao_hash`; o `--check` falha se algum caderno tiver fonte mais nova que o resultado. Editar markdown não invalida nada — e é por isso que a observação visual pode ser escrita depois da execução.
+3. **Compilação limpa.** O livro compila com `latexmk -halt-on-error`: sem erro, sem referência ou citação indefinida.
+
+`lab/executar.py --check` confere ainda duas coisas baratas e visíveis: toda citação do livro tem linha no corpus, e toda pergunta da lista tem as quatro partes declaradas.
+
+**Passo visual, protocolo e não portão.** Toda figura sai também em `.png` justamente para ser **olhada**: um agente com entrada de imagem abre o PNG e escreve o que vê — forma das curvas, onde está a mudança, o que o eixo engana — numa célula de markdown do próprio caderno. O que ele escreve vira observação no capítulo, nunca número. **Uma sessão cujo modelo não tem entrada de imagem declara a falta e não inventa a leitura.**
+
+## 10. O arquivo: `.old` é pedreira, não roteiro
+
+Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções e 92 páginas, dois cadernos, um cérebro de consulta, o corpus de 234 fontes, os dados, os scripts e o notebook aposentado. Regras de uso:
+
+- **pode ser minerado** por dados, fontes, resultados verificados e, principalmente, pela lista do que se provou verdadeiro — é o que os números de lá valem;
+- **não é roteiro**: a ordem, a estrutura, os nomes e as conclusões do caminho antigo não têm autoridade aqui;
+- **todo empréstimo é declarado** no capítulo onde entra, como coincidência (chegamos à mesma coisa por outro caminho) ou como herança explícita (usamos o resultado antigo, com esta procedência);
+- **nada do `.old` entra no livro sem medição nova** quando a afirmação é numérica. Se o número antigo for reaproveitado, ele é remedido no laboratório novo, e é o número novo que entra.
+
+## 11. Ciclo de trabalho
+
+1. **Escolher o fracasso, não o capítulo.** Antes de escrever, diga em uma frase que tentativa concreta falha e com que número.
+2. **Construir o mínimo.** Só o princípio que aquele fracasso exige. O que não for usado neste capítulo não entra nele.
+3. **Medir.** O algoritmo entra na biblioteca (com o seu teste de propriedade); o caderno em `lab/experimentos/` chama a biblioteca, constrói o gráfico e grava o resultado. O número entra no texto pelo comando gerado e a figura por `\includegraphics`. Se houver como olhar a figura, o que se viu vai para o caderno.
+4. **Fechar o arco** e deixar o fracasso seguinte visível.
+5. **Conferir:** `lab/executar.py --check`, compilação limpa, e a pergunta final — um leitor de dezesseis anos com vontade segue este capítulo sem pular?
+
+## 12. Decisões registradas
+
+- **2026-09-23.** Recomeço do projeto. O material anterior foi arquivado em `.old` (commits `35f3514` e `c61ad7f`); a raiz ficou com o essencial.
+- **2026-09-23.** Escopo: zero absoluto. Só `assets/`, `LICENSE`, `pyproject.toml` e `uv.lock` atravessam; dados, scripts, notebooks e o contrato antigo ficam no arquivo.
+- **2026-09-23.** Artefato: **o livro em LaTeX** é o produto, com um laboratório de scripts pequenos e verificáveis. Caderno monolítico e cérebro não voltam.
+- **2026-09-23.** Forma: **espiral** — cada capítulo abre num fracasso concreto e traz só o princípio que o resolve.
+- **2026-09-23.** Destino reaberto: nenhuma técnica está fixada de antemão; a pergunta é o que manda.
+- **2026-09-23.** Critério de admissão: falseabilidade medida (as quatro partes).
+- **2026-09-23.** Leitor: dezesseis anos ou mais, ensino médio e superior. O livro deve poder virar referência da área para esse leitor.
+- **2026-09-23.** Lista de perguntas **viva**: entra com refutador, sai quando o refutador for encontrado.
+- **2026-09-23.** Divergência e convergência da lista de perguntas: 43 cruas, 18 depois da agregação por refutador comum, 17 depois da fusão A1/B1, 22 com a travessia.
+- **2026-09-23.** A travessia é família própria (F). F1 a F5 admitidas; F6 declarada em amadurecimento por falta de refutador construível.
+- **2026-09-23.** A ordem é derivada de quem precisa de quem: raiz (a medição e o corte), cinco voltas, travessia, dois andares, fecho. Correção registrada: o orçamento não é a raiz — o corte é.
+- **2026-09-23.** Fio condutor candidato, como hipótese e não como conclusão: promessa × entrega, em dados, em trabalho e em memória.
+- **2026-09-23.** O experimento é um **caderno** — um por experimento —, não um script: separados na execução, dentro do Jupyter, para que a figura possa ser olhada. O que fica banido é o caderno monolítico, não o caderno.
+- **2026-09-23.** Passo visual declarado como protocolo: figura em `.pdf` para o livro e `.png` para inspeção; a leitura visual entra no caderno como observação, nunca como número. Sessão sem entrada de imagem declara a falta em vez de inventar a leitura — é o caso desta sessão, cujo modelo não aceita imagem.
+- **2026-09-23.** `lab/executar.py` executa por hash da fonte das células de código, exige resultado gravado por caderno, amarra número e figura ao livro e confere as quatro partes das perguntas do contrato.
+- **2026-09-23.** **A biblioteca é artefato**: `lib/frevolab/` guarda todo algoritmo, com teste de propriedade (`auto_teste()`) e versão. O caderno deixa de implementar conta — ele chama a biblioteca e cuida do gráfico. A justificativa é testabilidade e reuso: algoritmo dentro de caderno não tem nem uma nem outra.
+- **2026-09-23.** O portão `lab/executar.py --check` passou a rodar o `auto_teste()` da biblioteca antes de tudo: se o algoritmo quebra, nada abaixo dele merece confiança.
+- **2026-09-23.** **Empacotamento**: `lib/frevolab` virou pacote instalado em modo editável (`uv pip install -e .`), com o mapa em `[tool.hatch.build.targets.wheel]` e `[build-system]` hatchling. Verificado aqui: o wheel constrói, instala, importa de fora do repositório e desinstalar devolve o venv ao estado anterior. Mantém-se o diretório `lib/` em vez do layout `src/` convencional.
+- **2026-09-23.** **Quatro regras da biblioteca**, vindas da pesquisa de modularização: versão com fonte única (o pyproject), `rng` por parâmetro (SPEC 7 do ecossistema científico), `__all__` explícito por módulo, e módulo batizado por família de pergunta — nunca por tipo de código.
+- **2026-09-23.** O teste de **propriedade** (hypothesis) fica adiado até existir a primeira função que sorteia: dependência nova se justifica com uso, não com antecipação. O `auto_teste()` continua como porteiro barato dentro do `--check`.
