@@ -14,8 +14,8 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 """
 from importlib.metadata import PackageNotFoundError, version
 
-from . import (calendario, dados, dependencia, estabilidade, graficos, mudanca, promessa,
-               regimes, vigia, volatilidade)
+from . import (calendario, dados, dependencia, estabilidade, graficos, intervencao, mudanca,
+               promessa, regimes, vigia, volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -25,8 +25,8 @@ try:
 except PackageNotFoundError:
     VERSAO = "0.1.0"
 
-__all__ = ["calendario", "dados", "dependencia", "estabilidade", "graficos", "mudanca", "promessa", "regimes", "vigia",
-           "volatilidade", "VERSAO", "auto_teste"]
+__all__ = ["calendario", "dados", "dependencia", "estabilidade", "graficos", "intervencao",
+           "mudanca", "promessa", "regimes", "vigia", "volatilidade", "VERSAO", "auto_teste"]
 
 
 def auto_teste() -> list:

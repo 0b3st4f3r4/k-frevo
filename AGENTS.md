@@ -400,3 +400,30 @@ Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções 
   ordem certa é compilar e só depois commitar, e esta é a segunda vez que a inversão custou um commit quebrado. A guarda agora monta o nome e
   exige que ele seja só letras.
 - **2026-09-23.** O teste de **propriedade** (hypothesis) fica adiado até existir a primeira função que sorteia: dependência nova se justifica com uso, não com antecipação. O `auto_teste()` continua como porteiro barato dentro do `--check`.
+- **2026-09-23.** Capítulo 9 escrito: **O desenho da intervenção**. Ele fecha a porta que o capítulo dos mundos
+  declarou aberta: acumular mundo observado não escolheu entre as duas explicações, e a saída é mexer no mundo de
+  propósito. O fracasso que o abre, medido: segurar o mundo por muito tempo e olhar duas vezes separa as explicações
+  em 32,5% das repetições — decisão no sorteio —, e o empate que obriga a esse experimento é apertado exatamente onde
+  sempre foi, no pior bloco (−2 contra a tolerância de 2). O princípio mínimo é um ato só, a **contenção**, com a
+  resposta medida contra o próprio mundo e uma proposição que dá a forma da curva: sob contenção a variância cai
+  geometricamente para o piso ω/(1−β), de modo que **segurar mais fundo tem limite** e cada dia a mais compra menos
+  ferida. Medido: a resposta do mundo em que a memória mora na série desce de 0,9803 a 0,6157, a do mundo de estado
+  escondido fica entre 1,028 e 1,058, e a diferença medida cresce até 0,4126.
+- **2026-09-23.** **O preço de um desenho é medido, não calculado.** A conta do tamanho da amostra
+  (n = (z s / d) ao quadrado, com s a soma dos dois desvios entre replicatas) diz onde procurar e erra o preço:
+  prometendo 95% de confiança, o desenho apertado separou em 45% das repetições do experimento inteiro, o dobro das
+  replicatas chegou a 80% e o quádruplo a 100%, de modo que o desenho que entrega a confiança declarada custa 31
+  replicatas de 80 dias — 3100 dias de experimento, perto de quatro vezes o preço da conta. A causa é a cauda gorda
+  da resposta: o estado escondido às vezes atravessa a janela inteira, e a média de poucas replicatas não se comporta
+  como a média de muitos sorteios pequenos. O controle fecha o capítulo: o mesmo orçamento gasto na contenção de dois
+  dias separa em 0% das repetições, porque aos dois dias a diferença medida é 0,04394 — **comprar replicatas para
+  enxergar o que a contenção não produz é comprar um erro de leitura**. Fica também o limite duro: uma intervenção
+  dessas existe para um sistema que se pode segurar, e para um índice de mercado ela não existe.
+- **2026-09-23.** `frevolab.intervencao` é o módulo da travessia do desenho: os dois mundos (a memória na própria
+  série, por GARCH; o estado escondido, pela família persistente do capítulo das explicações equivalentes), a
+  contenção, a resposta, a replicata, a conta de replicatas com o veredito de viabilidade, o custo em dias, a
+  varredura de contenções e a função que mede a promessa do desenho repetindo o experimento inteiro. O defeito que
+  ela torna impossível: dizer que precisamos de mais dados sem dizer quantos, e desenhar um experimento caro que não
+  separa nada. O caderno E10 traz as duas figuras e as leituras visuais. Corrigido de passagem: as duas tabelas que
+  estouravam a margem (a do capítulo 8 e a do capítulo 9) entraram em corpo menor, e o livro compila agora sem
+  nenhuma caixa estourada.
