@@ -335,6 +335,23 @@ no horizonte de \numFormasHorizonteDias{} dias. E é cego à escala: nos mundos 
 rampa ele não soa em quase oitenta por cento dos casos, porque dobrar a oscilação dobra o
 erro-padrão da média e deixa a estatística onde estava.
 
+O vigia da contagem vê as duas rampas, e vê mais depressa a maior: \numFormasVigiaRampaOitoDias{} dias
+contra \numFormasVigiaRampaDoisDias. Fica sem ver nada dentro do horizonte em
+\numFormasVigiaRampaOitoNadaPct\% dos mundos na rampa maior e \numFormasVigiaRampaDoisNadaPct\% na
+menor. A \cref{fig:instrumentos} põe os dois instrumentos lado a lado, e o que ela mostra é que
+cada um vê uma forma e tropeça na outra.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E03_formas_2.pdf}
+  \caption{A latência mediana de cada instrumento, forma por forma: a contagem de rompimentos
+    contra a média da janela em erros-padrão dela mesma. A linha tracejada é o que o mundo
+    parado produz no primeiro deles, e uma barra que a alcança quer dizer que o instrumento não
+    viu a mudança dentro do horizonte. O que vê a deriva é cego ao degrau, e o que vê o degrau é
+    cego à deriva.}
+  \label{fig:instrumentos}
+\end{figure}
+
 A demora dele se paga em memória, e a conta fecha em duas linhas. Uma regra de $L$
 erros-padrão vê uma deriva de passo $p$ contra um barulho $\sigma$ quando a janela tem
 $(L\sigma/p)^2$ dias --- e a latência mínima é esse mesmo número, porque o instrumento
