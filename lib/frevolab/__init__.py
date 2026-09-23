@@ -15,7 +15,7 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 from importlib.metadata import PackageNotFoundError, version
 
 from . import (calendario, dados, dependencia, estabilidade, graficos, intervencao, mudanca,
-               partilha, promessa, regimes, vigia, volatilidade)
+               partilha, promessa, recorde, regimes, vigia, volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -26,8 +26,8 @@ except PackageNotFoundError:
     VERSAO = "0.1.0"
 
 __all__ = ["calendario", "dados", "dependencia", "estabilidade", "graficos", "intervencao",
-           "mudanca", "partilha", "promessa", "regimes", "vigia", "volatilidade", "VERSAO",
-           "auto_teste"]
+           "mudanca", "partilha", "promessa", "recorde", "regimes", "vigia", "volatilidade",
+           "VERSAO", "auto_teste"]
 
 
 def auto_teste() -> list:
@@ -325,6 +325,45 @@ def auto_teste() -> list:
     sozinho = dependencia.episodios_dirigidos(forjado_a, forjado_b, 5)
     if (sozinho["lider_a"], sozinho["sozinho_a"]) != (0, 1):
         problemas.append("a perna que rompeu fora da janela não ficou sozinha")
+
+    # --- o recorde e o mundo que faltou (recorde.py) ---
+
+    # a soma das duas chances é um: o maior valor do conjunto está de um lado ou do outro
+    if abs(recorde.probabilidade(252, 252) - 0.5) > 1e-15:
+        problemas.append("um ano de histórico contra um ano por vir deveria dar meio")
+    if abs(recorde.probabilidade(100, 30) + recorde.probabilidade(30, 100) - 1.0) > 1e-15:
+        problemas.append("as duas chances de recorde não somam um")
+    if abs(recorde.do_proximo(100) - 1.0 / 101) > 1e-15:
+        problemas.append("a chance do próximo dia superar o recorde não é 1/(n+1)")
+
+    # o harmônico: um recorde no primeiro dia, e o logaritmo no limite
+    if recorde.esperado(1) != 1.0:
+        problemas.append("um dia deveria dar um recorde esperado")
+    if abs(recorde.esperado(1000) - 7.4855) > 0.001:
+        problemas.append("o número esperado de recordes em mil dias não é o harmônico")
+
+    # os recordes fazem o que dizem: série crescente marca todos, série constante marca um
+    if not recorde.recordes(np.arange(50.0)).all():
+        problemas.append("série estritamente crescente deveria marcar todos os dias como recorde")
+    if recorde.conta(np.full(500, 7.0)) != 1:
+        problemas.append("série constante deveria ter um único recorde")
+
+    # o que o futuro fez contra o passado: com o futuro todo acima, a fração é um
+    cedo = np.linspace(0.0, 1.0, 100)
+    tarde = np.linspace(2.0, 3.0, 100)
+    faltou_teste = recorde.faltou(cedo, tarde)
+    if abs(faltou_teste["fracao"] - 1.0) > 1e-15 or abs(faltou_teste["razao"] - 3.0) > 1e-15:
+        problemas.append("o futuro todo acima do passado deveria dar fração um e razão três")
+
+    # a conta conferida por sorteio, no tamanho em que ela é verificável à mão
+    venceu = 0
+    for i in range(2000):
+        s_ = np.random.default_rng(9000 + i)
+        if s_.normal(0.0, 1.0, 60).max() > s_.normal(0.0, 1.0, 60).max():
+            venceu += 1
+    if not 0.44 < venceu / 2000.0 < 0.56:
+        problemas.append("a chance de recorde medida por sorteio saiu de meio (%.3f)"
+                         % (venceu / 2000.0))
 
     # o salvamento grava os dois formatos
     import tempfile
