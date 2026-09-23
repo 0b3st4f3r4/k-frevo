@@ -222,7 +222,7 @@ Um artefato central, uma biblioteca e dois insumos. Nada além disso existe por 
 
 ## 9. Portões
 
-Dois, e os dois são mecânicos:
+Três, e os três são mecânicos:
 
 1. **Números e figuras amarrados.** `lab/executar.py` escreve `livro/numeros.tex` com um comando por grandeza, e o livro cita o comando em vez de digitar o número. Um número digitado à mão é defeito, não atalho: ele não pode divergir do laboratório porque não existe em dois lugares. Figura segue a mesma regra — o caderno a gera, o livro a inclui por caminho.
 2. **Caderno em dia.** O critério é o **hash da fonte das células de código**, gravado em `metadata.execucao_hash`; o `--check` falha se algum caderno tiver fonte mais nova que o resultado. Editar markdown não invalida nada — e é por isso que a observação visual pode ser escrita depois da execução.
@@ -231,6 +231,19 @@ Dois, e os dois são mecânicos:
 `lab/executar.py --check` confere ainda duas coisas baratas e visíveis: toda citação do livro tem linha no corpus, e toda pergunta da lista tem as quatro partes declaradas.
 
 **Passo visual, protocolo e não portão.** Toda figura sai também em `.png` justamente para ser **olhada**: um agente com entrada de imagem abre o PNG e escreve o que vê — forma das curvas, onde está a mudança, o que o eixo engana — numa célula de markdown do próprio caderno. O que ele escreve vira observação no capítulo, nunca número. **Uma sessão cujo modelo não tem entrada de imagem declara a falta e não inventa a leitura.**
+
+**Passo de humanização, protocolo e não portão.** O texto é reescrito depois de medido e antes
+do portão final, e a reescrita é **de voz**: nenhum número, prova, rótulo ou fonte muda, e a
+conferência de que ela não estragou nada é que os portões mecânicos continuem limpos --- a
+reescrita cita os mesmos comandos de `numeros.tex` e as mesmas figuras. O julgamento é de
+leitura, e por isso o que se mede **antes** de cortar é a marca, e não a impressão: a frequência
+da definição por negação ("não … : …"), a presença do epigrama em itálico fechando seção, a
+metáfora única conduzida pelo capítulo inteiro, o ritmo (palavras por frase e a fração de frases
+com cinco palavras ou menos) e o meta-comentário sobre o próprio livro. **A ferramenta automática
+não serve para o português:** o `humanize_scan` devolve `aiScore 0` porque o catálogo dele é de
+padrões em inglês e chinês; quem lê é o autor, e as contagens são a evidência em que ele se
+apoia. O que a humanização **não** é: licença para inventar número, encurtar prova ou trocar
+fonte.
 
 ## 10. O arquivo: `.old` é pedreira, não roteiro
 
@@ -247,7 +260,11 @@ Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções 
 2. **Construir o mínimo.** Só o princípio que aquele fracasso exige. O que não for usado neste capítulo não entra nele.
 3. **Medir.** O algoritmo entra na biblioteca (com o seu teste de propriedade); o caderno em `lab/experimentos/` chama a biblioteca, constrói o gráfico e grava o resultado. O número entra no texto pelo comando gerado e a figura por `\includegraphics`. Se houver como olhar a figura, o que se viu vai para o caderno.
 4. **Fechar o arco** e deixar o fracasso seguinte visível.
-5. **Conferir:** `lab/executar.py --check`, compilação limpa, e a pergunta final — um leitor de dezesseis anos com vontade segue este capítulo sem pular?
+5. **Humanizar.** Depois de medido e antes de conferir: reescrever a voz sem tocar em número,
+   prova, rótulo ou fonte, medindo as marcas antes de cortar (§9). A humanização não é portão; o
+   que ela não pode é derrubar os portões — se um comando sumir na reescrita, o `--check` acusa.
+6. **Conferir:** `lab/executar.py --check`, compilação limpa, e a pergunta final — um leitor de
+   dezesseis anos com vontade segue este capítulo sem pular?
 
 ## 12. Decisões registradas
 
@@ -342,4 +359,9 @@ Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções 
   também — o defeito apareceu três vezes nesta árvore, a última deixando `umCalendarioSemanaDiasPorCelula{}` no meio de
   uma frase impressa. `conferir_comandos_orfaos` procura nome com maiúscula no meio, seguido de chaves e sem barra
   antes, e falha; conferido contra o defeito forjado de propósito.
+- **2026-09-23.** **A humanização entrou no contrato como passo do ciclo**, e não como gosto: a seção 9 ganhou o
+  protocolo — medir a marca antes de cortar, e a ferramenta automática é cega ao português (`humanize_scan` devolve
+  `aiScore 0` porque o catálogo é de padrões em inglês e chinês) — e a seção 11 ganhou o passo 5, entre fechar o arco e
+  conferir. A decisão de voz já estava registrada; o que faltava era o lugar no ciclo e o que medir antes de cortar.
+  Corrigido de passagem: a seção 9 dizia "dois" portões e listava três.
 - **2026-09-23.** O teste de **propriedade** (hypothesis) fica adiado até existir a primeira função que sorteia: dependência nova se justifica com uso, não com antecipação. O `auto_teste()` continua como porteiro barato dentro do `--check`.
