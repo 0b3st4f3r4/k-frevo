@@ -300,6 +300,32 @@ def auto_teste() -> list:
     if any(v != 0.0 for v in medida["dispersao"].values()):
         problemas.append("com uma série só, a dispersão da partilha deveria ser zero")
 
+    # --- a direção da queda conjunta (dependencia.py) ---
+
+    # quem rompe primeiro: uma perna na frente, a outra atrás dentro da janela
+    indices = pd.RangeIndex(200)
+    forjado_a = pd.Series(np.zeros(200, dtype=bool), index=indices)
+    forjado_b = pd.Series(np.zeros(200, dtype=bool), index=indices)
+    forjado_a.iloc[50] = True
+    forjado_b.iloc[52] = True
+    dirigido = dependencia.episodios_dirigidos(forjado_a, forjado_b, 5)
+    if (dirigido["lider_a"], dirigido["lider_b"]) != (1, 0):
+        problemas.append("o episódio dirigido não achou a perna que rompeu primeiro")
+
+    # rompimento no mesmo dia não é episódio de ninguém
+    forjado_b.iloc[52] = False
+    forjado_b.iloc[50] = True
+    no_mesmo_dia = dependencia.episodios_dirigidos(forjado_a, forjado_b, 5)
+    if (no_mesmo_dia["lider_a"], no_mesmo_dia["lider_b"], no_mesmo_dia["juntos"]) != (0, 0, 1):
+        problemas.append("rompimento no mesmo dia virou episódio de um dos lados")
+
+    # a outra perna fora da janela não fecha episódio nenhum: fica sozinho
+    forjado_b.iloc[50] = False
+    forjado_b.iloc[60] = True
+    sozinho = dependencia.episodios_dirigidos(forjado_a, forjado_b, 5)
+    if (sozinho["lider_a"], sozinho["sozinho_a"]) != (0, 1):
+        problemas.append("a perna que rompeu fora da janela não ficou sozinha")
+
     # o salvamento grava os dois formatos
     import tempfile
     from pathlib import Path

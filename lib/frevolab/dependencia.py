@@ -24,7 +24,10 @@ import pandas as pd
 
 from . import promessa
 
-__all__ = ["rompimentos", "pareado", "juntos", "bloco_conjunto", "carteira", "perda_media"]
+JANELA_EPISODIO = 5
+
+__all__ = ["JANELA_EPISODIO", "rompimentos", "pareado", "juntos", "episodios_dirigidos",
+           "bloco_conjunto", "carteira", "perda_media"]
 
 
 def rompimentos(serie: pd.Series, janela: int = 252, cauda: float = promessa.CAUDA_PADRAO) -> pd.Series:
@@ -75,6 +78,61 @@ def juntos(rompe_a: pd.Series, rompe_b: pd.Series) -> dict:
         "excesso": float(taxa_juntos / esperado) if esperado > 0 else float("nan"),
         "acompanhados": float((a & b).sum() / a.sum()) if a.sum() else float("nan"),
     }
+
+
+def episodios_dirigidos(rompe_a: pd.Series, rompe_b: pd.Series,
+                        janela: int = JANELA_EPISODIO) -> dict:
+    r"""Quem rompeu primeiro, e se o outro veio atrás dentro da janela.
+
+    Um episódio começa no dia em que **uma** das pernas rompe e nenhuma rompeu nos \emph{janela}
+    dias anteriores; se a outra perna romper dentro dos \emph{janela} dias seguintes, o episódio é
+    **dirigido**, e a primeira perna é a que liderou. O que se conta é a diferença entre os
+    episódios liderados por uma e os liderados pela outra, dividida pelo total.
+
+    A regra tem um viés próprio, e ele precisa ser declarado: a espera olha para trás e a
+    detecção olha para a frente, de modo que **num par sem adiantamento nenhum** os dois lados já
+    não saem iguais. Por isso o número do par real só vale contra o número dos pares sorteados, e
+    nunca contra zero --- é a mesma regra dos capítulos do orçamento e da direção.
+
+    Pelo mesmo motivo a inversão do relógio não serve de conferência aqui: virar o mundo ao
+    contrário não vira a regra. Quem confere este instrumento é o nulo, que carrega a mesma regra.
+    """
+    if janela < 1:
+        raise ValueError("a janela do episodio precisa de pelo menos um dia")
+    comuns = rompe_a.index.intersection(rompe_b.index)
+    if comuns.empty:
+        raise ValueError("as duas series nao tem datas em comum")
+    a = rompe_a.loc[comuns].astype(bool).to_numpy()
+    b = rompe_b.loc[comuns].astype(bool).to_numpy()
+    lider_a = lider_b = sozinho_a = sozinho_b = juntos_ = 0
+    ultimo = -10 ** 9
+    for t in range(a.size):
+        if not (a[t] or b[t]):
+            continue
+        if t - ultimo <= janela:
+            continue
+        ultimo = t
+        if a[t] and b[t]:
+            # romperam no mesmo dia: não há primeiro, e contar isso como episódio de um dos lados
+            # inventaria uma direção que o dado não tem.
+            juntos_ += 1
+            continue
+        futuro = slice(t + 1, min(a.size, t + 1 + janela))
+        outra = b[futuro] if a[t] else a[futuro]
+        if not outra.any():
+            if a[t]:
+                sozinho_a += 1
+            else:
+                sozinho_b += 1
+        elif a[t]:
+            lider_a += 1
+        else:
+            lider_b += 1
+    dirigidos = lider_a + lider_b
+    return {"dias": int(a.size), "lider_a": lider_a, "lider_b": lider_b,
+            "sozinho_a": sozinho_a, "sozinho_b": sozinho_b, "juntos": juntos_,
+            "dirigidos": dirigidos,
+            "assimetria": (lider_a - lider_b) / dirigidos if dirigidos else float("nan")}
 
 
 def bloco_conjunto(retornos_a: pd.Series, retornos_b: pd.Series, janela: int = 252,
