@@ -95,8 +95,18 @@ def formata(valor) -> str:
 
 
 def comando(nome: str) -> str:
-    partes = re.split(r"[^0-9A-Za-z]+", nome)
-    return "\\num" + "".join(p[:1].upper() + p[1:] for p in partes if p)
+    r"""Nome de comando LaTeX para uma grandeza. Só letras, e por um motivo do TeX.
+
+    O TeX termina o nome de um controle no primeiro caractere que não é letra: a chave
+    "troca_t8_anos" viraria \numTrocaT8Anos, que o TeX lê como \numTrocaT seguido do texto
+    "8Anos" — e o documento não compila. Um número dentro do nome tem de ser escrito por
+    extenso ("troca_oito_anos"), e é isso que a recusa abaixo exige.
+    """
+    partes = [p for p in re.split(r"[^0-9A-Za-z]+", nome) if p]
+    if any(p[:1].isdigit() for p in partes):
+        raise ValueError("chave com dígito não vira comando LaTeX: %r — escreva o número por "
+                         "extenso (oito, nove, dois_mil_e_vinte)" % nome)
+    return "\\num" + "".join(p[:1].upper() + p[1:] for p in partes)
 
 
 def colhe() -> int:
@@ -117,7 +127,12 @@ def colhe() -> int:
               "% Uma grandeza por caderno em lab/experimentos/; o livro cita, não digita.",
               ""]
     for chave in sorted(medidas):
-        linhas.append("\\newcommand{%s}{%s}" % (comando(chave), formata(medidas[chave])))
+        try:
+            nome = comando(chave)
+        except ValueError as erro:
+            print("%s: %s" % (caminho.name, erro))
+            return 1
+        linhas.append("\\newcommand{%s}{%s}" % (nome, formata(medidas[chave])))
     NUMEROS.write_text("\n".join(linhas) + "\n", encoding="utf-8")
     print("experimentos: %d | grandezas: %d | %s escrito"
           % (len(cadernos()), len(medidas), NUMEROS.relative_to(RAIZ)))
@@ -226,6 +241,8 @@ def conferir_digitos(avisos: list) -> None:
             corpo = re.sub(r"\\(?:input|include)\{[^}]+\}", "", corpo)
             # a chave de citação carrega o ano (oconnell2026extreme) e não é dígito digitado
             corpo = re.sub(r"\\cite[tp]?\{[^}]+\}", "", corpo)
+            # rótulo de figura, tabela e equação nomeia objeto, não digita número
+            corpo = re.sub(r"\\(?:label|ref|cref|Cref|eqref|autoref)\{[^}]+\}", "", corpo)
 
             abre, fecha = "\\[" in corpo, "\\]" in corpo
             if em_mostrador or abre:

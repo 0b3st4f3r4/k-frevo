@@ -14,7 +14,7 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 """
 from importlib.metadata import PackageNotFoundError, version
 
-from . import dados, graficos, promessa, volatilidade
+from . import dados, graficos, promessa, vigia, volatilidade
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -24,7 +24,7 @@ try:
 except PackageNotFoundError:
     VERSAO = "0.1.0"
 
-__all__ = ["dados", "graficos", "promessa", "volatilidade", "VERSAO", "auto_teste"]
+__all__ = ["dados", "graficos", "promessa", "vigia", "volatilidade", "VERSAO", "auto_teste"]
 
 
 def auto_teste() -> list:
@@ -110,6 +110,57 @@ def auto_teste() -> list:
         problemas.append("episódios acima do limite contam o que não passou do limite")
     if promessa.episodios_acima(contagem_teste, 3)[1]["pico"] != 6.0:
         problemas.append("o pico do episódio não é o maior bloco dele")
+
+    # --- o vigia e o seu orçamento (vigia.py) ---
+
+    # o piso do atraso é o próprio limiar
+    if vigia.piso_de_atraso(13) != 13:
+        problemas.append("o piso de atraso não é o limiar")
+    try:
+        vigia.piso_de_atraso(0)
+        problemas.append("piso de atraso aceitou limiar zero")
+    except ValueError:
+        pass
+
+    # o alarme soa onde o bloco atinge o limiar, e blocos vizinhos são um episódio só
+    contagem = pd.Series([0.0, 2.0, 3.0, 3.0, 0.0, 5.0, 5.0, 0.0])
+    if len(vigia.alarmes(contagem, 3)) != 2:
+        problemas.append("alarmes não agrupam blocos vizinhos acima do limiar")
+    if len(vigia.alarmes(contagem, 6)) != 0:
+        problemas.append("alarmes dispararam sem o bloco atingir o limiar")
+    if vigia.alarmes(contagem, 5)[0]["pico"] != 5.0:
+        problemas.append("o pico do alarme não é o maior bloco dele")
+
+    # o teto independente: com limiar 1, cada bloco conta se algum dia violar
+    teto = vigia.teto_independente(8, 60, 0.05, 1)
+    esperado = 8 * (1 - 0.95 ** 60)
+    if abs(teto - esperado) > 1e-12:
+        problemas.append("teto independente errado no limiar 1 (%.6f contra %.6f)"
+                         % (teto, esperado))
+    if vigia.teto_independente(8, 60, 0.05, 5) >= vigia.teto_independente(8, 60, 0.05, 4):
+        problemas.append("o teto não cai quando o limiar sobe")
+
+    # o orçamento de uma matriz de mundos: dias, episódios e anos por alarme
+    blocos = np.array([[0.0, 2.0, 3.0, 3.0, 0.0, 5.0, 5.0, 0.0],
+                       [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]])
+    orcado = vigia.orcamento(blocos, 3, dias_uteis=252)
+    if abs(orcado["dias_por_mundo"] - 2.0) > 1e-12:
+        problemas.append("orçamento com dias por mundo errado")
+    if abs(orcado["episodios_por_mundo"] - 1.0) > 1e-12:
+        problemas.append("orçamento com episódios por mundo errado")
+    if abs(orcado["anos_por_alarme"] - (8 / 252)) > 1e-12:
+        problemas.append("orçamento com anos por alarme errado")
+
+    # o prejuízo já pago: topo, fundo e a fração que já tinha acontecido
+    datas = pd.date_range("2020-01-01", periods=700, freq="D")
+    valores = np.concatenate([np.linspace(90.0, 100.0, 300), np.linspace(100.0, 80.0, 100),
+                              np.full(300, 80.0)])
+    valores[350] = 90.0
+    pago = vigia.prejuizo_pago(pd.Series(valores, index=datas), datas[350], janela=252)
+    if abs(pago["fracao_paga"] - 0.5) > 1e-9:
+        problemas.append("fração paga errada (%.4f contra 0,5)" % pago["fracao_paga"])
+    if pago["atraso_dias"] != (datas[350] - datas[299]).days:
+        problemas.append("atraso até o topo errado")
 
     # o salvamento grava os dois formatos
     import tempfile
