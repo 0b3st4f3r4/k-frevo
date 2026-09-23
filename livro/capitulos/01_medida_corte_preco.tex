@@ -12,80 +12,64 @@
 \chapter{A medida, o corte e o preço}
 \label{cap:medida}
 
-\section{Uma pergunta de todo dia}
+\section{Quanto eu posso perder amanhã}
 
-Quem carrega dinheiro aplicado faz, quase toda noite, a mesma pergunta: \emph{quanto eu
-posso perder amanhã?} Não é pergunta de adivinho. É a pergunta que decide se a posição
-cabe no bolso de quem a carrega --- e posição que não cabe no bolso é desmontada antes de
-o mercado explicar por quê.
+O mercado fechou, e a pergunta volta quase toda noite com as mesmas palavras: quanto eu
+posso perder amanhã? Quem carrega dinheiro aplicado não pergunta por gosto de adivinhar. A
+resposta decide se a posição cabe no bolso de quem a carrega, e a posição que não cabe é
+desmontada --- muitas vezes antes de o mercado explicar o que estava acontecendo.
 
-Toda tentativa de responder tem a mesma forma, e vale a pena escrevê-la em partes, porque
-é dessas partes que este livro inteiro trata.
+Responder exige duas decisões. A primeira é quantos dias olhar para trás. A segunda é onde
+pôr a linha dentro desses dias: no pior de todos, no segundo pior, no décimo terceiro. Uma
+regra escrita por inteiro soa assim: \emph{o corte de hoje é o décimo terceiro pior dia dos
+últimos \numCorteJanela{} pregões}. Ela também traz o que pretende valer: \emph{não passo
+daqui, dezenove dias em vinte}, isto é, \numPromessaPct\% de violação.
 
-Primeiro escolhe-se \textbf{quantos dias olhar}. Depois olha-se o que aconteceu nesses
-dias e \textbf{põe-se uma linha} num dos piores. Uma regra dessas, escrita por inteiro,
-soa assim: \emph{o corte de hoje é o décimo terceiro pior dia dos últimos
-\numCorteJanela{} pregões}. E o que ela pretende valer também se anuncia: \emph{não passo
-daqui, dezenove dias em vinte} --- isto é, \numPromessaPct\% de violação.
+Vale fixar quatro palavras, porque nenhuma delas muda de sentido daqui em diante: a \textbf{janela} é o pedaço do passado que a regra olha; o \textbf{corte} é onde
+a linha é posta dentro da janela; a \textbf{promessa} é a taxa de violação que se anuncia; e
+a \textbf{entrega} é a taxa que de fato acontece.
 
-Quatro palavras, com o mesmo sentido daqui em diante:
-
-\begin{itemize}[leftmargin=1.5em]
-  \item a \textbf{janela} é o pedaço do passado que a regra olha;
-  \item o \textbf{corte} é onde a linha é posta dentro da janela;
-  \item a \textbf{promessa} é a taxa de violação que se anuncia;
-  \item a \textbf{entrega} é a taxa que de fato acontece.
-\end{itemize}
-
-A regra não é invenção deste livro: a linha posta no quantil dos piores dias é a medida de
-risco mais usada em finanças, discutida e corrigida há décadas \cite{oconnell2026extreme}.
-A pergunta deste capítulo é estreita, e é a primeira de todas: \emph{a entrega tem alguma
-coisa a ver com a promessa?}
+A linha posta no quantil dos piores dias é a medida de risco mais usada em finanças,
+discutida e corrigida há décadas \cite{oconnell2026extreme}. O que se pergunta aqui é menos
+do que isso, e vem antes: a entrega tem alguma coisa a ver com a promessa?
 
 \section{O dado e a regra}
 
-O dado sobre o qual tudo aqui é medido é o retorno de um dia para o outro. Com o preço de
-hoje $p_t$ e o de amanhã $p_{t+1}$,
+O dado é o retorno de um dia para o outro. Com o preço de hoje $p_t$ e o de amanhã
+$p_{t+1}$,
 \[
   r_{t+1} = \log \frac{p_{t+1}}{p_t}.
 \]
 
-A razão do logaritmo aparece no exemplo mínimo: um preço que desce e volta ao lugar tem
-retornos que somam zero.
+O logaritmo não está ali por elegância. Ele faz um preço que desce e volta ao lugar terminar
+com retornos que somam zero, e é isso que permite acompanhar o dia a dia sem perder o fio da
+conta:
 
 \[ 100 \to 95: -0{,}0513; \qquad 95 \to 100: +0{,}0513; \qquad \text{queda de } 5\% \text{ pede alta de } 5{,}26\% . \] % numeros-ok: exemplo mínimo
 
-Em porcentagem a volta também acontece, mas com números diferentes, porque porcentagem
-multiplica onde o logaritmo soma. Somar, em vez de multiplicar, é o que permite acompanhar
-o dia a dia sem perder o fio.
+Em porcentagem a volta também acontece, mas com outros números, porque porcentagem
+multiplica onde o logaritmo soma.
 
-A série é o índice S\&P 500. % numeros-ok: nome próprio, não medição
+A série é o índice S\&P 500, % numeros-ok: nome próprio, não medição
+com \numSerieDias{} pregões, de \numSerieInicio{} a \numSerieFim. Ela vem do arquivo do
+projeto anterior, e o empréstimo fica declarado: o dado atravessa, todo número tirado dele
+é medido de novo neste capítulo.
 
-São \numSerieDias{} pregões, de \numSerieInicio{} a \numSerieFim. Ela vem do
-arquivo do projeto anterior, e o empréstimo fica declarado aqui --- o dado atravessa, e
-todo número tirado dele é remedido neste capítulo.
+Sobre essa série a regra toma duas decisões, e só duas. A \textbf{janela}: os
+\numCorteJanela{} pregões anteriores a hoje. O \textbf{corte}: o décimo terceiro pior deles.
+O corte de cada dia é erguido com os dias que já passaram e com nenhum outro, de modo que a
+linha que aparece no gráfico estava lá antes de o dia acontecer. Um corte que espiasse o
+futuro acertaria sempre, e por isso não valeria nada.
 
-Sobre ela, a regra tem duas decisões, e só duas. A \textbf{janela}: os
-\numCorteJanela{} pregões anteriores a hoje. O \textbf{corte}: o décimo terceiro pior
-deles. O corte de cada dia é erguido com os dias que já passaram e com nenhum outro, de
-modo que a linha que se vê no gráfico estava lá antes de o dia acontecer. Um corte que
-espiasse o futuro acertaria sempre e não valeria nada.
+\section{A conta que o corte faz sozinho}
 
-\section{A promessa parece cumprida}
+Nos \numEntregaDias{} dias em que havia janela suficiente, a linha foi rompida
+\numEntregaViolacoes{} vezes. Isso dá \numEntregaTaxaPct\% de entrega, contra os
+\numPromessaPct\% anunciados. A diferença é de um décimo de ponto percentual, e a impressão
+que ela deixa é que a regra funcionou.
 
-Aplicada aos \numSerieDias{} pregões, a regra produz um corte novo a cada dia e uma
-resposta por dia: o dia ficou abaixo da linha, ou não ficou. Nos \numEntregaDias{} dias em
-que havia janela suficiente, a linha foi rompida \numEntregaViolacoes{} vezes.
-
-\[
-  \text{entrega} = \numEntregaTaxaPct\%, \qquad \text{promessa} = \numPromessaPct\%.
-\]
-
-A diferença é de um décimo de ponto percentual. Parece que funcionou.
-
-Não funcionou, e o motivo não está no mercado: está na aritmética de erguer a linha.
-
-\section{O corte assina a entrega}
+Aqui a impressão engana. Quem decidiu o número foi a aritmética de erguer a linha, e não o
+que o mercado fez.
 
 \begin{proposicao}[a conta do corte]
 \label{prop:conta}
@@ -97,58 +81,52 @@ $\dfrac{k}{n+1}$.
 
 \begin{proof}
 Junte os $n+1$ valores e ponha-os em ordem crescente. Todas as ordens são igualmente
-prováveis, então a posição do dia seguinte nessa fila é uniforme entre as $n+1$ posições.
-O dia seguinte fica abaixo do corte exatamente quando ocupa uma das $k$ primeiras
-posições, que são as ocupadas pelos $k$ menores da janela. Logo a probabilidade é
-$k/(n+1)$.
+prováveis, então a posição do dia seguinte nessa fila é uniforme entre as $n+1$ posições. O
+dia seguinte fica abaixo do corte exatamente quando ocupa uma das $k$ primeiras posições,
+que são as ocupadas pelos $k$ menores da janela. Logo a probabilidade é $k/(n+1)$.
 \end{proof}
 
-A lei ser contínua serve para que dias empatados tenham probabilidade zero, e a hipótese
-de que todas as ordens são igualmente prováveis é a hipótese de que os dias não têm nada a
-dizer uns sobre os outros --- que é justamente o que um mundo que muda viola. A proposição
-não é a previsão do que vai acontecer; é o contraste contra o qual o que aconteceu se lê.
+A lei ser contínua serve para que dias empatados tenham probabilidade zero; e a hipótese de
+que todas as ordens são igualmente prováveis é a hipótese de que os dias não têm nada a
+dizer uns sobre os outros, que é justamente o que um mundo que muda viola. A proposição não
+prevê o que vai acontecer. Ela é o contraste contra o qual o que aconteceu se lê.
 
-A proposição é um caso pequeno e exato de um viés conhecido: quantil estimado de uma
-amostra não entrega a probabilidade que se anuncia, e o tamanho do erro depende do tamanho
-da amostra \cite{taleb2020super}.
+Ela também é um caso pequeno e exato de um viés conhecido: o quantil estimado de uma amostra
+não entrega a probabilidade que se anuncia, e o tamanho do erro depende do tamanho da amostra
+\cite{taleb2020super}.
 
 Com $n = \numCorteJanela$ e $k = \numCortePosto$, a conta dá
-$\numCortePosto/(\numCorteJanela+1)$: \numCorteContaPct\%. Esse número não vem do mercado.
-Vem da decisão de olhar \numCorteJanela{} dias e cortar no décimo terceiro. E a promessa
-anunciada está fora do alcance desse corte --- o posto teria de cair entre dois dias, e
-não existe o décimo terceiro dia e meio de um ano. Com \numCorteJanela{} pregões, as duas
-taxas ao lado da promessa são \numCorteAlternativoPct\%, no décimo segundo, e
-\numCorteContaPct\%, no décimo terceiro. Nenhuma das duas é \numPromessaPct\%.
+$\numCortePosto/(\numCorteJanela+1)$, que é \numCorteContaPct\%. Esse número não veio do
+mercado. Veio da decisão de olhar \numCorteJanela{} dias e cortar no décimo terceiro. Se o
+posto fosse o décimo segundo, a conta daria \numCorteAlternativoPct\%; e a promessa
+anunciada não está em nenhum dos dois, porque o posto teria de cair entre dois dias, e não
+existe o décimo terceiro dia e meio de um ano.
 
-Medimos, e o mercado entregou \numEntregaTaxaPct\% --- \numEntregaViolacoes{} rompimentos
-em \numEntregaDias{} dias. É o que o corte assinou, com poucos milésimos de diferença.
-Para saber se essa diferença diz alguma coisa, falta o único contraste que responde:
-submeter um mundo em que nada muda exatamente à mesma rotina.
+O mercado entregou \numEntregaTaxaPct\%: \numEntregaViolacoes{} rompimentos em
+\numEntregaDias{} dias, com poucos milésimos de diferença da conta do corte. Para saber se
+essa diferença diz alguma coisa, falta o único contraste que responde. É preciso submeter um
+mundo em que nada muda exatamente à mesma rotina.
 
 Sorteamos \numNuncaMudaMundos{} séries do tamanho da nossa, com retornos independentes e
-sempre com a mesma lei, e aplicamos a cada uma a mesma regra. A entrega média desses
-mundos foi \numNuncaMudaTaxaPct{} --- contra os \numCorteContaPct\% da conta. E o mundo
-real entregou \numEntregaTaxaPct\%.
+sempre a mesma lei, e aplicamos a cada uma a mesma regra. A entrega média desses mundos foi
+\numNuncaMudaTaxaPct\%, contra os \numCorteContaPct\% da conta; o mundo real entregou
+\numEntregaTaxaPct\%. Os três números estão no mesmo lugar.
 
-\emph{A média não distingue o mundo real de um mundo que nunca mudou.}
+A média de violações é uma propriedade do corte, e não do mundo. O corte assinou o número
+antes de qualquer dado chegar, e quem lê só a média lê a própria escolha acreditando estar
+lendo o mercado.
 
-Este é o primeiro princípio do livro, e ele é desconfortável: a média de violações é uma
-\textbf{propriedade do corte, não do mundo}. Não porque o mundo não apareça, mas porque o
-corte já assinou o número antes de qualquer dado chegar. Quem lê só a média lê a própria
-escolha e acredita estar lendo o mercado.
+\section{Os blocos têm data}
 
-\section{O que a média não vê}
-
-O mundo aparece em outro lugar, e o lugar é a \emph{forma} com que as violações chegam:
-espalhadas pelo calendário, ou concentradas em pedaços. Para medir a forma, contamos
-quantas violações caem em cada janela móvel de \numBlocoDias{} dias --- a isso chamamos um
-\textbf{bloco} ---, e olhamos o bloco mais cheio. A promessa de \numPromessaPct\% admite
+A diferença entre os mundos aparece na \emph{forma} com que as violações chegam: espalhadas
+pelo calendário, ou concentradas em pedaços. Para medir a forma, contamos quantas
+violações caem em cada janela móvel de \numBlocoDias{} dias --- a isso chamamos um
+\textbf{bloco} --- e olhamos o bloco mais cheio. A promessa de \numPromessaPct\% admite
 \numBlocoPrometido{} violações em \numBlocoDias{} dias.
 
 A mediana dos blocos é \numBlocoMediana{}: na maior parte do tempo a linha aguenta mais do
-que prometeu. O pior bloco tem \numBlocoPior{} violações, e termina em
-\numBlocoPiorData. Onde a promessa admitia \numBlocoPrometido{}, aconteceram
-\numBlocoPior.
+que prometeu. O pior bloco tem \numBlocoPior{} violações, e termina em \numBlocoPiorData.
+Onde a promessa admitia \numBlocoPrometido{}, aconteceram \numBlocoPior.
 
 Nos \numNuncaMudaMundos{} mundos que nunca mudam, o pior bloco de cada um teve, em média,
 \numNuncaMudaPiorMedio{} violações, e o pior bloco de todos eles chegou a
@@ -164,22 +142,21 @@ rotina, chegou a \numBlocoPior.
   \label{fig:blocos}
 \end{figure}
 
-A figura mostra o que a média esconde: a série passa trechos longos colada na linha da
-promessa e sobe, em surtos curtos, até cruzar a linha pontilhada. E os blocos têm data. O
-teto dos mundos que nunca mudam é cruzado em \numEpisodiosAcimaDoTeto{} episódios
-distintos, que ocupam \numBlocosAcimaDoTetoPct\% dos blocos medidos, em
-\numEpisodiosAnos. Nem todos esses anos têm nome de crise, e todos aconteceram neste
-mercado.
+A figura mostra o que a média esconde. A série passa trechos longos colada na linha da
+promessa e sobe, em surtos curtos, até cruzar a linha pontilhada. E os blocos têm data: o
+teto dos mundos que nunca mudam é cruzado em \numEpisodiosAcimaDoTeto{} episódios distintos,
+que ocupam \numBlocosAcimaDoTetoPct\% dos blocos medidos, em \numEpisodiosAnos. Nem todos
+esses anos têm nome de crise, e todos aconteceram neste mercado.
 
-A leitura do bloco corrige ainda a primeira impressão: \numBlocoAcimaDoDobroPct\% dos
-blocos passam do dobro da promessa. O que se promete não é o que se entrega, nem na maior
-parte do tempo, nem nos piores pedaços --- é uma média entre os dois.
+A leitura do bloco corrige ainda a primeira impressão: \numBlocoAcimaDoDobroPct\% dos blocos
+passam do dobro da promessa. O que se promete não é o que se entrega, nem na maior parte do
+tempo, nem nos piores pedaços: é uma média entre os dois.
 
-\section{O preço não desaparece: muda de endereço}
+\section{O preço muda de lugar}
 
 Se o corte assina a média, uma saída parece evidente: escolher outra janela. Vale a pena
-tentar, e a tentativa é barata, porque é a mesma regra com outro número. Varremos a janela
-de um mês a cinco anos, mantendo a promessa anunciada de \numPromessaPct\% e o bloco de
+tentar, e a tentativa é barata, porque é a mesma regra com outro número. Varremos a janela de
+um mês a cinco anos, mantendo a promessa anunciada de \numPromessaPct\% e o bloco de
 \numBlocoDias{} dias.
 
 \begin{table}[htbp]
@@ -201,25 +178,24 @@ de um mês a cinco anos, mantendo a promessa anunciada de \numPromessaPct\% e o 
   \label{tab:varredura}
 \end{table}
 
-As três colunas contam uma história só, e ela é a resposta deste capítulo.
+As três colunas respondem à pergunta do começo.
 
-A \textbf{conta do corte} obedece à promessa anunciada apenas na janela longa. Na janela
-de um mês, o corte assina \numCorteCurtoContaPct\% --- quase o dobro dos
-\numPromessaPct\% anunciados ---, e a razão é aritmética, não mercado: com poucos dias não
-existe corte que produza \numPromessaPct\%.
+A \textbf{conta do corte} obedece à promessa anunciada apenas na janela longa. Na janela de
+um mês, o corte assina \numCorteCurtoContaPct\%, quase o dobro dos \numPromessaPct\%
+anunciados, e a razão é aritmética, não mercado: com poucos dias não existe corte que produza
+\numPromessaPct\%.
 
 A \textbf{entrega} acompanha a conta do corte nas quatro janelas, um pouco acima dela em
 todas. Esse resto é a contribuição do mundo, e é pequeno. Encurtar a janela não deixa a
 medida mais fina; torna a promessa mais caro do que se anunciou.
 
 O \textbf{pior bloco} caminha no sentido oposto: \numCorteCurtoPiorBloco,
-\numCorteMedioPiorBloco, \numBlocoPior, \numCorteLongoPiorBloco. Quanto mais longo o
-passado que a linha olha, mais tempo ela leva para acompanhar o que mudou, e mais
-violações cabem no pedaço ruim. Na janela de cinco anos o pior bloco chega a
-\numCorteLongoPiorBloco. E, no extremo oposto, uma janela curta não compra bloco nenhum: o
-pior bloco do mundo real, \numCorteCurtoPiorBloco, fica \emph{abaixo} do pior bloco de um
-mundo que nunca muda, porque uma janela curta se move junto com o mercado --- e cobra o
-preço na média.
+\numCorteMedioPiorBloco, \numBlocoPior, \numCorteLongoPiorBloco. Quanto mais longo o passado
+que a linha olha, mais tempo ela leva para acompanhar o que mudou, e mais violações cabem no
+pedaço ruim. Na janela de cinco anos o pior bloco chega a \numCorteLongoPiorBloco. No
+extremo oposto, uma janela curta não compra bloco nenhum: o pior bloco do mundo real,
+\numCorteCurtoPiorBloco, fica \emph{abaixo} do pior bloco de um mundo que nunca muda, porque
+uma janela curta se move junto com o mercado --- e cobra o preço na média.
 
 \begin{figure}[htbp]
   \centering
@@ -230,26 +206,21 @@ preço na média.
   \label{fig:duas}
 \end{figure}
 
-\emph{O preço de fixar não desaparece: muda de endereço.} Encurtar o corte cobra na média;
-alongá-lo cobra no bloco. Não há janela em que a linha entregue o que a promessa anunciou
---- e a razão é a \cref{prop:conta}, que não deixa o mundo entrar na conta.
+Encurtar o corte cobra na média; alongá-lo cobra no bloco. Não há janela em que a linha
+entregue o que a promessa anunciou, e a razão disso é a \cref{prop:conta}, que não deixa o
+mundo entrar na conta.
 
-\section{O que fica}
+\section{Uma linha erguida no passado}
 
-Ficam três movimentos, e eles são o instrumento deste livro. Primeiro, \textbf{declarar o
-corte}: a taxa que se assina não é a taxa que se anuncia, e a diferença é a conta da
-\cref{prop:conta}. Segundo, \textbf{ler em bloco, não em média}: a média é assinada pelo
-corte, e só o bloco responde pelo mundo. Terceiro, \textbf{varrer o corte}: o preço não
-some quando se troca de janela --- ele se muda, e saber para onde ele foi é a decisão.
+Um corte fixo supõe que o pedaço de passado que ele olha se parece com o pedaço que vem. A
+série deste capítulo não se parece consigo mesma: passa meses colada na linha e depois rompe
+a linha \numBlocoPior{} vezes em \numBlocoDias{} dias, com o pior bloco terminando em
+\numBlocoPiorData.
 
-E fica um fracasso, visível e sem resposta aqui. Um corte fixo supõe que o pedaço de
-passado que ele olha se parece com o pedaço que vem. A série deste capítulo não se parece
-consigo mesma: passa meses colada na linha e depois rompe a linha \numBlocoPior{} vezes em
-\numBlocoDias{} dias. Se os blocos têm data, alguma coisa no mundo não é fixa, e a média
-não é o instrumento que a vê.
+Quando isso acontece, a linha não erra por pouco. Ela foi erguida com os dias de antes, e
+são justamente esses dias que deixaram de valer. A \cref{tab:varredura} já mostrava o mesmo
+por outro caminho: quanto mais longo o passado que a linha olha, mais tempo ela leva para
+acompanhar o que mudou, e mais violações cabem no pedaço ruim.
 
-A próxima pergunta, então, não é qual janela escolher --- é \emph{que formas a mudança
-tem}: se ela chega pela média, pela cauda, pela dependência entre coisas que antes andavam
-separadas, ou pelo calendário. Responder exige um instrumento novo: um orçamento de erro
-declarado, contra o qual cada mudança possa ser cobrada. É para lá que este livro vai
-agora.
+Se os blocos têm data, alguma coisa no mundo não é fixa, e a média não é o instrumento que a
+vê. Resta medir essa mudança, e é o que os capítulos seguintes fazem.

@@ -14,7 +14,7 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 """
 from importlib.metadata import PackageNotFoundError, version
 
-from . import dados, graficos, promessa, vigia, volatilidade
+from . import dados, graficos, mudanca, promessa, vigia, volatilidade
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -24,7 +24,8 @@ try:
 except PackageNotFoundError:
     VERSAO = "0.1.0"
 
-__all__ = ["dados", "graficos", "promessa", "vigia", "volatilidade", "VERSAO", "auto_teste"]
+__all__ = ["dados", "graficos", "mudanca", "promessa", "vigia", "volatilidade",
+           "VERSAO", "auto_teste"]
 
 
 def auto_teste() -> list:
@@ -161,6 +162,72 @@ def auto_teste() -> list:
         problemas.append("fração paga errada (%.4f contra 0,5)" % pago["fracao_paga"])
     if pago["atraso_dias"] != (datas[350] - datas[299]).days:
         problemas.append("atraso até o topo errado")
+
+    # --- o orçamento declarado e as formas da mudança (vigia.py, mudanca.py) ---
+
+    # o corte por posto é o mesmo corte: a cauda é só uma maneira de escolher o posto
+    por_posto = promessa.corte_no_posto(curta, 21, promessa.posto(21, 0.05))
+    if not np.allclose(promessa.corte(curta, 21).to_numpy(), por_posto.to_numpy(), equal_nan=True):
+        problemas.append("o corte por posto não coincide com o corte por cauda")
+
+    # o orçamento mínimo é 1/(n+1), e o posto que ele compra é o primeiro
+    if abs(vigia.orcamento_minimo(252) - 1 / 253) > 1e-15:
+        problemas.append("o orçamento mínimo não é 1/(n+1)")
+    if vigia.posto_do_orcamento(252, 1 / 253) != 1:
+        problemas.append("um alarme por ano com um ano de memória não é o primeiro posto")
+    if vigia.memoria_para(1 / 253) != 252:
+        problemas.append("a memória de um alarme por ano não é um ano (%d)"
+                         % vigia.memoria_para(1 / 253))
+    if vigia.memoria_para(1 / 2521) != 2520:
+        problemas.append("a memória de um alarme por década não é uma década")
+
+    # pedir mais fino do que a memória compra é erro declarado, e não silêncio
+    try:
+        vigia.posto_do_orcamento(21, 1 / 253)
+        problemas.append("memória de um mês aceitou um orçamento que ela não pode honrar")
+    except ValueError:
+        pass
+
+    # o vigia do dia entrega o orçamento que declara, num mundo que nunca muda
+    rng_declarado = np.random.default_rng(31)
+    mundo_parado = pd.Series(mudanca.estavel(20000, rng_declarado))
+    alarmado = vigia.dispara(mundo_parado, 252, vigia.orcamento_minimo(252))
+    esperado_alarmes = alarmado.size / 253
+    if not 0.5 * esperado_alarmes < alarmado.sum() < 1.8 * esperado_alarmes:
+        problemas.append("o vigia do dia não entregou o orçamento declarado (%d alarmes para %.1f)"
+                         % (alarmado.sum(), esperado_alarmes))
+
+    # a latência é zero no próprio dia da mudança, e nan quando não veio alarme nenhum
+    posicoes = pd.RangeIndex(10)
+    if not np.isnan(vigia.latencia(pd.Series([False] * 10, index=posicoes), 5)):
+        problemas.append("latência sem alarme deveria ser nan, e não um número")
+    no_dia = pd.Series([False, False, False, False, False, True, False, False, False, False],
+                       index=posicoes)
+    if vigia.latencia(no_dia, 5) != 0.0:
+        problemas.append("o alarme no próprio dia da mudança não tem latência zero")
+    if vigia.falsos_antes(no_dia, 5) != 0:
+        problemas.append("falsos antes contou um alarme que veio depois da mudança")
+    if vigia.falsos_antes(pd.Series([True, False, False, True, False], index=posicoes[:5]), 3) != 1:
+        problemas.append("falsos antes não contou o alarme que veio antes da mudança")
+
+    # as formas da mudança fazem exatamente o que dizem: mesmo sorteio, escala declarada
+    base = mudanca.estavel(3000, np.random.default_rng(41))
+    escalado = np.ones(3000)
+    escalado[1000:] = 2.0
+    if not np.allclose(mudanca.degrau(3000, np.random.default_rng(41), fator=2.0, quando=1000),
+                       base * escalado):
+        problemas.append("o degrau não multiplica a oscilação pelo fator declarado")
+    em_rampa = np.ones(3000)
+    em_rampa[1000:1100] = np.linspace(1.0, 3.0, 100)
+    em_rampa[1100:] = 3.0
+    if not np.allclose(mudanca.rampa(3000, np.random.default_rng(41), fator=3.0, quando=1000,
+                                     dias=100), base * em_rampa):
+        problemas.append("a rampa não cresce até o fator declarado no número de dias declarado")
+    deslocado = base.copy()
+    deslocado[1000:] += -0.001
+    if not np.allclose(mudanca.deriva(3000, np.random.default_rng(41), passo=-0.001, quando=1000),
+                       deslocado):
+        problemas.append("a deriva não desloca a média no passo declarado")
 
     # o salvamento grava os dois formatos
     import tempfile

@@ -281,4 +281,33 @@ Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções 
 - **2026-09-23.** O gerador de números **recusa chave com dígito**, e o motivo é do TeX: ele encerra o nome de um controle no primeiro caractere que não é letra, então `troca_t8_anos` virava `\numTrocaT` seguido do texto "8Anos" e o livro **deixava de compilar**. Número em chave vai por extenso (`troca_oito_anos`). O defeito custou um PDF inexistente para ser descoberto.
 - **2026-09-23.** A conferência de compilação olha o **PDF e o código de saída**, nunca só a ausência de avisos: `grep -c undefined` num log de uma execução que falhou devolve zero, e zero ali não é prova de nada.
 - **2026-09-23.** O portão do dígito digitado aprendeu mais duas faxinas: rótulo e referência (`\label`, `\cref`) nomeiam objeto, e a chave de citação carrega o ano — nenhum dos dois é número digitado.
+- **2026-09-23.** **Voz do livro reescrita.** O capítulo 1 foi reescrito, e o 2 já nasceu assim, numa voz sem os tiques
+  da primeira versão — medidos antes de corrigidos: a definição por negação ("não … : …", que aparecia uma vez a cada
+  dezenove frases do capítulo 1), o epigrama em itálico fechando seção, o meta-comentário sobre o próprio livro e o
+  ritmo curto e uniforme. No lugar entram ritmo alternado, caso concreto e data. É decisão de estilo, não de conteúdo:
+  nenhum número, prova, rótulo ou fonte mudou, e a reescrita saiu com os mesmos comandos de `numeros.tex` e as
+  mesmas figuras.
+- **2026-09-23.** **O capítulo 2 é uma fusão.** Duas sessões escreveram o capítulo ao mesmo tempo nesta árvore, com
+  desenhos diferentes, e o que ficou é um capítulo só, com as duas leituras do mesmo corte: **contar** as violações em
+  blocos e alarmar no limiar (orçamento sem forma fechada, medido com erro de contagem e limitado por cima pela
+  `prop:teto`) e **aprofundar** o corte e alarmar quando o próprio dia fica abaixo do posto (orçamento exato,
+  `k/(n+1)`). Medido: a segunda leitura entrega o que declara (25,66 alarmes contra 25,56 declarados nos mundos
+  parados) e, no mesmo silêncio, paga quase o mesmo que a primeira (35,46% contra 36,02% do prejuízo já pago no tombo
+  recente, com um alarme a cada cinco anos de um lado e a cada 4,145 anos do outro).
+- **2026-09-23.** **O orçamento se compra com memória.** O posto mais fundo é o primeiro da fila, de modo que com
+  `n` dias de janela o alarme mais raro que existe é `1/(n+1)`: um alarme por ano custa 252 dias, um por década custa
+  2520. Pedir um orçamento mais fino do que a memória compra levanta erro declarado, em vez de entregar um alarme mais
+  frequente do que o prometido.
+- **2026-09-23.** **A forma da mudança decide o preço.** Com o mesmo orçamento de um alarme por ano, o vigia vê um
+  degrau na cauda em 7 dias, uma rampa em 69 e uma deriva na média em 149,5; com um orçamento falador (11,45 alarmes
+  por ano) as três chegam quase juntas, em 3, 12 e 12,5 dias. A curva da troca do capítulo 2 foi desenhada com tombos,
+  que são degraus: para uma deriva, ela estaria deslocada para a direita.
+- **2026-09-23.** `frevolab.mudanca` é o banco de provas das formas da mudança — estável, degrau, rampa e deriva —,
+  cada uma com o `rng` por parâmetro e conferida pelo `auto_teste()` contra a escala que declara. O módulo
+  `orcamento.py` chegou a existir por minutos e foi absorvido por `vigia.py`: dois donos do mesmo conceito divergem em
+  silêncio.
+- **2026-09-23.** **O laboratório roda com o python do venv.** `.venv/bin/python lab/executar.py` — com o python do
+  sistema o kernel não encontra `frevolab` e o caderno quebra com `ModuleNotFoundError`, defeito que custou uma
+  execução perdida para ser descoberto.
+
 - **2026-09-23.** O teste de **propriedade** (hypothesis) fica adiado até existir a primeira função que sorteia: dependência nova se justifica com uso, não com antecipação. O `auto_teste()` continua como porteiro barato dentro do `--check`.

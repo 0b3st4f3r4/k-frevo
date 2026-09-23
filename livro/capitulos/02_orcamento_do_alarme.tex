@@ -1,9 +1,11 @@
 % =============================================================================
 % CAPÍTULO 2 — volta 1 (AGENTS.md §6): o orçamento do alarme.
 %
-% O fracasso que o abre, com número na mão: o vigia do capítulo 1, ligado no limiar que
-% o mundo parado nunca alcançou, soa sozinho uma vez a cada milhares de anos — e avisa
-% do tombo de 2020 com 86% do prejuízo já pago.
+% O fracasso que o abre, com número na mão: o vigia do capítulo 1, ligado no limiar que o
+% mundo parado nunca alcançou, soa uma vez a cada 3632 anos de mundo parado e avisa do
+% tombo de 2020 com 86% do prejuízo já pago. A troca entre silêncio e antecedência é a
+% curva da fig:troca; o atraso tem piso provado (prop:piso); o orçamento se compra com
+% memória (1/(n+1)) e se paga conforme a forma da mudança (degrau, rampa, deriva).
 %
 % Medição: lab/experimentos/E02_orcamento.ipynb. Figuras: figuras/E02_orcamento_*.
 % =============================================================================
@@ -13,45 +15,47 @@
 
 \section{O vigia}
 
-O capítulo anterior deixou um instrumento e um incômodo. O instrumento: contar quantas vezes
-o preço rompeu a linha dentro de uma janela móvel de \numVigiaBloco{} dias. O incômodo: os
-blocos têm data, e a média não vê a data.
+O capítulo anterior deixou um instrumento e um incômodo. O instrumento conta quantas vezes o
+preço rompeu a linha dentro de uma janela móvel de \numVigiaBloco{} dias. O incômodo é que os
+blocos têm data: a contagem sobe nos mesmos anos, e sobe sempre no mesmo lugar da série.
 
 A tentação, agora, é pequena e razoável. Se o bloco sabe \emph{quando} o mundo aperta, basta
-transformá-lo num vigia: alarmar quando o bloco atingir um limiar. E o limiar já vem
-escolhido por medição, não por gosto --- no capítulo anterior, o pior bloco de duzentos
-mundos que nunca mudam chegou a \numNuncaMudaPiorBloco{} violações. Um número que o mundo
-parado nunca alcançou é, no mínimo, um candidato honesto a linha de alarme.
+ligar nele um alarme: soa quando a contagem passa de um limiar. E o limiar já vem escolhido
+por medição, não por gosto, porque no capítulo anterior o pior bloco de duzentos mundos que
+nunca mudam chegou a \numNuncaMudaPiorBloco{} violações. Um número que o mundo parado nunca
+alcançou é um candidato honesto a linha de alarme.
 
-Fica então o vigia mais simples que este livro consegue escrever: \emph{soa quando as
-violações dos últimos \numVigiaBloco{} dias chegam a \numVigiaLimiar}.
+Fica então o vigia mais simples que dá para escrever: \emph{soa quando as violações dos
+últimos \numVigiaBloco{} dias chegam a \numVigiaLimiar}.
 
-Duas perguntas decidem se isso vale alguma coisa, e é delas que este capítulo trata: com que
-frequência ele soa quando nada muda, e quanto tempo ele leva quando algo muda de verdade.
+Duas perguntas decidem se isso vale alguma coisa, e o capítulo é sobre elas: com que
+frequência ele soa quando nada muda, e quanto tempo ele leva quando algo muda de verdade. As
+duas precisam de resposta junta, porque cada uma é paga com a outra.
 
 \section{Quanto ele soa quando nada muda}
 
-A primeira pergunta só tem uma resposta honesta, e ela não vem do mercado: vem de mundos em
-que nada muda. Sorteamos \numVigiaMundos{} séries do tamanho da nossa, com retornos
-independentes e sempre com a mesma lei, submetemos cada uma ao mesmo corte, contamos os
-blocos e perguntamos quantas vezes o vigia soaria.
+A primeira pergunta não se responde no mercado, porque no mercado não se sabe quais alarmes
+eram falsos. Sabe-se que houve alarme, e só. Responde-se em mundos em que nada muda:
+\numVigiaMundos{} séries do tamanho da nossa, com retornos independentes e sempre a mesma
+lei, submetidas ao mesmo corte, aos mesmos blocos e ao mesmo limiar.
 
-No limiar \numVigiaLimiar{}, o resultado é \numVigiaDiasParadoPorMundo{} dia por mundo ---
-praticamente nenhum ---, e \numVigiaMundosQueSoamPct\% dos mundos soaram pelo menos uma vez.
-Em tempo: um alarme a cada \numVigiaAnosParadoPorAlarme{} anos de mundo parado.
+No limiar \numVigiaLimiar{}, essas mil séries produziram \numVigiaDiasParadoPorMundo{} dia de
+alarme por mundo --- quase nada ---, e \numVigiaMundosQueSoamPct\% dos mundos soaram pelo
+menos uma vez ao longo de vinte e cinco anos. Dito em tempo: o vigia soa sozinho uma vez a
+cada \numVigiaAnosParadoPorAlarme{} anos.
 
-É um número grande, e é preciso desconfiar dele. Ele se apoia em \numVigiaParadoAlarmes{}
-alarmes em \numVigiaMundos{} mundos, e conta de evento raro não é precisa: o erro relativo é
-de uns \numVigiaParadoErroPct\%. O que ela entrega é a ordem de grandeza --- milhares de
-anos ---, não o número exato.
+Um número desses pede desconfiança, e a desconfiança aqui é aritmética. Ele se apoia em
+\numVigiaParadoAlarmes{} alarmes espalhados por \numVigiaMundos{} mundos; contar evento raro
+é impreciso, e o erro relativo dessa contagem é de \numVigiaParadoErroPct\%. O que a medição
+entrega é a ordem de grandeza --- milhares de anos ---, e não o número exato.
 
-Há, porém, um jeito de conferir esse orçamento sem sortear nada, e vale escrevê-lo, porque
-ele dá um teto \emph{provado}.
+Há um jeito de conferir esse orçamento sem sortear nada, e ele cabe numa proposição, porque a
+conta é uma união de acontecimentos.
 
 \begin{proposicao}[o teto independente]
 \label{prop:teto}
-Se os dias fossem independentes, com probabilidade $p$ de violar o corte em cada dia, então
-a probabilidade de algum bloco de $B$ dias atingir $L$ violações não passaria de
+Se os dias fossem independentes, com probabilidade $p$ de violar o corte em cada dia, então a
+probabilidade de algum bloco de $B$ dias atingir $L$ violações não passaria de
 $n \cdot \Prob\big(\text{Bin}(B, p) \geq L\big)$, onde $n$ é o número de blocos.
 \end{proposicao}
 
@@ -62,32 +66,28 @@ soma das probabilidades dos seus termos, e sob independência a probabilidade de
 atingir $L$ violações é a cauda da binomial.
 \end{proof}
 
-Com os números deste capítulo, o teto dá \numVigiaTetoIndependentePct\%. O mundo parado
-mediu \numVigiaMundosQueSoamPct\%. O teto é honesto --- ele está acima --- e é frouxo por
-quase uma dezena de vezes.
+Com os números deste capítulo o teto dá \numVigiaTetoIndependentePct\%, e o mundo parado
+mediu \numVigiaMundosQueSoamPct\%. O teto está acima do medido, como tinha de estar, e está
+acima por quase uma dezena de vezes: é um limite provado e frouxo, e vale pelo que prova.
 
-E há um limite para a utilidade dele: para limiares baixos a soma ultrapassa cem por cento e
-o teto deixa de dizer qualquer coisa. Teto que vale cento e vinte por cento não é teto; é uma
-conta que já não se aplica.
+Ele também tem prazo de validade, e o prazo aparece na própria conta. Para limiares baixos a
+soma das parcelas ultrapassa cem por cento, e um teto de cento e vinte por cento não é teto de
+nada.
 
 \section{Quanto ele demora quando algo muda}
 
-O orçamento não diz nada sobre o que interessa. A pergunta que decide é outra: quando o mundo
-muda de verdade, o vigia avisa a tempo de quê?
+O orçamento sozinho não decide nada. A pergunta que decide é a outra: quando o mundo muda, o
+vigia avisa a tempo de quê?
 
-Aplicado à série inteira, no limiar \numVigiaLimiar{}, ele soou \numVigiaAlarmesReais{}
-vezes: uma a cada \numVigiaAnosReaisPorAlarme{} anos. No mundo parado, o mesmo vigia soa uma
-vez a cada \numVigiaAnosParadoPorAlarme{} anos. A razão entre os dois é de
-\numVigiaRazaoRealContraParado{} vezes.
+Na série inteira, e no mesmo limiar, ele soou \numVigiaAlarmesReais{} vezes em vinte e cinco
+anos, uma a cada \numVigiaAnosReaisPorAlarme{} anos. No mundo parado o mesmo vigia soa uma vez
+a cada \numVigiaAnosParadoPorAlarme{} anos, ou \numVigiaRazaoRealContraParado{} vezes mais
+raro. Quem soa uma vez a cada três anos e meio num mundo que muda está respondendo ao mundo, e
+não ao próprio ajuste.
 
-Isso responde a primeira metade da dúvida: neste limiar o vigia não é alarmista. A fração de
-mundos parados que soam uma vez sequer num período deste tamanho é de
-\numVigiaMundosQueSoamPct\%, de modo que se espera \emph{menos de um} alarme falso entre os
-\numVigiaAlarmesReais{}. Quando ele soa, houve.
-
-A segunda metade é a que dói. Para cada alarme, comparamos o dia em que ele soou com o topo
-anterior e com o fundo seguinte --- o preço mais alto antes do tombo e o mais baixo depois
----, e medimos quanto do prejuízo \emph{já tinha acontecido} no dia do aviso.
+Para medir a que ele responde, cada alarme é comparado com o topo anterior e o fundo seguinte
+--- o preço mais alto antes do tombo e o mais baixo depois ---, e a conta que interessa é
+quanto do prejuízo total já tinha acontecido no dia do aviso.
 
 Nos dois tombos maiores do período, o resultado é este.
 
@@ -101,27 +101,27 @@ Nos dois tombos maiores do período, o resultado é este.
     alarme de \numVigiaTomboRecenteData & \numVigiaTomboRecenteAtrasoDias{} dias & \numVigiaTomboRecentePagoPct\% \\
     \hline
   \end{tabular}
-  \caption{Os dois piores tombos do período, com o dia do alarme e a fração do prejuízo
-    total que já tinha acontecido quando ele soou. No tombo mais recente, o alarme veio com
-    \numVigiaTomboRecenteQuedaPct\% de queda já realizada, de um total de \numVigiaTomboRecenteTotalPct\%.}
+  \caption{Os dois piores tombos do período, com o dia do alarme e a fração do prejuízo total
+    que já tinha acontecido quando ele soou. No tombo mais recente, o alarme veio com
+    \numVigiaTomboRecenteQuedaPct\% de queda já realizada, de um total de
+    \numVigiaTomboRecenteTotalPct\%.}
   \label{tab:atraso}
 \end{table}
 
 A mediana dos \numVigiaAlarmesReais{} alarmes é de \numVigiaPagoMedianoPct\% de prejuízo já
-pago. E em um deles o alarme soou exatamente no fundo, com \numVigiaPagoPiorPct\% do tombo
-consumido: o vigia avisou no dia em que a queda acabou.
+pago. Num deles o alarme soou no fundo exato, com \numVigiaPagoPiorPct\% do tombo consumido:
+o vigia avisou no dia em que a queda acabou.
 
-Vale dizer do modo mais direto possível. O vigia do capítulo anterior \emph{acerta}: os
-alarmes dele são reais, e o mundo parado quase nunca o faz soar. O que ele não faz é
-\emph{chegar antes}.
+Vale dizer do modo mais direto possível. O vigia acerta: os alarmes dele são reais, e o mundo
+parado quase nunca o faz soar. O que ele não faz é chegar antes.
 
 \section{A troca}
 
-Se o vigia é tardio, a saída parece óbvia: baixar o limiar. Vale a pena medir, porque a saída
-é ilusória e o preço dela tem forma.
+Se o vigia é tardio, a saída parece óbvia: baixar o limiar. Baixar o limiar antecipa o alarme
+e cobra por isso, e o que vale medir é quanto, porque o preço tem forma.
 
-Para cada limiar, medimos as duas coisas de uma vez: a frequência com que o vigia soa em
-mundo parado, e o quanto do prejuízo já estava pago quando ele soou.
+Para cada limiar medimos as duas coisas de uma vez: a frequência com que ele soa em mundo
+parado, e quanto do prejuízo já estava pago quando ele soou no tombo recente.
 
 \begin{table}[htbp]
   \centering
@@ -146,36 +146,35 @@ mundo parado, e o quanto do prejuízo já estava pago quando ele soou.
 A tabela diz três coisas.
 
 \textbf{A troca existe, e o primeiro passo é barato.} Baixar o limiar de \numVigiaLimiar{}
-para \numTrocaOitoLimiar{} derruba o prejuízo já pago de \numTrocaTrezePagoPct\% para \numTrocaOitoPagoPct\%: o
-vigia passa a avisar antes de o tombo se completar. É a diferença entre saber e saber a
-tempo.
+para \numTrocaOitoLimiar{} derruba o prejuízo já pago de \numTrocaTrezePagoPct\% para
+\numTrocaOitoPagoPct\%: o vigia passa a avisar antes de o tombo se completar.
 
 \textbf{O preço desse passo é brutal.} O mesmo movimento leva o falso alarme de um a cada
 \numTrocaTrezeAnos{} anos de mundo parado para um a cada \numTrocaOitoAnos{} anos. O vigia que
 quase nunca se enganava passa a soar a cada poucos anos sem que nada tenha mudado.
 
-\textbf{E a taxa de câmbio piora.} Na ponta direita da tabela, o limiar sobe de
-\numTrocaDezLimiar{} para \numTrocaDozeLimiar, o falso alarme fica quase vinte vezes mais
-raro, e o prejuízo já pago praticamente não se move: \numTrocaDezPagoPct\% contra \numTrocaDozePagoPct\%. Paga-se muito por nada. Há até
-dois limiares vizinhos entregando exatamente a mesma coisa.
+\textbf{E a taxa de câmbio piora na outra ponta.} Do limiar \numTrocaDezLimiar{} para o
+\numTrocaDozeLimiar, o falso alarme fica quase vinte vezes mais raro e o prejuízo já pago
+quase não se move: \numTrocaDezPagoPct\% contra \numTrocaDozePagoPct\%. Paga-se muito por
+nada, e há dois limiares vizinhos entregando exatamente a mesma coisa.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{figuras/E02_orcamento_1.pdf}
   \caption{A troca em forma de curva: o eixo horizontal é a raridade do falso alarme, em
-    escala logarítmica, e o vertical é o prejuízo já pago no tombo recente. A curva sobe depressa na
-    esquerda e achata na direita.}
+    escala logarítmica, e o vertical é o prejuízo já pago no tombo recente. A curva sobe
+    depressa na esquerda e achata na direita.}
   \label{fig:troca}
 \end{figure}
 
-\emph{Não existe limiar que seja ao mesmo tempo raro e rápido.} O vigia é o par ---
-frequência em mundo parado e atraso em mundo que muda ---, e escolher um limiar é escolher um
-ponto dessa curva. Não há ponto que seja bom nos dois eixos.
+Não existe limiar que seja ao mesmo tempo raro e rápido. O vigia é o par --- frequência em
+mundo parado e atraso em mundo que muda ---, e escolher um limiar é escolher um ponto dessa
+curva, com o preço da esquerda pago em falso alarme e o da direita pago em atraso.
 
 \section{O piso}
 
-Vale resistir à conclusão de que o vigia é mal calibrado, porque ele não é: ele está no chão
-do que a sua própria aritmética permite.
+Antes de concluir que o vigia está mal calibrado, vale olhar o chão em que ele está, porque o
+atraso dele tem piso, e o piso é aritmético.
 
 \begin{proposicao}[o piso do atraso]
 \label{prop:piso}
@@ -185,47 +184,193 @@ depois de a mudança começar, se antes dela o corte não era violado.
 
 \begin{proof}
 Para que a contagem chegue a $L$, são necessários ao menos $L$ dias com violação dentro da
-janela. Cada dia com violação consome um pregão, e nenhum deles pode ser anterior ao começo
-da mudança. Logo o alarme exige ao menos $L$ pregões.
+janela. Cada dia com violação consome um pregão, e nenhum deles pode ser anterior ao começo da
+mudança. Logo o alarme exige ao menos $L$ pregões.
 \end{proof}
 
-Com $L = \numVigiaLimiar$, o piso é de \numVigiaPisoPregoes{} pregões. E o alarme de
-\numVigiaTomboRecenteData{} soou \numVigiaTomboRecenteAtrasoDias{} dias corridos depois do topo --- poucos pregões mais do que o
-piso. O vigia não estava gastando tempo à toa; ele estava esperando a contagem encher, que é
-o que ele sabe fazer.
+Com $L = \numVigiaLimiar$, o piso é de \numVigiaPisoPregoes{} pregões. O alarme de
+\numVigiaTomboRecenteData{} soou \numVigiaTomboRecenteAtrasoDias{} dias corridos depois do
+topo, poucos pregões mais do que o piso: o vigia não estava gastando tempo à toa, estava
+esperando a contagem encher, que é o que ele sabe fazer.
 
-A consequência é dura para quem queria melhorar o vigia ajustando números: a única alavanca
-é o próprio limiar, e o limiar é o orçamento. Comprar velocidade é pagar em falso alarme, na
+A consequência é dura para quem queria melhorar o vigia ajustando números. A única alavanca é
+o próprio limiar, e o limiar é o orçamento; comprar velocidade é pagar em falso alarme, na
 taxa de câmbio da \cref{tab:troca}.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{figuras/E02_orcamento_2.pdf}
-  \caption{O alarme de \numVigiaTomboRecenteData{} visto dos dois lados. Em cima, o índice; embaixo, as violações
-    dos \numVigiaBloco{} dias anteriores, com o limiar. As duas linhas contam a mesma
-    história --- e a de baixo conta depois da de cima.}
+  \caption{O alarme de \numVigiaTomboRecenteData{} visto dos dois lados. Em cima, o índice;
+    embaixo, as violações dos \numVigiaBloco{} dias anteriores, com o limiar. As duas linhas
+    contam a mesma história --- e a de baixo conta depois da de cima.}
   \label{fig:vigia2020}
+\end{figure}
+
+\section{O mesmo corte, lido mais fundo}
+
+Tudo o que foi medido até aqui é uma leitura do corte do capítulo anterior: contar quantas
+vezes o preço rompeu a linha, e alarmar quando a contagem enche. O corte admite uma segunda
+leitura, mais direta, e vale olhá-la antes de aceitar que o vigia é assim mesmo.
+
+Nessa leitura o alarme não espera contagem nenhuma. Ele soa no dia em que o preço fica abaixo
+do $k$-ésimo pior dos últimos $n$ dias; com $k = 1$, soa no dia em que o preço faz o pior dia
+do último ano. É o mesmo corte, com o posto escolhido de outro jeito, e dessa vez a escolha
+tem conta fechada, porque é a proposição do capítulo anterior lida ao contrário: o posto $k$
+com janela $n$ assina a taxa $k/(n+1)$.
+
+Isso muda a natureza do orçamento. Na leitura do bloco, a frequência do falso alarme não tem
+forma fechada --- sessenta blocos móveis se sobrepõem, e o melhor que se consegue é medir, com
+o erro de contagem que a \cref{prop:teto} limita por cima. Na leitura do dia a frequência é
+exata, e o número declarado é o número entregue: nos mundos que nunca mudam, a medição
+devolveu \numSegundaLeituraParadoAlarmes{} alarmes contra os \numSegundaLeituraParadoDeclarado{}
+que a conta declara.
+
+Daí sai um limite que calibração nenhuma contorna. O posto mais fundo possível é o primeiro da
+fila, de modo que com $n$ dias de memória o alarme mais raro que existe é $1/(n+1)$. Um alarme
+por ano custa \numMemoriaUmAlarmePorAnoDias{} dias de memória; um alarme por década custa
+\numMemoriaUmAlarmePorDecadaDias{} dias, que são dez anos de série, e quem não tem esses dias
+não tem esse alarme.
+
+O que essa leitura compra é tempo. No orçamento de \numFundoUmAnoAlarmesPorAno{} alarme por
+ano, ela avisou do tombo recente em \numSegundaLeituraTomboRecenteData, com
+\numSegundaLeituraTomboRecentePagoPct\% do prejuízo já pago, contra os
+\numVigiaTomboRecentePagoPct\% da leitura do bloco. No tombo antigo, avisou em
+\numSegundaLeituraTomboAntigoData{} com \numSegundaLeituraTomboAntigoPagoPct\%, contra
+\numVigiaTomboAntigoPagoPct\% da outra leitura.
+
+A comparação, porém, pede cuidado, porque os dois vigias foram declarados em orçamentos
+diferentes: \numFundoUmAnoAlarmesPorAno{} alarme por ano de um lado, um a cada
+\numVigiaAnosParadoPorAlarme{} anos do outro. No ponto em que os dois orçamentos se aproximam,
+a vantagem some. Com \numFundoCincoAnosAlarmesPorAno{} alarme por ano, ou um a cada cinco
+anos, a leitura do dia chegou ao tombo recente em \numSegundaLeituraCincoAnosTomboRecenteData{}
+com \numSegundaLeituraCincoAnosTomboRecentePagoPct\% do prejuízo pago; a leitura do bloco, no
+limiar \numTrocaOitoLimiar, soa uma vez a cada \numTrocaOitoAnos{} anos e chega com
+\numTrocaOitoPagoPct\%. Duas leituras do mesmo corte, o mesmo silêncio, quase o mesmo preço.
+
+E a leitura do dia tem um preço próprio, que a tabela do bloco não mostra. Num mundo que nunca
+muda ela soa, por construção, na taxa que declarou: declarar \numFundoUmAnoAlarmesPorAno{}
+alarme por ano é aceitar \numSegundaLeituraAlarmesReais{} alarmes em vinte e cinco anos, ou
+\numSegundaLeituraAlarmesAno{} por ano, enquanto o vigia do bloco soou \numVigiaAlarmesReais{}
+vezes no mesmo período. A escolha é entre um vigia que fala \numSegundaLeituraAlarmesAno{}
+vezes por ano e chega cedo, e um vigia que fala uma vez a cada três anos e meio e chega depois.
+
+\section{A forma decide o preço}
+
+Falta uma peça, e ela é grande. Toda a medição de atraso feita até aqui usou os tombos que
+aconteceram, e tombo é uma forma só de mudança: a cauda se abre de repente, e o dia ruim é
+enorme. O mundo muda de outras maneiras.
+
+Para medir isso sem depender de quais tombos o mercado ofereceu, usamos mundos em que a
+mudança é posta de propósito, com data conhecida: séries de \numFormaMundoDias{} dias em que a
+oscilação muda no dia \numFormaMudancaDia, e \numFormaRepeticoes{} repetições de cada forma.
+São três.
+
+\begin{itemize}[leftmargin=1.5em]
+  \item o \textbf{degrau} --- a oscilação dobra de uma vez, e a partir dali fica assim;
+  \item a \textbf{rampa} --- a oscilação cresce até dobrar ao longo de meses, de modo que
+    nenhum dia isolado é extraordinário;
+  \item a \textbf{deriva} --- a média se desloca um pouco a cada dia, sem que a oscilação mude
+    em nada.
+\end{itemize}
+
+Mesma rotina, mesmo orçamento, e o resultado é uma diferença que nenhum ajuste de limiar
+resolve.
+
+No orçamento de \numFundoUmAnoAlarmesPorAno{} alarme por ano, o degrau foi visto em
+\numFormaDegrauDias{} dias, a rampa em \numFormaRampaDias{} dias e a deriva em
+\numFormaDerivaDias{} dias. Encurtando a memória para um mês, o orçamento fica falador
+(\numFundoUmMesAlarmesPorAno{} alarme por ano) e as três formas chegam quase juntas: o degrau
+em \numFormaCurtaDegrauDias{} dias, a rampa em \numFormaCurtaRampaDias{} e a deriva em
+\numFormaCurtaDerivaDias.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E02_orcamento_3.pdf}
+  \caption{Dias até o primeiro alarme, por forma de mudança, em dois orçamentos: a memória de
+    um mês, à esquerda de cada par, e a de um ano, à direita. O orçamento mais raro paga a
+    diferença entre as formas.}
+  \label{fig:formas}
+\end{figure}
+
+A leitura da figura é a leitura dos números. Com um orçamento raro, a mudança que o vigia vê
+depressa é a cauda que se abre de uma vez, e a que ele vê devagar é a média que se desloca: a
+mesma rotina, o mesmo silêncio prometido, e \numFormaDerivaDias{} dias contra
+\numFormaDegrauDias. Com um orçamento falador, a distância entre as formas quase desaparece,
+porque um alarme que soa a cada poucos dias não precisa esperar por nada.
+
+Isso também diz o que a \cref{tab:troca} de fato mediu. A curva da troca foi desenhada com os
+tombos do mercado, que são degraus; para uma deriva, a mesma curva estaria deslocada para a
+direita, com o preço do silêncio pago em meses.
+
+\section{O que a memória faz}
+
+O corte é erguido com os dias que já passaram, e por isso ele acompanha o mundo. Poucos dias
+depois de um degrau na oscilação, os piores dias da janela já são dias mudados, e o corte
+desce junto com eles. Num mundo que passa a oscilar oito vezes mais, a contagem em
+\numBlocoDias{} dias assenta em \numFormasContagemAdaptativaDegrau, onde a promessa admite
+\numBlocoPrometido{} --- e o mundo segue oito vezes mais perigoso.
+
+Vale comparar com o corte que não se mexe. Erguido uma vez e deixado parado, ele continua
+medindo o mundo novo com a régua velha: a contagem assenta em \numFormasContagemFixaDegrau,
+oito vezes a promessa, e não volta. No mundo parado os dois cortes dão a mesma coisa,
+\numFormasContagemFixaParado{} contra \numFormasContagemParado, de modo que a diferença entre
+eles não é de calibração. É de memória.
+
+A promessa se sustenta porque a memória esquece. O mesmo movimento que restaura a taxa apaga
+a mudança, e um vigia feito dessa taxa fica sem o que ver depois que a janela se renova: no
+degrau isso custa uma dúzia de dias, e na rampa, \numFormasVigiaRampaDoisDias{} dias para o
+mesmo tamanho final. A forma não muda o que aconteceu ao mundo. Muda o que sobra para o
+vigia ver.
+
+A deriva escapa aos dois cortes. Deslocar a média não mexe na oscilação, e a contagem sente
+pouco: no corte fixo, uma deriva de \numFormasDerivaForteAnoPct\% ao ano leva a contagem de
+\numFormasContagemFixaParado{} para \numFormasContagemFixaDeriva{}, quase nada, porque um
+passo de dois décimos por cento contra um barulho de um por cento por dia mal move a cauda
+esquerda.
+
+Para essa forma existe outro instrumento, e ele mede outra coisa: a média da janela em
+erros-padrão dela mesma (\texttt{centro.py}). Ele vê a deriva forte em
+\numFormasLeiForteDias{} dias, com \numFormasLeiForteNadaPct\% dos mundos sem alarme nenhum
+no horizonte de \numFormasHorizonteDias{} dias. E é cego à escala: nos mundos de degrau e de
+rampa ele não soa em quase oitenta por cento dos casos, porque dobrar a oscilação dobra o
+erro-padrão da média e deixa a estatística onde estava.
+
+A demora dele se paga em memória, e a conta fecha em duas linhas. Uma regra de $L$
+erros-padrão vê uma deriva de passo $p$ contra um barulho $\sigma$ quando a janela tem
+$(L\sigma/p)^2$ dias --- e a latência mínima é esse mesmo número, porque o instrumento
+precisa dos dias antes de poder julgá-los. Com um ano de memória, a regra enxerga a deriva
+que o barulho esconde por um fator de $\sqrt{\numCorteJanela}$; com catorze anos, uma quatro
+vezes menor. Para a deriva de \numFormasDerivaLeveAnoPct\% ao ano deste capítulo, a memória
+exigida é de \numFormasMemoriaDerivaLeve{} dias: no horizonte de \numFormasHorizonteDias{}
+dias nenhum mundo alarmou, e o motivo não é cegueira. É que a memória que ele pede é maior do
+que o tempo que se esperou.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E03_formas_1.pdf}
+  \caption{Quatro mundos de quarenta anos, cada um com a sua mudança no meio (linha
+    pontilhada). Em cima, o retorno acumulado; embaixo, os rompimentos do corte em
+    \numBlocoDias{} dias, com o limiar do vigia. A deriva é o único mundo que cai, e é o
+    único em que a contagem não sobe.}
+  \label{fig:memoria}
 \end{figure}
 
 \section{O que fica}
 
-Fica o orçamento, e ele é a peça que este capítulo veio buscar: \textbf{todo alarme é um par
-declarado} --- com que frequência ele soa quando nada muda, e quanto ele demora quando algo
-muda. Um alarme que não declara o par não é uma afirmação; é barulho com opinião. E o par não
-se melhora por ajuste: a \cref{prop:piso} mostra que o atraso tem chão, e a
-\cref{tab:troca} mostra quanto custa descer.
+O que fica é o orçamento, e ele fixa uma coisa só: \textbf{todo alarme é um par declarado} ---
+com que frequência ele soa quando nada muda, e quanto ele demora quando algo muda. Um alarme que não declara o par não é uma afirmação; é barulho com opinião. Fica também
+a moeda do par: ele se compra com memória, porque o alarme mais raro que $n$ dias de janela
+permitem é $1/(n+1)$, e se paga conforme a forma da mudança, que decide quantos dias custa
+sair do silêncio.
 
-É este o orçamento que as quatro famílias de perguntas deste livro vão usar: em cobertura,
-em proteção, em capacidade e em memória, a mesma pergunta aparece --- o que se promete, o que
-se entrega, e quanto custa a diferença.
+E fica o fracasso seguinte, que é o mais fundo até aqui. O capítulo mediu três formas de
+mudança na mesma série --- a cauda que se abre de uma vez, a cauda que se aproxima em rampa, e
+a média que se desloca --- e precisou de dois instrumentos para isso: a contagem de
+rompimentos, que vê as duas primeiras e é cega à terceira, e a média da janela medida em
+erros-padrão dela mesma, que vê a deriva e é cega à escala.
 
-E fica o fracasso seguinte, que é o mais fundo até aqui. Este vigia conta \emph{uma forma} de
-mudança: a que engorda a contagem de violações. Uma mudança que nunca rompe a linha é
-invisível para ele em \emph{qualquer} limiar. Se o que mudou foi o tamanho da cauda --- dias
-um pouco piores, sem que nenhum rompa o corte ---, se foi a dependência entre duas séries que
-antes andavam separadas, ou se foi o calendário, com as coisas ruins passando a se juntar na
-mesma semana, a contagem não se mexe e o vigia não soa.
-
-A pergunta que fica, então, não é como calibrar melhor este vigia: é \emph{que formas a
-mudança tem}, e como se mede cada uma delas com um orçamento comparável. É para lá que o
-livro vai agora.
+As outras duas formas que o mundo tem não aparecem em nenhum dos dois. A dependência entre
+duas séries pode mudar sem que nenhuma das duas mude de tamanho, e o calendário pode passar a
+juntar as coisas ruins na mesma semana sem que nenhum dia fique maior: não há dia para romper
+a linha, e não há limiar que veja. Medir essas formas exige um terceiro instrumento, e é a
+pergunta seguinte.

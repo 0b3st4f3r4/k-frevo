@@ -30,8 +30,9 @@ import pandas as pd
 CAUDA_PADRAO = 0.05
 BLOCO_PADRAO = 60
 
-__all__ = ["CAUDA_PADRAO", "BLOCO_PADRAO", "posto", "corte", "violacoes",
-           "entrega_do_corte", "conta_em_blocos", "episodios_acima", "entrega"]
+__all__ = ["CAUDA_PADRAO", "BLOCO_PADRAO", "posto", "corte", "corte_no_posto",
+           "violacoes", "violacoes_no_posto", "entrega_do_corte", "conta_em_blocos",
+           "episodios_acima", "entrega"]
 
 
 def posto(janela: int, cauda: float = CAUDA_PADRAO) -> int:
@@ -48,15 +49,22 @@ def posto(janela: int, cauda: float = CAUDA_PADRAO) -> int:
     return int(np.ceil(cauda * janela))
 
 
-def corte(retornos: pd.Series, janela: int, cauda: float = CAUDA_PADRAO) -> pd.Series:
-    r"""O k-ésimo pior dos \emph{janela} retornos que terminam ontem, dia a dia.
+def corte_no_posto(retornos: pd.Series, janela: int, k: int) -> pd.Series:
+    r"""O \emph{k}-ésimo pior dos \emph{janela} retornos que terminam ontem, dia a dia.
 
     O valor em \emph{t} usa \emph{t-janela} a \emph{t-1} e nada depois: a barra é erguida
     antes de o dia acontecer. Os primeiros \emph{janela} dias ficam sem corte, e é isso que
     o \texttt{NaN} declara — quem consome precisa respeitar esse vazio em vez de tratá-lo
     como zero.
+
+    Esta é a forma crua, com o posto \emph{k} na mão. A cauda é uma maneira de escolher
+    \emph{k}; o orçamento de erro (\texttt{orcamento.py}) é outra, e é por isso que o posto
+    fica separado aqui da regra que o escolhe: \emph{k} é a decisão, \emph{n} é a memória.
     """
-    k = posto(janela, cauda)
+    if janela < 2:
+        raise ValueError("a janela precisa de pelo menos dois dias")
+    if not 1 <= k <= janela:
+        raise ValueError("o posto precisa estar entre 1 e a janela (%d)" % janela)
     valores = np.asarray(retornos, dtype=float)
     saida = np.full(valores.size, np.nan)
     if valores.size > janela:
@@ -66,17 +74,27 @@ def corte(retornos: pd.Series, janela: int, cauda: float = CAUDA_PADRAO) -> pd.S
     return pd.Series(saida, index=retornos.index, name="corte")
 
 
-def violacoes(retornos: pd.Series, janela: int, cauda: float = CAUDA_PADRAO) -> pd.Series:
-    r"""Onde o dia ficou abaixo do corte, \emph{só} nos dias em que o corte existe.
+def violacoes_no_posto(retornos: pd.Series, janela: int, k: int) -> pd.Series:
+    r"""Onde o dia ficou abaixo do \emph{k}-ésimo pior da janela, só onde o corte existe.
 
     A série devolvida tem exatamente \texttt{len(retornos) - janela} entradas: os dias de
     graça não entram, porque um dia em que não havia barra não é um dia em que a barra
     resistiu.
     """
-    linha = corte(retornos, janela, cauda).to_numpy()
+    linha = corte_no_posto(retornos, janela, k).to_numpy()
     existe = ~np.isnan(linha)
     abaixo = np.asarray(retornos, dtype=float) < linha
     return pd.Series(abaixo[existe], index=retornos.index[existe], name="violacao")
+
+
+def corte(retornos: pd.Series, janela: int, cauda: float = CAUDA_PADRAO) -> pd.Series:
+    r"""O corte por cauda: o \emph{posto} que a cauda escolhe, na janela declarada."""
+    return corte_no_posto(retornos, janela, posto(janela, cauda))
+
+
+def violacoes(retornos: pd.Series, janela: int, cauda: float = CAUDA_PADRAO) -> pd.Series:
+    r"""As violações por cauda: a taxa anunciada escolhendo o posto."""
+    return violacoes_no_posto(retornos, janela, posto(janela, cauda))
 
 
 def entrega_do_corte(janela: int, cauda: float = CAUDA_PADRAO) -> float:
@@ -111,21 +129,17 @@ def episodios_acima(contagem: pd.Series, limite: float) -> list:
     vezes o mundo passou do teto — e o número que sai disso costuma ser maior do que a
     memória sugere, porque nem toda vez que o mundo muda tem nome de crise.
     """
-    episodios = []
-    inicio, pico, anterior = None, 0.0, None
-    for rotulo, valor in contagem.items():
-        if float(valor) > limite:
-            if inicio is None:
-                inicio, pico = rotulo, float(valor)
-            else:
-                pico = max(pico, float(valor))
-        elif inicio is not None:
-            episodios.append({"inicio": inicio, "fim": anterior, "pico": pico})
-            inicio, pico = None, 0.0
-        anterior = rotulo
-    if inicio is not None:
-        episodios.append({"inicio": inicio, "fim": anterior, "pico": pico})
-    return episodios
+    valores = contagem.to_numpy(dtype=float)
+    acima = valores > limite
+    if not acima.any():
+        return []
+    # um episódio começa onde o bloco entra acima do limite e termina onde ele sai: blocos
+    # móveis consecutivos são o mesmo acontecimento, não vários.
+    comeca = np.flatnonzero(acima & ~np.concatenate(([False], acima[:-1])))
+    termina = np.flatnonzero(acima & ~np.concatenate((acima[1:], [False])))
+    return [{"inicio": contagem.index[i], "fim": contagem.index[f],
+             "pico": float(valores[i:f + 1].max())}
+            for i, f in zip(comeca, termina)]
 
 
 def entrega(retornos: pd.Series, janela: int, cauda: float = CAUDA_PADRAO,
