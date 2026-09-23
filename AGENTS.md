@@ -246,7 +246,10 @@ apoia. A contagem tem ferramenta no laboratório: `lab/estilo.py` mede as cinco 
 por capítulo — palavras por frase, fração de frases de até cinco palavras, a definição por
 negação, a antítese, o epigrama de fecho, a palavra condutora e o meta-comentário — e **nada
 nela reprova nada**: o que reprova é a leitura, e o que a leitura precisa é de número para saber
-onde olhar. O que a humanização **não** é: licença para inventar número, encurtar prova ou trocar
+onde olhar. O **catálogo português de clichês mora no próprio medidor**, e não no plugin do
+ambiente: as sete classes que a ferramenta usa --- abertura vazia, clichê, hesitação, transição de
+molde, fecho de resumo, paralelismo mecânico e explicação em excesso --- escritas em português e
+versionadas junto com o livro. O que a humanização **não** é: licença para inventar número, encurtar prova ou trocar
 fonte.
 
 ## 10. O arquivo: `.old` é pedreira, não roteiro
@@ -368,4 +371,12 @@ Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções 
   `aiScore 0` porque o catálogo é de padrões em inglês e chinês) — e a seção 11 ganhou o passo 5, entre fechar o arco e
   conferir. A decisão de voz já estava registrada; o que faltava era o lugar no ciclo e o que medir antes de cortar.
   Corrigido de passagem: a seção 9 dizia "dois" portões e listava três.
+- **2026-09-23.** **O catálogo português de clichês entrou no medidor**, e não no plugin do ambiente: `lab/estilo.py`
+  passou a contar também as sete classes de clichê que a ferramenta automática usa, escritas em português. O lugar é o
+  repositório por dois motivos — o plugin vive fora dele e morreria no próximo `pnpm install`, e o contrato diz que os
+  artefatos são quatro. A primeira rodada sobre os quatro capítulos deu **uma** ocorrência ("isto é," definindo a
+  promessa, no capítulo 1) e dois falsos positivos, os dois cortados no ajuste: *alavanca* é a física que o capítulo 2
+  usa no sentido próprio, não o jargão *alavancar*, e *vale dizer* é português legítimo quando é ganho, ao contrário
+  do molde *vale notar*. Clichê e marca são coisas diferentes: um texto pode não ter clichê nenhum e ainda assim soar
+  de máquina — foi o caso do capítulo 1, cujo problema era estrutura, não palavra gasta.
 - **2026-09-23.** O teste de **propriedade** (hypothesis) fica adiado até existir a primeira função que sorteia: dependência nova se justifica com uso, não com antecipação. O `auto_teste()` continua como porteiro barato dentro do `--check`.
