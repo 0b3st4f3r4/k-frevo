@@ -32,7 +32,7 @@ POSTO_PADRAO = 13
 BLOCO_PADRAO = 60
 
 __all__ = ["TAXA_PADRAO", "JANELA_PADRAO", "POSTO_PADRAO", "BLOCO_PADRAO", "estatisticas",
-           "mistura", "persistente", "persistente_heterogeneo", "cabem"]
+           "mistura", "persistente", "persistente_heterogeneo", "serve_a_todos", "cabem"]
 
 
 def estatisticas(valores, janela: int = JANELA_PADRAO, posto: int = POSTO_PADRAO,
@@ -134,6 +134,32 @@ def persistente_heterogeneo(n: int, rng: np.random.Generator, sigma: float, p: f
         else:
             estado[i] = estado[i - 1]
     return rng.normal(0.0, np.where(estado, agitada, calma))
+
+
+def serve_a_todos(mercados: dict, grade_p, grade_razao, grade_permanencia, tolerancia: dict,
+                  chaves, semente: int = 211) -> list:
+    r"""Os triplos que servem a \emph{todos} os mercados ao mesmo tempo.
+
+    A lei é compartilhada e a escala é de cada mercado — cada série é gerada com o seu próprio
+    desvio, e o mecanismo é o mesmo. É o teste da pergunta A4: se observar mais mundos basta para
+    identificar um mecanismo comum, é aqui que o conjunto de triplos sobreviventes aparece; se
+    ele fica vazio, os mundos discordam do mecanismo e não só do tamanho.
+    """
+    servem = []
+    for p_ in grade_p:
+        for razao in grade_razao:
+            for permanencia in grade_permanencia:
+                ok = True
+                for m in mercados.values():
+                    sorteio = np.random.default_rng(semente)
+                    e = estatisticas(persistente(len(m["x"]), sorteio, m["sigma"], p_, razao,
+                                                 permanencia))
+                    if not all(abs(e[k] - m["real"][k]) <= tolerancia[k] for k in chaves):
+                        ok = False
+                        break
+                if ok:
+                    servem.append((p_, razao, permanencia))
+    return servem
 
 
 def cabem(candidatos: list, real: dict, tolerancia: dict, chaves) -> list:
