@@ -36,8 +36,7 @@ e o calendário não muda.
 
 \section{O tamanho do calendário}
 
-O domingo consome \numCalendarioDomingoPct\% menos que o dia médio, e essa não é a anomalia de
-uma semana: é o perfil de todas as semanas dos cinco anos. Vale medir o tamanho desse perfil
+O domingo consome \numCalendarioDomingoPct\% menos que o dia médio, e o padrão se repete em todas as semanas dos cinco anos. Vale medir o tamanho desse perfil
 em cada série, porque é ele que decide se o calendário atrapalha o vigia. A medida é a
 distância entre o dia mais cheio e o mais vazio da semana, contada em desvios-padrão do dia.
 
@@ -87,9 +86,7 @@ começou a falar de consumo em vez de falar de calendário.
 
 \section{A partição divide a memória}
 
-O preço aparece na conta do capítulo anterior, lida célula por célula. A janela de
-\numCalendarioJanela{} dias já não dá \numCalendarioJanela{} dias de memória a cada decisão:
-repartida por $C$ células, cada uma recebe $n/C$ dias, e o alarme mais raro que uma célula
+O preço aparece na conta do capítulo anterior, lida célula por célula. Repartida por $C$ células, a janela de \numCalendarioJanela{} dias deixa de ser memória inteira de cada decisão: cada célula recebe $n/C$ dias, e o alarme mais raro que uma célula
 consegue declarar é $1/(n/C + 1)$. Somando as sete células da semana, o orçamento mais fino
 que a leitura inteira consegue declarar é $C/(n+C)$ por dia --- e sete células tornam o alarme
 quase sete vezes mais frequente do que a leitura crua.
@@ -180,21 +177,16 @@ encontrado em troca: gastou-se um fator de quatro em falso alarme para descobrir
 não é domingo no mercado.
 
 A decisão fica então com a \cref{tab:perfil}. Onde a semana desenha mais de um desvio-padrão,
-ler o calendário é obrigatório --- a alternativa é um vigia que relata o relógio. Onde desenha
-\numCalendarioAmplitudeIndice, é despesa. E o número que decide não é opinião sobre a série: é
-a amplitude do perfil dela, medida.
+ler o calendário é obrigatório --- a alternativa é um vigia que relata o relógio. Onde desenha \numCalendarioAmplitudeIndice, a partição é só despesa. E o número que decide é a amplitude do perfil da série, medida.
 
 \section{O que fica}
 
 Fica a \textbf{célula}: o calendário é uma partição declarada dos dias, e a regra do capítulo
-anterior vale dentro de cada parte, com a memória que sobra para ela. Fica também o preço, que
-é aritmético e não se contorna com calibração: $C$ células dividem a memória por $C$ e
-multiplicam o orçamento por $C$.
+anterior vale dentro de cada parte, com a memória que sobra para ela. Fica também o preço, que é aritmético: $C$ células dividem a memória por $C$ e multiplicam o orçamento por $C$, e nenhuma calibração muda essa conta.
 
 E fica o fracasso seguinte, que este capítulo tornou visível sem resolver. A partição em
 células supõe que se saiba, de antemão, por onde partir os dias --- e o calendário é o caso
-fácil, porque a célula está escrita no relógio. Existe uma partição que não está escrita em
-lugar nenhum: duas séries que mudam de dependência entre si, sem que nenhuma das duas mude de
+fácil, porque a célula está escrita no relógio. Existe uma partição que ninguém escreveu no relógio: duas séries que mudam de dependência entre si, sem que nenhuma das duas mude de
 tamanho. Cada uma continua com exatamente os mesmos números, no mesmo dia da semana, e o
 par delas muda tudo o que se pode perder junto. Nenhuma célula deste capítulo vê isso, e
 nenhum vigia de margem também.
