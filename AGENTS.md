@@ -315,4 +315,22 @@ Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções 
   e o `--check` continuou limpo. `conferir_rotulos` varre o livro e falha; foi conferido contra o defeito, forjando o
   rótulo repetido de propósito e restaurando depois.
 
+- **2026-09-23.** Capítulo 3 escrito: **O dia da semana**. O fracasso que o abre, medido: levado à carga elétrica
+  diária da Dinamarca no mesmo orçamento de um alarme por ano, o vigia do capítulo 2 dispara 21 vezes — 4,2 por ano
+  contra o 1 declarado — e **todos** os alarmes caem em fim de semana (oito sábados, treze domingos, nenhuma sexta).
+  O princípio: o calendário é uma partição declarada dos dias em células, e o corte se ergue dentro da célula; com uma
+  célula só a leitura É o vigia do capítulo anterior, alarme por alarme. O preço é aritmético: $C$ células dividem a
+  memória por $C$ e o orçamento mais fino passa de $1/(n+1)$ para $C/(n+C)$ — medido, de 4,2 alarmes por ano para 13,6
+  (semana), 42,0 (semana × estação) e 80,4 (semana × mês). O controle: no índice americano, onde o perfil semanal vale
+  0,04216 desvios contra 1,472 da carga, a mesma partição só custa (de 1,24 para 5,10 alarmes por ano).
+- **2026-09-23.** `frevolab.calendario` é o módulo da forma que o relógio desenha: as partições (dia da semana, dia ×
+  estação, dia × mês), o perfil, a amplitude em desvios-padrão, o orçamento por célula e o vigia por célula. O teste
+  de propriedade que o ancora é uma identidade: com `calendario.unica` o vigia por célula devolve exatamente o vigia do
+  capítulo 2, alarme por alarme. O defeito que o módulo torna impossível é comparar um domingo com sábados e segundas.
+- **2026-09-23.** O dado da carga diária (`opsd_carga_diaria.csv`, cinco praças europeias, 2015–2019) entrou no
+  laboratório como sistema: era dado que estava no repositório desde o recomeço e nunca havia sido medido.
+- **2026-09-23.** Piso declarado e medição divergem nos dois sentidos, e o capítulo 3 declara isso em vez de esconder:
+  a medição fica **acima** do piso quando a célula ainda tem estrutura dentro (domingos de janeiro contra domingos de
+  julho, 42,0 contra 36,5) e **abaixo** quando os dias da célula se parecem demais entre si (o inverno puxa o inverno,
+  os alarmes se agrupam, e a janela de mil dias fica em zero contra o piso de 2,54).
 - **2026-09-23.** O teste de **propriedade** (hypothesis) fica adiado até existir a primeira função que sorteia: dependência nova se justifica com uso, não com antecipação. O `auto_teste()` continua como porteiro barato dentro do `--check`.

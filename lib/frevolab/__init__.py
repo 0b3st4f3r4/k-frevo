@@ -14,7 +14,7 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 """
 from importlib.metadata import PackageNotFoundError, version
 
-from . import dados, graficos, mudanca, promessa, vigia, volatilidade
+from . import calendario, dados, graficos, mudanca, promessa, vigia, volatilidade
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -24,8 +24,8 @@ try:
 except PackageNotFoundError:
     VERSAO = "0.1.0"
 
-__all__ = ["dados", "graficos", "mudanca", "promessa", "vigia", "volatilidade",
-           "VERSAO", "auto_teste"]
+__all__ = ["calendario", "dados", "graficos", "mudanca", "promessa", "vigia",
+           "volatilidade", "VERSAO", "auto_teste"]
 
 
 def auto_teste() -> list:
@@ -228,6 +228,42 @@ def auto_teste() -> list:
     if not np.allclose(mudanca.deriva(3000, np.random.default_rng(41), passo=-0.001, quando=1000),
                        deslocado):
         problemas.append("a deriva não desloca a média no passo declarado")
+
+    # --- o calendário (calendario.py) ---
+
+    # com uma célula só, o vigia por célula É o vigia do capítulo anterior, alarme por alarme
+    serie_cal = pd.Series(rng.normal(0.0, 0.01, 1500),
+                          index=pd.date_range("2015-01-01", periods=1500, freq="D"))
+    por_celula = calendario.vigia_por_celula(serie_cal, 252, calendario.unica)
+    do_capitulo = vigia.dispara(serie_cal, 252, vigia.orcamento_minimo(252))
+    if not (por_celula.index.equals(do_capitulo.index)
+            and bool((por_celula.to_numpy() == do_capitulo.to_numpy()).all())):
+        problemas.append("o vigia por célula não coincide com o vigia do capítulo anterior")
+
+    # uma célula só não desenha calendário nenhum
+    if calendario.amplitude(serie_cal, calendario.unica) != 0.0:
+        problemas.append("amplitude com célula única deveria ser zero")
+
+    # o orçamento por célula é o orçamento mínimo do capítulo anterior, com a memória dividida
+    if abs(calendario.orcamento_por_celula(252, 1) - vigia.orcamento_minimo(252)) > 1e-15:
+        problemas.append("orçamento por célula com uma célula não é o orçamento mínimo")
+    if abs(calendario.orcamento_por_celula(252, 7) - 7 / 259) > 1e-15:
+        problemas.append("orçamento por célula errado com sete células")
+
+    # o que o calendário faz, medido num mundo de sete níveis: o vigia cru gasta os alarmes
+    # no dia mais baixo da semana, e o vigia que lê o calendário não
+    niveis = np.tile(np.arange(7, dtype=float) * 100.0, 300) + rng.normal(0.0, 1.0, 2100)
+    com_calendario = pd.Series(niveis, index=pd.date_range("2015-01-05", periods=2100, freq="D"))
+    cru = calendario.vigia_por_celula(com_calendario, 252, calendario.unica)
+    semanal = calendario.vigia_por_celula(com_calendario, 252, calendario.semana)
+    if cru.sum() == 0:
+        problemas.append("o vigia cru não alarmou num mundo com sete níveis semanais")
+    elif bool((cru.index[cru.to_numpy()].dayofweek != 0).any()):
+        problemas.append("o vigia cru alarmou fora do dia mais baixo do calendário")
+    if semanal.sum() == 0:
+        problemas.append("o vigia que lê o calendário não alarmou no mundo de sete níveis")
+    elif float((semanal.index[semanal.to_numpy()].dayofweek == 0).mean()) > 0.6:
+        problemas.append("o vigia que lê o calendário continua preso a um dia da semana")
 
     # o salvamento grava os dois formatos
     import tempfile
