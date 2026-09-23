@@ -193,6 +193,26 @@ def conferir_numeros(avisos: list, falhas: list) -> None:
         avisos.append("medido e não citado: \\%s" % nome)
 
 
+def conferir_rotulos(falhas: list) -> None:
+    r"""Rótulo repetido quebra a referência sem quebrar a compilação, e é por isso que ele é portão.
+
+    Com \texttt{\textbackslash label\{fig:formas\}} em dois lugares, o \texttt{\textbackslash cref} aponta para o
+    último e o leitor é mandado para a figura errada. Nada falha: o log escreve "multiply
+    defined", o PDF sai, e o portão de compilação --- que olha erro e referência indefinida ---
+    não vê nada. Aconteceu de verdade: duas figuras de formas no mesmo capítulo, uma delas
+    acrescentada depois, e só o log sabia.
+    """
+    vistos = {}
+    for caminho in arquivos_do_livro():
+        for n, linha in enumerate(caminho.read_text(encoding="utf-8").splitlines(), start=1):
+            for rotulo in re.findall(r"\\label\{([^}]*)\}", linha):
+                onde = "%s:%d" % (caminho.relative_to(LIVRO).as_posix(), n)
+                if rotulo in vistos:
+                    falhas.append("rótulo repetido: %s em %s e em %s"
+                                  % (rotulo, vistos[rotulo], onde))
+                vistos[rotulo] = onde
+
+
 def conferir_figuras(avisos: list, falhas: list) -> None:
     citadas = set()
     for caminho in arquivos_do_livro():
@@ -321,6 +341,7 @@ def check() -> int:
     conferir_frescor(falhas)
     conferir_numeros(avisos, falhas)
     conferir_figuras(avisos, falhas)
+    conferir_rotulos(falhas)
     conferir_digitos(avisos)
     conferir_cadernos_sem_algoritmo(avisos)
     conferir_perguntas(falhas)

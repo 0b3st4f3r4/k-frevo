@@ -310,4 +310,9 @@ Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções 
   sistema o kernel não encontra `frevolab` e o caderno quebra com `ModuleNotFoundError`, defeito que custou uma
   execução perdida para ser descoberto.
 
+- **2026-09-23.** **Rótulo repetido virou portão**, e não aviso de log. Duas figuras de formas no mesmo capítulo
+  dividiram `fig:formas`: o `\cref` passou a apontar para a última, o log escreveu "multiply defined", o PDF saiu
+  e o `--check` continuou limpo. `conferir_rotulos` varre o livro e falha; foi conferido contra o defeito, forjando o
+  rótulo repetido de propósito e restaurando depois.
+
 - **2026-09-23.** O teste de **propriedade** (hypothesis) fica adiado até existir a primeira função que sorteia: dependência nova se justifica com uso, não com antecipação. O `auto_teste()` continua como porteiro barato dentro do `--check`.
