@@ -333,4 +333,13 @@ Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções 
   a medição fica **acima** do piso quando a célula ainda tem estrutura dentro (domingos de janeiro contra domingos de
   julho, 42,0 contra 36,5) e **abaixo** quando os dias da célula se parecem demais entre si (o inverno puxa o inverno,
   os alarmes se agrupam, e a janela de mil dias fica em zero contra o piso de 2,54).
+- **2026-09-23.** **O laboratório exporta o que o livro cita.** Os cadernos `E03_formas` e `E04_calendario` passaram
+  a filtrar o dicionário de resultados por uma lista explícita de chaves citadas: medida que o livro não usa é medida
+  morta, e os 22 avisos de 'medido e não citado' viraram zero (154 grandezas exportadas contra 172). Parâmetro de
+  experimento — número de casos, limiar, país, duração — não é medição e não sai do caderno.
+- **2026-09-23.** **Comando órfão virou portão.** Montar LaTeX num idioma que interpreta `\n` come a barra de
+  `\num...` e deixa o nome do comando impresso no papel: o PDF sai, o log fica limpo, a compilação passa e o `--check`
+  também — o defeito apareceu três vezes nesta árvore, a última deixando `umCalendarioSemanaDiasPorCelula{}` no meio de
+  uma frase impressa. `conferir_comandos_orfaos` procura nome com maiúscula no meio, seguido de chaves e sem barra
+  antes, e falha; conferido contra o defeito forjado de propósito.
 - **2026-09-23.** O teste de **propriedade** (hypothesis) fica adiado até existir a primeira função que sorteia: dependência nova se justifica com uso, não com antecipação. O `auto_teste()` continua como porteiro barato dentro do `--check`.

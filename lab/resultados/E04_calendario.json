@@ -5,7 +5,6 @@
  "calendario_amplitude_fr": 0.780160441932167,
  "calendario_amplitude_indice": 0.04215529599760677,
  "calendario_amplitude_pl": 1.9913852280106232,
- "calendario_anos": 4.999315537303217,
  "calendario_cru_alarmes": 21,
  "calendario_cru_alarmes_ano": 4.200575027382256,
  "calendario_cru_domingo": 13,
@@ -22,7 +21,6 @@
  "calendario_janela": 252,
  "calendario_mes_alarmes_ano": 80.41100766703175,
  "calendario_mes_piso_ano": 91.3125,
- "calendario_pais": "DK_load",
  "calendario_quatro_anos_alarmes_ano": 0.0,
  "calendario_quatro_anos_piso_ano": 2.538977159880834,
  "calendario_semana_alarmes_ano": 13.601861993428258,
@@ -33,7 +31,5 @@
  "calendario_serie_fim": "31 de dezembro de 2019",
  "calendario_serie_inicio": "1 de janeiro de 2015",
  "calendario_trimestre_alarmes_ano": 42.005750273822564,
- "calendario_trimestre_piso_ano": 36.525,
- "calendario_um_ano_alarmes_ano": 13.601861993428258,
- "calendario_um_ano_piso_ano": 9.871621621621623
+ "calendario_trimestre_piso_ano": 36.525
 }

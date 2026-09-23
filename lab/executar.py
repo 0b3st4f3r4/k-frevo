@@ -193,6 +193,24 @@ def conferir_numeros(avisos: list, falhas: list) -> None:
         avisos.append("medido e não citado: \\%s" % nome)
 
 
+def conferir_comandos_orfaos(falhas: list) -> None:
+    r"""Nome de comando sem a barra vira texto no papel, e ninguém reclama.
+
+    O defeito nasce fora do LaTeX: quem monta o texto num idioma que interpreta \texttt{\textbackslash n}
+    escreve \texttt{\textbackslash numAlgumaCoisa} e a barra some, deixando \texttt{umAlgumaCoisa} no lugar.
+    O PDF sai, o log fica limpo, o portão da compilação passa e a frase impressa mostra o nome
+    do comando em vez do número. Aconteceu três vezes nesta árvore, e a única linha de defesa
+    que funcionou foi ler o texto depois de compilar. Esta conferência faz isso antes: nome com
+    maiúscula no meio, seguido de chaves e sem barra antes, é comando órfão.
+    """
+    padrao = re.compile(r"(?<!\\)\b[a-z]+[A-Z][A-Za-z]*\{\}")
+    for caminho in arquivos_do_livro():
+        for n, linha in enumerate(caminho.read_text(encoding="utf-8").splitlines(), start=1):
+            for achado in padrao.findall(linha):
+                falhas.append("comando órfão, sem a barra, em %s:%d — %s"
+                              % (caminho.relative_to(LIVRO).as_posix(), n, achado))
+
+
 def conferir_rotulos(falhas: list) -> None:
     r"""Rótulo repetido quebra a referência sem quebrar a compilação, e é por isso que ele é portão.
 
@@ -342,6 +360,7 @@ def check() -> int:
     conferir_numeros(avisos, falhas)
     conferir_figuras(avisos, falhas)
     conferir_rotulos(falhas)
+    conferir_comandos_orfaos(falhas)
     conferir_digitos(avisos)
     conferir_cadernos_sem_algoritmo(avisos)
     conferir_perguntas(falhas)
