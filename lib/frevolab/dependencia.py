@@ -24,7 +24,7 @@ import pandas as pd
 
 from . import promessa
 
-__all__ = ["rompimentos", "pareado", "juntos", "carteira", "perda_media"]
+__all__ = ["rompimentos", "pareado", "juntos", "bloco_conjunto", "carteira", "perda_media"]
 
 
 def rompimentos(serie: pd.Series, janela: int = 252, cauda: float = promessa.CAUDA_PADRAO) -> pd.Series:
@@ -75,6 +75,21 @@ def juntos(rompe_a: pd.Series, rompe_b: pd.Series) -> dict:
         "excesso": float(taxa_juntos / esperado) if esperado > 0 else float("nan"),
         "acompanhados": float((a & b).sum() / a.sum()) if a.sum() else float("nan"),
     }
+
+
+def bloco_conjunto(retornos_a: pd.Series, retornos_b: pd.Series, janela: int = 252,
+                   cauda: float = promessa.CAUDA_PADRAO, bloco: int = 60) -> pd.Series:
+    r"""Quantos dias os dois romperam o proprio corte, contados em blocos moveis.
+
+    E o instrumento da dependencia: a margem de cada perna nao se mexe quando o par muda, mas a
+    contagem conjunta se mexe. O bloco existe pelo mesmo motivo do capitulo 2 --- o que o mundo
+    faz aparece na forma com que os dias ruins chegam, e nao na media.
+    """
+    a = rompimentos(retornos_a, janela, cauda)
+    b = rompimentos(retornos_b, janela, cauda)
+    comuns = a.index.intersection(b.index)
+    juntos = a.loc[comuns].astype(float) * b.loc[comuns].astype(float)
+    return promessa.conta_em_blocos(juntos, bloco)
 
 
 def carteira(retornos_a: pd.Series, retornos_b: pd.Series, peso: float = 0.5) -> pd.Series:

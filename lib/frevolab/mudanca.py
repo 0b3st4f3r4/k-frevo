@@ -34,7 +34,27 @@ DIAS_DE_RAMPA = 250        # quantos dias a rampa leva para chegar ao fator
 PASSO_PADRAO = -0.0005     # o deslocamento diário da média, em unidades de retorno
 
 __all__ = ["SIGMA_PADRAO", "FATOR_PADRAO", "QUANDO_PADRAO", "DIAS_DE_RAMPA",
-           "PASSO_PADRAO", "estavel", "degrau", "rampa", "deriva"]
+           "PASSO_PADRAO", "estavel", "degrau", "rampa", "deriva", "dependencia"]
+
+
+def dependencia(n: int, rng: np.random.Generator, sigma: float = SIGMA_PADRAO,
+                rho_antes: float = 0.2, rho_depois: float = 0.8,
+                quando: int = QUANDO_PADRAO) -> tuple:
+    r"""Duas series em que **só o par** muda: cada margem e identica do comeco ao fim.
+
+    A quarta forma, e a unica que nao aparece em serie nenhuma. As duas pernas saem da mesma lei
+    e com o mesmo tamanho; o que muda no dia da mudanca e a correlacao entre elas. Nenhum
+    instrumento que leia uma perna por vez tem o que ver --- nao ha nada para ver ---, e e por
+    isso que a mudanca precisa de um instrumento que leia as duas ao mesmo tempo.
+    """
+    _confere(n, quando)
+    for rho in (rho_antes, rho_depois):
+        if not -1.0 < rho < 1.0:
+            raise ValueError("as correlacoes precisam estar entre -1 e 1")
+    z = rng.normal(0.0, 1.0, (n, 2))
+    rho = np.where(np.arange(n) < quando, rho_antes, rho_depois)
+    z[:, 1] = rho * z[:, 0] + np.sqrt(1.0 - rho * rho) * z[:, 1]
+    return sigma * z[:, 0], sigma * z[:, 1]
 
 
 def _confere(n: int, quando: int) -> None:

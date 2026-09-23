@@ -1,0 +1,22 @@
+{
+ "f1_conjunto_antes": 0.4148471615720524,
+ "f1_conjunto_depois": 1.564773886433186,
+ "f1_controle_alarmou_pct": 10.0,
+ "f1_dias": 6000,
+ "f1_limiar_cinco_nao_viu": 20,
+ "f1_limiar_dois_anos": 17.038035339922132,
+ "f1_limiar_dois_latencia": 354.5,
+ "f1_limiar_quatro_latencia": 907.0,
+ "f1_limiar_quatro_nao_viu": 3,
+ "f1_limiar_seis_nao_viu": 34,
+ "f1_limiar_tres_anos": 150.50264550264552,
+ "f1_limiar_tres_latencia": 524.0,
+ "f1_quando": 3000,
+ "f1_rho_antes": 0.2,
+ "f1_rho_depois": 0.8,
+ "f1_sementes": 40,
+ "f1_taxa_a_antes": 0.05276564774381368,
+ "f1_taxa_a_depois": 0.052333333333333336,
+ "f1_taxa_b_antes": 0.05203784570596798,
+ "f1_taxa_b_depois": 0.051333333333333335
+}
