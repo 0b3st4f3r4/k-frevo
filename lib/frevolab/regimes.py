@@ -32,7 +32,7 @@ POSTO_PADRAO = 13
 BLOCO_PADRAO = 60
 
 __all__ = ["TAXA_PADRAO", "JANELA_PADRAO", "POSTO_PADRAO", "BLOCO_PADRAO", "estatisticas",
-           "mistura", "persistente", "cabem"]
+           "mistura", "persistente", "persistente_heterogeneo", "cabem"]
 
 
 def estatisticas(valores, janela: int = JANELA_PADRAO, posto: int = POSTO_PADRAO,
@@ -97,6 +97,42 @@ def persistente(n: int, rng: np.random.Generator, sigma: float, p: float, razao:
     for i in range(1, n):
         troca = sai_do_agitado if estado[i - 1] else sai_do_calmo
         estado[i] = (not estado[i - 1]) if rng.random() < troca else estado[i - 1]
+    return rng.normal(0.0, np.where(estado, agitada, calma))
+
+
+def persistente_heterogeneo(n: int, rng: np.random.Generator, sigma: float, p: float,
+                            razao: float, curta: float, longa: float,
+                            fracao_curta: float) -> np.ndarray:
+    r"""Como \texttt{persistente}, mas a duração do episódio agitado não é uma só.
+
+    Cada episódio sorteia a sua duração média entre uma curta e uma longa. A marginal não muda
+    --- a fração agitada é a mesma ---, e o que muda é a forma do agrupamento: episódios de
+    tamanhos diferentes convivem, e é isso que permite o pior bloco **e** o excesso de blocos
+    cheios serem altos ao mesmo tempo. Na família de duração única os dois são substitutos.
+    """
+    if curta < 1.0 or longa < curta:
+        raise ValueError("as duracoes precisam ser >= 1 e a longa >= a curta")
+    if not 0.0 <= fracao_curta <= 1.0:
+        raise ValueError("a fracao de episodios curtos precisa estar entre 0 e 1")
+    calma = sigma / np.sqrt(1.0 + p * (razao ** 2 - 1.0))
+    agitada = calma * razao
+    dura_calma = (fracao_curta * curta + (1.0 - fracao_curta) * longa) * (1.0 - p) / p
+    estado = np.empty(n, dtype=bool)
+    duracao = float(longa)
+    estado[0] = rng.random() < p
+    if estado[0]:
+        duracao = curta if rng.random() < fracao_curta else longa
+    for i in range(1, n):
+        if estado[i - 1]:
+            troca = 1.0 / duracao
+        else:
+            troca = 1.0 / dura_calma
+        if rng.random() < troca:
+            estado[i] = not estado[i - 1]
+            if estado[i]:
+                duracao = curta if rng.random() < fracao_curta else longa
+        else:
+            estado[i] = estado[i - 1]
     return rng.normal(0.0, np.where(estado, agitada, calma))
 
 

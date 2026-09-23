@@ -379,4 +379,19 @@ Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções 
   usa no sentido próprio, não o jargão *alavancar*, e *vale dizer* é português legítimo quando é ganho, ao contrário
   do molde *vale notar*. Clichê e marca são coisas diferentes: um texto pode não ter clichê nenhum e ainda assim soar
   de máquina — foi o caso do capítulo 1, cujo problema era estrutura, não palavra gasta.
+- **2026-09-23.** **A volta 4 medida por eliminação (A4).** Três mercados — S&P 500, Ibovespa e Bitcoin — submetidos à mesma
+  família de explicações do capítulo 6 (duas leis, com persistência e com duração de episódio heterogênea), exigindo as quatro
+  estatísticas. O resultado separa o que concorda do que discorda: as **marginais concordam** (taxa 0,0513, 0,0509 e 0,0520;
+  mediana dos blocos 2, 2 e 3) e o **agrupamento discorda**. A interseção das explicações que sobrevivem é vazia nas duas
+  grades (0 de 125 e 0 de 280), com a lei compartilhada e a escala de cada mercado própria; o gargalo é o pior bloco,
+  satisfeito pelos três simultaneamente em 3 triplos de 280; Ibovespa e Bitcoin concordam em torno de permanência de 25 dias
+  (45% e 30% de acerto, replicados em quarenta sementes por célula) e o S&P fica em 8% — e enriquecer a duração dos
+  episódios **piora** em vez de melhorar (0 a 5%). Resposta provisória: ver mundos **não** basta para identificar mecanismo
+  comum. Porta declarada aberta, e é o único caminho que mantém o refutador de A4 vivo: uma família mais rica — memória
+  longa além de troca de regimes, parâmetros que variam no tempo — ainda não foi testada.
+- **2026-09-23.** **Sem replicação, uma semente não é uma medição.** A varredura da família heterogênea foi feita primeiro
+  com uma semente por configuração, e a mesma configuração deu pior bloco de 15 a 19 em cinco sementes — variação maior que
+  qualquer diferença entre configurações. O veredito de hoje só existe porque a conta foi refeita com quarenta sementes por
+  célula, reportando mediana e dispersão. É o mesmo tratamento que os mundos que nunca mudam receberam nos capítulos 1 e 2, e
+  a regra vale para tudo o que vier: **toda medição sobre mundos sorteados reporta dispersão, ou não reporta nada**.
 - **2026-09-23.** O teste de **propriedade** (hypothesis) fica adiado até existir a primeira função que sorteia: dependência nova se justifica com uso, não com antecipação. O `auto_teste()` continua como porteiro barato dentro do `--check`.
