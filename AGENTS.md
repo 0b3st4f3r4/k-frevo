@@ -394,4 +394,9 @@ Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções 
   qualquer diferença entre configurações. O veredito de hoje só existe porque a conta foi refeita com quarenta sementes por
   célula, reportando mediana e dispersão. É o mesmo tratamento que os mundos que nunca mudam receberam nos capítulos 1 e 2, e
   a regra vale para tudo o que vier: **toda medição sobre mundos sorteados reporta dispersão, ou não reporta nada**.
+- **2026-09-23.** **A recusa de chave com dígito passou a olhar o nome gerado, e não o primeiro caractere de cada pedaço.** As chaves do `E09`
+  começavam com `f1_`, e a guarda aprovava porque cada pedaço começa com letra — mas o nome gerado era `\numF1Dias`, e o TeX lê isso como
+  `\numF` seguido do texto `1Dias`. O livro deixou de compilar, e o defeito só apareceu porque o commit foi feito **antes** da conferência: a
+  ordem certa é compilar e só depois commitar, e esta é a segunda vez que a inversão custou um commit quebrado. A guarda agora monta o nome e
+  exige que ele seja só letras.
 - **2026-09-23.** O teste de **propriedade** (hypothesis) fica adiado até existir a primeira função que sorteia: dependência nova se justifica com uso, não com antecipação. O `auto_teste()` continua como porteiro barato dentro do `--check`.

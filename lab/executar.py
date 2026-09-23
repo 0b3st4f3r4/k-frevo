@@ -103,8 +103,9 @@ def comando(nome: str) -> str:
     extenso ("troca_oito_anos"), e é isso que a recusa abaixo exige.
     """
     partes = [p for p in re.split(r"[^0-9A-Za-z]+", nome) if p]
-    if any(p[:1].isdigit() for p in partes):
-        raise ValueError("chave com dígito não vira comando LaTeX: %r — escreva o número por "
+    gerado = "num" + "".join(p[:1].upper() + p[1:] for p in partes)
+    if not gerado.isalpha():
+        raise ValueError("chave que vira %r não serve como comando LaTeX: o nome tem de ser "
                          "extenso (oito, nove, dois_mil_e_vinte)" % nome)
     return "\\num" + "".join(p[:1].upper() + p[1:] for p in partes)
 
