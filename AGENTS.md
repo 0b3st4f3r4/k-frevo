@@ -242,7 +242,11 @@ metáfora única conduzida pelo capítulo inteiro, o ritmo (palavras por frase e
 com cinco palavras ou menos) e o meta-comentário sobre o próprio livro. **A ferramenta automática
 não serve para o português:** o `humanize_scan` devolve `aiScore 0` porque o catálogo dele é de
 padrões em inglês e chinês; quem lê é o autor, e as contagens são a evidência em que ele se
-apoia. O que a humanização **não** é: licença para inventar número, encurtar prova ou trocar
+apoia. A contagem tem ferramenta no laboratório: `lab/estilo.py` mede as cinco marcas capítulo
+por capítulo — palavras por frase, fração de frases de até cinco palavras, a definição por
+negação, a antítese, o epigrama de fecho, a palavra condutora e o meta-comentário — e **nada
+nela reprova nada**: o que reprova é a leitura, e o que a leitura precisa é de número para saber
+onde olhar. O que a humanização **não** é: licença para inventar número, encurtar prova ou trocar
 fonte.
 
 ## 10. O arquivo: `.old` é pedreira, não roteiro
