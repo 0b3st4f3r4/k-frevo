@@ -20,7 +20,7 @@ mundos. Mais mercados, mais períodos, mais domínios --- e o que era indistingu
 separado pelo conjunto.
 
 A tentativa tem uma forma precisa, e vale escrevê-la: o mecanismo é o mesmo em toda parte, e cada
-mercado só tem a sua escala \cite{peters2016causal}. Se for assim, observar mais mundos identifica o mecanismo, e a
+mercado só tem a sua escala \cite{peters2016causal}\cite{scholkopf2021causal}.\cite{ghassami2017learning}\cite{li2025feature}\cite{scholkopf2021causalb} Se for assim, observar mais mundos identifica o mecanismo, e a
 intervenção deixa de ser necessária. Este capítulo mede se é assim, com \numObservarMercados{}
 mercados no lugar de um.
 
@@ -84,7 +84,7 @@ compartilhada: um único triplo de parâmetros governa os três, e cada mercado 
 escala.
 
 A grade grossa tem \numObservarCombinacoes{} triplos, e \numObservarGrossa{} deles servem aos três
-mercados. A grade fina tem \numObservarTriplosFinos, e \numObservarFina{} deles servem. As duas
+mercados. A grade fina tem \numObservarTriplosFinos, e \numObservarFina{} deles servem\cite{mey2024invariant}. As duas
 contas dão o mesmo vazio, e a segunda existe para que a conclusão não seja da malha: escolha de
 quem mede não pode decidir o resultado.
 
@@ -114,7 +114,7 @@ satisfeitas pelos três mercados ao mesmo tempo, no mesmo triplo de parâmetros?
 \end{table}
 
 A mediana é satisfeita por todos, e isso não é mérito: o valor dela é dois ou três em toda parte,
-e uma estatística grosseira não separa nada. A taxa vai longe, porque é a margem --- e a margem
+e uma estatística grosseira não separa nada\cite{pope2005analysis}. A taxa vai longe, porque é a margem --- e a margem
 concorda. O gargalo é o \textbf{pior bloco}: só \numObservarNosTresPior{} triplos de
 \numObservarTriplosFinos{} conseguem reproduzir, nos três mercados ao mesmo tempo, o agrupamento
 dos dias ruins.
@@ -159,12 +159,12 @@ dispersão. \textbf{Toda medição sobre mundos sorteados reporta dispersão, ou
 Fica a resposta, provisória e por eliminação. Acumular mundos não identificou um mecanismo
 comum. As marginais dos três mercados concordam --- a promessa do corte é cumprida
 três vezes, com a mesma conta e o mesmo número ---, e o agrupamento discorda, com o gargalo
-isolado na estatística que mede como os dias ruins se juntam. Com a lei compartilhada o vazio
+isolado na estatística que mede como os dias ruins se juntam\cite{bing2023invariance}. Com a lei compartilhada o vazio
 continua, nas duas malhas; enriquecendo a duração dos episódios, piora.
 
 A resposta é provisória porque uma porta fica declarada aberta, e fechá-la seria afirmar mais do
 que foi medido: uma família \textbf{mais rica} --- memória longa além de troca de regimes, parâmetros
-que variam no tempo \cite{palma2010efficient} --- ainda não foi testada, e é o único caminho que mantém vivo o refutador
+que variam no tempo \cite{palma2010efficient}\cite{dahlhaus2006nonparametric}\cite{palma2013estimation} --- ainda não foi testada, e é o único caminho que mantém vivo o refutador
 desta pergunta. O que está medido, e é o que o capítulo assina, é mais estreito e ainda assim
 forte: na família de mundos que se sabe construir, \textbf{ver mundos não basta}.
 
