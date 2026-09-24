@@ -292,157 +292,53 @@ Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções 
 - **2026-09-23.** `lab/executar.py` executa por hash da fonte das células de código, exige resultado gravado por caderno, amarra número e figura ao livro e confere as quatro partes das perguntas do contrato.
 - **2026-09-23.** **A biblioteca é artefato**: `lib/frevolab/` guarda todo algoritmo, com teste de propriedade (`auto_teste()`) e versão. O caderno deixa de implementar conta — ele chama a biblioteca e cuida do gráfico. A justificativa é testabilidade e reuso: algoritmo dentro de caderno não tem nem uma nem outra.
 - **2026-09-23.** O portão `lab/executar.py --check` passou a rodar o `auto_teste()` da biblioteca antes de tudo: se o algoritmo quebra, nada abaixo dele merece confiança.
-- **2026-09-23.** **Empacotamento**: `lib/frevolab` virou pacote instalado em modo editável (`uv pip install -e .`), com o mapa em `[tool.hatch.build.targets.wheel]` e `[build-system]` hatchling. Verificado aqui: o wheel constrói, instala, importa de fora do repositório e desinstalar devolve o venv ao estado anterior. Mantém-se o diretório `lib/` em vez do layout `src/` convencional.
+- **2026-09-23.** **Empacotamento**: `lib/frevolab` virou pacote instalado em modo editável (`uv pip install -e .`), com o mapa em `[tool.hatch.build.targets.wheel]` e `[build-system]` hatchling. Verificado aqui: o wheel constrói, instala, importa de fora do repositório e desinstalar devolve o venv ao estado anterior.
 - **2026-09-23.** **Quatro regras da biblioteca**, vindas da pesquisa de modularização: versão com fonte única (o pyproject), `rng` por parâmetro (SPEC 7 do ecossistema científico), `__all__` explícito por módulo, e módulo batizado por família de pergunta — nunca por tipo de código.
 - **2026-09-23.** O agente que escreve este livro tem nome: **Capiba**, gravado na seção 1. O nome não muda o que o contrato exige — muda o que ele endereça.
-- **2026-09-23.** Capítulo 1 escrito: **A medida, o corte e o preço**. O fracasso que o abre, medido: a linha posta no décimo terceiro pior dia dos últimos 252 pregões entrega 5,135% contra os 5% anunciados, e essa média **não distingue o mercado de um mundo que nunca muda**. O que o capítulo fixa como instrumento: declarar o corte, ler em bloco, varrer o corte.
-- **2026-09-23.** Os capítulos moram em **`livro/capitulos/`**, um arquivo por capítulo, nomeado pelo conceito. Consequência obrigatória: `lab/executar.py` e `lab/fontes.py` passaram a varrer `livro/` **recursivamente** — com número, figura e citação um nível abaixo, o glob de primeiro nível pararia de conferir sem avisar.
-- **2026-09-23.** O portão do dígito digitado distingue símbolo de grandeza: ignora argumento opcional, comando que nomeia arquivo (inclusive a chave de citação, que carrega o ano) e o corpo do modo matemático — mas segue cobrando o **decimal com vírgula** dentro da matemática, que é a forma de escrever grandeza medida aqui. Exceção legítima se declara na própria linha, com `numeros-ok`.
-- **2026-09-23.** `frevolab.promessa` é o módulo da família promessa × entrega: posto, corte, violações, entrega do corte, blocos e episódios. O defeito que ele torna impossível: os **dias de graça** — os primeiros `janela` dias, em que o corte não existe e a comparação com `NaN` devolve `False`, afundando a taxa sem avisar.
+- **2026-09-23.** Capítulo 1 escrito: **A medida, o corte e o preço**. O fracasso que o abre, medido: a linha posta no décimo terceiro pior dia dos últimos 252 pregões entrega 5,135% contra os 5% anunciados, e essa média **não distingue o mercado de um mundo que nunca muda**.
+- **2026-09-23.** Os capítulos moram em **`livro/capitulos/`**, um arquivo por capítulo, nomeado pelo conceito.
+- **2026-09-23.** O portão do dígito digitado distingue símbolo de grandeza: ignora argumento opcional, comando que nomeia arquivo (inclusive a chave de citação, que carrega o ano) e o corpo do modo matemático — mas segue cobrando o **decimal com vírgula** dentro da matemática, que é a forma de escrever grandeza medida aqui.
+- **2026-09-23.** `frevolab.promessa` é o módulo da família promessa × entrega: posto, corte, violações, entrega do corte, blocos e episódios.
 - **2026-09-23.** Grandeza com erro sai do gerador em modo texto, com o `\pm` em matemática própria: dentro de um `$...$` maior o valor vira "5, 139 ± 0, 1091" no papel, que não é como se escreve número em português.
-- **2026-09-23.** Capítulo 2 escrito: **O orçamento do alarme**. O fracasso que o abre, medido: o vigia do capítulo 1, ligado no limiar 13, soa uma vez a cada 3.632 anos de mundo parado e avisa do tombo de 2020 com 86% do prejuízo já pago. A troca é medida (baixar o limiar para 8 antecipa para 36% e paga com um falso alarme a cada 4 anos) e o atraso tem piso provado (um alarme que exige L violações não soa antes de L pregões). O que o capítulo fixa: **todo alarme é o par declarado** (frequência em mundo parado, atraso em mundo que muda).
+- **2026-09-23.** Capítulo 2 escrito: **O orçamento do alarme**. O fracasso que o abre, medido: o vigia do capítulo 1, ligado no limiar 13, soa uma vez a cada 3.632 anos de mundo parado e avisa do tombo de 2020 com 86% do prejuízo já pago.
 - **2026-09-23.** `frevolab.vigia` é o módulo da família do orçamento: alarmes, piso de atraso, teto independente, orçamento e prejuízo pago. O teto da `prop:teto` é provado e declarado frouxo (`5,879%` de teto contra `0,6%` medido); para limiares baixos a união passa de cem por cento e deixa de dizer qualquer coisa.
-- **2026-09-23.** O gerador de números **recusa chave com dígito**, e o motivo é do TeX: ele encerra o nome de um controle no primeiro caractere que não é letra, então `troca_t8_anos` virava `\numTrocaT` seguido do texto "8Anos" e o livro **deixava de compilar**. Número em chave vai por extenso (`troca_oito_anos`). O defeito custou um PDF inexistente para ser descoberto.
+- **2026-09-23.** O gerador de números **recusa chave com dígito**, e o motivo é do TeX: ele encerra o nome de um controle no primeiro caractere que não é letra, então `troca_t8_anos` virava `\numTrocaT` seguido do texto "8Anos" e o livro **deixava de compilar**. Número em chave vai por extenso (`troca_oito_anos`).
 - **2026-09-23.** A conferência de compilação olha o **PDF e o código de saída**, nunca só a ausência de avisos: `grep -c undefined` num log de uma execução que falhou devolve zero, e zero ali não é prova de nada.
 - **2026-09-23.** O portão do dígito digitado aprendeu mais duas faxinas: rótulo e referência (`\label`, `\cref`) nomeiam objeto, e a chave de citação carrega o ano — nenhum dos dois é número digitado.
-- **2026-09-23.** **Voz do livro reescrita.** O capítulo 1 foi reescrito, e o 2 já nasceu assim, numa voz sem os tiques
-  da primeira versão — medidos antes de corrigidos: a definição por negação ("não … : …", que aparecia uma vez a cada
-  dezenove frases do capítulo 1), o epigrama em itálico fechando seção, o meta-comentário sobre o próprio livro e o
-  ritmo curto e uniforme. No lugar entram ritmo alternado, caso concreto e data. É decisão de estilo, não de conteúdo:
-  nenhum número, prova, rótulo ou fonte mudou, e a reescrita saiu com os mesmos comandos de `numeros.tex` e as
-  mesmas figuras.
-- **2026-09-23.** **O capítulo 2 é uma fusão.** Duas sessões escreveram o capítulo ao mesmo tempo nesta árvore, com
-  desenhos diferentes, e o que ficou é um capítulo só, com as duas leituras do mesmo corte: **contar** as violações em
-  blocos e alarmar no limiar (orçamento sem forma fechada, medido com erro de contagem e limitado por cima pela
-  `prop:teto`) e **aprofundar** o corte e alarmar quando o próprio dia fica abaixo do posto (orçamento exato,
-  `k/(n+1)`). Medido: a segunda leitura entrega o que declara (25,66 alarmes contra 25,56 declarados nos mundos
-  parados) e, no mesmo silêncio, paga quase o mesmo que a primeira (35,46% contra 36,02% do prejuízo já pago no tombo
-  recente, com um alarme a cada cinco anos de um lado e a cada 4,145 anos do outro).
-- **2026-09-23.** **O orçamento se compra com memória.** O posto mais fundo é o primeiro da fila, de modo que com
-  `n` dias de janela o alarme mais raro que existe é `1/(n+1)`: um alarme por ano custa 252 dias, um por década custa
-  2520. Pedir um orçamento mais fino do que a memória compra levanta erro declarado, em vez de entregar um alarme mais
-  frequente do que o prometido.
-- **2026-09-23.** **A forma da mudança decide o preço.** Com o mesmo orçamento de um alarme por ano, o vigia vê um
-  degrau na cauda em 7 dias, uma rampa em 69 e uma deriva na média em 149,5; com um orçamento falador (11,45 alarmes
-  por ano) as três chegam quase juntas, em 3, 12 e 12,5 dias. A curva da troca do capítulo 2 foi desenhada com tombos,
-  que são degraus: para uma deriva, ela estaria deslocada para a direita.
-- **2026-09-23.** `frevolab.mudanca` é o banco de provas das formas da mudança — estável, degrau, rampa e deriva —,
-  cada uma com o `rng` por parâmetro e conferida pelo `auto_teste()` contra a escala que declara. O módulo
-  `orcamento.py` chegou a existir por minutos e foi absorvido por `vigia.py`: dois donos do mesmo conceito divergem em
-  silêncio.
-- **2026-09-23.** **O laboratório roda com o python do venv.** `.venv/bin/python lab/executar.py` — com o python do
-  sistema o kernel não encontra `frevolab` e o caderno quebra com `ModuleNotFoundError`, defeito que custou uma
-  execução perdida para ser descoberto.
-
-- **2026-09-23.** **Rótulo repetido virou portão**, e não aviso de log. Duas figuras de formas no mesmo capítulo
-  dividiram `fig:formas`: o `\cref` passou a apontar para a última, o log escreveu "multiply defined", o PDF saiu
-  e o `--check` continuou limpo. `conferir_rotulos` varre o livro e falha; foi conferido contra o defeito, forjando o
-  rótulo repetido de propósito e restaurando depois.
-
-- **2026-09-23.** Capítulo 3 escrito: **O dia da semana**. O fracasso que o abre, medido: levado à carga elétrica
-  diária da Dinamarca no mesmo orçamento de um alarme por ano, o vigia do capítulo 2 dispara 21 vezes — 4,2 por ano
-  contra o 1 declarado — e **todos** os alarmes caem em fim de semana (oito sábados, treze domingos, nenhuma sexta).
-  O princípio: o calendário é uma partição declarada dos dias em células, e o corte se ergue dentro da célula; com uma
-  célula só a leitura É o vigia do capítulo anterior, alarme por alarme. O preço é aritmético: $C$ células dividem a
-  memória por $C$ e o orçamento mais fino passa de $1/(n+1)$ para $C/(n+C)$ — medido, de 4,2 alarmes por ano para 13,6
-  (semana), 42,0 (semana × estação) e 80,4 (semana × mês). O controle: no índice americano, onde o perfil semanal vale
-  0,04216 desvios contra 1,472 da carga, a mesma partição só custa (de 1,24 para 5,10 alarmes por ano).
-- **2026-09-23.** `frevolab.calendario` é o módulo da forma que o relógio desenha: as partições (dia da semana, dia ×
-  estação, dia × mês), o perfil, a amplitude em desvios-padrão, o orçamento por célula e o vigia por célula. O teste
-  de propriedade que o ancora é uma identidade: com `calendario.unica` o vigia por célula devolve exatamente o vigia do
-  capítulo 2, alarme por alarme. O defeito que o módulo torna impossível é comparar um domingo com sábados e segundas.
-- **2026-09-23.** O dado da carga diária (`opsd_carga_diaria.csv`, cinco praças europeias, 2015–2019) entrou no
-  laboratório como sistema: era dado que estava no repositório desde o recomeço e nunca havia sido medido.
-- **2026-09-23.** Piso declarado e medição divergem nos dois sentidos, e o capítulo 3 declara isso em vez de esconder:
-  a medição fica **acima** do piso quando a célula ainda tem estrutura dentro (domingos de janeiro contra domingos de
-  julho, 42,0 contra 36,5) e **abaixo** quando os dias da célula se parecem demais entre si (o inverno puxa o inverno,
-  os alarmes se agrupam, e a janela de mil dias fica em zero contra o piso de 2,54).
-- **2026-09-23.** **O laboratório exporta o que o livro cita.** Os cadernos `E03_formas` e `E04_calendario` passaram
-  a filtrar o dicionário de resultados por uma lista explícita de chaves citadas: medida que o livro não usa é medida
-  morta, e os 22 avisos de 'medido e não citado' viraram zero (154 grandezas exportadas contra 172). Parâmetro de
-  experimento — número de casos, limiar, país, duração — não é medição e não sai do caderno.
-- **2026-09-23.** **Comando órfão virou portão.** Montar LaTeX num idioma que interpreta `\n` come a barra de
-  `\num...` e deixa o nome do comando impresso no papel: o PDF sai, o log fica limpo, a compilação passa e o `--check`
-  também — o defeito apareceu três vezes nesta árvore, a última deixando `umCalendarioSemanaDiasPorCelula{}` no meio de
-  uma frase impressa. `conferir_comandos_orfaos` procura nome com maiúscula no meio, seguido de chaves e sem barra
-  antes, e falha; conferido contra o defeito forjado de propósito.
-- **2026-09-23.** **A humanização entrou no contrato como passo do ciclo**, e não como gosto: a seção 9 ganhou o
-  protocolo — medir a marca antes de cortar, e a ferramenta automática é cega ao português (`humanize_scan` devolve
-  `aiScore 0` porque o catálogo é de padrões em inglês e chinês) — e a seção 11 ganhou o passo 5, entre fechar o arco e
-  conferir. A decisão de voz já estava registrada; o que faltava era o lugar no ciclo e o que medir antes de cortar.
-  Corrigido de passagem: a seção 9 dizia "dois" portões e listava três.
-- **2026-09-23.** **O catálogo português de clichês entrou no medidor**, e não no plugin do ambiente: `lab/estilo.py`
-  passou a contar também as sete classes de clichê que a ferramenta automática usa, escritas em português. O lugar é o
-  repositório por dois motivos — o plugin vive fora dele e morreria no próximo `pnpm install`, e o contrato diz que os
-  artefatos são quatro. A primeira rodada sobre os quatro capítulos deu **uma** ocorrência ("isto é," definindo a
-  promessa, no capítulo 1) e dois falsos positivos, os dois cortados no ajuste: *alavanca* é a física que o capítulo 2
-  usa no sentido próprio, não o jargão *alavancar*, e *vale dizer* é português legítimo quando é ganho, ao contrário
-  do molde *vale notar*. Clichê e marca são coisas diferentes: um texto pode não ter clichê nenhum e ainda assim soar
-  de máquina — foi o caso do capítulo 1, cujo problema era estrutura, não palavra gasta.
-- **2026-09-23.** **A volta 4 medida por eliminação (A4).** Três mercados — S&P 500, Ibovespa e Bitcoin — submetidos à mesma
-  família de explicações do capítulo 6 (duas leis, com persistência e com duração de episódio heterogênea), exigindo as quatro
-  estatísticas. O resultado separa o que concorda do que discorda: as **marginais concordam** (taxa 0,0513, 0,0509 e 0,0520;
-  mediana dos blocos 2, 2 e 3) e o **agrupamento discorda**. A interseção das explicações que sobrevivem é vazia nas duas
-  grades (0 de 125 e 0 de 280), com a lei compartilhada e a escala de cada mercado própria; o gargalo é o pior bloco,
-  satisfeito pelos três simultaneamente em 3 triplos de 280; Ibovespa e Bitcoin concordam em torno de permanência de 25 dias
-  (45% e 30% de acerto, replicados em quarenta sementes por célula) e o S&P fica em 8% — e enriquecer a duração dos
-  episódios **piora** em vez de melhorar (0 a 5%). Resposta provisória: ver mundos **não** basta para identificar mecanismo
-  comum. Porta declarada aberta, e é o único caminho que mantém o refutador de A4 vivo: uma família mais rica — memória
-  longa além de troca de regimes, parâmetros que variam no tempo — ainda não foi testada.
-- **2026-09-23.** **Sem replicação, uma semente não é uma medição.** A varredura da família heterogênea foi feita primeiro
-  com uma semente por configuração, e a mesma configuração deu pior bloco de 15 a 19 em cinco sementes — variação maior que
-  qualquer diferença entre configurações. O veredito de hoje só existe porque a conta foi refeita com quarenta sementes por
-  célula, reportando mediana e dispersão. É o mesmo tratamento que os mundos que nunca mudam receberam nos capítulos 1 e 2, e
-  a regra vale para tudo o que vier: **toda medição sobre mundos sorteados reporta dispersão, ou não reporta nada**.
-- **2026-09-23.** **A recusa de chave com dígito passou a olhar o nome gerado, e não o primeiro caractere de cada pedaço.** As chaves do `E09`
-  começavam com `f1_`, e a guarda aprovava porque cada pedaço começa com letra — mas o nome gerado era `\numF1Dias`, e o TeX lê isso como
-  `\numF` seguido do texto `1Dias`. O livro deixou de compilar, e o defeito só apareceu porque o commit foi feito **antes** da conferência: a
-  ordem certa é compilar e só depois commitar, e esta é a segunda vez que a inversão custou um commit quebrado. A guarda agora monta o nome e
-  exige que ele seja só letras.
+- **2026-09-23.** **Voz do livro reescrita.** O capítulo 1 foi reescrito, e o 2 já nasceu assim, numa voz sem os tiques da primeira versão — medidos antes de corrigidos: a definição por negação ("não … : …", que aparecia uma vez a cada dezenove frases do capítulo 1), o epigrama em itálico fechando seção, o meta-comentário sobre o próprio livro e o ritmo curto e uniforme.
+- **2026-09-23.** **O capítulo 2 é uma fusão.** Duas sessões escreveram o capítulo ao mesmo tempo nesta árvore, com desenhos diferentes, e o que ficou é um capítulo só, com as duas leituras do mesmo corte: **contar** as violações em blocos e alarmar no limiar (orçamento sem forma fechada, medido com erro de contagem e limitado por cima pela `prop:teto`) e **aprofundar** o corte e alarmar quando o próprio dia fica abaixo do posto (orçamento exato, `k/(n+1)`).
+- **2026-09-23.** **O orçamento se compra com memória.** O posto mais fundo é o primeiro da fila, de modo que com `n` dias de janela o alarme mais raro que existe é `1/(n+1)`: um alarme por ano custa 252 dias, um por década custa 2520.
+- **2026-09-23.** **A forma da mudança decide o preço.** Com o mesmo orçamento de um alarme por ano, o vigia vê um degrau na cauda em 7 dias, uma rampa em 69 e uma deriva na média em 149,5; com um orçamento falador (11,45 alarmes por ano) as três chegam quase juntas, em 3, 12 e 12,5 dias.
+- **2026-09-23.** `frevolab.mudanca` é o banco de provas das formas da mudança — estável, degrau, rampa e deriva —, cada uma com o `rng` por parâmetro e conferida pelo `auto_teste()` contra a escala que declara.
+- **2026-09-23.** **O laboratório roda com o python do venv.** `.venv/bin/python lab/executar.py` — com o python do sistema o kernel não encontra `frevolab` e o caderno quebra com `ModuleNotFoundError`, defeito que custou uma execução perdida para ser descoberto.
+- **2026-09-23.** **Rótulo repetido virou portão**, e não aviso de log. Duas figuras de formas no mesmo capítulo dividiram `fig:formas`: o `\cref` passou a apontar para a última, o log escreveu "multiply defined", o PDF saiu e o `--check` continuou limpo.
+- **2026-09-23.** Capítulo 3 escrito: **O dia da semana**.
+- **2026-09-23.** `frevolab.calendario` é o módulo da forma que o relógio desenha: as partições (dia da semana, dia × estação, dia × mês), o perfil, a amplitude em desvios-padrão, o orçamento por célula e o vigia por célula.
+- **2026-09-23.** O dado da carga diária (`opsd_carga_diaria.csv`, cinco praças europeias, 2015–2019) entrou no laboratório como sistema: era dado que estava no repositório desde o recomeço e nunca havia sido medido.
+- **2026-09-23.** Piso declarado e medição divergem nos dois sentidos, e o capítulo 3 declara isso em vez de esconder: a medição fica **acima** do piso quando a célula ainda tem estrutura dentro (domingos de janeiro contra domingos de julho, 42,0 contra 36,5) e **abaixo** quando os dias da célula se parecem demais entre si (o inverno puxa o inverno, os alarmes se agrupam, e a janela de mil dias fica em zero contra o piso de 2,54).
+- **2026-09-23.** **O laboratório exporta o que o livro cita.** Os cadernos `E03_formas` e `E04_calendario` passaram a filtrar o dicionário de resultados por uma lista explícita de chaves citadas: medida que o livro não usa é medida morta, e os 22 avisos de 'medido e não citado' viraram zero (154 grandezas exportadas contra 172).
+- **2026-09-23.** **Comando órfão virou portão.** Montar LaTeX num idioma que interpreta `\n` come a barra de `\num...` e deixa o nome do comando impresso no papel: o PDF sai, o log fica limpo, a compilação passa e o `--check` também — o defeito apareceu três vezes nesta árvore, a última deixando `umCalendarioSemanaDiasPorCelula{}` no meio de uma frase impressa.
+- **2026-09-23.** **A humanização entrou no contrato como passo do ciclo**, e não como gosto: a seção 9 ganhou o protocolo — medir a marca antes de cortar, e a ferramenta automática é cega ao português (`humanize_scan` devolve `aiScore 0` porque o catálogo é de padrões em inglês e chinês) — e a seção 11 ganhou o passo 5, entre fechar o arco e conferir.
+- **2026-09-23.** **O catálogo português de clichês entrou no medidor**, e não no plugin do ambiente: `lab/estilo.py` passou a contar também as sete classes de clichê que a ferramenta automática usa, escritas em português.
+- **2026-09-23.** **A volta 4 medida por eliminação (A4).** Três mercados — S&P 500, Ibovespa e Bitcoin — submetidos à mesma família de explicações do capítulo 6 (duas leis, com persistência e com duração de episódio heterogênea), exigindo as quatro estatísticas.
+- **2026-09-23.** **Sem replicação, uma semente não é uma medição.** A varredura da família heterogênea foi feita primeiro com uma semente por configuração, e a mesma configuração deu pior bloco de 15 a 19 em cinco sementes — variação maior que qualquer diferença entre configurações.
+- **2026-09-23.** **A recusa de chave com dígito passou a olhar o nome gerado, e não o primeiro caractere de cada pedaço.** As chaves do `E09` começavam com `f1_`, e a guarda aprovava porque cada pedaço começa com letra — mas o nome gerado era `\numF1Dias`, e o TeX lê isso como `\numF` seguido do texto `1Dias`.
 - **2026-09-23.** O teste de **propriedade** (hypothesis) fica adiado até existir a primeira função que sorteia: dependência nova se justifica com uso, não com antecipação. O `auto_teste()` continua como porteiro barato dentro do `--check`.
-- **2026-09-23.** Capítulo 9 escrito: **O desenho da intervenção**. Ele fecha a porta que o capítulo dos mundos
-  declarou aberta: acumular mundo observado não escolheu entre as duas explicações, e a saída é mexer no mundo de
-  propósito. O fracasso que o abre, medido: segurar o mundo por muito tempo e olhar duas vezes separa as explicações
-  em 32,5% das repetições — decisão no sorteio —, e o empate que obriga a esse experimento é apertado exatamente onde
-  sempre foi, no pior bloco (−2 contra a tolerância de 2). O princípio mínimo é um ato só, a **contenção**, com a
-  resposta medida contra o próprio mundo e uma proposição que dá a forma da curva: sob contenção a variância cai
-  geometricamente para o piso ω/(1−β), de modo que **segurar mais fundo tem limite** e cada dia a mais compra menos
-  ferida. Medido: a resposta do mundo em que a memória mora na série desce de 0,9803 a 0,6157, a do mundo de estado
-  escondido fica entre 1,028 e 1,058, e a diferença medida cresce até 0,4126.
-- **2026-09-23.** **O preço de um desenho é medido, não calculado.** A conta do tamanho da amostra
-  (n = (z s / d) ao quadrado, com s a soma dos dois desvios entre replicatas) diz onde procurar e erra o preço:
-  prometendo 95% de confiança, o desenho apertado separou em 45% das repetições do experimento inteiro, o dobro das
-  replicatas chegou a 80% e o quádruplo a 100%, de modo que o desenho que entrega a confiança declarada custa 31
-  replicatas de 80 dias — 3100 dias de experimento, perto de quatro vezes o preço da conta. A causa é a cauda gorda
-  da resposta: o estado escondido às vezes atravessa a janela inteira, e a média de poucas replicatas não se comporta
-  como a média de muitos sorteios pequenos. O controle fecha o capítulo: o mesmo orçamento gasto na contenção de dois
-  dias separa em 0% das repetições, porque aos dois dias a diferença medida é 0,04394 — **comprar replicatas para
-  enxergar o que a contenção não produz é comprar um erro de leitura**. Fica também o limite duro: uma intervenção
-  dessas existe para um sistema que se pode segurar, e para um índice de mercado ela não existe.
-- **2026-09-23.** `frevolab.intervencao` é o módulo da travessia do desenho: os dois mundos (a memória na própria
-  série, por GARCH; o estado escondido, pela família persistente do capítulo das explicações equivalentes), a
-  contenção, a resposta, a replicata, a conta de replicatas com o veredito de viabilidade, o custo em dias, a
-  varredura de contenções e a função que mede a promessa do desenho repetindo o experimento inteiro. O defeito que
-  ela torna impossível: dizer que precisamos de mais dados sem dizer quantos, e desenhar um experimento caro que não
-  separa nada. O caderno E10 traz as duas figuras e as leituras visuais. Corrigido de passagem: as duas tabelas que
-  estouravam a margem (a do capítulo 8 e a do capítulo 9) entraram em corpo menor, e o livro compila agora sem
-  nenhuma caixa estourada.
-
-- **2026-09-23.** Capítulo 10 escrito: **A partilha do relógio**. Ele fecha a travessia entre proteger e adaptar, que o capítulo da intervenção havia deixado aberta. O princípio: a barreira tem dois ingredientes — a **escala** (o nível da oscilação) e a **forma** (o corte da série padronizada) —, e uma proposição explica por que eles não têm a mesma pressa: multiplicar a série por uma constante é invisível para a forma (o c cancela na razão) e é tudo para a escala. Medido: atualizar a escala a cada duzentos e cinquenta dias custa 4,554 vezes o de atualizar todo dia; a forma, no mesmo teste, custa 0,9652 — quase nada.
-- **2026-09-23.** **A partilha só morde quando o orçamento é pobre.** Com sessenta atualizações no horizonte, deixar a escala sem atualização leva a perda a 0,003376 (sete vezes a melhor), o palpite simétrico dá 0,0004792, e a melhor partilha medida é a de 0,9 do orçamento para a escala com 0,000425 — 11,29% menos perda pelo mesmo trabalho. O ótimo é interior: dar tudo à escala também piora, porque a forma envelhece. Apertando o orçamento, o ganho de partilhar bem sobe a 29,94% com cinco atualizações e cai a 1,763% com duzentos e cinquenta: a competição existe, mas aparece no aperto. A resposta à pergunta inclui o refutador que ela mesma declarou — um orçamento em que os dois de fato não competem —, e ele existe: é o orçamento folgado. Atualizar tudo todo dia compra 7,106% menos perda com quinhentas atualizações de cada ingrediente no mesmo horizonte.
-- **2026-09-23.** frevolab.partilha é o módulo da travessia: a série padronizada sem olhar para a frente, a perda que a barreira não segurou, o ciclo a partir do orçamento, a medição com dispersão entre mundos sorteados e a varredura da partilha. O defeito que ele torna impossível: tratar proteger e acompanhar como dois consumidores simétricos do mesmo relógio e repartir o orçamento meio a meio. O caderno E11 traz as duas figuras e as leituras visuais.
-- **2026-09-23.** **O gerador de números emitia notação científica sem modo matemático.** A primeira grandeza pequena que o livro mediu (4,123 x 10 elevado a menos cinco) saiu como um comando cujo corpo tinha um \times solto: o --check passou limpo, o log não reclamou, e a compilação morreu com Missing $ inserted, sem PDF. O conserto é o \ensuremath em volta da notação científica, no formatador do lab/executar.py. Fica o registro de quem pegou o defeito: foi o latexmk, não o portão — o portão confere se o número é citado, e não se o que ele imprime compila.
-
-- **2026-09-23.** Capítulo 11 escrito: **A memória que aprende** (travessia F3). O fracasso que o abre, medido: a janela de um ano do primeiro capítulo, levada à escala, erra por 0,2494 no ano seguinte a uma mudança que dobra a oscilação, e erra por apenas 0,0397 num mundo que não muda — a cegueira não se anuncia. O princípio é o esquecimento com taxa, com memória efetiva 1/lambda, e uma proposição com prova: depois de um degrau o desvio decai exatamente como (1-lambda) elevado a t, de modo que cruzar até uma tolerância eps leva log(eps)/log(1-lambda) dias; a janela deslizante cai linearmente e chega a zero exatamente n dias depois.
-- **2026-09-23.** **No melhor esquecimento, o erro que sobra é ruído.** Medido em vinte mundos sorteados: a memória de mil dias erra por 0,4405 e a de um dia por 0,6067 — as duas pontas são ruins por motivos opostos. A melhor memória é a de 21 dias (taxa 0,0476), com erro 0,1178 e dispersão 0,0176, e o piso de ruído dela é 0,1045: quase todo o erro que sobra no melhor desenho é tamanho de amostra, não atraso. A janela deslizante, que era a referência a bater, perde na mesma memória (0,1486 contra 0,1178). A promessa é estreita: com tolerância declarada de 15%, apenas 3 dos 48 pares (memória, horizonte) aprendem; o horizonte mais curto que aprende é de 120 dias, com memória de 21, e a memória mais longa que ainda aprende é de 50 dias, exigindo 250 dias de horizonte.
-- **2026-09-23.** frevolab.esquecimento é o módulo da travessia: a mistura exponencial, a janela deslizante, a memória efetiva, a meia-vida, os dias até uma tolerância, o erro contra uma verdade declarada, a medição com dispersão e o limiar do esquecimento mínimo. O defeito que ele torna impossível: escolher a memória pelo gosto, ou copiar a janela de um ano do primeiro capítulo para um lugar onde ela é cega. O caderno E12 traz as duas figuras e as leituras visuais. Duas armadilhas de ferramenta ficaram registradas: a taxa igual a um (memória de um dia) precisa ser aceita pela meia-vida e pelos dias até a tolerância, porque é o extremo de esquecer tudo e não um erro de entrada; e o portão voltou a pegar uma chave com dígito (h120), agora na varredura por horizonte — a guarda do gerador funciona e o nome tem de ir por extenso.
-
-- **2026-09-23.** Capítulo 12 escrito: **O vigia da direção** (travessia F4). O instrumento é o terceiro momento do incremento, padronizado pela escala da janela **anterior** ao bloco, e a proposição que o sustenta tem prova de duas linhas: para um normal padrão E[z^3] = 0 e E[z^6] = 15, de modo que a média do cubo sobre n dias tem desvio raiz de 15/n. O fracasso que abre o capítulo, medido: com a janela de um ano a conta promete 0,0027 alarmes por bloco e o mundo simétrico entrega 0,02712, dez vezes mais — o limiar honesto é 0,9713 contra 0,7319 da conta (1,327 vezes). É a terceira vez que o orçamento desta espiral se lê da medição e não da álgebra.
-- **2026-09-23.** **A direção existe no dado, e o vigia de um ano mede o ano.** O instrumento passa na conferência: inverter a série troca o sinal do terceiro momento sem trocar o tamanho (índice −0,3485 e +0,3485; Ibovespa −0,3474 e +0,3474; Bitcoin −0,7042 e +0,7042), e em desvios da conta do nulo a direção vale −7,38 no índice, −7,30 no Ibovespa e −12,04 no Bitcoin. Mas o vigia que decide bloco a bloco enfrenta outra coisa: a dispersão da estatística de um bloco de um ano é 5,171 no índice, 2,288 no Ibovespa e 1,467 no Bitcoin, contra 0,3238 do mundo simétrico — o ano real é muito mais disperso do que a conta supõe, e o que o vigia vê é o caráter do ano (dois anos de quebra puxam tudo), não a seta. Dos 25 anos do índice, 8 passam do limiar honesto (0,32).
-- **2026-09-23.** frevolab.direcao é o módulo da travessia: o mundo de assimetria declarada, os incrementos, a série invertida como controle do instrumento, o desvio da conta, o limiar, a estatística em blocos sem sobreposição (blocos que se sobrepõem fariam o mesmo dia contar em 252 alarmes seguidos, e o orçamento perderia unidade), o resumo com taxa e dispersão, e o momento amostral de uma série inteira. O defeito que ele torna impossível: declarar o orçamento do vigia pela conta gaussiana num mundo com agrupamento de oscilação. O caderno E13 traz as duas figuras e as leituras visuais.
-- **2026-09-23.** Fica registrada a marca de voz que a humanização pegou no capítulo 12: seis frases no molde "não ... : ...", a maior contagem do livro (10,2% das frases). Quatro foram reescritas e o capítulo foi a zero, com as outras marcas também zeradas — a reescrita mexeu só na voz, e os portões continuaram limpos, que é a prova de que nenhum número, prova ou rótulo se perdeu.
-
-- **2026-09-23.** Capítulo 13 escrito: **Quem cai primeiro** (travessia F5, a última). O fracasso que o abre: ler a queda conjunta como um acontecimento só, sem ordem interna, e concluir que não há intervalo entre as duas quedas para fazer nada. O instrumento é uma contagem de episódios dirigidos, com definição declarada: um episódio começa quando uma perna rompe e nenhuma rompeu nos dias anteriores, e é dirigido quando a outra rompe dentro da janela seguinte; a assimetria é a diferença entre os liderados por cada perna sobre o total.
+- **2026-09-23.** Capítulo 9 escrito: **O desenho da intervenção**. Ele fecha a porta que o capítulo dos mundos declarou aberta: acumular mundo observado não escolheu entre as duas explicações, e a saída é mexer no mundo de propósito.
+- **2026-09-23.** **O preço de um desenho é medido, não calculado.** A conta do tamanho da amostra (n = (z s / d) ao quadrado, com s a soma dos dois desvios entre replicatas) diz onde procurar e erra o preço: prometendo 95% de confiança, o desenho apertado separou em 45% das repetições do experimento inteiro, o dobro das replicatas chegou a 80% e o quádruplo a 100%, de modo que o desenho que entrega a confiança declarada custa 31 replicatas de 80 dias — 3100 dias de experimento, perto de quatro vezes o preço da conta.
+- **2026-09-23.** `frevolab.intervencao` é o módulo da travessia do desenho: os dois mundos (a memória na própria série, por GARCH; o estado escondido, pela família persistente do capítulo das explicações equivalentes), a contenção, a resposta, a replicata, a conta de replicatas com o veredito de viabilidade, o custo em dias, a varredura de contenções e a função que mede a promessa do desenho repetindo o experimento inteiro.
+- **2026-09-23.** Capítulo 10 escrito: **A partilha do relógio**. Ele fecha a travessia entre proteger e adaptar, que o capítulo da intervenção havia deixado aberta.
+- **2026-09-23.** **A partilha só morde quando o orçamento é pobre.** Com sessenta atualizações no horizonte, deixar a escala sem atualização leva a perda a 0,003376 (sete vezes a melhor), o palpite simétrico dá 0,0004792, e a melhor partilha medida é a de 0,9 do orçamento para a escala com 0,000425 — 11,29% menos perda pelo mesmo trabalho.
+- **2026-09-23.** frevolab.partilha é o módulo da travessia: a série padronizada sem olhar para a frente, a perda que a barreira não segurou, o ciclo a partir do orçamento, a medição com dispersão entre mundos sorteados e a varredura da partilha.
+- **2026-09-23.** **O gerador de números emitia notação científica sem modo matemático.** A primeira grandeza pequena que o livro mediu (4,123 x 10 elevado a menos cinco) saiu como um comando cujo corpo tinha um \times solto: o --check passou limpo, o log não reclamou, e a compilação morreu com Missing $ inserted, sem PDF.
+- **2026-09-23.** Capítulo 11 escrito: **A memória que aprende** (travessia F3). O fracasso que o abre, medido: a janela de um ano do primeiro capítulo, levada à escala, erra por 0,2494 no ano seguinte a uma mudança que dobra a oscilação, e erra por apenas 0,0397 num mundo que não muda — a cegueira não se anuncia.
+- **2026-09-23.** **No melhor esquecimento, o erro que sobra é ruído.** Medido em vinte mundos sorteados: a memória de mil dias erra por 0,4405 e a de um dia por 0,6067 — as duas pontas são ruins por motivos opostos.
+- **2026-09-23.** frevolab.esquecimento é o módulo da travessia: a mistura exponencial, a janela deslizante, a memória efetiva, a meia-vida, os dias até uma tolerância, o erro contra uma verdade declarada, a medição com dispersão e o limiar do esquecimento mínimo.
+- **2026-09-23.** Capítulo 12 escrito: **O vigia da direção** (travessia F4).
+- **2026-09-23.** **A direção existe no dado, e o vigia de um ano mede o ano.** O instrumento passa na conferência: inverter a série troca o sinal do terceiro momento sem trocar o tamanho (índice −0,3485 e +0,3485; Ibovespa −0,3474 e +0,3474; Bitcoin −0,7042 e +0,7042), e em desvios da conta do nulo a direção vale −7,38 no índice, −7,30 no Ibovespa e −12,04 no Bitcoin.
+- **2026-09-23.** frevolab.direcao é o módulo da travessia: o mundo de assimetria declarada, os incrementos, a série invertida como controle do instrumento, o desvio da conta, o limiar, a estatística em blocos sem sobreposição (blocos que se sobrepõem fariam o mesmo dia contar em 252 alarmes seguidos, e o orçamento perderia unidade), o resumo com taxa e dispersão, e o momento amostral de uma série inteira.
+- **2026-09-23.** Fica registrada a marca de voz que a humanização pegou no capítulo 12: seis frases no molde "não ... : ...", a maior contagem do livro (10,2% das frases).
+- **2026-09-23.** Capítulo 13 escrito: **Quem cai primeiro** (travessia F5, a última). O fracasso que o abre: ler a queda conjunta como um acontecimento só, sem ordem interna, e concluir que não há intervalo entre as duas quedas para fazer nada.
 - **2026-09-23.** **A queda conjunta tem direção, e ela é de um ou dois dias.** Medido no par índice e Ibovespa, em 6204 dias comuns: o índice lidera 35 episódios e o Ibovespa 20 na janela de cinco dias, assimetria 0,273 — 2,68 desvios acima do nulo, que tem média −0,014 e dispersão 0,107 em 40 pares sorteados. O controle por adiantamento declarado (deslocando a segunda perna com dependencia.pareado) localiza o intervalo: a assimetria é máxima com um ou dois dias de deslocamento e cai para dentro da faixa do nulo com dez e vinte e um. A estabilidade repete o sinal: os quatro pedaços do par dão 0,143, 0,429, 0,250 e 0,273, todos acima da média do nulo, embora cada pedaço sozinho tenha poucos episódios dirigidos (7 a 10).
 - **2026-09-23.** A regra da contagem tem viés próprio, e ele está declarado no módulo: a espera olha para trás e a detecção olha para a frente, de modo que o número do par real só vale contra o nulo, nunca contra zero. E a conferência pela inversão do relógio **não serve aqui**, ao contrário do capítulo da direção: a regra ela mesma tem lado, e virar o mundo ao contrário não vira a regra. Defeito corrigido na primeira versão: o rompimento simultâneo contava como episódio de uma das pernas, e isso inventava direção — o nulo foi de +0,123 para −0,014 quando o dia em que as duas caem juntas deixou de ter primeiro.
 - **2026-09-23.** frevolab.dependencia ganhou `episodios_dirigidos` e a janela padrão do episódio, com três testes de propriedade no auto_teste: o episódio forjado acha a perna que rompeu primeiro, o rompimento no mesmo dia não é episódio de ninguém, e a perna que rompe fora da janela fica sozinha. Com este capítulo a travessia fecha (F1 a F5), e o livro está em 13 capítulos, 15 cadernos, 14 módulos e 86 páginas. O movimento seguinte é o andar 1, o que não se compra, começando pelo mundo que não foi observado.
