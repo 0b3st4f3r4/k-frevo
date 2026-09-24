@@ -77,6 +77,93 @@ dado inteiro, já está na casa do que o sorteio sozinho mexe.
   \label{fig:teto}
 \end{figure}
 
+\section{O outro teto: os bits}
+% aterramento: esboco
+% aterramento: contador
+% aterramento: energia
+% aterramento: precisao
+% aterramento: contadores
+
+O corte do capítulo da medida é contado com \textbf{um número por dia} --- são \numSerieDias{} deles ---,
+e o pior bloco de sessenta dias é a leitura que destrava as voltas seguintes. Guardar cem números no
+lugar de todos é o gesto mais natural do mundo. Este pedaço cobra o preço, e o preço não é o que se
+imagina: não está no erro, está na pergunta.
+
+Um contador não guarda dia nenhum: guarda uma \textbf{soma}. Some-se o fluxo inteiro a ele, cada
+item com um sinal sorteado, e o que sobra é um número que sozinho não quer dizer nada. O quadrado
+dele, em média sobre muitos sorteios, é que diz a \textbf{energia} do caminho --- a soma dos
+quadrados dos incrementos, que é o segundo momento do fluxo.
+
+\begin{proposicao}[o preço do resumo]\label{prop:preco-do-resumo}
+Seja $Q = \sum_t r_t^2$ a energia do fluxo e sejam $K$ contadores $u_j$, cada um somando o fluxo
+inteiro com sinais sorteados independentes. Então $\hat Q = \frac{1}{K}\sum_j u_j^2$ estima $Q$ sem
+viés, com desvio relativo de no máximo $\sqrt{2/K}$. A precisão $\varepsilon$ custa, portanto,
+$K = 2/\varepsilon^2$ contadores --- e nenhum método compra mais com menos.
+\end{proposicao}
+
+\begin{proof}
+Cada $u_j$ é a soma $\sum_t \pm r_t$, com os sinais independentes, de média zero e variância um.
+Os produtos de sinais distintos têm esperança zero, de modo que $\E[u_j^2] = \sum_t r_t^2 = Q$ --- e
+é essa a conta inteira. A média sobre os contadores herda a esperança, e o estimador não tem viés.
+Para o desvio, $\E[u_j^4] = 3Q^2 - 2\sum_t r_t^4$, de modo que a variância de $u_j^2$ é
+$2Q^2 - 2\sum_t r_t^4$, que não passa de $2Q^2$. A média de $K$ contadores independentes divide
+essa variância por $K$, e a raiz da razão entre as duas dá o desvio relativo.
+\end{proof}
+
+O limite é do problema, e não do estimador: estimar o segundo momento com erro relativo
+$\varepsilon$ exige memória da ordem de $1/\varepsilon^2$, e esboço nenhum escapa disso
+\cite{alon1999space}; o que se faz com $K$ contadores é ótimo até constante \cite{indyk2005optimal},
+e cada outro momento tem o seu preço \cite{woodruff2004optimal}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E29_bits_1.pdf}
+  \caption{O erro do esboço contra o número de contadores guardados, nas duas escalas
+    logarítmicas, com a reta da lei ao lado. As duas linhas são \textbf{paralelas}, e a medida
+    fica abaixo da lei em toda a extensão: a média de uma estimativa simétrica custa cerca de
+    oito décimos do desvio dela, e é isso que a distância entre as duas linhas mede.}
+  \label{fig:bits}
+\end{figure}
+
+A medição usa o caminho do primeiro mercado --- os mesmos \numSerieDias{} dias, um número cada --- e
+sorteia \numBitsMundos{} esboços por linha. O erro é o relativo na energia.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \begin{tabular}{rrr}
+    \hline
+    contadores guardados & erro medido (\%) & a lei prevê (\%) \\
+    \hline
+    \numBitsContadoresMenor & \numBitsErroVinteECinco & \numBitsPrevistoVinteECinco \\
+    \numBitsCem & \numBitsErroCem & \numBitsPrevistoCem \\
+    \numBitsQuatrocentos & \numBitsErroQuatrocentos & \numBitsPrevistoQuatrocentos \\
+    \numBitsMilESeiscentos & \numBitsErroMilESeiscentos & \numBitsPrevistoMilESeiscentos \\
+    \numBitsContadoresMaior & \numBitsErroDezMil & \numBitsPrevistoDezMil \\
+    \hline
+  \end{tabular}
+  \caption{O preço do resumo: o erro do esboço contra o número de contadores guardados, medido sobre
+    os mesmos dias que o livro conta um a um.}
+  \label{tab:bits}
+\end{table}
+
+O ajuste em escala dupla dá inclinação \numBitsInclinacao{} --- a lei diz menos meio ---, e os erros
+medidos ficam perto de oito décimos do previsto, que é o que a média de uma estimativa simétrica
+custa diante do desvio dela. Cem contadores compram doze por cento: cada contador guardado responde
+por sessenta e sete dias, e o preço é esse.
+
+E o erro não é do dado. No mundo que nunca muda --- a série constante, cuja energia é sabida por
+construção ---, os mesmos cem contadores erram \numBitsConstanteCem{} e os mesmos dez mil erram
+\numBitsConstanteDezMil: o mesmo tamanho de erro, num mundo em que não há nada a descobrir. O que o
+resumo cobra é do resumo.
+
+Resumir não é estimar por estimar: o resumo serve para \textbf{decidir}, e a decisão cobra mais. O
+alarme precisa de um corte, e o corte é um quantil que o esboço não guarda --- de modo que a ponte
+entre a energia e o corte supõe simetria. Com o limiar do próprio dado, a taxa assinada é
+\numBitsTaxaLimiar{}; com a energia exata e a suposição de simetria, ela cai a \numBitsTaxaGaussiana{};
+e com a energia do esboço de cem contadores, a \numBitsTaxaEsboco{}. Duas coisas estão sendo pagas
+ali, e a segunda é a que interessa: a suposição cobra um pouco, e o resumo cobra o resto.
+
 \section{O que fica}
 
 Fica uma correção de leitura, e ela vale para todo o livro. \textbf{A contagem de explicações que

@@ -16,7 +16,7 @@ from importlib.metadata import PackageNotFoundError, version
 
 from . import (calendario, centro, dados, dependencia, direcao, evidencia, esquecimento, estabilidade,
                graficos, intervencao, mudanca, multiplicidade, nivel, operador, partilha, proporcao, promessa, recorde,
-               regimes, vigia, volatilidade)
+               regimes, resumo, vigia, volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -711,6 +711,29 @@ def auto_teste() -> list:
         problemas.append("o indicador do dia trocou de sinal")
     if abs(proporcao.janelas(np.arange(1.0, 11.0), 3).mean() - 1.0) > 1e-12:
         problemas.append("as janelas móveis não reproduzem a fração da série constante")
+
+    # --- o resumo e o teto dos bits (resumo.py) ---
+
+    # O esboco compra o segundo momento: sem vies, com erro que cai com a raiz do numero de
+    # contadores, e cego a ordem --- a energia de um fluxo embaralhado e a mesma.
+    fluxo = np.array([0.01, -0.02, 0.03, 0.015, -0.005])
+    exato = resumo.energia(fluxo)
+    if abs(exato - float(np.dot(fluxo, fluxo))) > 1e-15:
+        problemas.append("resumo: a energia nao e a soma dos quadrados")
+    media = float(np.mean([resumo.esboco(fluxo, 400, np.random.default_rng(s))["estimativa"]
+                           for s in range(200)]))
+    if abs(media - exato) / exato > 0.05:
+        problemas.append("resumo: o esboco tem vies (%.5f contra %.5f)" % (media, exato))
+    if resumo.contadores_para(0.10) != 200 or resumo.contadores_para(0.01) != 20000:
+        problemas.append("resumo: a conta do preco nao fecha")
+    if abs(resumo.previsao(400) - 0.0707106781) > 1e-9:
+        problemas.append("resumo: a previsao do erro nao e a raiz de 2/k")
+    pequeno = resumo.varredura(fluxo, 100, 40, np.random.default_rng(11))["erro_medio"]
+    grande = resumo.varredura(fluxo, 400, 40, np.random.default_rng(11))["erro_medio"]
+    if not (pequeno > grande > 0.0):
+        problemas.append("resumo: o erro nao cai com o numero de contadores")
+    if abs(resumo.energia(fluxo[::-1]) - exato) > 1e-15:
+        problemas.append("resumo: a energia mudou com a ordem, e ela nao deveria")
 
     import matplotlib
     matplotlib.use("Agg")

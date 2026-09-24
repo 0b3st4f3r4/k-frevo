@@ -96,3 +96,8 @@ h	o horizonte, em dias	simbolo	h	2		2
 Y	o segundo sorteio, na prova da variância da soma	simbolo	Y	2		2
 mu	a média do incremento	simbolo	\mu	2	esperanca	2
 operador	a matriz que carrega o estado de um passo para o outro	simbolo	M	18		18
+esboco	a familia de contadores de sinal sorteado que estima o segundo momento do fluxo	termo	esboço	23		23
+contador	o valor de um contador do esboco depois de somar o fluxo inteiro	simbolo	u	23	esboco	23
+contadores	o numero de contadores guardados pelo esboco	simbolo	K	23	esboco	23
+energia	a soma dos quadrados dos incrementos: o segundo momento do caminho	simbolo	Q	23	r	23
+precisao	o erro relativo pedido ao esboco	simbolo	\varepsilon	23	esboco	23
