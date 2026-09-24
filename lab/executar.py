@@ -423,6 +423,45 @@ def conferir_perguntas(falhas: list) -> None:
     print("perguntas no contrato: %d" % len(blocos))
 
 
+def conferir_compilacao(avisos: list, falhas: list) -> None:
+    r"""Compilação que não aconteceu deixa um log vazio, e log vazio passa por limpo.
+
+    O latexmk não recompila quando nada mudou: ele escreve um log de poucas linhas e
+    sai com código zero. Quem confere "grep -c Warning" nesse arquivo recebe zero e
+    conclui que a compilação está limpa --- foi o que aconteceu nesta árvore, com um
+    log de 187 bytes lido como ausência de defeito. É a mesma armadilha de conferir
+    "grep -c undefined" num log de uma execução que falhou: zero ali não é prova de
+    nada, porque não havia o que contar.
+
+    Esta conferência olha três coisas: o log existe e tem compilação dentro, o PDF é
+    mais novo que todo fonte do livro, e nenhuma caixa estourou. Caixa estourada é
+    defeito impresso --- o texto atravessa a margem ---, e por isso reprova; linha
+    frouxa de bibliografia, que é o caso das URLs longas, só avisa.
+    """
+    log, pdf = LIVRO / "livro.log", LIVRO / "livro.pdf"
+    if not log.exists() or not pdf.exists():
+        falhas.append("o livro nunca foi compilado: falta livro.log ou livro.pdf")
+        return
+    texto = log.read_text(encoding="utf-8", errors="replace")
+    if "This is pdfTeX" not in texto:
+        falhas.append("o log não tem compilação dentro (%d bytes): o latexmk pulou e o "
+                      "silêncio passou por limpeza --- rode latexmk -g" % len(texto))
+        return
+    fontes = sorted(LIVRO.rglob("*.tex"))
+    if fontes:
+        mais_novo = max(p.stat().st_mtime for p in fontes)
+        if pdf.stat().st_mtime < mais_novo:
+            falhas.append("o PDF é mais antigo que o fonte do livro: recompile antes de conferir")
+    for classe in ("Overfull \\hbox", "Overfull \\vbox"):
+        n = len(re.findall(re.escape(classe), texto))
+        if n:
+            falhas.append("%d %s: o texto atravessa a margem" % (n, classe))
+    frouxas = len(re.findall(r"Underfull \\hbox", texto))
+    if frouxas:
+        avisos.append("%d linha(s) frouxa(s) na composição, tipicamente URL longa na bibliografia"
+                      % frouxas)
+
+
 def conferir_biblioteca(falhas: list) -> None:
     sys.path.insert(0, str(RAIZ / "lib"))
     try:
@@ -447,6 +486,7 @@ def check() -> int:
     conferir_comandos_orfaos(falhas)
     conferir_marcacao(falhas)
     conferir_nomes(falhas)
+    conferir_compilacao(avisos, falhas)
     conferir_digitos(avisos)
     conferir_cadernos_sem_algoritmo(avisos)
     conferir_perguntas(falhas)
