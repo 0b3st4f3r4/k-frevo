@@ -42,7 +42,7 @@ feito cada outro outra mesmo mesma ainda tambem so apenas entao assim porque poi
 
 MARCAS = (
     ("definicao por negacao", r"n[ãa]o\s[^.:]{0,70}:"),
-    ("definicao por antitese", r"\b[EÉeé]\s(?:o|a)\s(?:que|pergunta|instrumento|conta|medida)\b"),
+    ("definicao por antitese", r"\b[Éé]\s(?:o|a)\s(?:que|pergunta|instrumento|conta|medida)\b"),
     ("meta-comentario sobre o livro", r"\b(?:este livro|neste cap[íi]tulo|ao longo deste|deste cap[íi]tulo)\b"),
 )
 
