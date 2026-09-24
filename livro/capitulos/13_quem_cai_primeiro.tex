@@ -21,9 +21,10 @@ duas quedas para fazer nada. A pergunta é se esse intervalo existe.
 O instrumento é uma contagem de episódios, e a regra precisa ser dita antes de ser usada.
 
 \begin{definicao}[episódio dirigido]\label{def:episodio}
-Um \emph{episódio} começa no dia em que uma das pernas rompe o próprio corte e nenhuma das duas
-rompeu nos \numConjuntaJanelaEpisodio{} dias anteriores. O episódio é \emph{dirigido} quando a
-outra perna rompe dentro dos dias seguintes à janela declarada, e a perna que rompeu primeiro é a
+Um \emph{episódio} começa no dia em que uma das pernas rompe o próprio corte, desde que nenhum
+episódio tenha começado nos \numConjuntaJanelaEpisodio{} dias anteriores --- rompimentos dentro
+desses dias não abrem episódio novo. O episódio é \emph{dirigido} quando a outra perna rompe dentro
+dos mesmos \numConjuntaJanelaEpisodio{} dias seguintes, e a perna que rompeu primeiro é a
 \emph{líder}. A \emph{assimetria} é a diferença entre os episódios liderados por uma perna e os
 liderados pela outra, dividida pelo total de episódios dirigidos.
 \end{definicao}
@@ -41,10 +42,8 @@ mesma regra.
 \section{O nulo, e o par}
 
 Medindo \numConjuntaNulos{} pares sorteados e contemporâneos com a mesma regra, a assimetria tem
-média \numConjuntaNuloMedia{} e dispersão \numConjuntaNuloDispersao{}. A média é praticamente zero,
-e o motivo dela tem história: a primeira versão desta contagem tratava o rompimento simultâneo como
-episódio de uma das pernas, e isso inventava direção onde não havia nenhuma. Um dia em que as duas
-caem juntas não tem primeiro.
+média \numConjuntaNuloMedia{} e dispersão \numConjuntaNuloDispersao{}. A média é praticamente zero. Um dia em que as duas caem juntas não tem
+primeiro.
 
 Contra esse nulo, o par como veio faz o seguinte.
 
@@ -92,10 +91,10 @@ Com a segunda perna deslocada em um ou dois dias, ela chega ao seu máximo ---
 cinco dias cai para \numConjuntaControleCinco{}, com dez dias para \numConjuntaControleDez{}, e com
 \numConjuntaAtrasoMaior{} dias para \numConjuntaControleVinteEUm{}, dentro da faixa do nulo.
 
-Vale dizer o que o eixo faz. Os seis pontos medidos --- zero, um, dois, cinco, dez e vinte e um dias
---- estão igualmente espaçados no desenho: o passo do primeiro para o segundo vale um dia, e o dos
-dois últimos vale onze, com a mesma largura. Quem lê a inclinação entre os dois pontos da direita lê
-onze dias como se fossem um.
+Vale dizer o que o eixo faz. Os seis pontos estão na posição do atraso que declaram, de modo que o
+passo de dez para vinte e um dias ocupa onze vezes a largura do passo de zero para um. O pico cai no
+trecho mais estreito do desenho: quem olha a curva de longe vê um tremor no começo da linha, e é ali
+que está o achado.
 
 Isso localiza o adiantamento: o par se alinha melhor quando o índice lidera por um ou dois dias. É
 esse o intervalo de que uma proteção dispõe entre o rompimento de uma perna e o da outra, e é ele
@@ -133,8 +132,8 @@ invertido, porque a regra ela mesma tem lado.
 Fica também o que a travessia inteira mostrou, olhando para trás. Cinco perguntas medidas com o
 instrumento de outra família, e as cinco deram o mesmo tipo de resposta: existe sinal, e o sinal
 custa --- em dias de experimento, em trabalho de atualização, em passado apagado, em anos de espera.
-Cada capítulo desta travessia terminou com um preço medido, e nenhum deles terminou com uma
-promessa que a conta prometia e o mundo não pagava.
+Cada capítulo desta travessia terminou com um preço medido, e onde a conta prometeu o que o mundo
+não pagou --- como no vigia da direção --- o preço ficou declarado em vez de escondido.
 
 O que sobra é a pergunta que a travessia deixa de pé ao terminar. Quase tudo o que a espiral mediu
 até aqui se compra: memória se compra com dias, atualização se compra com trabalho, um experimento
