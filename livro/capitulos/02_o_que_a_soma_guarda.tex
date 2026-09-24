@@ -71,7 +71,8 @@ Vale ler isso no caso menor possível, que é uma queda e a volta: um preço de 
 e cinco e volta a cem. As porcentagens dos dois dias não somam zero, e os retornos somam --- é
 por isso que um índice que voltou ao mesmo lugar não aparece tendo andado.
 
-\[ 100 \to 95 : -5\% ; \qquad 95 \to 100 : +5{,}26\% ; \qquad -0{,}0513 + 0{,}0513 = 0 . \]
+\[ 100 \to 95:\ -5\% ; \qquad 95 \to 100:\ +5{,}26\% ; \]
+\[ -0{,}0513 + 0{,}0513 = 0 . \]
 % numeros-ok: exemplo mínimo — a soma das porcentagens é $+0{,}26\%$, e a dos retornos é zero
 
 No fim da série, a soma
@@ -140,7 +141,8 @@ O resultado não coincide com a previsão, e o desencontro tem forma.
 
 \begin{table}[htbp]
   \centering
-  \begin{tabular}{rrrr}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{rrrr}
     \hline
     dias no & a previsão & a dispersão & a razão \\
     horizonte & da \cref{prop:passo} (\%) & na série (\%) & medida/prevista \\
@@ -150,7 +152,7 @@ O resultado não coincide com a previsão, e o desencontro tem forma.
     \numSomaHorizonteDuzentosECinquentaEDoisDias & \numSomaPasseioDuzentosECinquentaEDoisPrevistoPct & \numSomaRealDuzentosECinquentaEDoisDispersaoPct & \numSomaRealDuzentosECinquentaEDoisRazao \\
     \numSomaHorizonteMilDuzentosESessentaDias & \numSomaPasseioMilDuzentosESessentaPrevistoPct & \numSomaRealMilDuzentosESessentaDispersaoPct & \numSomaRealMilDuzentosESessentaRazao \\
     \hline
-  \end{tabular}
+  \end{tabular}}
   \caption{A previsão da \cref{prop:passo} e a dispersão medida nas janelas da própria série,
     para os quatro horizontes. As quatro razões ficam abaixo de um.}
   \label{tab:passo-real}

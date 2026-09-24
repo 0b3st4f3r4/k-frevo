@@ -108,7 +108,8 @@ dizer que ele voltou.
 \begin{table}[htbp]
   \centering
   \small
-  \begin{tabular}{rrrr}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{rrrr}
     \hline
     a do & memória do & horizonte de & horizonte de \\
     processo & processo & tolerância estreita & tolerância larga \\
@@ -119,7 +120,7 @@ dizer que ele voltou.
     noventa e cinco & \numApagadoMemoriaNoventaECincoCentesimos & \numApagadoHorizonteNoventaECincoCentesimos & \numApagadoHorizonteLargoNoventaECincoCentesimos \\
     noventa e nove & \numApagadoMemoriaNoventaENoveCentesimos & \numApagadoHorizonteNoventaENoveCentesimos & \numApagadoHorizonteLargoNoventaENoveCentesimos \\
     \hline
-  \end{tabular}
+  \end{tabular}}
   \caption{O horizonte de recuperação medido, em dias, para duas tolerâncias, ao lado da memória do
     processo. As duas medidas descrevem o mesmo sistema e não são a mesma coisa.}
   \label{tab:horizontes-do-apagado}

@@ -110,14 +110,15 @@ Nos dois tombos maiores do período, o resultado é este.
 
 \begin{table}[htbp]
   \centering
-  \begin{tabular}{lrrr}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrr}
     \hline
     & atraso desde o topo & prejuízo já pago \\
     \hline
     alarme de \numVigiaTomboAntigoData & \numVigiaTomboAntigoAtrasoDias{} dias & \numVigiaTomboAntigoPagoPct\% \\
     alarme de \numVigiaTomboRecenteData & \numVigiaTomboRecenteAtrasoDias{} dias & \numVigiaTomboRecentePagoPct\% \\
     \hline
-  \end{tabular}
+  \end{tabular}}
   \caption{Os dois piores tombos do período, com o dia do alarme e a fração do prejuízo total
     que já tinha acontecido quando ele soou. No tombo mais recente, o alarme veio com
     \numVigiaTomboRecenteQuedaPct\% de queda já realizada, de um total de
@@ -142,7 +143,8 @@ parado, e quanto do prejuízo já estava pago quando ele soou no tombo recente.
 
 \begin{table}[htbp]
   \centering
-  \begin{tabular}{rrr}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{rrr}
     \hline
     limiar & um alarme falso a cada & prejuízo já pago no tombo recente \\
     (violações) & (anos de mundo parado) & (\%) \\
@@ -154,7 +156,7 @@ parado, e quanto do prejuízo já estava pago quando ele soou no tombo recente.
     \numTrocaDozeLimiar & \numTrocaDozeAnos & \numTrocaDozePagoPct \\
     \numVigiaLimiar & \numTrocaTrezeAnos & \numTrocaTrezePagoPct \\
     \hline
-  \end{tabular}
+  \end{tabular}}
   \caption{A troca, medida. Baixar o limiar antecipa o alarme e multiplica o falso alarme; a
     taxa de câmbio não é constante, e piora à direita da tabela.}
   \label{tab:troca}

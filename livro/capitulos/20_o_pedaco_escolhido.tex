@@ -19,7 +19,8 @@ mercado.
 \begin{table}[htbp]
   \centering
   \small
-  \begin{tabular}{rrrrrr}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{rrrrrr}
     \hline
     pedaço & número de & menor & maior & dispersão & a conta \\
     (dias) & pedaços & resposta & resposta & medida & independente \\
@@ -28,7 +29,7 @@ mercado.
     mil duzentos e sessenta & \numPedacoPedacosCincoAnos & \numPedacoEntregaMenorCincoAnos & \numPedacoEntregaMaiorCincoAnos & \numPedacoEntregaDispersaoCincoAnos & \numPedacoEntregaIndependenteCincoAnos \\
     dois mil quinhentos e vinte & \numPedacoPedacosDezAnos & \numPedacoEntregaMenorDezAnos & \numPedacoEntregaMaiorDezAnos & \numPedacoEntregaDispersaoDezAnos & \numPedacoEntregaIndependenteDezAnos \\
     \hline
-  \end{tabular}
+  \end{tabular}}
   \caption{A entrega do corte medida em pedaços de três tamanhos. A última coluna é o que a conta de
     sempre prevê para a dispersão entre pedaços, que é a conta de quem supõe dias independentes:
     $\sqrt{p(1-p)/n}$.}
@@ -74,7 +75,8 @@ preveria --- foi medida nos mesmos tamanhos de pedaço, sobre os \numPedacoDiasC
 \begin{table}[htbp]
   \centering
   \small
-  \begin{tabular}{rrrr}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{rrrr}
     \hline
     pedaço & menor & maior & pedaços sem \\
     (dias) & dependência & dependência & dependência \\
@@ -83,7 +85,7 @@ preveria --- foi medida nos mesmos tamanhos de pedaço, sobre os \numPedacoDiasC
     mil duzentos e sessenta & \numPedacoDependenciaMenorCincoAnos & \numPedacoDependenciaMaiorCincoAnos & \numPedacoDependenciaAbaixoCincoAnos \\
     dois mil quinhentos e vinte & \numPedacoDependenciaMenorDezAnos & \numPedacoDependenciaMaiorDezAnos & \numPedacoDependenciaAbaixoDezAnos \\
     \hline
-  \end{tabular}
+  \end{tabular}}
   \caption{O excesso de quedas conjuntas em cada pedaço, contra a independência. A última coluna
     conta os pedaços em que a dependência some.}
   \label{tab:dependencia-por-pedaco}

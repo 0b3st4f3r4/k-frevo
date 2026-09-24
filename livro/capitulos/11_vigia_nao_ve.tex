@@ -70,7 +70,8 @@ orçamento do alarme, medida agora para a dependência.
 \begin{table}[htbp]
   \centering
   \footnotesize
-  \begin{tabular}{lrrr}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrr}
     \hline
     limiar & orçamento & latência mediana & mundos em que não viu \\
     (dias por bloco) & (anos por alarme) & (dias) & (de \numVizinhancaSementes) \\
@@ -81,7 +82,7 @@ orçamento do alarme, medida agora para a dependência.
     cinco & não soa em mundo parado & --- & \numVizinhancaLimiarCincoNaoViu \\
     seis & não soa em mundo parado & --- & \numVizinhancaLimiarSeisNaoViu \\
     \hline
-  \end{tabular}
+  \end{tabular}}
   \caption{O orçamento e a latência do instrumento conjunto, com a mudança acontecendo no meio da
     série. O orçamento é medido no mundo em que o par não muda, e a latência no mundo em que ele
     muda.}

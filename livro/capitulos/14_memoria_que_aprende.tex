@@ -82,7 +82,8 @@ entre a estimativa e a verdade declarada, dia a dia.
 \begin{table}[htbp]
   \centering
   \small
-  \begin{tabular}{rrrrr}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{rrrrr}
     \hline
     memória & erro da & erro da & piso da & dias previstos \\
     (dias) & mistura & janela & mistura & até \numEsquecimentoTolerancia{} do nível \\
@@ -96,7 +97,7 @@ entre a estimativa e a verdade declarada, dia a dia.
     dois & \numEsquecimentoErroDois & \numEsquecimentoJanelaDois & \numEsquecimentoPisoDois & \numEsquecimentoDiasDois \\
     um & \numEsquecimentoErroUm & \numEsquecimentoJanelaUm & \numEsquecimentoPisoUm & \numEsquecimentoDiasUm \\
     \hline
-  \end{tabular}
+  \end{tabular}}
   \caption{O erro nos \numEsquecimentoHorizonte{} dias seguintes ao degrau, o erro no mundo que não
     muda e os dias que a \cref{prop:meia-vida} prevê para chegar a \numEsquecimentoTolerancia{} do
     nível novo --- que, num mundo que dobra de uma vez, é \numEsquecimentoToleranciaDegrau{} do

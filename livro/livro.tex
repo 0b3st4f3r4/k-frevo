@@ -10,16 +10,40 @@
 % partes impressas, na ordem em que o livro as percorre.
 % Nenhum capítulo entra sem o fracasso concreto que o abre, com número na mão.
 % =============================================================================
-\documentclass[11pt,a4paper]{book}
+\documentclass[12pt]{book}
 
+% -----------------------------------------------------------------------------
+% FORMATO: página de livro brasileiro, com o aparato da ABNT.
+%
+% A página deixou de ser A4. O corte é o do livro brasileiro de texto técnico,
+% 16 x 23 cm, e as margens são as da NBR 14724 --- 3 cm na esquerda e no topo,
+% 2 cm na direita e no pé. Com isso a linha fica em 11 cm e a mancha em 18 cm:
+% o livro deixa de ter a cara de um relatório impresso em papel de escritório.
+%
+% A fonte é a Times, que é uma das duas que a NBR 14724 nomeia, e a entrelinha é
+% de um e meio, como a norma pede para o texto. A paginação vai para o canto
+% superior direito (NBR 14724, 5.2), inclusive na abertura de capítulo, e o
+% título corrente fica do lado esquerdo, que é convenção de livro e não conflita
+% com a norma.
+% -----------------------------------------------------------------------------
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}   % herdado do arquivo: microtype exige fonte escalável
+\usepackage{mathptmx}   % Times no texto e na matemática (a distribuição local não traz newtx)
 \usepackage{amsmath,amssymb,amsthm,mathtools}
 \usepackage{graphicx}
 \usepackage{geometry}
-\geometry{margin=1.15in}
+\geometry{paperwidth=16cm, paperheight=23cm, left=3cm, right=2cm, top=3cm, bottom=2cm}
+\usepackage{setspace}
+\onehalfspacing          % NBR 14724: espaço um e meio no texto
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyhead[R]{\thepage}\renewcommand{\headrulewidth}{0pt}}
 \usepackage{microtype}
+\setlength{\emergencystretch}{3em}   % linha estreita: deixa o LaTeX esticar em vez de estourar
 \usepackage{bm}
 \usepackage{enumitem}
 \usepackage{xcolor}
@@ -28,6 +52,12 @@
             citecolor=green!50!black, urlcolor=blue!80!black}
 \usepackage[capitalise,noabbrev]{cleveref}
 \usepackage{url}
+
+% NBR 10520, sistema numerico: a chamada da citacao vai em sobrescrito. O \cite do LaTeX
+% imprime "[237]", que e a convencao de Vancouver e nao a da ABNT; a chamada sobe, e o
+% hyperref continua levando o leitor a entrada da lista.
+\let\citelivro\cite
+\renewcommand{\cite}[1]{\textsuperscript{\citelivro{#1}}}
 
 % Nomes em português. A distribuição local não traz o pacote de idioma do babel
 % (herdado do arquivo: "Unknown option 'brazilian'"), então os poucos nomes que o
@@ -362,7 +392,7 @@ Para quem chegou até aqui, o caminho de continuar é o mais barato que existe: 
 que mais interessou, abrir o caderno dele, mexer num parâmetro e medir de novo. Foi assim que
 cada número daqui apareceu, e é assim que os que faltam vão aparecer.
 
-\input{fontes.tex}
+{\singlespacing\input{fontes.tex}}
 
 % -----------------------------------------------------------------------------
 % Sumário completo, no fim: o mesmo mapa do começo, agora com as Referências dentro.

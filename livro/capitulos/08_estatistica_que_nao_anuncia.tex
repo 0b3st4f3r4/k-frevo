@@ -50,7 +50,8 @@ dia isolado fica dez vezes maior, porque isso não muda o lugar dele na fila.
 
 \begin{table}[htbp]
   \centering
-  \begin{tabular}{lrr}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{lrr}
     \hline
     sinal & correlação de posto & décimo mais baixo $\to$ mais alto \\
     \hline
@@ -59,7 +60,7 @@ dia isolado fica dez vezes maior, porque isso não muda o lugar dele na fila.
     nível do corte & \numEstabilidadeNivelPosto & \numEstabilidadeNivelPrimeiroDecimo\ $\to$ \numEstabilidadeNivelUltimoDecimo \\
     nível sobre a oscilação & \numEstabilidadeRelativoPosto & \numEstabilidadeRelativoPrimeiroDecimo\ $\to$ \numEstabilidadeRelativoUltimoDecimo \\
     \hline
-  \end{tabular}
+  \end{tabular}}
   \caption{Cada sinal olhando para trás, contra os rompimentos dos \numBlocoDias{} dias seguintes.
     A última coluna é a média do alvo no décimo mais baixo e no mais alto do sinal.}
   \label{tab:sinais}
@@ -111,7 +112,8 @@ este.
 
 \begin{table}[htbp]
   \centering
-  \begin{tabular}{lrr}
+  \resizebox{\linewidth}{!}{%
+\begin{tabular}{lrr}
     \hline
     sinal & no mercado & no mundo que nunca muda \\
     \hline
@@ -119,7 +121,7 @@ este.
     contagem recente & \numEstabilidadeContagemPosto & \numEstabilidadeControleContagemPosto \\
     nível do corte & \numEstabilidadeNivelPosto & \numEstabilidadeControleNivelPosto \\
     \hline
-  \end{tabular}
+  \end{tabular}}
   \caption{Os mesmos sinais nos dois mundos, para os três que o mundo parado tem medidos --- o nível
     sobre a oscilação ficou sem controle. No mundo em que nada muda não há o que anunciar, e ainda
     assim o nível do corte produz correlação.}

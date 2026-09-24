@@ -114,6 +114,25 @@ def ano(de) -> str:
     return achado.group(1) if achado else "s.d."
 
 
+def autores_abnt(autores: str) -> str:
+    r"""SOBRENOME, Nome; SOBRENOME, Nome --- a NBR 6023 pede o sobrenome em caixa alta na frente.
+
+    O corpus guarda os autores na ordem natural ("G. A. Carpenter, S. Grossberg"), e a entrada
+    impressa os repetia assim. A conversao sobe o ultimo token de cada autor para a caixa alta e
+    deixa as iniciais depois da virgula; nome de uma palavra so (instituicao, ou autor que assina
+    com um nome unico) passa inteiro.
+    """
+    blocos = [b.strip() for b in autores.split(";")] if ";" in autores else [b.strip() for b in autores.split(",")]
+    saida = []
+    for bloco in blocos:
+        tokens = [tk for tk in bloco.split() if tk]
+        if len(tokens) >= 2 and not tokens[-1].endswith("."):
+            saida.append("%s, %s" % (dobra(tokens[-1]).upper(), " ".join(tokens[:-1])))
+        else:
+            saida.append(bloco)
+    return "; ".join(saida)
+
+
 def chave_de(autores: str, titulo: str, ano_: str) -> str:
     bruta = re.sub(r"[^a-z0-9]", "", sobrenome(autores) + ano_ + palavra_titulo(titulo))
     return bruta[:40]
@@ -170,10 +189,15 @@ def gerar_bibliografia() -> int:
     ]
     for f in fontes:
         linhas.append("  \\bibitem{%s}" % f["chave"])
-        linhas.append("  %s." % tex(f["autores"]))
-        linhas.append("  \\newblock %s." % tex(f["titulo"]))
+        nome = autores_abnt(tex(f["autores"]))
+        linhas.append("  %s%s" % (nome, "" if nome.endswith(".") else "."))
+        linhas.append("  \\newblock \\textbf{%s}." % tex(f["titulo"]))
         if f["veiculo"] and f["veiculo"] != "—":
-            linhas.append("  \\newblock %s, %s." % (tex(f["veiculo"]), f["ano"]))
+            veiculo = tex(f["veiculo"])
+            # o ano ja mora dentro do veiculo em parte do corpus (o periodico o carrega):
+            # imprimi-lo de novo punha "2007, 2007" em 52 entradas.
+            linhas.append("  \\newblock %s." % (veiculo if f["ano"] in veiculo
+                                                else "%s, %s" % (veiculo, f["ano"])))
         else:
             linhas.append("  \\newblock %s." % f["ano"])
         if f["link"] and f["link"] != "—":
