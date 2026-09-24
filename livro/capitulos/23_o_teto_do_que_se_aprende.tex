@@ -159,10 +159,24 @@ resumo cobra é do resumo.
 
 Resumir não é estimar por estimar: o resumo serve para \textbf{decidir}, e a decisão cobra mais. O
 alarme precisa de um corte, e o corte é um quantil que o esboço não guarda --- de modo que a ponte
-entre a energia e o corte supõe simetria. Com o limiar do próprio dado, a taxa assinada é
-\numBitsTaxaLimiar{}; com a energia exata e a suposição de simetria, ela cai a \numBitsTaxaGaussiana{};
-e com a energia do esboço de cem contadores, a \numBitsTaxaEsboco{}. Duas coisas estão sendo pagas
+entre a energia e o corte supõe simetria. Com o limiar do próprio dado, a taxa assinada é de
+\numBitsTaxaLimiar{} por cento; com a energia exata e a suposição de simetria, ela cai a \numBitsTaxaGaussiana{} por cento;
+e com a energia do esboço de cem contadores, a \numBitsTaxaEsboco{} por cento. Duas coisas estão sendo pagas
 ali, e a segunda é a que interessa: a suposição cobra um pouco, e o resumo cobra o resto.
+
+Falta o que a compressão custa de verdade, e não é o erro. Embaralhar os dias deixa a energia onde
+ela estava --- é a mesma soma, e o desvio entre \numBitsPermutacoes{} embaralhamentos é de
+\numBitsDesvioEnergia{}, o ruído da própria aritmética --- e move o pior bloco de sessenta dias de
+\numBitsPiorMenor{} para \numBitsPiorMaior{}. Ao esboço, esses mundos são o mesmo mundo: a estimativa
+dele anda \numBitsErroEmbaralhado{} por cento de erro nos embaralhados e \numBitsErroCem{} por cento
+no dado original ---
+o mesmo tamanho, dentro do que \numBitsMundos{} sorteios resolvem.
+
+É o que a optimalidade promete, e é o que ela não promete \cite{zamir2025optimality}: um estimador
+ótimo para o segundo momento é ótimo \textbf{para o segundo momento}. O contador guarda a soma dos
+quadrados e não guarda a ordem, e a pergunta deste livro --- o pior bloco, a contagem de explicações
+que cabem --- é uma pergunta sobre a ordem. O preço do resumo não é o erro que ele comete: é a
+pergunta que ele deixa de poder responder.
 
 \section{O que fica}
 
