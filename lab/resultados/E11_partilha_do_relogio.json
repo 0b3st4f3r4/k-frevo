@@ -1,4 +1,9 @@
 {
+ "partilha_aperto_mundos_que_ganham_contagem": 6,
+ "partilha_aperto_mundos_que_perdem_contagem": 14,
+ "partilha_aperto_por_mundo": 2.819986700769719e-05,
+ "partilha_aperto_por_mundo_dispersao": 5.05249649767101e-05,
+ "partilha_aperto_sobre_tudo_pct": 7.10620720445863,
  "partilha_dias_de_serie": 12000,
  "partilha_escala_dia": 0.0003968342914347317,
  "partilha_escala_lenta": 0.0018072154681588932,
@@ -8,7 +13,6 @@
  "partilha_ganho_duzentos_e_cinquenta_pct": 1.7629201578842764,
  "partilha_ganho_meio_a_meio_pct": 11.294478638733336,
  "partilha_ganho_sessenta_pct": 11.294478638733336,
- "partilha_ganho_sobra_pct": -7.10620720445863,
  "partilha_ganho_vinte_pct": 21.98671631067568,
  "partilha_horizonte": 500,
  "partilha_janela_escala": 21,
@@ -29,5 +33,6 @@
  "partilha_sem_atualizar_escala": 0.003376103369377364,
  "partilha_sementes": 20,
  "partilha_sobra": 0.0003968342914347317,
- "partilha_sobra_atualizacoes": 500
+ "partilha_sobra_atualizacoes": 500,
+ "partilha_sobra_dispersao": 8.224008173564783e-05
 }

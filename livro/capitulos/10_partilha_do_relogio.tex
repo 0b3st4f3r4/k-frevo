@@ -130,11 +130,17 @@ perda; com duzentos e cinquenta, vale \numPartilhaGanhoDuzentosECinquentaPct\%. 
 pergunta supõe existe, e aparece no aperto: enquanto houver atualizações de sobra, os dois
 ingredientes recebem o que precisam e não disputam nada.
 
-A última conta fecha o sentido do capítulo. Atualizar tudo todo dia custa
-\numPartilhaSobra{} de perda por dia, contra \numPartilhaMelhor{} do melhor desenho com
-\numPartilhaOrcamento{} atualizações: \numPartilhaGanhoSobraPct\% menos perda, comprada com
-\numPartilhaSobraAtualizacoes{} atualizações de cada ingrediente no mesmo horizonte. A pergunta que
-fica não é se vale a pena, mas quanto se está disposto a pagar por um punhado de perda.
+A última conta fecha o sentido do capítulo. Manter os dois ingredientes atualizados todo dia, ao
+longo de \numPartilhaSobraAtualizacoes{} dias, leva a perda a \numPartilhaSobra{}, com desvio de
+\numPartilhaSobraDispersao{} entre os mundos sorteados. O melhor desenho com \numPartilhaOrcamento{}
+atualizações no mesmo horizonte fica em \numPartilhaMelhor{}: \numPartilhaApertoSobreTudoPct\% de
+perda a mais, na média. A diferença é pequena e não se repete em todo mundo. Comparados par a par
+nos mesmos \numPartilhaSementes{} mundos sorteados, o orçamento apertado entrega mais perda em
+\numPartilhaApertoMundosQuePerdemContagem{} deles e menos nos
+\numPartilhaApertoMundosQueGanhamContagem{} restantes, porque a diferença entre os dois desenhos
+mede \numPartilhaApertoPorMundo{} de perda por dia e o desvio dessa diferença entre os mundos é
+\numPartilhaApertoPorMundoDispersao{}, maior que ela. A pergunta que fica não é se vale a pena,
+mas quanto se está disposto a pagar por um punhado de perda.
 
 \begin{figure}[htbp]
   \centering

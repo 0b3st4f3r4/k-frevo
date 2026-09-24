@@ -92,11 +92,30 @@ def formata(valor) -> str:
             # A notação científica sai em \ensuremath, e não em modo matemático cru: o livro cita
             # a grandeza no meio de uma frase, e um \times solto derruba a compilação. Defeito que
             # só apareceu quando a primeira grandeza pequena foi medida.
+            #
+            # A vírgula vai entre chaves pelo mesmo motivo que o \pm da linha acima saiu do modo
+            # matemático: dentro de matemática a vírgula é pontuação e ganha um espaço depois, de
+            # modo que 8,224 era impresso "8, 224". A chave a torna caractere comum.
             mantissa, expoente = texto.split("e")
             return ("\\ensuremath{%s \\times 10^{%d}}"
-                    % (mantissa.replace(".", ","), int(expoente)))
+                    % (mantissa.replace(".", "{,}"), int(expoente)))
         return texto.replace(".", ",")
     return str(valor)
+
+
+def conferir_matematica(nome: str, corpo: str) -> str:
+    r"""Devolve o defeito se uma grandeza em modo matemático trouxer vírgula decimal solta.
+
+    Dentro de matemática a vírgula é pontuação e ganha um espaço depois: 8,224 vira
+    "8, 224" no papel. É a mesma armadilha que já tinha custado o \pm, e a notação
+    científica caiu nela depois — com a chave, 8{,}224, a vírgula vira caractere comum.
+    O defeito não aparece no fonte e aparece na página, então a conferência é aqui.
+    """
+    for trecho in re.findall(r"\\ensuremath\{[^}]*\}", corpo):
+        if re.search(r"\d,\d", trecho):
+            return ("%s: vírgula decimal solta em modo matemático (%s) — em TeX ela é "
+                    "pontuação e imprime com espaço depois" % (nome, trecho))
+    return ""
 
 
 def comando(nome: str) -> str:
@@ -143,7 +162,12 @@ def colhe() -> int:
         except ValueError as erro:
             print("%s: %s" % (caminho.name, erro))
             return 1
-        linhas.append("\\newcommand{%s}{%s}" % (nome, formata(medidas[chave])))
+        corpo = formata(medidas[chave])
+        defeito = conferir_matematica(nome, corpo)
+        if defeito:
+            print(defeito)
+            return 1
+        linhas.append("\\newcommand{%s}{%s}" % (nome, corpo))
     NUMEROS.write_text("\n".join(linhas) + "\n", encoding="utf-8")
     print("experimentos: %d | grandezas: %d | %s escrito"
           % (len(cadernos()), len(medidas), NUMEROS.relative_to(RAIZ)))
