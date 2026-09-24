@@ -113,7 +113,7 @@ horizonte sai da conta: $\log(1-\theta^{2})$ dividido por $2\log a$ dias.
 \end{table}
 
 A tolerância estreita é a metade da escala do processo e a larga são noventa por cento dela. As
-duas colunas do meio e a primeira não coincidem, e a diferença não é detalhe. A memória do
+três colunas medidas não coincidem, e a diferença não é detalhe. A memória do
 processo diz quanto tempo a influência de um dia dura; o horizonte diz até onde o valor daquele dia
 pode ser reconstruído com um erro aceitável. Com \emph{a} em noventa e nove centésimos a memória é de
 \numApagadoMemoriaNoventaENoveCentesimos{} dias e o horizonte tolerante é de
@@ -135,8 +135,8 @@ memória sugere --- e o que ainda volta, volta pior.
 Falta o controle que separa o que apaga o passado do que só o embaralha. Se o que apaga fosse a
 aritmética, guardar o estado com mais precisão esticaria o horizonte. O horizonte fica onde estava: guardando o estado
 com \numApagadoBitsMenor{} bits, o horizonte é de \numApagadoHorizonteDeBits{} dias, e guardando com
-precisão inteira ele é de \numApagadoHorizonteSemBits{} --- praticamente o mesmo número, e o mesmo
-que a \cref{prop:reconstrucao} prevê, \numApagadoHorizonteDaFormula{}.
+precisão inteira ele é de \numApagadoHorizonteSemBits{} --- praticamente o mesmo número, e o que a
+\cref{prop:reconstrucao} prevê para a mesma tolerância é \numApagadoHorizonteDaFormula{}.
 
 A leitura é direta: o que apaga o passado é o \textbf{ruído que entrou nele}, e não a precisão com que
 ele foi guardado. Um sistema que guarda o estado em \numApagadoBitsMenor{} bits e outro que o guarda em precisão cheia
