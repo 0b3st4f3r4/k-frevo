@@ -191,7 +191,10 @@ def imprime(linhas: list) -> None:
 
 
 def main(argumentos: list) -> int:
-    alvos = [pathlib.Path(a) for a in argumentos] or sorted(LIVRO.glob("capitulos/*.tex"))
+    # O livro.tex entra na medida: é onde vivem a introdução, a conclusão e as notas de parte ---
+    # o primeiro e o último texto que o leitor encontra, e o único que ficava fora da régua.
+    alvos = [pathlib.Path(a) for a in argumentos] or (
+        sorted(LIVRO.glob("capitulos/*.tex")) + [LIVRO / "livro.tex"])
     if not alvos:
         print("nenhum capítulo encontrado")
         return 1
