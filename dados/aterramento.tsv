@@ -24,15 +24,15 @@ L	o número de violações do bloco; mais tarde, o nível da série	simbolo	L	3	
 prob	a probabilidade de um evento	simbolo	\Prob	3		3
 sigma	a oscilação de um dia, medida em desvio	simbolo	\sigma	4		4
 C	o número de células em que a janela é repartida	simbolo	C	5		5
-omega	o parâmetro de piso da recursão da oscilação	simbolo	\omega	-	variancia	-
-alpha	o parâmetro do choque na recursão da oscilação	simbolo	\alpha	-	variancia	-
-beta	o parâmetro da memória na recursão da oscilação	simbolo	\beta	-	variancia	-
-var	a variância declarada do dia na recursão	simbolo	v	-	variancia	-
-x	o valor da série em um dia	simbolo	x	-		-
-m	o número de dias da janela de resposta; mais tarde, os dias por vir	simbolo	m	-		-
-d	o efeito a detectar; mais tarde, o atraso do dado	simbolo	d	-		-
-s	o desvio medido entre replicatas	simbolo	s	-	replicata	-
-z	o quantil da confiança declarada; mais tarde, o incremento padronizado	simbolo	z	-		-
+omega	o parâmetro de piso da recursão da oscilação	simbolo	\omega	11	variancia	11
+alpha	o parâmetro do choque na recursão da oscilação	simbolo	\alpha	11	variancia	11
+beta	o parâmetro da memória na recursão da oscilação	simbolo	\beta	11	variancia	11
+var	a variância declarada do dia na recursão	simbolo	v	11	variancia	11
+x	o valor da série em um dia	simbolo	x	11		11
+m	o número de dias da janela de resposta; mais tarde, os dias por vir	simbolo	m	11		11
+d	o efeito a detectar; mais tarde, o atraso do dado	simbolo	d	11		11
+s	o desvio medido entre replicatas	simbolo	s	11	replicata	11
+z	o quantil da confiança declarada; mais tarde, o incremento padronizado	simbolo	z	11		11
 c	a constante positiva que multiplica a série	simbolo	c	-		-
 lambda	a taxa de esquecimento da memória	simbolo	\lambda	-	esquecimento	-
 epsilon	a tolerância de erro, em fração do degrau	simbolo	\epsilon	-	tolerancia	-
@@ -59,7 +59,7 @@ décimo	cada uma das dez fatias iguais de uma lista ordenada	termo	por d[ée]cim
 vies	o erro que a própria regra assina, antes de o dado chegar	termo	viés	2		2
 amostra	o pedaço finito de dias de que se dispõe	termo	amostra	2		2
 erro-padrao	o quanto a média de n dias erra por si mesma	termo	erro-padrão|erro padrão	4	desvio	4
-replicata	um mundo sorteado inteiro, medido uma vez	termo	replicata	-	sorteio	-
+replicata	um mundo sorteado inteiro, medido uma vez	termo	replicata	11	sorteio	11
 controle	o mundo em que nada muda, medido com a mesma rotina	termo	controle	5		5
 mundo-parado	o mundo sorteado em que nada muda	termo	mundo que nunca muda	2	sorteio	2
 tolerancia	o erro que ainda se aceita, com a unidade declarada	termo	tolerância	8		8
@@ -73,11 +73,11 @@ dependencia	as coisas ruins que vêm juntas	termo	\bdependência	6	independencia
 posto	a correlação que olha a ordem e não os valores	termo	correlação de posto	7	dependencia	7
 copula	a forma da dependência separada das margens	termo	cópula	6	dependencia	6
 condicional	a lei que vale depois de se saber alguma coisa	termo	condicional	-	probabilidade	-
-estacionaria	a lei que não muda com o dia	termo	estacionári	-	probabilidade	-
-memoria	quanto um dia carrega do anterior	termo	memória que aprende|memória efetiva|memória mora	-	estacionaria	-
+estacionaria	a lei que não muda com o dia	termo	estacionári	11	probabilidade	11
+memoria	quanto um dia carrega do anterior	termo	memória que aprende|memória efetiva|memória mora	11	estacionaria	11
 esquecimento	a taxa com que o passado cede lugar ao presente	termo	esquecimento	-	memoria	-
 meia-vida	os dias que apagam metade de um degrau	termo	meia-vida	-	esquecimento	-
-ponto-fixo	o valor que a recursão alcança e não deixa mais	termo	ponto fixo	-		-
+ponto-fixo	o valor que a recursão alcança e não deixa mais	termo	ponto fixo	11		11
 assimetria	o quanto o lado de cima difere do lado de baixo	termo	assimetria	-	variancia	-
 logaritmo	a conta que soma onde a porcentagem multiplica	termo	logaritmo	2		2
 X	a variável aleatória do dia: um quando o índice sobe, zero quando não	simbolo	X	1		1
@@ -90,3 +90,4 @@ dispersao	de quanto uma média se mexeria se os dias fossem outros	termo	dispers
 memoria-janela	a memória do instrumento: quantos dias o alarme olha	termo	dias de memória|memória do vigia	3		3
 binomial	a contagem de altas em B sorteios independentes	termo	binomial	3	probabilidade	3
 A	o acontecimento, na escrita da probabilidade	simbolo	A	3	prob	3
+intervalo-de-confianca	a barra da média escrita como um trecho	termo	intervalo de confiança	11	barra	11

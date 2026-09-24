@@ -38,9 +38,13 @@ precisa ser declarada antes de ser usada.
 Uma \emph{contenção} de $k$ dias fixa a série em zero durante $k$ dias consecutivos. A
 \emph{resposta} do mundo a essa contenção é a média de $|x|$ --- o tamanho do afastamento da série em
 cada dia --- nos $m$ dias seguintes à soltura,
-dividida pela média de $|x|$ nos $m$ dias anteriores à contenção. Uma \emph{replicata} é um mundo
-sorteado inteiro, segurado e observado uma vez.
+dividida pela média de $|x|$ nos $m$ dias anteriores à contenção. O número $m$ é a janela de
+espera: quantos dias depois da soltura ainda se olha. Uma \emph{replicata} é um mundo
+sorteado inteiro, segurado e observado uma vez --- o mesmo experimento inteiro, repetido do
+zero, que é o que dá dispersão para medir.
 \end{definicao}
+% aterramento: m
+% aterramento: replicata
 
 A referência é o próprio mundo. Um mundo que volta ao que era responde $1$; um mundo que volta
 ferido responde menos que $1$. Medir contra a escala de fora misturaria a ferida com o tamanho do
@@ -51,11 +55,34 @@ de $|x|$ nos dez dias seguintes à soltura dividida pela média de $|x|$ nos dez
 contenção: uma razão de um é um mundo que voltou ao que era, e uma razão de meio é um mundo que
 voltou com metade da oscilação.
 
-O que separa as duas explicações é a forma da resposta. Onde a memória mora na série, segurar apaga
+% aterramento: memoria
+O que separa as duas explicações é a forma da resposta.
+Dizer que a \textbf{memória} mora na série é
+dizer que o tamanho de hoje depende do tamanho de ontem: o mundo carrega o próprio passado, e o
+esquecimento é a taxa com que ele o larga. Onde a memória mora na série, segurar apaga
 a memória: a oscilação cai enquanto o mundo está parado e precisa ser reconstruída depois, tanto
 mais devagar quanto mais fundo o buraco. Onde o estado é escondido, o estado corre durante a
 contenção: a série fica parada e a lei continua trocando, de modo que a soltura devolve o mundo no
 ponto em que a lei estiver.
+
+% aterramento: estacionaria
+Um mundo em que a lei não muda com o dia chama-se \textbf{estacionário}: cada dia sorteia da mesma
+lei, e o que muda de um dia para o outro é só o que o sorteio deu. É o mundo de que os capítulos
+anteriores partem sempre que dizem «a mesma lei», e a mudança estudada aqui é justamente a lei
+deixando de ser a mesma.
+% aterramento: var
+% aterramento: x
+% aterramento: omega
+% aterramento: alpha
+% aterramento: beta
+% aterramento: ponto-fixo
+A lei que o mundo do experimento obedece tem quatro peças, e as quatro se leem em uma linha.
+$x(t)$ é o valor da série no dia $t$; $v(t)$ é a variância declarada daquele dia, o quadrado do
+tamanho típico que a barra do primeiro capítulo mediu. A oscilação de hoje é uma mistura de três
+coisas: um chão que não depende de nada, $\omega$; o que o mundo andou ontem, com peso $\alpha$;
+e a própria oscilação de ontem, com peso $\beta$. O peso da memória é $\beta$, e é ele que faz a
+oscilação de hoje parecer com a de ontem. Uma recursão dessas caminha para um número em que ela
+não se mexe mais --- o \textbf{ponto fixo}, o valor que posto do lado direito devolve ele mesmo.
 
 \begin{proposicao}[o piso da contenção]\label{prop:piso-contencao}
 Num mundo cuja oscilação obedece $v(t) = \omega + \alpha\, x(t-1)^2 + \beta\, v(t-1)$
@@ -141,14 +168,20 @@ uma média mais dispersa.
 \section{O preço de separar}
 
 Com a resposta na mão, o preço sai de uma conta de duas linhas. Cada mundo carrega a sua dispersão
-entre replicatas, e os dois intervalos de confiança precisam ficar separados: se a soma dos dois
-raios tem de caber dentro da diferença que se quer ver, então
+entre replicatas, e as duas respostas precisam ficar separadas.
+% aterramento: intervalo-de-confianca
+% aterramento: s
+% aterramento: z
+% aterramento: d
+Um \textbf{intervalo de confiança} é a barra da média escrita como um trecho: a média, mais e menos
+um número de barras dela, e a confiança declarada diz quantas barras são. Com noventa e cinco por
+cento de confiança esse número é quase duas barras, e ele entra na conta escrito $z$. O desvio
+medido entre replicatas entra escrito $s$, e a diferença que se insiste em ver entra escrita $d$.
+Se a soma dos dois raios tem de caber dentro dessa diferença, o número de replicatas sai de
 \[
 n \;=\; \Big( \frac{z\, s}{d} \Big)^{2},
 \]
-onde $s$ é a soma dos dois desvios medidos, $z$ é o quantil da confiança declarada e $d$ é a
-diferença que se insiste em ver. O preço em dias de experimento é $n$ vezes a duração de uma
-replicata.
+e o preço em dias de experimento é $n$ vezes a duração de uma replicata.
 
 A conta tem uma exigência embutida que é fácil de esquecer: um desenho só vale onde a diferença
 existe. Comprar replicatas para enxergar uma diferença que a contenção não produz é comprar um erro
