@@ -158,8 +158,8 @@ O resultado não coincide com a previsão, e o desencontro tem forma.
 
 As quatro razões ficam entre \numSomaRealMilDuzentosESessentaRazao\ e
 \numSomaRealDuzentosECinquentaEDoisRazao, todas abaixo de um, e a menor é a do horizonte de
-cinco anos. A previsão da raiz exagera no dado real, e exagera mais quanto mais longe o
-horizonte.
+cinco anos. Não é uma escada: a razão do trimestre fica abaixo da do ano, e o que cresce com o
+horizonte é a distância em pontos entre a previsão e a série, não a razão.
 
 \begin{figure}[htbp]
   \centering
@@ -170,11 +170,15 @@ horizonte.
   \label{fig:passo}
 \end{figure}
 
-A razão é a que o livro vai encontrar muitas vezes: o desvio de um dia é carregado por poucos
-dias, e um único dia enorme não se repete em todas as janelas. A previsão da raiz supõe que
-todo dia contribui com o mesmo tamanho típico, e no dado real o tamanho típico é uma média que
-uns poucos dias puxam para cima. Num mês há poucos dias, e o puxão quase não aparece; em cinco
-anos, a média do dia deixa de descrever qualquer janela isolada.
+A causa não está no tamanho dos dias: está na \textbf{ordem} deles. A autocorrelação de um dia nesta série vale
+\numSomaRhoUm{} --- o dia de hoje tende a desfazer parte do que o de ontem andou ---, e a
+previsão da raiz supõe justamente o contrário, dias independentes. Baralhando os retornos, de
+modo que os mesmos dias enormes continuem todos lá e só a ordem morra, a razão no horizonte de um
+mês vai a \numSomaBaralhadaRazaoVinteUm{} em \numSomaBaralhadaSorteios{} baralhamentos, contra
+\numSomaRealVinteUmRazao{} do dado. Em cinco anos ela vai a
+\numSomaBaralhadaRazaoMilDuzentosESessenta{}, e o que resta do buraco é do próprio estimador, que
+mede janelas sobrepostas: a razão do horizonte longo é a de menor potência, e é a que menos
+separa.
 
 \begin{figure}[htbp]
   \centering
@@ -195,8 +199,8 @@ Ficam os dois objetos que o resto do livro usa sem dizer: o \textbf{nível}, que
 \textbf{incremento}, que é o que o dia acrescentou. Fica a ponte entre eles, e ela é o
 logaritmo: somar retornos é o mesmo que olhar a razão entre dois preços, exatamente. E fica a
 banda do nível, que cresce com a raiz do horizonte --- medida em \numSomaMundos{} mundos, e
-posta contra o dado real, onde ela exagera porque o tamanho típico do dia não é o tamanho de
-todos os dias.
+posta contra o dado real, onde ela exagera porque o dia de hoje desfaz parte do que o de
+ontem andou.
 
 A pergunta da noite continua de pé, e agora se vê o tamanho dela. A banda do nível se alarga
 com o horizonte, e o que se quer saber é quanto se pode perder amanhã: uma resposta que não

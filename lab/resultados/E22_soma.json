@@ -1,4 +1,9 @@
 {
+ "soma_baralhada_razao_mil_duzentos_e_sessenta": 0.8406681250550517,
+ "soma_baralhada_razao_mil_duzentos_e_sessenta_dispersao": 0.24745206155311023,
+ "soma_baralhada_razao_vinte_um": 0.9973223850537096,
+ "soma_baralhada_razao_vinte_um_dispersao": 0.030200237549712707,
+ "soma_baralhada_sorteios": 200,
  "soma_curta_dias": 21,
  "soma_curta_real_pct": 1.4671837913193153,
  "soma_curta_variacoes_pct": 1.4986558536674743,
@@ -32,6 +37,7 @@
  "soma_real_sessenta_e_tres_razao": 0.8152754760936507,
  "soma_real_vinte_um_dispersao_pct": 4.813113207755867,
  "soma_real_vinte_um_razao": 0.8660374786707554,
+ "soma_rho_um": -0.09895860840696528,
  "soma_serie_dias": 6719,
  "soma_variacao_real_pct": 432.79024309878514,
  "soma_variacoes_pct": 216.6650087896293
