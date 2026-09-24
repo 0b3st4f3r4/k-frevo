@@ -47,17 +47,19 @@
 \usepackage{bm}
 \usepackage{enumitem}
 \usepackage{xcolor}
+\usepackage[super]{cite}
+% A lista tambem perde os colchetes: a ABNT numera a referencia, nao a poe entre parenteses.
+\makeatletter
+\renewcommand{\@biblabel}[1]{#1.}
+\makeatother
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, linkcolor=blue!70!black,
             citecolor=green!50!black, urlcolor=blue!80!black}
 \usepackage[capitalise,noabbrev]{cleveref}
 \usepackage{url}
 
-% NBR 10520, sistema numerico: a chamada da citacao vai em sobrescrito. O \cite do LaTeX
-% imprime "[237]", que e a convencao de Vancouver e nao a da ABNT; a chamada sobe, e o
-% hyperref continua levando o leitor a entrada da lista.
-\let\citelivro\cite
-\renewcommand{\cite}[1]{\textsuperscript{\citelivro{#1}}}
+% NBR 10520, sistema numerico: a chamada da citacao vai em sobrescrito, sem os colchetes
+% de Vancouver. O pacote cite faz isso na fonte, e o hyperref continua levando o leitor a lista.
 
 % Nomes em português. A distribuição local não traz o pacote de idioma do babel
 % (herdado do arquivo: "Unknown option 'brazilian'"), então os poucos nomes que o
