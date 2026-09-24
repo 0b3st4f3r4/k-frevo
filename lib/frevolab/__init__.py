@@ -15,8 +15,8 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 from importlib.metadata import PackageNotFoundError, version
 
 from . import (calendario, centro, dados, dependencia, direcao, esquecimento, estabilidade,
-               graficos, intervencao, mudanca, partilha, promessa, recorde, regimes, vigia,
-               volatilidade)
+               graficos, intervencao, mudanca, partilha, proporcao, promessa, recorde, regimes,
+               vigia, volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -27,8 +27,8 @@ except PackageNotFoundError:
     VERSAO = "0.1.0"
 
 __all__ = ["calendario", "dados", "dependencia", "esquecimento", "estabilidade", "graficos",
-           "intervencao", "mudanca", "partilha", "promessa", "recorde", "regimes", "vigia",
-           "volatilidade", "VERSAO", "auto_teste"]
+           "intervencao", "mudanca", "partilha", "proporcao", "promessa", "recorde", "regimes",
+           "vigia", "volatilidade", "VERSAO", "auto_teste"]
 
 
 def auto_teste() -> list:
@@ -615,6 +615,26 @@ def auto_teste() -> list:
     # os ciclos da partilha: os três casos testados dividiam exatamente, onde truncar dá o mesmo
     if partilha.ciclos(3, 7, 500) != (167, 71):
         problemas.append("os ciclos da partilha não arredondam para o mais próximo")
+
+    # --- proporcao: a barra da média de muitos sorteios ---
+    # A previsão da proposição, no caso em que ela é exata: a barra de uma moeda em cem
+    # sorteios é 0,05, e não "aproximadamente 0,05".
+    if abs(proporcao.barra(0.5, 100) - 0.05) > 1e-12:
+        problemas.append("a barra da fração não é a raiz de p(1-p)/n")
+    # e a barra tem de bater com a dispersão MEDIDA: é essa a propriedade que o capítulo usa,
+    # e uma barra que só fecha na álgebra não serve para medir nada.
+    sorteio = np.random.default_rng(20260924)
+    medido = proporcao.mundos(0.5, 252, 4000, sorteio).std(ddof=1)
+    previsto = proporcao.barra(0.5, 252)
+    if abs(medido - previsto) / previsto > 0.15:
+        problemas.append("a dispersão entre mundos sorteados não bate com a barra prevista "
+                         "(medido %.5f, previsto %.5f)" % (medido, previsto))
+    # a fração de uma série constante é um, e a de uma série que só cai é zero: sem isto, um
+    # erro de sinal em indicadores passaria por média.
+    if proporcao.fracao(np.array([1.0, 2.0, 3.0])) != 1.0 or proporcao.fracao(np.array([-1.0, -2.0])) != 0.0:
+        problemas.append("o indicador do dia trocou de sinal")
+    if abs(proporcao.janelas(np.arange(1.0, 11.0), 3).mean() - 1.0) > 1e-12:
+        problemas.append("as janelas móveis não reproduzem a fração da série constante")
 
     import matplotlib
     matplotlib.use("Agg")

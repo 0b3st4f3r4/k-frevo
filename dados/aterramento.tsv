@@ -15,8 +15,8 @@
 # O registro guarda ENDEREÇO, NUNCA DEFINIÇÃO: a prosa vive só no capítulo, e não existe segunda
 # cópia para divergir. Quem confere é o lab/aterramento.py, pelo portão conferir_aterramento.
 k	o posto do corte na fila — o k-ésimo pior dos n dias	simbolo	k	-		-
-n	o número de dias da janela	simbolo	n	-		-
-p	o preço do dia; mais tarde, a probabilidade de um dia romper	simbolo	p	-		-
+n	o número de dias da janela	simbolo	n	1		-
+p	a probabilidade de alta do dia; mais tarde, o preço	simbolo	p	1		-
 r	o retorno do dia, em logaritmo	simbolo	r	-		-
 t	o índice do dia na série	simbolo	t	-		-
 B	o número de dias do bloco	simbolo	B	-		-
@@ -44,14 +44,14 @@ a	o coeficiente da memória de um passo	simbolo	a	-		-
 e	o erro da reconstrução do passado	simbolo	e	-		-
 j	o passo da reconstrução do passado	simbolo	j	-		-
 f	o tamanho do choque comum ao par	simbolo	f	-		-
-probabilidade	a probabilidade de um evento, medida como frequência de muitos sorteios	termo	probabilidade	-		-
-independencia	dois dias não têm nada a dizer um sobre o outro	termo	independent|independência	-	probabilidade	-
-sorteio	repetir o mundo inteiro com outra semente	termo	sorteio|sorteado|sorteamos	-		-
+probabilidade	a probabilidade de um evento, medida como frequência de muitos sorteios	termo	probabilidade	1		-
+independencia	dois dias não têm nada a dizer um sobre o outro	termo	independent|independência	1	probabilidade	-
+sorteio	repetir o mundo inteiro com outra semente	termo	sorteio|sorteado|sorteamos	1		-
 semente	o número que torna o sorteio repetível	termo	semente	-	sorteio	-
-media	a média de muitos dias ou de muitos sorteios	termo	média	-	sorteio	-
-desvio	o desvio de um dia, e a sua média	termo	desvio-padrão|desvio padrão	-	media	-
-variancia	a variância — o quadrado do tamanho típico do dia	termo	variância	-	media	-
-esperanca	a esperança — a média de muitos sorteios, dita em símbolo	termo	esperança	-	media	-
+media	a média de muitos dias ou de muitos sorteios	termo	média	1	sorteio	-
+desvio	o desvio de um dia, e a sua média	termo	desvio-padrão|desvio padrão	1	media	-
+variancia	a variância — o quadrado do tamanho típico do dia	termo	variância	1	media	-
+esperanca	a esperança — a média de muitos sorteios, dita em símbolo	termo	esperança	1	media	-
 curtose	a curtose — o quanto a cauda pesa, comparada com a normal	termo	curtose	-	variancia	-
 quantil	o valor que deixa uma fração declarada dos dias abaixo dele	termo	quantil	-	probabilidade	-
 mediana	o quantil de metade	termo	mediana	-	quantil	-
@@ -80,3 +80,10 @@ meia-vida	os dias que apagam metade de um degrau	termo	meia-vida	-	esquecimento	
 ponto-fixo	o valor que a recursão alcança e não deixa mais	termo	ponto fixo	-		-
 assimetria	o quanto o lado de cima difere do lado de baixo	termo	assimetria	-	variancia	-
 logaritmo	a conta que soma onde a porcentagem multiplica	termo	logaritmo	-		-
+X	a variável aleatória do dia: um quando o índice sobe, zero quando não	simbolo	X	1		1
+N	o número de altas na janela	simbolo	N	1		1
+media-simbolo	a média de muitos sorteios, dita em símbolo	simbolo	\E	1	esperanca	1
+variavel-aleatoria	um número que sai de um sorteio	termo	variável aleatória	1	sorteio	1
+lei	o que diz a chance de cada resultado do sorteio	termo	\blei\b	1	sorteio	1
+barra	o desvio da média — de quanto ela se mexe sozinha	termo	barra	1	desvio	1
+dispersao	de quanto uma média se mexeria se os dias fossem outros	termo	dispers	1	media	1

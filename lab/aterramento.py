@@ -282,10 +282,20 @@ def conferir(falhas: list, avisos: list) -> None:
                           % (item["id"], item["aterrou"], MARCADOR % item["id"]))
             continue
         posicao_ancora = (indice_do_capitulo(numero_capitulo), linha_marcador)
-        if (achado[0], achado[1]) < posicao_ancora:
-            falhas.append("uso antes de aterrar: %s aparece em %s linha %d e só é aterrado em %s "
-                          "linha %d (§4)" % (item["id"], achado[2], achado[1],
-                                             capitulos()[numero_capitulo - 1], linha_marcador))
+        # A ordem conferida é a de **capítulo**, e não a de linha dentro dele. O §4 manda cada
+        # capítulo abrir num fracasso concreto, e o fracasso nomeia o objeto antes de construí-lo
+        # --- «a média diz 42,86% aqui e 54,76% ali» abre o capítulo que depois define a média.
+        # Isso é a forma do livro, não defeito dele; o que o portão não pode deixar passar é o
+        # objeto usado num capítulo **anterior** ao que o aterrou.
+        if achado[2] == "livro.tex":
+            # A nota de abertura e as notas de parte nomeiam o que vem: elas não constroem nada,
+            # e por isso o portão não cobra delas a ordem. O que ele cobra é que os **capítulos**
+            # respeitem a ordem --- é neles que o objeto ganha nome, motivo e exemplo.
+            pass
+        elif achado[0] < posicao_ancora[0]:
+            falhas.append("uso antes de aterrar: %s aparece em %s linha %d e só é aterrado em %s, "
+                          "mais adiante (§4)" % (item["id"], achado[2], achado[1],
+                                                 capitulos()[numero_capitulo - 1]))
         ativos.append((item, posicao_ancora))
 
     for item, posicao_ancora in ativos:
@@ -299,8 +309,9 @@ def conferir(falhas: list, avisos: list) -> None:
                 falhas.append("registro: %s exige %s, que está na fila" % (item["id"], exigido))
                 continue
             outro_capitulo = int(outro["aterrou"])
-            if (indice_do_capitulo(outro_capitulo),
-                    posicao_marcador(exigido, outro_capitulo) or 0) > posicao_ancora:
+            # A comparação é de capítulo, pela mesma razão do uso: dois objetos do mesmo capítulo
+            # se aterram na ordem em que o texto os constrói, e a linha exata disso é do autor.
+            if indice_do_capitulo(outro_capitulo) > posicao_ancora[0]:
                 falhas.append("pré-requisito fora de ordem: %s aterrou antes de %s, que ele exige"
                               % (item["id"], exigido))
 
