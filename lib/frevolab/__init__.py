@@ -16,7 +16,7 @@ from importlib.metadata import PackageNotFoundError, version
 
 from . import (calendario, centro, dados, dependencia, direcao, evidencia, esquecimento, estabilidade,
                graficos, intervencao, mudanca, multiplicidade, nivel, operador, partilha, proporcao, promessa, recorde,
-               regimes, resumo, vigia, volatilidade)
+               pares, regimes, resumo, vigia, volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -734,6 +734,31 @@ def auto_teste() -> list:
         problemas.append("resumo: o erro nao cai com o numero de contadores")
     if abs(resumo.energia(fluxo[::-1]) - exato) > 1e-15:
         problemas.append("resumo: a energia mudou com a ordem, e ela nao deveria")
+
+    # --- os pares de dias e o preco de conta-los (pares.py) ---
+
+    # Num par perfeitamente ordenado a concordancia e um, no invertido e menos um, e a contagem de
+    # pares dos dias do capitulo e um numero fechado.
+    ordenado = pd.Series(np.arange(120.0))
+    if abs(pares.concordancia(ordenado, ordenado * 2.0 + 1.0)["tau"] - 1.0) > 1e-12:
+        problemas.append("pares: o par ordenado nao da concordancia um")
+    if abs(pares.concordancia(ordenado, -ordenado)["tau"] + 1.0) > 1e-12:
+        problemas.append("pares: o par invertido nao da concordancia menos um")
+    if pares.pares(6204) != 19241706:
+        problemas.append("pares: a contagem de pares dos dias do capitulo nao fecha")
+
+    # E a lei da barra se confere medindo: com quatro vezes mais pares, o desvio cai pela metade.
+    rng_pares = np.random.default_rng(97)
+    eixo = pd.RangeIndex(300)
+    um = pd.Series(rng_pares.normal(0.0, 0.01, 300), index=eixo)
+    outro = pd.Series(0.6 * um.to_numpy() + rng_pares.normal(0.0, 0.01, 300), index=eixo)
+    perto = float(np.std([pares.concordancia_amostrada(um, outro, 500, rng_pares)["tau"]
+                          for _ in range(60)], ddof=1))
+    longe = float(np.std([pares.concordancia_amostrada(um, outro, 2000, rng_pares)["tau"]
+                          for _ in range(60)], ddof=1))
+    if not (1.4 < perto / longe < 2.8):
+        problemas.append("pares: o desvio medido nao cai com a raiz do numero de pares "
+                         "(%.5f contra %.5f)" % (perto, longe))
 
     import matplotlib
     matplotlib.use("Agg")

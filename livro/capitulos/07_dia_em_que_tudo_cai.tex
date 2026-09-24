@@ -160,6 +160,88 @@ uma rompe, perde \numDependenciaPerdaUmaPernaPct\%. A razão entre as duas perda
   \label{fig:par}
 \end{figure}
 
+\section{Quanto custa contar os pares}
+% aterramento: concordancia
+% aterramento: binomio
+% aterramento: sigma-um
+% aterramento: fracao-de-pares
+
+O contador deste capítulo custa uma passada sobre os \numDependenciaDias{} dias, e responde olhando o
+dia: rompeu ou não rompeu. A pergunta "os dois mercados andam juntos?" tem outra resposta possível, e
+ela não olha o dia --- olha o \textbf{par} de dias: dois dias concordam quando os dois mercados andam
+para o mesmo lado, e a medida é a fração de pares concordantes menos a de discordantes. Sobre os
+mesmos \numDependenciaDias{} dias existem \numParesTotalMilhoes{} milhões de pares, e contar
+todos eles é o gesto caro
+que este pedaço cobra.
+
+\begin{proposicao}[o preço de contar pares]\label{prop:preco-dos-pares}
+Sorteie uma fração $\rho$ dos pares, com os dois dias de cada par escolhidos independentemente. A
+concordância assim medida tem o mesmo valor esperado da que usa todos os pares, e desvio
+$\sigma/\sqrt{\rho \binom{n}{2}}$ --- com $\sigma^2 = 1 - \tau^2$, a variância do kernel binário,
+que é exata e não estimada. A barra do \emph{dado}, que não depende de quantos pares se conta, é
+$\sqrt{(2(n-2)\sigma_1^2 + \sigma^2)/\binom{n}{2}}$, com $\sigma_1^2$ a covariância entre dois pares
+que dividem um dia.
+\end{proposicao}
+
+\begin{proof}
+Cada par de dias contribui com $+1$ ou $-1$, de modo que a variância do kernel é $1-\tau^2$ sem
+estimativa nenhuma. Pares sorteados independentemente não têm covariância entre si --- a sobreposição
+de dias que existe entre pares \emph{distintos} da população não entra nesta conta ---, e a média de
+$\rho\binom{n}{2}$ deles tem o desvio da proposição. Para a segunda barra, a variância de uma
+U-estatística de ordem dois com todos os pares é a de Hoeffding: $\binom{n}{2}$ no denominador, e no
+numerador a covariância que os pares carregam por dividir dias entre si.
+\end{proof}
+
+A medição usa o par deste capítulo --- os mesmos \numDependenciaDias{} dias, o mesmo corte ---, e
+sorteia \numParesMundos{} mundos por linha. A concordância exata é \numParesTau{}, e as barras vão em
+milésimos, para os algarismos caberem na página.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \begin{tabular}{rrr}
+    \hline
+    pares usados & barra do sorteio & a lei prevê \\
+    \hline
+    todos & \numParesMedidoTodos & \numParesBarraTodos \\
+    meio & \numParesMedidoMeio & \numParesBarraMeio \\
+    um décimo & \numParesMedidoDecimo & \numParesBarraDecimo \\
+    um centésimo (\numParesCentesimo) & \numParesMedidoCentesimo & \numParesBarraCentesimo \\
+    \hline
+  \end{tabular}
+  \caption{A barra da concordância contra a fração dos pares que se conta, medida em
+    \numParesMundos{} mundos e comparada com a lei.}
+  \label{tab:pares}
+\end{table}
+
+A lei acerta em toda a extensão, e o número que decide não está na tabela: a barra do sorteio com um
+centésimo dos pares é dez vezes a barra com todos eles, e mesmo assim vale \numParesCustoPct{} por
+cento da variância que o mercado impõe sozinho --- que é a outra barra, a do dado, de
+\numParesBarraDoDado{} milésimos. Quem conta pares nunca esteve limitado pelos pares.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E30_pares_1.pdf}
+  \caption{A barra do sorteio contra a fração dos pares que se conta, nas duas escalas logarítmicas,
+    com a lei ao lado, e a barra do dado como linha no alto. A linha medida quase coincide com a lei
+    em toda a extensão, e a linha do dado fica acima das duas: \textbf{o que a economia de pares
+    custa é pequeno diante do que o mercado já cobra.}}
+  \label{fig:pares}
+\end{figure}
+
+E a concordância exata não precisa de par nenhum. Ela sai de ordenar as duas séries --- o número de
+pares concordantes é o de inversões de uma permutação, e inversões se contam sem enumerá-las ---, e o
+caderno mede isso: \numParesTempoExato{} segundos para os dezenove milhões de pares. O que existe é o
+número deles, e não a lista. Quando a medida não tem forma fechada, é o algoritmo que a põe em uso: a
+distância de covariância olha toda a dependência sem supor forma nenhuma \cite{szekely2007measuring},
+e o que a tornou prática foi a conta que evita as comparações duas a duas \cite{huo2016fast}. A
+contagem com uma parte dos pares é a U-estatística incompleta de Blom \cite{blom1976some} --- e a
+tabela acima é ela, medida.
+
+Este número não substitui o do capítulo, e não é para substituir: um conta os dias em que as duas
+pernas rompem, o outro mede o quanto os dois mercados andam juntos. O controle do capítulo vale para
+os dois --- no par sorteado independente a concordância é \numParesControleTau{}.
+
 \section{O que fica}
 
 Fica um instrumento, e ele é pequeno o bastante para caber numa frase: \textbf{conte os dias em

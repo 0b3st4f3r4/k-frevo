@@ -101,3 +101,8 @@ contador	o valor de um contador do esboco depois de somar o fluxo inteiro	simbol
 contadores	o numero de contadores guardados pelo esboco	simbolo	K	23	esboco	23
 energia	a soma dos quadrados dos incrementos: o segundo momento do caminho	simbolo	Q	23	r	23
 precisao	o erro relativo pedido ao esboco	simbolo	\varepsilon	23	esboco	23
+concordancia	a fracao de pares de dias que concordam menos a que discorda	simbolo	\tau	7		7
+sigma-um	a covariancia entre dois pares de dias que dividem um dia	simbolo	\sigma_1	7	desvio-padrao	7
+fracao-de-pares	a fracao dos pares que se conta	simbolo	\rho	7		7
+desvio-padrao	o desvio-padrao de uma grandeza medida	simbolo	\sigma	2		2
+binomio	o numero de pares que n dias formam	simbolo	\binom	7	n	7
