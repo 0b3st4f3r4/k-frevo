@@ -1,0 +1,82 @@
+# O registro do aterramento (AGENTS.md §9). Curadoria manual: uma linha por objeto do livro.
+#
+# colunas: id <TAB> nome <TAB> tipo <TAB> padrao <TAB> aterrou <TAB> exige <TAB> exemplo
+#
+#   tipo     «simbolo» é buscado em modo matemático; «termo» é buscado em prosa (sem comentário
+#            e sem matemática, e sem exigir acento).
+#   padrao   o que procurar: literal para símbolo, expressão regular para termo. O padrão é
+#            escrito tão específico quanto o objeto --- «episódio» sozinho casaria o episódio do
+#            dia a dia do capítulo da medida, e o objeto definido é o «episódio dirigido».
+#   aterrou  o número impresso do capítulo onde o objeto ganha nome, motivo e exemplo; «-»
+#            enquanto ele está na fila. A âncora é a linha «% aterramento: <id>» naquele capítulo.
+#   exige    ids que precisam estar aterrados antes deste (vazio quando não há).
+#   exemplo  o capítulo do exemplo numérico mínimo, ou «-» enquanto não houver.
+#
+# O registro guarda ENDEREÇO, NUNCA DEFINIÇÃO: a prosa vive só no capítulo, e não existe segunda
+# cópia para divergir. Quem confere é o lab/aterramento.py, pelo portão conferir_aterramento.
+k	o posto do corte na fila — o k-ésimo pior dos n dias	simbolo	k	-		-
+n	o número de dias da janela	simbolo	n	-		-
+p	o preço do dia; mais tarde, a probabilidade de um dia romper	simbolo	p	-		-
+r	o retorno do dia, em logaritmo	simbolo	r	-		-
+t	o índice do dia na série	simbolo	t	-		-
+B	o número de dias do bloco	simbolo	B	-		-
+L	o número de violações do bloco; mais tarde, o nível da série	simbolo	L	-		-
+prob	a probabilidade de um evento	simbolo	\Prob	-		-
+sigma	a oscilação de um dia, medida em desvio	simbolo	\sigma	-		-
+C	o número de células em que a janela é repartida	simbolo	C	-		-
+omega	o parâmetro de piso da recursão da oscilação	simbolo	\omega	-	variancia	-
+alpha	o parâmetro do choque na recursão da oscilação	simbolo	\alpha	-	variancia	-
+beta	o parâmetro da memória na recursão da oscilação	simbolo	\beta	-	variancia	-
+var	a variância declarada do dia na recursão	simbolo	v	-	variancia	-
+x	o valor da série em um dia	simbolo	x	-		-
+m	o número de dias da janela de resposta; mais tarde, os dias por vir	simbolo	m	-		-
+d	o efeito a detectar; mais tarde, o atraso do dado	simbolo	d	-		-
+s	o desvio medido entre replicatas	simbolo	s	-	replicata	-
+z	o quantil da confiança declarada; mais tarde, o incremento padronizado	simbolo	z	-		-
+c	a constante positiva que multiplica a série	simbolo	c	-		-
+lambda	a taxa de esquecimento da memória	simbolo	\lambda	-	esquecimento	-
+epsilon	a tolerância de erro, em fração do degrau	simbolo	\epsilon	-	tolerancia	-
+E	a média de muitos sorteios (esperança)	simbolo	E	-	esperanca	-
+H	o número esperado de recordes em n dias	simbolo	H	-	recorde	-
+eta	o choque do dia — o que entra na série e não vem dela	simbolo	\eta	-		-
+theta	a fração do degrau que ainda se quer recuperar	simbolo	\theta	-		-
+a	o coeficiente da memória de um passo	simbolo	a	-		-
+e	o erro da reconstrução do passado	simbolo	e	-		-
+j	o passo da reconstrução do passado	simbolo	j	-		-
+f	o tamanho do choque comum ao par	simbolo	f	-		-
+probabilidade	a probabilidade de um evento, medida como frequência de muitos sorteios	termo	probabilidade	-		-
+independencia	dois dias não têm nada a dizer um sobre o outro	termo	independent|independência	-	probabilidade	-
+sorteio	repetir o mundo inteiro com outra semente	termo	sorteio|sorteado|sorteamos	-		-
+semente	o número que torna o sorteio repetível	termo	semente	-	sorteio	-
+media	a média de muitos dias ou de muitos sorteios	termo	média	-	sorteio	-
+desvio	o desvio de um dia, e a sua média	termo	desvio-padrão|desvio padrão	-	media	-
+variancia	a variância — o quadrado do tamanho típico do dia	termo	variância	-	media	-
+esperanca	a esperança — a média de muitos sorteios, dita em símbolo	termo	esperança	-	media	-
+curtose	a curtose — o quanto a cauda pesa, comparada com a normal	termo	curtose	-	variancia	-
+quantil	o valor que deixa uma fração declarada dos dias abaixo dele	termo	quantil	-	probabilidade	-
+mediana	o quantil de metade	termo	mediana	-	quantil	-
+décimo	cada uma das dez fatias iguais de uma lista ordenada	termo	décimo	-	quantil	-
+vies	o erro que a própria regra assina, antes de o dado chegar	termo	viés	-		-
+amostra	o pedaço finito de dias de que se dispõe	termo	amostra	-		-
+erro-padrao	o quanto a média de n dias erra por si mesma	termo	erro-padrão|erro padrão	-	desvio	-
+replicata	um mundo sorteado inteiro, medido uma vez	termo	replicata	-	sorteio	-
+controle	o mundo em que nada muda, medido com a mesma rotina	termo	controle	-		-
+mundo-parado	o mundo sorteado em que nada muda	termo	mundo que nunca muda	-	sorteio	-
+tolerancia	o erro que ainda se aceita, com a unidade declarada	termo	tolerância	-		-
+latencia	quantos dias o alarme demora a ver a mudança	termo	latência	-		-
+falso-alarme	o alarme que dispara num mundo que não mudou	termo	falso alarme	-	controle	-
+cauda	os dias extremos, e o que a média não vê deles	termo	cauda	-	quantil	-
+recorde	o dia que supera todos os anteriores	termo	recorde	-		-
+episodio	o episódio dirigido — a corrida de dias que começa num rompimento	termo	episódio dirigido	-		-
+padronizacao	dividir a série pelo seu próprio tamanho, e o que isso apaga	termo	padroniza	-	desvio	-
+dependencia	as coisas ruins que vêm juntas	termo	dependência	-	independencia	-
+posto	a correlação que olha a ordem e não os valores	termo	correlação de posto	-	dependencia	-
+copula	a forma da dependência separada das margens	termo	cópula	-	dependencia	-
+condicional	a lei que vale depois de se saber alguma coisa	termo	condicional	-	probabilidade	-
+estacionaria	a lei que não muda com o dia	termo	estacionári	-	probabilidade	-
+memoria	quanto um dia carrega do anterior	termo	memória	-	estacionaria	-
+esquecimento	a taxa com que o passado cede lugar ao presente	termo	esquecimento	-	memoria	-
+meia-vida	os dias que apagam metade de um degrau	termo	meia-vida	-	esquecimento	-
+ponto-fixo	o valor que a recursão alcança e não deixa mais	termo	ponto fixo	-		-
+assimetria	o quanto o lado de cima difere do lado de baixo	termo	assimetria	-	variancia	-
+logaritmo	a conta que soma onde a porcentagem multiplica	termo	logaritmo	-		-

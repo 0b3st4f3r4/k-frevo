@@ -480,6 +480,33 @@ def conferir_perguntas(falhas: list) -> None:
     print("perguntas no contrato: %d" % len(blocos))
 
 
+def conferir_aterramento(avisos: list, falhas: list) -> None:
+    r"""O §3.4 e o §3.5 viram portão: objeto do livro sem nome, motivo e endereço.
+
+    O contrato pede, desde o começo, definição, intuição e exemplo numérico mínimo em toda
+    seção, e proíbe símbolo antes de ter nome. Nada disso tinha conferência, e o resultado era
+    o livro medir com máquinas que nunca constrói: ele sorteia mundos inteiros e tira média de
+    muitos sorteios sem que "variável aleatória", "sorteio" ou "simulação" apareçam em
+    página nenhuma. É a mesma família do "Figure" em inglês e do dígito digitado --- a regra
+    estava escrita e não tinha portão.
+
+    A conferência mora no lab/aterramento.py, com o registro em dados/aterramento.tsv: o portão
+    não decide o que é um objeto, ele cobra que todo objeto usado esteja declarado, com o
+    capítulo em que aterra e a âncora que o aterra. O objeto ainda na fila não reprova: vira
+    aviso, e a fila é o trabalho que falta, declarado em toda execução.
+    """
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    try:
+        import aterramento
+    except Exception as erro:  # medidor ausente é falha, e não silêncio
+        falhas.append("aterramento: o medidor não importa (%s) — sem ele o §3.5 volta a "
+                      "derivar em silêncio" % erro)
+        return
+    try:
+        aterramento.conferir(falhas, avisos)
+    except Exception as erro:
+        falhas.append("aterramento: o medidor estourou em vez de reprovar: %s" % erro)
+
 def conferir_compilacao(avisos: list, falhas: list) -> None:
     r"""Compilação que não aconteceu deixa um log vazio, e log vazio passa por limpo.
 
@@ -501,8 +528,19 @@ def conferir_compilacao(avisos: list, falhas: list) -> None:
         return
     texto = log.read_text(encoding="utf-8", errors="replace")
     if "This is pdfTeX" not in texto:
-        falhas.append("o log não tem compilação dentro (%d bytes): o latexmk pulou e o "
-                      "silêncio passou por limpeza --- rode latexmk -g" % len(texto))
+        # Duas causas diferentes, e a primeira versão do portão só nomeava uma. O log pode ser
+        # curto porque o latexmk não recompilou --- e pode ser longo porque **outro motor** o
+        # escreveu: nesta árvore o latexmk sem «-pdf» escolheu o LuaHBTeX, que não imprime o
+        # apóstrofo tipográfico da bibliografia, e o portão dizia «log sem compilação» com um log
+        # de 46 KB dentro. A máquina que escreveu o log é diagnóstico, e vai para a mensagem.
+        motor = next((l.strip()[:70] for l in texto.splitlines() if l.startswith("This is ")), "")
+        if motor:
+            falhas.append("o log é de outra máquina (%s): o livro compila com «latexmk -pdf "
+                          "-halt-on-error», e sem o «-pdf» o latexmk escolhe outro motor aqui"
+                          % motor)
+        else:
+            falhas.append("o log não tem compilação dentro (%d bytes): o latexmk pulou e o "
+                          "silêncio passou por limpeza --- rode latexmk -pdf -g" % len(texto))
         return
     fontes = sorted(LIVRO.rglob("*.tex"))
     if fontes:
@@ -588,6 +626,7 @@ def check() -> int:
     conferir_digitos(avisos)
     conferir_cadernos_sem_algoritmo(avisos)
     conferir_perguntas(falhas)
+    conferir_aterramento(avisos, falhas)
     for a in avisos:
         print("  aviso: %s" % a)
     if falhas:
