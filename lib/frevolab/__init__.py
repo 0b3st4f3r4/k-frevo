@@ -15,7 +15,7 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 from importlib.metadata import PackageNotFoundError, version
 
 from . import (calendario, centro, dados, dependencia, direcao, esquecimento, estabilidade,
-               graficos, intervencao, mudanca, nivel, operador, partilha, proporcao, promessa, recorde,
+               graficos, intervencao, mudanca, multiplicidade, nivel, operador, partilha, proporcao, promessa, recorde,
                regimes, vigia, volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
@@ -54,6 +54,15 @@ def auto_teste() -> list:
         problemas.append("operador: o pico nao cresce com o acoplamento")
     if not (operador.memoria_da_norma(100.0) > operador.memoria_do_autovalor()):
         problemas.append("operador: o acoplado diz lembrar menos do que lembra")
+
+    # A barra de uma comparacao nao e a barra da bateria: com quarenta, a chance de alguma
+    # cruzar por acaso passa de 80%, e o quantil corrigido tem de ser maior que dois.
+    if not (0.80 < multiplicidade.fwer_exata(40) < 0.90):
+        problemas.append("multiplicidade: a conta da bateria de quarenta nao fecha")
+    if not (multiplicidade.quantil_da_familia(40) > multiplicidade.INFLACAO_PADRAO > 1.9):
+        problemas.append("multiplicidade: o quantil da familia nao e maior que a barra de uma")
+    if multiplicidade.comparacoes() != multiplicidade.SINAIS_PADRAO * multiplicidade.FAIXAS_PADRAO:
+        problemas.append("multiplicidade: a contagem de comparacoes nao bate")
 
     # uma série constante não tem volatilidade
     constante = pd.Series(np.full(600, 100.0))

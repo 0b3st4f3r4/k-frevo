@@ -1,0 +1,16 @@
+{
+ "multiplicidade_barra": 2.0,
+ "multiplicidade_comparacoes": 40,
+ "multiplicidade_dias": 3000,
+ "multiplicidade_faixas": 10,
+ "multiplicidade_fwer_exata_pct": 87.1487843434897,
+ "multiplicidade_mundos": 60,
+ "multiplicidade_mundos_com_alguma": 57,
+ "multiplicidade_por_comparacao_pct": 5.0,
+ "multiplicidade_quantil_familia": 3.220088445697693,
+ "multiplicidade_sinais": 4,
+ "multiplicidade_taxa_bateria_pct": 95.0,
+ "multiplicidade_taxa_comparacao_pct": 5.666666666666666,
+ "multiplicidade_travessias_maxima": 6,
+ "multiplicidade_travessias_media": 2.2666666666666666
+}

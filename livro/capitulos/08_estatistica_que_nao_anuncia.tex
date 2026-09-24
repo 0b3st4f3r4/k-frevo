@@ -170,6 +170,44 @@ A ordem é do dado, então, e não de um mercado. O movimento da estimativa fica
 O que a prática vigia --- a linha se mexeu, é hora de recalibrar --- é o único dos quatro sinais
 que não vale nada, nem onde há o que prever nem onde não há.
 
+\section{Quantas barras eu ergui}
+
+O capítulo julga cada comparação contra uma barra de dois desvios: são \numMultiplicidadeSinais{}
+sinais dentro de \numMultiplicidadeFaixas{} faixas, em cada série --- \numMultiplicidadeComparacoes{}
+barras erguidas. A barra está certa para \emph{uma} comparação: nos mundos que não mudam ela deixa
+passar \numMultiplicidadeTaxaComparacaoPct{} das vezes, que é o que dois desvios prometem. O que ela
+não mede é a bateria.
+
+A conta da bateria é aritmética e não tem escapatória: com \numMultiplicidadeComparacoes{}
+comparações, a chance de que ao menos uma cruze a barra por acaso é de
+\numMultiplicidadeFwerExataPct{}\%. Para manter os mesmos cinco por cento no conjunto, a barra teria
+de estar em \numMultiplicidadeQuantilFamilia{} desvios.
+
+E não é teoria. Rodando a \emph{mesma} bateria dentro dos mundos que nunca mudam --- o nulo do
+próprio capítulo, \numMultiplicidadeMundos{} mundos de \numMultiplicidadeDias{} dias ---, em
+\numMultiplicidadeTaxaBateriaPct{}\% deles alguma barra acende: \numMultiplicidadeMundosComAlguma{}
+de \numMultiplicidadeMundos{}, com \numMultiplicidadeTravessiasMedia{} travessias por mundo e até
+\numMultiplicidadeTravessiasMaxima{} no mesmo mundo. E o medido é \emph{maior} que o previsto ----
+\numMultiplicidadeTaxaBateriaPct{} contra \numMultiplicidadeFwerExataPct{} ----, porque as
+quarenta comparações não são independentes: os quatro sinais leem os mesmos dias, e as dez faixas
+são pedaços ordenados do mesmo perfil. A conta independente é o piso, e não o valor.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E24_multiplicidade_1.pdf}
+  \caption{A barra de uma comparação e a barra da bateria. A curva é a chance de ao menos uma
+    travessia por acaso, contra o número de comparações; a linha tracejada marca as
+    \numMultiplicidadeComparacoes{} comparações do capítulo, e o ponto quadrado é o que a bateria
+    mediu nos mundos que não mudam.}
+  \label{fig:bateria}
+\end{figure}
+
+Isso não derruba a leitura do capítulo, e vale dizer por quê: o que ele persegue é a \emph{forma}
+do perfil por décimos, e uma travessia de barra não é a mesma coisa que um perfil que sobe. O que
+esta seção mede é o preço de julgar uma bateria pela barra de uma comparação: num mundo que não
+muda, \textbf{quarenta barras de dois desvios acendem alguma coisa em quase todo mundo} --- e é por
+isso que a barra da bateria é outra.
+
 \section{O que fica}
 
 Fica a pergunta da volta, respondida pela metade e com o sinal trocado. A estatística que estima
