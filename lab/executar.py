@@ -35,7 +35,7 @@ LIVRO = RAIZ / "livro"
 CONTRATO = RAIZ / "AGENTS.md"
 # Gerados que o livro cita e ninguém edita à mão. O sumário do fim entra aqui pelo mesmo
 # motivo dos outros: é uma cópia do .toc da compilação anterior, feita por lab/sumario.py.
-GERADOS = {"numeros.tex", "fontes.tex", "sumario.tex"}
+GERADOS = {"numeros.tex", "fontes.tex", "sumario.tex", "proposicoes.tex"}
 
 # Quirks do ambiente, herdados do arquivo: matplotlib não escreve em ~/.config, o cache do
 # uv é read-only, e o espec de kernel chama "python" pelado — então o venv vai à frente.
@@ -335,7 +335,7 @@ def conferir_nomes(falhas: list) -> None:
     # troca ela imprimiria "Part I" no meio de um livro em português --- a mesma família do
     # "Figure" e do "September", que este portão já cobre.
     fixos = ("contentsname", "chaptername", "bibname", "proofname", "figurename", "tablename",
-             "partname")
+             "partname", "listfigurename", "listtablename")
     bruto = (LIVRO / "livro.tex").read_text(encoding="utf-8")
     fonte = "\n".join(re.sub(r"(?<!\\)%.*", " ", l) for l in bruto.splitlines())
     for nome in fixos:
@@ -389,6 +389,21 @@ def conferir_nomes(falhas: list) -> None:
                           "de %r" % (prefixo, tipo, base,
                                      nome_base.group(1) if nome_base else base,
                                      nome_tipo.group(1) if nome_tipo else tipo))
+
+    # A página de um capítulo sem número herda o cabeçalho corrente do último capítulo numerado:
+    # o "Sumário completo" saiu impresso com "REFERÊNCIAS" em cima, e a Introdução com "SUMÁRIO".
+    # É defeito de página que nenhum outro portão alcança --- a compilação fica limpa e a mancha
+    # de texto errada vai para o alto de cada página. A regra é uma: todo \chapter* traz o seu
+    # \markboth nas linhas seguintes.
+    linhas = fonte.splitlines()
+    for numero, linha in enumerate(linhas):
+        if re.match(r"\s*\\chapter\*\{", linha):
+            janela = "\n".join(linhas[numero:numero + 3])
+            if "\\markboth" not in janela:
+                titulo = re.search(r"\\chapter\*\{([^}]*)\}", linha)
+                falhas.append("capítulo sem número sem \\markboth: %r sairia com o cabeçalho do "
+                              "capítulo anterior impresso em cima de todas as páginas"
+                              % (titulo.group(1) if titulo else linha.strip()))
 
 
 def conferir_digitos(avisos: list) -> None:

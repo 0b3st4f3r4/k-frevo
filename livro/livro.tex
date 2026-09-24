@@ -42,6 +42,10 @@
 \renewcommand{\figurename}{Figura}
 \renewcommand{\tablename}{Tabela}
 \renewcommand{\partname}{Parte}
+% As duas listas do fim têm título cunhado pela classe, e sem a troca o livro imprimiria
+% "List of Figures" e "List of Tables" --- a mesma família do "Figure" que já custou uma rodada.
+\renewcommand{\listfigurename}{Lista de figuras}
+\renewcommand{\listtablename}{Lista de tabelas}
 % A folha de parte usa o nome que a classe cunha, e sem troca ela imprimiria "Part I" no
 % meio de um livro em português --- a mesma família do "Figure" e do "September". O
 % `conferir_nomes` passou a exigir esta troca.
@@ -111,6 +115,7 @@
 % -----------------------------------------------------------------------------
 \chapter*{Como este livro mede}
 \addcontentsline{toc}{chapter}{Como este livro mede}
+\markboth{COMO ESTE LIVRO MEDE}{}
 
 Este livro não afirma nada sem mostrar como se mede. Cada número que aparece no
 texto sai de um caderno de experimento: um caderno por medição, executável
@@ -146,6 +151,7 @@ números.
 % -----------------------------------------------------------------------------
 \chapter*{Introdução}
 \addcontentsline{toc}{chapter}{Introdução}
+\markboth{INTRODUÇÃO}{}
 
 O mercado fecha, a regra do país muda, a máquina que aprendeu ontem erra hoje. Nos três casos a
 pergunta é a mesma, e ela é antiga: o que se pode \emph{garantir}, \emph{medir} e \emph{otimizar}
@@ -354,6 +360,7 @@ que se paga, e o preço sai declarado.
 % -----------------------------------------------------------------------------
 \chapter*{Conclusão}
 \addcontentsline{toc}{chapter}{Conclusão}
+\markboth{CONCLUSÃO}{}
 
 O que ficou construído cabe numa frase: um jeito de responder, com número e com preço, a
 perguntas sobre um mundo que se move enquanto a decisão corre. O resto é o que essa frase
@@ -387,6 +394,29 @@ cada número daqui apareceu, e é assim que os que faltam vão aparecer.
 % -----------------------------------------------------------------------------
 \cleardoublepage
 \chapter*{Sumário completo}
+\markboth{SUMÁRIO COMPLETO}{}
 \input{sumario.tex}
+
+% -----------------------------------------------------------------------------
+% As três listas do fim: figuras, tabelas e os enunciados formais.
+% As duas primeiras usam o mecanismo da classe, e funcionam aqui porque é a primeira
+% vez que \listoffigures aparece na compilação --- o arquivo que ele lê ainda tem a
+% lista da execução anterior (o \tableofcontents do começo trunca o .toc, e é por isso
+% que o mesmo truque não serve para o sumário). A terceira é gerada por lab/sumario.py
+% a partir do .aux da execução anterior.
+% -----------------------------------------------------------------------------
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Lista de figuras}
+\listoffigures
+
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Lista de tabelas}
+\listoftables
+
+\cleardoublepage
+\addcontentsline{toc}{chapter}{Proposições e definições}
+\chapter*{Proposições e definições}
+\markboth{PROPOSIÇÕES E DEFINIÇÕES}{}
+\input{proposicoes.tex}
 
 \end{document}
