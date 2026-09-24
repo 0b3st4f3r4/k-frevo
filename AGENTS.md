@@ -229,16 +229,17 @@ O motivo que reaparece em três voltas — **promessa × entrega**, em cobertura
 
 ## 7. Artefatos
 
-Um artefato central, uma biblioteca e dois insumos. Nada além disso existe por herança.
+Um artefato central, uma biblioteca e três insumos. Nada além disso existe por herança.
 
 | artefato | o que é | quem manda nele |
 |---|---|---|
-| `livro/` | **o livro**, em LaTeX, escrito à mão, em pt-BR — o produto do projeto | o autor; compila com `latexmk` sem erro nem referência quebrada |
+| `livro/` | **o livro**, em LaTeX, escrito à mão, em pt-BR — o produto do projeto | o autor; compila com `latexmk -pdf` sem erro nem referência quebrada |
 | `lib/frevolab/` | **a biblioteca oficial**: todo algoritmo do projeto, com nome, teste próprio (`frevolab.auto_teste()`) e versão. É **pacote instalado em modo editável** (`uv pip install -e .`), com o mapa declarado em `[tool.hatch.build.targets.wheel]`, de modo que o caderno escreve `import frevolab` e não mexe no caminho de importação. Algoritmo dentro de caderno não é testável, não é reusável e não é revisável — só é legível na ordem em que foi escrito | quem escreve o algoritmo; `lab/executar.py --check` roda o `auto_teste()` |
 | `lab/` | **o laboratório**: um **caderno por experimento** em `lab/experimentos/`, executável sozinho, com os parâmetros no topo marcados `# <- brinque com:`; cada caderno grava `lab/resultados/<id>.json` e as figuras em `livro/figuras/`, em `.pdf` e em `.png` | os cadernos; `lab/executar.py` executa os que mudaram e escreve `livro/numeros.tex` |
+| `dados/aterramento.tsv` | **o registro do aterramento**: uma linha por objeto do livro (símbolo ou termo), com o padrão que o acha, o capítulo em que ele aterra, o que ele exige e onde está o exemplo mínimo. Guarda **endereço, nunca definição** --- a prosa vive só no capítulo, e não existe segunda cópia para divergir | curadoria manual; `lab/aterramento.py` lê o registro, e o `conferir_aterramento` cobra cada linha (§9) |
 | `dados/fontes.tsv` | **o corpus** de fontes: uma linha por fonte, o número da linha é o identificador, e a chave de citação sai do sobrenome do primeiro autor mais o ano | curadoria manual; `lab/fontes.py` gera `livro/fontes.tex` e confere que toda citação do livro tem linha no corpus |
 
-**O que não existe, e não deve ser criado sem necessidade demonstrada:** caderno executável **monolítico** — um caderno por experimento é a regra, e o que não volta é o caderno único que carrega o projeto inteiro; grafo de conhecimento com nós, arestas e camadas; tabela de agentes; auditoria cruzada entre artefatos. O projeto anterior pagou caro pela manutenção de quatro artefatos que precisavam ser reconciliados. Aqui são quatro, e a reconciliação é estrutural (seção 9), não um portão a mais.
+**O que não existe, e não deve ser criado sem necessidade demonstrada:** caderno executável **monolítico** — um caderno por experimento é a regra, e o que não volta é o caderno único que carrega o projeto inteiro; grafo de conhecimento com nós, arestas e camadas; tabela de agentes; auditoria cruzada entre artefatos. O projeto anterior pagou caro pela manutenção de quatro artefatos que precisavam ser reconciliados. Aqui são cinco, e a reconciliação é estrutural (seção 9), não um portão a mais.
 
 ## 8. Método
 

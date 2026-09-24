@@ -43,8 +43,11 @@ pontas são conhecidas; o que se quer saber é onde fica o meio \cite{dahlhaus19
 
 % aterramento: epsilon
 Quando a pergunta é quanto tempo a estimativa leva para voltar a valer, é preciso dizer o que é
-voltar a valer: $\epsilon$ é a tolerância declarada, a fração do degrau que ainda se aceita como
-erro, e a resposta da proposição é em quantos dias a estimativa cruza essa fronteira.
+voltar a valer: $\epsilon$ é o erro que ainda se aceita, e a proposição o mede em fração do
+\emph{degrau}. A medição declara a tolerância na unidade do \emph{nível} novo --- os
+\numEsquecimentoTolerancia{} do nível ---, e as duas unidades se convertem: no mundo que dobra de
+uma vez, a mesma tolerância vale o dobro em fração do degrau. A resposta da proposição é em quantos
+dias a estimativa cruza a fronteira.
 % aterramento: meia-vida
 \begin{proposicao}[a meia-vida e a janela]\label{prop:meia-vida}
 Num mundo cujo nível dobra de uma vez no instante $t_0$, o desvio da estimativa com taxa $\lambda$
