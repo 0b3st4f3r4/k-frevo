@@ -117,7 +117,7 @@ def auto_teste() -> list:
     # --- o vigia e o seu orçamento (vigia.py) ---
 
     # o piso do atraso é o próprio limiar
-    if vigia.piso_de_atraso(13) != 13:
+    if vigia.piso_de_atraso(13) != 12:
         problemas.append("o piso de atraso não é o limiar")
     try:
         vigia.piso_de_atraso(0)

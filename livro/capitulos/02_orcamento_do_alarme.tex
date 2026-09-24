@@ -71,7 +71,7 @@ mediu \numVigiaMundosQueSoamPct\%. O teto está acima do medido, como tinha de e
 acima por quase uma dezena de vezes: é um limite provado e frouxo, e vale pelo que prova.
 
 Ele também tem prazo de validade, e o prazo aparece na própria conta. Para limiares baixos a
-soma das parcelas ultrapassa cem por cento, e um teto de cento e vinte por cento não é teto de
+soma das parcelas ultrapassa cem por cento, e um teto que passa de cem por cento não é teto de
 nada.
 
 \section{Quanto ele demora quando algo muda}
@@ -179,14 +179,15 @@ atraso dele tem piso, e o piso é aritmético.
 
 \begin{proposicao}[o piso do atraso]
 \label{prop:piso}
-Um alarme que exige $L$ violações dentro da janela móvel não pode soar antes de $L$ pregões
+Um alarme que exige $L$ violações dentro da janela móvel não pode soar antes de $L-1$ pregões
 depois de a mudança começar, se antes dela o corte não era violado.
 \end{proposicao}
 
 \begin{proof}
 Para que a contagem chegue a $L$, são necessários ao menos $L$ dias com violação dentro da
 janela. Cada dia com violação consome um pregão, e nenhum deles pode ser anterior ao começo da
-mudança. Logo o alarme exige ao menos $L$ pregões.
+mudança --- que é um dia mudado, e já pode violar. Contando o dia da mudança como zero, o alarme
+não pode soar antes de $L-1$ pregões.
 \end{proof}
 
 Com $L = \numVigiaLimiar$, o piso é de \numVigiaPisoPregoes{} pregões. O alarme de

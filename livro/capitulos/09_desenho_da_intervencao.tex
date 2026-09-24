@@ -63,9 +63,10 @@ menor que a variância de repouso $\sigma^{2}$ sempre que $\alpha > 0$.
 \end{proposicao}
 
 \begin{proof}
-Durante a contenção a série é zero, de modo que $x(t-1)^2 = 0$ e a recursão perde o termo da
-observação: $v(t) = \omega + \beta\, v(t-1)$. Iterando $k$ vezes a partir de $v(0)$ chega-se à
-forma fechada, e o limite quando $k$ cresce é o ponto fixo da recursão, $\omega/(1-\beta)$. A
+Da contenção em diante a série é zero, de modo que a partir do segundo dia $x(t-1)^2 = 0$ e a
+recursão perde o termo da observação: $v(t) = \omega + \beta\, v(t-1)$. No primeiro dia o termo
+ainda é o do último dia antes dela, e é por isso que a forma fechada toma a variância daquele
+primeiro dia como $v(0)$. Iterando $k$ vezes a partir dele chega-se à forma fechada, e o limite quando $k$ cresce é o ponto fixo da recursão, $\omega/(1-\beta)$. A
 variância de repouso é $\sigma^{2} = \omega/(1-\alpha-\beta)$, de modo que o piso dividido por
 $\sigma^{2}$ é $(1-\alpha-\beta)/(1-\beta)$, que fica abaixo de um assim que $\alpha$ é positivo.
 \end{proof}

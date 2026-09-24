@@ -62,13 +62,15 @@ def alarmes(contagem: pd.Series, limiar: float) -> list:
 def piso_de_atraso(limiar: int) -> int:
     r"""O atraso mínimo, em pregões, de um alarme que exige \emph{limiar} violações.
 
-    Se a mudança começa hoje e nenhum dia anterior a ela violava o corte, contar
-    \emph{limiar} violações leva no mínimo \emph{limiar} pregões. O piso é aritmético e não
-    se compra com calibração: a única alavanca é o próprio limiar — que é o orçamento.
+    A mudança começa no dia em que o nível novo vale, e esse dia já pode violar o corte, de
+    modo que contar \emph{limiar} violações leva \emph{limiar} dias --- mas o atraso, que é a
+    distância entre a mudança e o alarme, é de \emph{limiar}-1 pregões: o primeiro dia conta
+    zero. O piso é aritmético e não se compra com calibração; a única alavanca é o próprio
+    limiar, que é o orçamento.
     """
     if limiar < 1:
         raise ValueError("o limiar precisa de pelo menos uma violação")
-    return int(limiar)
+    return int(limiar) - 1
 
 
 def teto_independente(n_blocos: int, bloco: int, probabilidade: float, limiar: int) -> float:
