@@ -1,6 +1,7 @@
 {
  "teto_comprimentos": 5,
  "teto_dias_maior": 6718,
+ "teto_dias_meio": 2000,
  "teto_dias_menor": 500,
  "teto_dois_dois_mil": 5,
  "teto_dois_mil": 0,
