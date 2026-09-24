@@ -87,7 +87,8 @@ e a assimetria é remedida.
   \centering
   \includegraphics[width=\linewidth]{figuras/E14_direcao_conjunta_1.pdf}
   \caption{A assimetria contra o atraso declarado na segunda perna. A faixa cinza é o nulo a dois
-    desvios, a linha tracejada é o par como veio, e a curva mostra onde o par se alinha melhor.}
+    desvios \emph{sem} deslocamento, a linha tracejada é o par como veio, e a curva é o par com o
+    atraso declarado --- que o nulo também sofre, e é o que o texto mede.}
   \label{fig:adiantamento}
 \end{figure}
 
@@ -97,14 +98,21 @@ Com a segunda perna deslocada em um ou dois dias, ela chega ao seu máximo ---
 cinco dias cai para \numConjuntaControleCinco{}, com dez dias para \numConjuntaControleDez{}, e com
 \numConjuntaAtrasoMaior{} dias para \numConjuntaControleVinteEUm{}, dentro da faixa do nulo.
 
+Mas o nulo sobe junto, e é isso que a subida mede. Aplicando aos pares sorteados o \emph{mesmo}
+deslocamento declarado, a assimetria do nulo no atraso de um dia vale
+\numConjuntaNuloDeslocadoUm, contra \numConjuntaNuloDeslocadoZero{} sem deslocamento nenhum: um par
+que não tem adiantamento algum pica no mesmo lugar, e o pico é do instrumento.
+
 Vale dizer o que o eixo faz. Os seis pontos estão na posição do atraso que declaram, de modo que o
 passo de dez para vinte e um dias ocupa onze vezes a largura do passo de zero para um. O pico cai no
 trecho mais estreito do desenho: quem olha a curva de longe vê um tremor no começo da linha, e é ali
 que está o achado.
 
-Isso localiza o adiantamento: o par se alinha melhor quando o índice lidera por um ou dois dias. É
-esse o intervalo de que uma proteção dispõe entre o rompimento de uma perna e o da outra, e é ele
-que decide se há alguma coisa a fazer no meio.
+O que a varredura localiza é menos do que a subida sugere. Contra o nulo deslocado, a evidência do
+par no atraso zero é de \numConjuntaDesvios{} desvios, e nos atrasos de um e dois dias ela fica da
+mesma ordem --- \textbf{o que esta medição sustenta é que existe uma ordem, e num intervalo curto;
+ela não separa um dia de dois}. O intervalo curto é o que uma proteção teria entre o rompimento de
+uma perna e o da outra, e é ele que decide se há alguma coisa a fazer no meio.
 
 \section{Se repete}
 
@@ -123,7 +131,10 @@ partir o par em pedaços e medir cada um.
 
 Os quatro pedaços dão \numConjuntaPrimeiroAssimetria{}, \numConjuntaSegundoAssimetria{},
 \numConjuntaTerceiroAssimetria{} e \numConjuntaQuartoAssimetria{}: todos positivos, e
-\numConjuntaPedacosAcima{} de \numConjuntaPedacos{} acima da média do nulo. O sinal se repete. O
+\numConjuntaPedacosAcima{} de \numConjuntaPedacos{} acima da média do nulo. O sinal se repete --- com
+uma ressalva que a régua certa impõe: medida no comprimento de \emph{um} pedaço, a faixa do nulo tem
+dispersão de \numConjuntaNuloPedacoDispersao{} e borda de dois desvios em \numConjuntaNuloPedacoBorda,
+e nenhum pedaço sozinho a alcança. O que se repete é o sinal, não a evidência de cada pedaço. O
 tamanho varia bastante de pedaço para pedaço, e o motivo está na contagem: os quatro pedaços têm
 \numConjuntaPrimeiroLiderA{}, \numConjuntaSegundoLiderA{}, \numConjuntaTerceiroLiderA{} e
 \numConjuntaQuartoLiderA{} episódios dirigidos liderados pelo índice, e com tão poucos episódios cada
@@ -132,7 +143,8 @@ pedaço, sozinho, não distingue nada.
 \section{O que fica}
 
 Fica a resposta da travessia, e ela é um sim com medida. A perda conjunta tem direção: o índice cai
-primeiro, o Ibovespa vem atrás num ou dois dias, e a ordem se repete nos quatro pedaços do dado. A precisão fica de fora. O efeito é de \numConjuntaDesvios{} desvios sobre o total do
+primeiro, o Ibovespa vem atrás no intervalo curto que a varredura delimita, e a ordem se repete nos
+quatro pedaços do dado. A precisão fica de fora. O efeito é de \numConjuntaDesvios{} desvios sobre o total do
 par, cada pedaço isolado é fraco, e a regra de contagem não pode ser conferida pelo relógio
 invertido, porque a regra ela mesma tem lado.
 

@@ -45,7 +45,7 @@
 \contentsline {figure}{\numberline {15.1}{\ignorespaces O acerto do vigia contra a direção declarada do mundo, nos dois limiares. As linhas verticais marcam a direção medida no índice e no Bitcoin, e a linha pontilhada é o que o vigia gasta à toa com o limiar honesto.}}{93}{figure.15.1}%
 \contentsline {figure}{\numberline {15.2}{\ignorespaces O terceiro momento dos incrementos, ano a ano, no índice americano, com o limiar honesto. As barras em vermelho são os anos em que o vigia alarmaria.}}{94}{figure.15.2}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {16.1}{\ignorespaces A assimetria contra o atraso declarado na segunda perna. A faixa cinza é o nulo a dois desvios, a linha tracejada é o par como veio, e a curva mostra onde o par se alinha melhor.}}{96}{figure.16.1}%
+\contentsline {figure}{\numberline {16.1}{\ignorespaces A assimetria contra o atraso declarado na segunda perna. A faixa cinza é o nulo a dois desvios \emph {sem} deslocamento, a linha tracejada é o par como veio, e a curva é o par com o atraso declarado --- que o nulo também sofre, e é o que o texto mede.}}{96}{figure.16.1}%
 \contentsline {figure}{\numberline {16.2}{\ignorespaces A assimetria em cada pedaço do par, contra a faixa do nulo. Os quatro pedaços do par têm 1613{}, 1613{}, 1612{} e 1612{} dias de série, e o primeiro perde a janela inicial, em que o corte ainda não existe.}}{97}{figure.16.2}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {17.1}{\ignorespaces A escada do recorde no índice: a pior perda até cada dia, e os dias que ergueram o recorde. São poucos degraus, e cada um deles é um mundo que ainda não tinha sido visto.}}{104}{figure.17.1}%
