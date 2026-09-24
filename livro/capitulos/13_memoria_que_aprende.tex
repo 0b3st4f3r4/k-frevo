@@ -20,6 +20,8 @@ grande justamente quando o mundo acabou de mudar.
 
 A outra maneira de estimar o nível não tem tamanho de janela; tem \textbf{taxa}.
 
+% aterramento: esquecimento
+% aterramento: lambda
 \begin{definicao}[esquecimento com taxa]\label{def:esquecimento}
 A estimativa de hoje é uma mistura da estimativa de ontem com a observação de hoje, com peso
 $\lambda$ para hoje:
@@ -39,6 +41,11 @@ Com $\lambda$ perto de zero a estimativa quase não se move, e o sistema lembra 
 longo. Com $\lambda$ igual a um a estimativa é o dia de hoje, e não há estimativa nenhuma. As duas
 pontas são conhecidas; o que se quer saber é onde fica o meio \cite{dahlhaus1998optimal}.
 
+% aterramento: epsilon
+Quando a pergunta é quanto tempo a estimativa leva para voltar a valer, é preciso dizer o que é
+voltar a valer: $\epsilon$ é a tolerância declarada, a fração do degrau que ainda se aceita como
+erro, e a resposta da proposição é em quantos dias a estimativa cruza essa fronteira.
+% aterramento: meia-vida
 \begin{proposicao}[a meia-vida e a janela]\label{prop:meia-vida}
 Num mundo cujo nível dobra de uma vez no instante $t_0$, o desvio da estimativa com taxa $\lambda$
 em relação ao nível novo é, em $t_0 + t$,

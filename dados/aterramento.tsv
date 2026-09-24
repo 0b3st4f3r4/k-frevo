@@ -33,10 +33,9 @@ m	o número de dias da janela de resposta; mais tarde, os dias por vir	simbolo	m
 d	o efeito a detectar; mais tarde, o atraso do dado	simbolo	d	11		11
 s	o desvio medido entre replicatas	simbolo	s	11	replicata	11
 z	o quantil da confiança declarada; mais tarde, o incremento padronizado	simbolo	z	11		11
-c	a constante positiva que multiplica a série	simbolo	c	-		-
-lambda	a taxa de esquecimento da memória	simbolo	\lambda	-	esquecimento	-
-epsilon	a tolerância de erro, em fração do degrau	simbolo	\epsilon	-	tolerancia	-
-E	a média de muitos sorteios (esperança)	simbolo	E	-	esperanca	-
+c	a constante positiva que multiplica a série	simbolo	c	12		12
+lambda	a taxa de esquecimento da memória	simbolo	\lambda	13	esquecimento	13
+epsilon	a tolerância de erro, em fração do degrau	simbolo	\epsilon	13	tolerancia	13
 H	o número esperado de recordes em n dias	simbolo	H	-	recorde	-
 eta	o choque do dia — o que entra na série e não vem dela	simbolo	\eta	-		-
 theta	a fração do degrau que ainda se quer recuperar	simbolo	\theta	-		-
@@ -68,15 +67,15 @@ falso-alarme	o alarme que dispara num mundo que não mudou	termo	falso alarme	3	
 cauda	os dias extremos, e o que a média não vê deles	termo	cauda	-	quantil	-
 recorde	o dia que supera todos os anteriores	termo	recorde	-		-
 episodio	o episódio dirigido — a corrida de dias que começa num rompimento	termo	episódio dirigido	-		-
-padronizacao	dividir a série pelo seu próprio tamanho, e o que isso apaga	termo	padroniza	-	desvio	-
+padronizacao	dividir a série pelo seu próprio tamanho, e o que isso apaga	termo	padroniza	12	desvio	12
 dependencia	as coisas ruins que vêm juntas	termo	\bdependência	6	independencia	6
 posto	a correlação que olha a ordem e não os valores	termo	correlação de posto	7	dependencia	7
 copula	a forma da dependência separada das margens	termo	cópula	6	dependencia	6
 condicional	a lei que vale depois de se saber alguma coisa	termo	condicional	-	probabilidade	-
 estacionaria	a lei que não muda com o dia	termo	estacionári	11	probabilidade	11
 memoria	quanto um dia carrega do anterior	termo	memória que aprende|memória efetiva|memória mora	11	estacionaria	11
-esquecimento	a taxa com que o passado cede lugar ao presente	termo	esquecimento	-	memoria	-
-meia-vida	os dias que apagam metade de um degrau	termo	meia-vida	-	esquecimento	-
+esquecimento	a taxa com que o passado cede lugar ao presente	termo	esquecimento	13	memoria	13
+meia-vida	os dias que apagam metade de um degrau	termo	meia-vida	13	esquecimento	13
 ponto-fixo	o valor que a recursão alcança e não deixa mais	termo	ponto fixo	11		11
 assimetria	o quanto o lado de cima difere do lado de baixo	termo	assimetria	-	variancia	-
 logaritmo	a conta que soma onde a porcentagem multiplica	termo	logaritmo	2		2
