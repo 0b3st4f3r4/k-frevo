@@ -13,8 +13,9 @@ total continue valendo \numMargemRho{} em todos os mundos. Nas linhas da tabela,
 por cento nomeiam $p$ --- a chance de o choque comum acontecer ---, e o tamanho $f$ é o mesmo nos três:
 o mundo do choque grande repete os cinco por cento com um choque maior.
 % aterramento: f
-O que muda de um mundo para o outro é só
-a forma como os dias ruins chegam juntos.
+O que muda de um mundo para o outro é a forma como os dias ruins chegam juntos --- e também o
+tamanho de cada perna, que o choque comum engrossa: a variância da margem sobe de
+\numMargemVarianciaMenor{} a \numMargemVarianciaMaior{} entre o controle e o mundo mais grosso.
 
 O controle é o par gaussiano puro, que é o mundo sem choque comum. A família tem \numMargemMundos{} mundos --- o controle e
 quatro com o choque declarado ---, medidos em \numMargemDias{} dias e
@@ -50,8 +51,14 @@ Se o segundo momento resumisse o risco conjunto, nada mudaria entre esses mundos
 A correlação anda de \numMargemCorrelacaoMenor{} a \numMargemCorrelacaoMaior{}, um vaivém de menos
 de dois por cento que é ruído de amostragem. No mesmo conjunto de mundos, os dias em que as duas
 pernas rompem juntas vão de \numMargemExcessoMenor{} a \numMargemExcessoMaior{} vezes o que a
-independência preveria: quase o dobro. O segundo momento fica parado enquanto o agrupamento dos dias
-ruins quase dobra.
+independência preveria: quase o dobro. A \emph{correlação} fica parada enquanto o agrupamento dos dias
+ruins quase dobra --- mas o segundo momento não fica: o choque comum engrossa cada perna, e a
+variância da margem dobra. Duas contas separam a escala da forma. Padronizando cada perna pela própria
+variância antes de medir a perda, a razão entre o pior mundo e o controle cai de \numMargemPerdaRazao{}
+para \numMargemPerdaPadraoRazao. E uma gaussiana com a variância e a correlação de cada mundo --- sem
+cauda nenhuma --- já entrega \numMargemPerdaGaussianaRazao{} dessa razão: \textbf{a maior parte do que
+a perda conjunta cresce é a margem que o choque engrossou}, e o que sobra para a forma é a parte
+pequena, que é a que este capítulo persegue.
 
 \begin{table}[htbp]
   \centering
