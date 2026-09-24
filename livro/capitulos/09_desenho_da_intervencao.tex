@@ -36,7 +36,8 @@ precisa ser declarada antes de ser usada.
 
 \begin{definicao}[contenção e resposta]\label{def:resposta}
 Uma \emph{contenção} de $k$ dias fixa a série em zero durante $k$ dias consecutivos. A
-\emph{resposta} do mundo a essa contenção é a média de $|x|$ nos $m$ dias seguintes à soltura,
+\emph{resposta} do mundo a essa contenção é a média de $|x|$ --- o tamanho do afastamento da série em
+cada dia --- nos $m$ dias seguintes à soltura,
 dividida pela média de $|x|$ nos $m$ dias anteriores à contenção. Uma \emph{replicata} é um mundo
 sorteado inteiro, segurado e observado uma vez.
 \end{definicao}
@@ -53,7 +54,7 @@ ponto em que a lei estiver.
 
 \begin{proposicao}[o piso da contenção]\label{prop:piso-contencao}
 Num mundo cuja oscilação obedece $v(t) = \omega + \alpha\, x(t-1)^2 + \beta\, v(t-1)$
-\cite{bollerslev1986generalized}, com $\alpha > 0$ e $0 < \beta < 1$, a variância no $k$-ésimo dia de uma contenção é
+\cite{bollerslev1986generalized}, com $\alpha > 0$, $0 < \beta < 1$ e $\alpha+\beta < 1$, a variância no $k$-ésimo dia de uma contenção é
 \[
 v(k) \;=\; \frac{\omega}{1-\beta} \;+\; \beta^{k}\Big( v(0) - \frac{\omega}{1-\beta} \Big),
 \]

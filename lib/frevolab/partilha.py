@@ -13,7 +13,7 @@ orçamento de atualizações.
 
 **O defeito que este módulo torna impossível.** Tratar proteger e acompanhar como dois
 consumidores simétricos do mesmo relógio, e repartir o orçamento meio a meio. O que a medição
-mostra é que as duas pressas diferem por duas ordens de grandeza: atualizar a escala todo dia e
+mostra é que as duas pressas não têm a mesma ordem: a escala pede atualização quase cinco vezes mais
 atualizar a forma todo dia custam o mesmo em trabalho, e o segundo gasto não compra quase nada. Em
 compensação, o módulo também mostra o outro lado: enquanto o orçamento for folgado, a partilha não
 morde, e a competição que a pergunta supõe só aparece quando o orçamento fica pobre.

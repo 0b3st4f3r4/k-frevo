@@ -32,7 +32,8 @@ dentro da janela; a \textbf{promessa} é a taxa de violação que se anuncia; e 
 é a taxa que de fato acontece.
 
 A linha posta no quantil dos piores dias sustenta a medida de risco mais usada em finanças,
-discutida e corrigida há décadas \cite{oconnell2026extreme}. O que se pergunta aqui vem antes
+discutida e corrigida há décadas \cite{oconnell2026extreme}. O quantil de uma fração declarada é o
+valor que deixa essa fração dos dias abaixo dele, e é ele que o corte deste capítulo usa. O que se pergunta aqui vem antes
 disso, e é bem menor: a entrega tem alguma coisa a ver com a promessa?
 
 \section{O dado e a regra}
@@ -67,7 +68,7 @@ futuro acertaria sempre, e por isso não valeria nada.
 
 Nos \numEntregaDias{} dias em que havia janela suficiente, a linha foi rompida
 \numEntregaViolacoes{} vezes. Isso dá \numEntregaTaxaPct\% de entrega, contra os
-\numPromessaPct\% anunciados, uma diferença de um décimo de ponto percentual, pequena o
+\numPromessaPct\% anunciados, uma diferença de pouco mais de um décimo de ponto percentual, pequena o
 bastante para deixar a impressão de que a regra funcionou.
 
 A impressão engana, e o motivo é aritmético. Quem decidiu o número foi o gesto de erguer a
@@ -85,7 +86,7 @@ $\dfrac{k}{n+1}$.
 Junte os $n+1$ valores e ponha-os em ordem crescente. Todas as ordens são igualmente
 prováveis, então a posição do dia seguinte nessa fila é uniforme entre as $n+1$ posições. O
 dia seguinte fica abaixo do corte exatamente quando ocupa uma das $k$ primeiras posições,
-que são as ocupadas pelos $k$ menores da janela. Logo a probabilidade é $k/(n+1)$.
+da fila dos $n+1$ valores. Logo a probabilidade é $k/(n+1)$.
 \end{proof}
 
 A lei ser contínua serve para que dias empatados tenham probabilidade zero; e a hipótese de
@@ -101,8 +102,8 @@ Com $n = \numCorteJanela$ e $k = \numCortePosto$, a conta dá
 $\numCortePosto/(\numCorteJanela+1)$, que é \numCorteContaPct\%. Esse número não veio do
 mercado, e sim da decisão de olhar \numCorteJanela{} dias e cortar no décimo terceiro. Se o
 posto fosse o décimo segundo, a conta daria \numCorteAlternativoPct\%; e a promessa anunciada
-não está em nenhum dos dois, porque o posto teria de cair entre dois dias, e não existe o
-décimo terceiro dia e meio de um ano.
+não está em nenhum dos dois, porque o posto teria de cair entre o décimo segundo e o décimo
+terceiro, e posto fracionário não existe.
 
 O mercado entregou \numEntregaTaxaPct\%: \numEntregaViolacoes{} rompimentos em
 \numEntregaDias{} dias, com poucos milésimos de diferença da conta do corte. Para saber se

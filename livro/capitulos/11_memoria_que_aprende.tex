@@ -38,17 +38,19 @@ pontas são conhecidas; o que se quer saber é onde fica o meio \cite{dahlhaus19
 Num mundo cujo nível dobra de uma vez no instante $t_0$, o desvio da estimativa com taxa $\lambda$
 em relação ao nível novo é, em $t_0 + t$,
 \[
-\hat m_{t_0+t} - L_2 \;=\; (1-\lambda)^{t}\big(\hat m_{t_0-1} - L_2\big),
+\hat m_{t_0+t} - L_2 \;=\; (1-\lambda)^{t+1}\big(\hat m_{t_0-1} - L_2\big),
 \]
 de modo que cruzar até uma tolerância $\epsilon$ do degrau leva
-$\log \epsilon / \log(1-\lambda)$ dias. Na janela deslizante de $n$ dias, o mesmo desvio cai
+$\log \epsilon / \log(1-\lambda)$ dias contados do último dia do nível antigo --- um dia menos
+quando se contam os dias desde a mudança. Na janela deslizante de $n$ dias, o mesmo desvio cai
 linearmente e chega a zero exatamente $n$ dias depois da mudança.
 \end{proposicao}
 
 \begin{proof}
-Durante a mudança o nível é $L_2$, de modo que o desvio $d_t = \hat m_t - L_2$ obedece
-$d_t = (1-\lambda) d_{t-1}$, uma recursão geométrica cuja solução é a forma fechada acima. Dividindo
-$\log\epsilon$ por $\log(1-\lambda)$ chega-se aos dias. Para a janela, a média dos últimos $n$ dias
+Do dia da mudança em diante o nível é $L_2$, de modo que o desvio $d_t = \hat m_t - L_2$ obedece
+$d_t = (1-\lambda) d_{t-1}$ --- e já no próprio dia da mudança, porque o estimador carrega o dia
+anterior. A recursão é geométrica, e contando a partir do último dia do nível antigo ela dá a forma
+fechada acima; dividindo $\log\epsilon$ por $\log(1-\lambda)$ chega-se aos dias daquele dia. Para a janela, a média dos últimos $n$ dias
 é $L_2$ menos a fração dos seus dias que ainda são anteriores a $t_0$ vezes o tamanho do degrau; essa
 fração cai de um a zero em $n$ dias, e depois disso nenhum dia velho entra na média.
 \end{proof}

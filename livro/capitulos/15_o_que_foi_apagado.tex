@@ -7,10 +7,12 @@ passado de volta.
 \section{A tentativa que explode}
 
 O sistema mais simples que esquece é $x(t) = a\,x(t-1) + \eta(t)$ \cite{box2008time}, com \emph{a} entre zero e
-um.
+um. Aqui $x(t)$ é o estado no dia $t$, $\eta(t)$ é o ruído que entra naquele dia --- o que a lei não
+explica --- e a escala desse ruído é $\sigma$.
 Com \emph{a} perto de um a memória é longa; com \emph{a} perto de zero o processo esquece tudo num
-passo. A escala do processo é $\sigma_x = \sigma/\sqrt{1-a^2}$, e a memória dele é $1/(1-a)$ dias, com a
-escala do ruído em \numApagadoSigma{}.
+passo. A escala do processo é $\sigma_x = \sigma/\sqrt{1-a^2}$, e a memória dele é $1/(1-a)$ dias --- a soma
+dos pesos que o passado ainda carrega, $a^{k}$ sobre todos os dias para trás ---, com a escala do
+ruído em \numApagadoSigma{}.
 
 A tentativa que vem à cabeça é desfazer o decaimento: dividir o estado de hoje por \emph{a}, uma vez
 para cada dia que se quer andar para trás. Medida em \numApagadoDias{} dias por mundo, em
@@ -28,7 +30,8 @@ cada passo para trás o multiplica.
 Para o processo $x(t) = a\,x(t-1) + \eta(t)$, com $\eta$ de variância $\sigma^2$ e $0<a<1$:
 a reconstrução pelo mapa inverso, feita \emph{k} dias para trás a partir do estado de hoje, tem erro
 \quad $\sigma\sqrt{(1-a^{2k})/(1-a^2)}\big/a^{k}$; \quad e a reconstrução ótima --- a esperança
-condicional, que encolhe o estado de hoje por $a^{k}$ --- tem erro $\sigma_x\sqrt{1-a^{2k}}$.
+condicional, que encolhe o estado de hoje por $a^{k}$, e que só é a esperança condicional num processo
+gaussiano na estacionária --- tem erro $\sigma_x\sqrt{1-a^{2k}}$.
 \end{proposicao}
 
 \begin{proof}
@@ -136,8 +139,8 @@ precisão inteira ele é de \numApagadoHorizonteSemBits{} --- praticamente o mes
 que a \cref{prop:reconstrucao} prevê, \numApagadoHorizonteDaFormula{}.
 
 A leitura é direta: o que apaga o passado é o \textbf{ruído que entrou nele}, e não a precisão com que
-ele foi guardado. Um sistema que guarda o estado em quatro bits e outro que o guarda em cinquenta e
-três perdem o passado no mesmo lugar.
+ele foi guardado. Um sistema que guarda o estado em \numApagadoBitsMenor{} bits e outro que o guarda em precisão cheia
+perdem o passado no mesmo lugar.
 
 \section{O que fica}
 
@@ -149,7 +152,7 @@ mais longa, e com uma tolerância mais frouxa. Não há terceira.
 
 Fica também a correção que este capítulo faz na intuição do anterior. Lá, o esquecimento era uma
 taxa escolhida para acompanhar o mundo; aqui, ele aparece como o que de fato é: uma perda com
-endereço. A memória que o capítulo da memória recomendou, de vinte e um dias, tem o seu horizonte de
+endereço. A memória que o capítulo da memória recomendou, de \numEsquecimentoMelhorMemoria{} dias, tem o seu horizonte de
 recuperação medido, e o que ficou para trás dele não está guardado em lugar nenhum.
 
 O terceiro pedaço do andar é o que a margem não conta. Duas medições desta espiral mostraram que proteger
