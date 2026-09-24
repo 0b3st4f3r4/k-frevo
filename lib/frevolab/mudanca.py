@@ -33,8 +33,28 @@ QUANDO_PADRAO = 1500       # o dia em que a mudança entra, contado do começo d
 DIAS_DE_RAMPA = 250        # quantos dias a rampa leva para chegar ao fator
 PASSO_PADRAO = -0.0005     # o deslocamento diário da média, em unidades de retorno
 
-__all__ = ["SIGMA_PADRAO", "FATOR_PADRAO", "QUANDO_PADRAO", "DIAS_DE_RAMPA",
+__all__ = ["SIGMA_PADRAO", "ar1", "FATOR_PADRAO", "QUANDO_PADRAO", "DIAS_DE_RAMPA",
            "PASSO_PADRAO", "estavel", "degrau", "rampa", "deriva", "dependencia"]
+
+
+def ar1(n: int, rng: np.random.Generator, a: float, sigma: float = 1.0) -> np.ndarray:
+    r"""Um processo que lembra com decaimento: emph{x(t) = a x(t-1) + ruído}.
+
+    É o sistema mais simples que esquece, e serve para medir o que o esquecimento apaga. O primeiro
+    valor sai da distribuição estacionária, de modo que a série não tem transiente. Com emph{a}
+    perto de um a memória é longa; com emph{a} perto de zero o processo esquece tudo em um passo.
+    """
+    if n < 2:
+        raise ValueError("o processo precisa de pelo menos dois dias")
+    if not 0.0 < a < 1.0:
+        raise ValueError("o a do processo precisa estar entre zero e um")
+    if sigma <= 0.0:
+        raise ValueError("a escala precisa ser positiva")
+    saida = np.empty(n)
+    saida[0] = rng.normal(0.0, sigma / np.sqrt(1.0 - a ** 2))
+    for t in range(1, n):
+        saida[t] = a * saida[t - 1] + rng.normal(0.0, sigma)
+    return saida
 
 
 def dependencia(n: int, rng: np.random.Generator, sigma: float = SIGMA_PADRAO,

@@ -27,7 +27,7 @@ TOLERANCIA = 0.15
 
 __all__ = ["TAXA_PADRAO", "JANELA_PADRAO", "HORIZONTE_PADRAO", "TOLERANCIA", "exponencial",
            "janela", "memoria", "meia_vida", "dias_para_tolerancia", "erro", "erro_medio",
-           "erro_varios", "limiar"]
+           "erro_varios", "limiar", "reverter", "erro_do_inverso", "erro_do_otimo", "horizonte"]
 
 
 def exponencial(serie: np.ndarray, taxa: float) -> np.ndarray:
@@ -152,6 +152,67 @@ def erro_varios(estimativas, verdade, inicio: int = 0,
     if valores.size == 1:
         return float(valores[0]), 0.0
     return float(valores.mean()), float(valores.std(ddof=1))
+
+
+def reverter(serie: np.ndarray, a: float, dias: int) -> np.ndarray:
+    r"""A reconstrução pelo mapa inverso: anda emph{dias} passos para trás dividindo por emph{a}.
+
+    É o que se tenta primeiro, e é uma armadilha: o ruído que entrou em cada passo é desconhecido,
+    e dividir por emph{a} o amplifica junto com o sinal. O erro dessa reconstrução cresce como
+    emph{1/a} elevado aos dias, sem teto.
+    """
+    s = np.asarray(serie, dtype=float)
+    if dias < 0:
+        raise ValueError("os dias para tras nao podem ser negativos")
+    if not 0.0 < a < 1.0:
+        raise ValueError("o a do processo precisa estar entre zero e um")
+    return s / (a ** dias)
+
+
+def erro_do_inverso(a: float, dias: int, sigma: float = 1.0) -> float:
+    r"""O erro exato do mapa inverso, em forma fechada.
+
+    Sai da recursão do erro: cada passo para trás divide o erro acumulado por emph{a} e soma o
+    ruído desconhecido do passo, também dividido por emph{a}. A soma geométrica dá
+    emph{sigma vezes raiz de (1 - a elevado a 2k) / (1 - a ao quadrado), tudo sobre a elevado a k}.
+    """
+    if not 0.0 < a < 1.0:
+        raise ValueError("o a do processo precisa estar entre zero e um")
+    if dias < 0:
+        raise ValueError("os dias para tras nao podem ser negativos")
+    if dias == 0:
+        return 0.0
+    return float(sigma * np.sqrt((1.0 - a ** (2 * dias)) / (1.0 - a ** 2)) / a ** dias)
+
+
+def erro_do_otimo(a: float, dias: int, sigma: float = 1.0) -> float:
+    r"""O erro da melhor reconstrução possível: a esperança condicional.
+
+    Dado só o estado de hoje, o melhor palpite para o valor de emph{k} dias atrás é emph{a elevado
+    a k} vezes o estado de hoje, e o erro dele é emph{sigma_x vezes raiz de 1 - a elevado a 2k}.
+    Esse erro não cresce sem teto: ele sobe até a dispersão do próprio processo, que é o erro de
+    quem não olha para nada. É por isso que o passado não se perde num ponto, ele **desbota**.
+    """
+    if not 0.0 < a < 1.0:
+        raise ValueError("o a do processo precisa estar entre zero e um")
+    if dias < 0:
+        raise ValueError("os dias para tras nao podem ser negativos")
+    sigma_x = sigma / np.sqrt(1.0 - a ** 2)
+    return float(sigma_x * np.sqrt(1.0 - a ** (2 * dias)))
+
+
+def horizonte(a: float, tolerancia: float = 0.5) -> float:
+    r"""Quantos dias atrás ainda se recupera o passado, para uma tolerância declarada.
+
+    A tolerância é a fração da dispersão do processo que se aceita errar. Sai da conta do erro
+    ótimo: emph{log(1 - t ao quadrado) / (2 log a)} dias. Não é o mesmo número que a memória do
+    processo, emph{1/(1-a)}: são duas medidas diferentes, e o caderno mostra as duas.
+    """
+    if not 0.0 < a < 1.0:
+        raise ValueError("o a do processo precisa estar entre zero e um")
+    if not 0.0 < tolerancia < 1.0:
+        raise ValueError("a tolerancia precisa estar entre zero e um")
+    return float(np.log(1.0 - tolerancia ** 2) / (2.0 * np.log(a)))
 
 
 def limiar(series, taxas, verdade, inicio: int = 0, horizonte: int = HORIZONTE_PADRAO,

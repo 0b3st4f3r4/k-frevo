@@ -14,8 +14,8 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 """
 from importlib.metadata import PackageNotFoundError, version
 
-from . import (calendario, dados, dependencia, estabilidade, graficos, intervencao, mudanca,
-               partilha, promessa, recorde, regimes, vigia, volatilidade)
+from . import (calendario, dados, dependencia, esquecimento, estabilidade, graficos, intervencao,
+               mudanca, partilha, promessa, recorde, regimes, vigia, volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -25,9 +25,9 @@ try:
 except PackageNotFoundError:
     VERSAO = "0.1.0"
 
-__all__ = ["calendario", "dados", "dependencia", "estabilidade", "graficos", "intervencao",
-           "mudanca", "partilha", "promessa", "recorde", "regimes", "vigia", "volatilidade",
-           "VERSAO", "auto_teste"]
+__all__ = ["calendario", "dados", "dependencia", "esquecimento", "estabilidade", "graficos",
+           "intervencao", "mudanca", "partilha", "promessa", "recorde", "regimes", "vigia",
+           "volatilidade", "VERSAO", "auto_teste"]
 
 
 def auto_teste() -> list:
@@ -364,6 +364,47 @@ def auto_teste() -> list:
     if not 0.44 < venceu / 2000.0 < 0.56:
         problemas.append("a chance de recorde medida por sorteio saiu de meio (%.3f)"
                          % (venceu / 2000.0))
+
+    # --- o passado apagado (esquecimento.py, mudanca.py) ---
+
+    # o processo que lembra com decaimento tem a dispersão estacionária que declara
+    ar_um = mudanca.ar1(20000, np.random.default_rng(31), 0.9, 1.0)
+    esperado_ar = 1.0 / np.sqrt(1.0 - 0.9 ** 2)
+    if abs(ar_um.std(ddof=1) - esperado_ar) / esperado_ar > 0.05:
+        problemas.append("o processo AR(1) não tem a dispersão estacionária declarada (%.3f contra %.3f)"
+                         % (ar_um.std(ddof=1), esperado_ar))
+
+    # sem ruído, o mapa inverso recupera exatamente
+    geometrica = 0.9 ** np.arange(200, dtype=float)
+    if not np.allclose(esquecimento.reverter(geometrica, 0.9, 7), geometrica / 0.9 ** 7):
+        problemas.append("o mapa inverso não desfez o decaimento geométrico")
+
+    # as duas fórmulas de erro: uma explode, a outra para na dispersão do processo
+    if abs(esquecimento.erro_do_inverso(0.5, 1, 1.0) - 2.0) > 1e-12:
+        problemas.append("o erro do inverso em um passo não é 1/a")
+    sigma_ar = 1.0 / np.sqrt(1.0 - 0.5 ** 2)
+    if esquecimento.erro_do_otimo(0.5, 10 ** 6, 1.0) > sigma_ar:
+        problemas.append("o erro ótimo passou da dispersão do processo")
+    if not esquecimento.erro_do_otimo(0.5, 3, 1.0) > esquecimento.erro_do_otimo(0.5, 1, 1.0):
+        problemas.append("o erro ótimo não cresce com os dias para trás")
+
+    # o horizonte cresce com a tolerância e com a memória do processo
+    if not esquecimento.horizonte(0.9, 0.9) > esquecimento.horizonte(0.9, 0.5):
+        problemas.append("afrouxar a tolerância não esticou o horizonte de recuperação")
+    if not esquecimento.horizonte(0.99, 0.5) > esquecimento.horizonte(0.5, 0.5):
+        problemas.append("um processo com mais memória não recuperou por mais dias")
+
+    # as duas fórmulas conferidas por sorteio, no caso em que a mão confere
+    erros_inv, erros_otm = [], []
+    for i in range(60):
+        x_ = mudanca.ar1(4000, np.random.default_rng(500 + i), 0.8, 1.0)
+        k_ = 5
+        erros_inv.append(np.sqrt(np.mean((esquecimento.reverter(x_[k_:], 0.8, k_) - x_[:-k_]) ** 2)))
+        erros_otm.append(np.sqrt(np.mean((0.8 ** k_ * x_[k_:] - x_[:-k_]) ** 2)))
+    if abs(np.mean(erros_inv) - esquecimento.erro_do_inverso(0.8, 5, 1.0)) / esquecimento.erro_do_inverso(0.8, 5, 1.0) > 0.1:
+        problemas.append("o erro do inverso medido não bate com a fórmula")
+    if abs(np.mean(erros_otm) - esquecimento.erro_do_otimo(0.8, 5, 1.0)) / esquecimento.erro_do_otimo(0.8, 5, 1.0) > 0.1:
+        problemas.append("o erro ótimo medido não bate com a fórmula")
 
     # o salvamento grava os dois formatos
     import tempfile
