@@ -18,6 +18,7 @@ mesma cara de um atual, e editar uma célula de markdown (o comentário sobre a 
 exemplo) não invalida nada. O diretório de trabalho do kernel é a raiz do projeto, então
 os caminhos dentro do caderno são relativos à raiz.
 """
+import unicodedata
 import hashlib
 import json
 import os
@@ -106,7 +107,12 @@ def comando(nome: str) -> str:
     "8Anos" — e o documento não compila. Um número dentro do nome tem de ser escrito por
     extenso ("troca_oito_anos"), e é isso que a recusa abaixo exige.
     """
-    partes = [p for p in re.split(r"[^0-9A-Za-z]+", nome) if p]
+    # O acento tem de virar letra simples, não sumir: a divisão abaixo corta em qualquer
+    # caractere que não seja ASCII, de modo que "índice" virava "ndice" e o comando saía
+    # \numRecordeNdiceConta -- nome diferente do que o livro cita, sem aviso nenhum.
+    plano = unicodedata.normalize("NFKD", nome)
+    plano = "".join(c for c in plano if not unicodedata.combining(c))
+    partes = [p for p in re.split(r"[^0-9A-Za-z]+", plano) if p]
     gerado = "num" + "".join(p[:1].upper() + p[1:] for p in partes)
     if not gerado.isalpha():
         raise ValueError("chave que vira %r não serve como comando LaTeX: o nome tem de ser "

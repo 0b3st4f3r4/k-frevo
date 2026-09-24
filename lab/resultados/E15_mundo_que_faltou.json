@@ -20,12 +20,6 @@
  "recorde_ibovespa_pior": 0.15993026567604396,
  "recorde_ibovespa_razao": 1.0668399855345863,
  "recorde_ibovespa_segundo": 0.1499102656860991,
- "recorde_indice_conta": 6,
- "recorde_indice_dias": 6718,
- "recorde_indice_esperado": 9.389835860140087,
- "recorde_indice_pior": 0.12765219747281709,
- "recorde_indice_razao": 1.277226334366558,
- "recorde_indice_segundo": 0.09994485240247286,
  "recorde_medido_ano": 0.49725,
  "recorde_medido_sessenta": 0.50375,
  "recorde_parado": 9.875,
@@ -42,5 +36,11 @@
  "recorde_recordes_triplo": 16.725,
  "recorde_recordes_vinte_por_cento": 11.375,
  "recorde_sementes": 40,
- "recorde_sorteios": 4000
+ "recorde_sorteios": 4000,
+ "recorde_índice_conta": 6,
+ "recorde_índice_dias": 6718,
+ "recorde_índice_esperado": 9.389835860140087,
+ "recorde_índice_pior": 0.12765219747281709,
+ "recorde_índice_razao": 1.277226334366558,
+ "recorde_índice_segundo": 0.09994485240247286
 }
