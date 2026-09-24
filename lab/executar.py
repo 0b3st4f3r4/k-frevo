@@ -587,7 +587,7 @@ def conferir_cobertura_da_biblioteca(falhas: list) -> None:
     r"""Todo módulo da biblioteca declara a superfície, é alcançável e é exercitado.
 
     O contrato §7 diz que todo algoritmo do projeto tem teste próprio no auto_teste() --- e
-    isso era falso para quatro módulos, dois deles o motor dos capítulos 10 e 13, sem que
+    isso era falso para quatro módulos, dois deles o motor dos capítulos 11 e 13, sem que
     portão nenhum visse. Este é o portão: módulo sem __all__ reprova (§8.8), módulo que o
     pacote não alcança reprova, e módulo com algoritmo e nenhuma menção no auto_teste reprova.
     """

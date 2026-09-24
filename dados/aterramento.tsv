@@ -14,70 +14,70 @@
 #
 # O registro guarda ENDEREÇO, NUNCA DEFINIÇÃO: a prosa vive só no capítulo, e não existe segunda
 # cópia para divergir. Quem confere é o lab/aterramento.py, pelo portão conferir_aterramento.
-k	o posto do corte na fila — o k-ésimo pior dos n dias	simbolo	k	2		2
+k	o posto do corte na fila — o k-ésimo pior dos n dias	simbolo	k	3		3
 n	o número de dias da janela	simbolo	n	1		-
 p	a probabilidade de alta do dia; mais tarde, o preço	simbolo	p	1		-
 r	o retorno do dia, em logaritmo	simbolo	r	2		2
 t	o índice do dia na série	simbolo	t	2		2
-B	o número de dias do bloco	simbolo	B	3		3
-L	o número de violações do bloco; mais tarde, o nível da série	simbolo	L	3		3
-prob	a probabilidade de um evento	simbolo	\Prob	3		3
-sigma	a oscilação de um dia, medida em desvio	simbolo	\sigma	4		4
-C	o número de células em que a janela é repartida	simbolo	C	5		5
-omega	o parâmetro de piso da recursão da oscilação	simbolo	\omega	11	variancia	11
-alpha	o parâmetro do choque na recursão da oscilação	simbolo	\alpha	11	variancia	11
-beta	o parâmetro da memória na recursão da oscilação	simbolo	\beta	11	variancia	11
-var	a variância declarada do dia na recursão	simbolo	v	11	variancia	11
-x	o valor da série em um dia	simbolo	x	11		11
-m	o número de dias da janela de resposta; mais tarde, os dias por vir	simbolo	m	11		11
-d	o efeito a detectar; mais tarde, o atraso do dado	simbolo	d	11		11
-s	o desvio medido entre replicatas	simbolo	s	11	replicata	11
-z	o quantil da confiança declarada; mais tarde, o incremento padronizado	simbolo	z	11		11
-c	a constante positiva que multiplica a série	simbolo	c	12		12
-lambda	a taxa de esquecimento da memória	simbolo	\lambda	13	esquecimento	13
-epsilon	a tolerância de erro, em fração do degrau	simbolo	\epsilon	13	tolerancia	13
-H	o número esperado de recordes em n dias	simbolo	H	16	recorde	16
-eta	o choque do dia — o que entra na série e não vem dela	simbolo	\eta	17		17
-theta	a fração do degrau que ainda se quer recuperar	simbolo	\theta	17		17
-a	o coeficiente da memória de um passo	simbolo	a	17		17
-e	o erro da reconstrução do passado	simbolo	e	17		17
-j	o passo da reconstrução do passado	simbolo	j	17		17
-f	o tamanho do choque comum ao par	simbolo	f	18		18
+B	o número de dias do bloco	simbolo	B	4		4
+L	o número de violações do bloco; mais tarde, o nível da série	simbolo	L	4		4
+prob	a probabilidade de um evento	simbolo	\Prob	4		4
+sigma	a oscilação de um dia, medida em desvio	simbolo	\sigma	2		2
+C	o número de células em que a janela é repartida	simbolo	C	6		6
+omega	o parâmetro de piso da recursão da oscilação	simbolo	\omega	12	variancia	12
+alpha	o parâmetro do choque na recursão da oscilação	simbolo	\alpha	12	variancia	12
+beta	o parâmetro da memória na recursão da oscilação	simbolo	\beta	12	variancia	12
+var	a variância declarada do dia na recursão	simbolo	v	12	variancia	12
+x	o valor da série em um dia	simbolo	x	12		12
+m	o número de dias da janela de resposta; mais tarde, os dias por vir	simbolo	m	12		12
+d	o efeito a detectar; mais tarde, o atraso do dado	simbolo	d	12		12
+s	o desvio medido entre replicatas	simbolo	s	12	replicata	12
+z	o quantil da confiança declarada; mais tarde, o incremento padronizado	simbolo	z	12		12
+c	a constante positiva que multiplica a série	simbolo	c	13		13
+lambda	a taxa de esquecimento da memória	simbolo	\lambda	14	esquecimento	14
+epsilon	a tolerância de erro, em fração do degrau	simbolo	\epsilon	14	tolerancia	14
+H	o número esperado de recordes em n dias	simbolo	H	17	recorde	17
+eta	o choque do dia — o que entra na série e não vem dela	simbolo	\eta	18		18
+theta	a fração do degrau que ainda se quer recuperar	simbolo	\theta	18		18
+a	o coeficiente da memória de um passo	simbolo	a	18		18
+e	o erro da reconstrução do passado	simbolo	e	18		18
+j	o passo da reconstrução do passado	simbolo	j	18		18
+f	o tamanho do choque comum ao par	simbolo	f	19		19
 probabilidade	a probabilidade de um evento, medida como frequência de muitos sorteios	termo	probabilidade	1		-
 independencia	dois dias não têm nada a dizer um sobre o outro	termo	independent|independência	1	probabilidade	-
 sorteio	repetir o mundo inteiro com outra semente	termo	sorteio|sorteado|sorteamos	1		-
-semente	o número que torna o sorteio repetível	termo	semente	9	sorteio	9
+semente	o número que torna o sorteio repetível	termo	semente	10	sorteio	10
 media	a média de muitos dias ou de muitos sorteios	termo	média	1	sorteio	-
 desvio	o desvio de um dia, e a sua média	termo	desvi	1	media	-
 variancia	a variância — o quadrado do tamanho típico do dia	termo	variância	1	media	-
 esperanca	a esperança — a média de muitos sorteios, dita em símbolo	termo	esperança	1	media	-
-curtose	a curtose — o quanto a cauda pesa, comparada com a normal	termo	curtose	18	variancia	18
-quantil	o valor que deixa uma fração declarada dos dias abaixo dele	termo	quantil	2	probabilidade	2
-mediana	o quantil de metade	termo	mediana	2	quantil	2
-décimo	cada uma das dez fatias iguais de uma lista ordenada	termo	por d[ée]cimo\b|d[ée]cimo mais\b	7	quantil	7
-vies	o erro que a própria regra assina, antes de o dado chegar	termo	viés	2		2
-amostra	o pedaço finito de dias de que se dispõe	termo	amostra	2		2
-erro-padrao	o quanto a média de n dias erra por si mesma	termo	erro-padrão|erro padrão	4	desvio	4
-replicata	um mundo sorteado inteiro, medido uma vez	termo	replicata	11	sorteio	11
-controle	o mundo em que nada muda, medido com a mesma rotina	termo	controle	5		5
-mundo-parado	o mundo sorteado em que nada muda	termo	mundo que nunca muda	2	sorteio	2
-tolerancia	o erro que ainda se aceita, com a unidade declarada	termo	tolerância	8		8
-latencia	quantos dias o alarme demora a ver a mudança	termo	latência	4		4
-falso-alarme	o alarme que dispara num mundo que não mudou	termo	falso alarme	3	mundo-parado	3
-cauda	os dias extremos, e o que a média não vê deles	termo	cauda	7	quantil	7
-recorde	o dia que supera todos os anteriores	termo	recorde	16		16
-episodio	o episódio dirigido — a corrida de dias que começa num rompimento	termo	episódio dirigido	15		15
-padronizacao	dividir a série pelo seu próprio tamanho, e o que isso apaga	termo	padroniza	12	desvio	12
-dependencia	as coisas ruins que vêm juntas	termo	\bdependência	6	independencia	6
-posto	a correlação que olha a ordem e não os valores	termo	correlação de posto	7	dependencia	7
-copula	a forma da dependência separada das margens	termo	cópula	6	dependencia	6
-condicional	a lei que vale depois de se saber alguma coisa	termo	condicional	17	probabilidade	17
-estacionaria	a lei que não muda com o dia	termo	estacionári	11	probabilidade	11
-memoria	quanto um dia carrega do anterior	termo	memória que aprende|memória efetiva|memória mora	11	estacionaria	11
-esquecimento	a taxa com que o passado cede lugar ao presente	termo	esquecimento	13	memoria	13
-meia-vida	os dias que apagam metade de um degrau	termo	meia-vida	13	esquecimento	13
-ponto-fixo	o valor que a recursão alcança e não deixa mais	termo	ponto fixo	11		11
-assimetria	o quanto o lado de cima difere do lado de baixo	termo	assimetria	14	variancia	14
+curtose	a curtose — o quanto a cauda pesa, comparada com a normal	termo	curtose	19	variancia	19
+quantil	o valor que deixa uma fração declarada dos dias abaixo dele	termo	quantil	3	probabilidade	3
+mediana	o quantil de metade	termo	mediana	3	quantil	3
+décimo	cada uma das dez fatias iguais de uma lista ordenada	termo	por d[ée]cimo\b|d[ée]cimo mais\b	8	quantil	8
+vies	o erro que a própria regra assina, antes de o dado chegar	termo	viés	3		3
+amostra	o pedaço finito de dias de que se dispõe	termo	amostra	3		3
+erro-padrao	o quanto a média de n dias erra por si mesma	termo	erro-padrão|erro padrão	5	desvio	5
+replicata	um mundo sorteado inteiro, medido uma vez	termo	replicata	12	sorteio	12
+controle	o mundo em que nada muda, medido com a mesma rotina	termo	controle	6		6
+mundo-parado	o mundo sorteado em que nada muda	termo	mundo que nunca muda	3	sorteio	3
+tolerancia	o erro que ainda se aceita, com a unidade declarada	termo	tolerância	9		9
+latencia	quantos dias o alarme demora a ver a mudança	termo	latência	5		5
+falso-alarme	o alarme que dispara num mundo que não mudou	termo	falso alarme	4	mundo-parado	4
+cauda	os dias extremos, e o que a média não vê deles	termo	cauda	8	quantil	8
+recorde	o dia que supera todos os anteriores	termo	recorde	17		17
+episodio	o episódio dirigido — a corrida de dias que começa num rompimento	termo	episódio dirigido	16		16
+padronizacao	dividir a série pelo seu próprio tamanho, e o que isso apaga	termo	padroniza	13	desvio	13
+dependencia	as coisas ruins que vêm juntas	termo	\bdependência	7	independencia	7
+posto	a correlação que olha a ordem e não os valores	termo	correlação de posto	8	dependencia	8
+copula	a forma da dependência separada das margens	termo	cópula	7	dependencia	7
+condicional	a lei que vale depois de se saber alguma coisa	termo	condicional	18	probabilidade	18
+estacionaria	a lei que não muda com o dia	termo	estacionári	12	probabilidade	12
+memoria	quanto um dia carrega do anterior	termo	memória que aprende|memória efetiva|memória mora	12	estacionaria	12
+esquecimento	a taxa com que o passado cede lugar ao presente	termo	esquecimento	14	memoria	14
+meia-vida	os dias que apagam metade de um degrau	termo	meia-vida	14	esquecimento	14
+ponto-fixo	o valor que a recursão alcança e não deixa mais	termo	ponto fixo	12		12
+assimetria	o quanto o lado de cima difere do lado de baixo	termo	assimetria	15	variancia	15
 logaritmo	a conta que soma onde a porcentagem multiplica	termo	logaritmo	2		2
 X	a variável aleatória do dia: um quando o índice sobe, zero quando não	simbolo	X	1		1
 N	o número de altas na janela	simbolo	N	1		1
@@ -86,7 +86,12 @@ variavel-aleatoria	um número que sai de um sorteio	termo	variável aleatória	1
 lei	o que diz a chance de cada resultado do sorteio	termo	\blei\b	1	sorteio	1
 barra	o desvio da média — de quanto ela se mexe sozinha	termo	barra	1	desvio	1
 dispersao	de quanto uma média se mexeria se os dias fossem outros	termo	dispers	1	media	1
-memoria-janela	a memória do instrumento: quantos dias o alarme olha	termo	dias de memória|memória do vigia	3		3
-binomial	a contagem de altas em B sorteios independentes	termo	binomial	3	probabilidade	3
-A	o acontecimento, na escrita da probabilidade	simbolo	A	3	prob	3
-intervalo-de-confianca	a barra da média escrita como um trecho	termo	intervalo de confiança	11	barra	11
+memoria-janela	a memória do instrumento: quantos dias o alarme olha	termo	dias de memória|memória do vigia	4		4
+binomial	a contagem de altas em B sorteios independentes	termo	binomial	4	probabilidade	4
+A	o acontecimento, na escrita da probabilidade	simbolo	A	4	prob	4
+intervalo-de-confianca	a barra da média escrita como um trecho	termo	intervalo de confiança	12	barra	12
+nivel	o nível — o preço de hoje, o que a posição carrega	termo	nível	2		2
+incremento	o incremento — o que o dia acrescentou ao nível	termo	incremento	2		2
+h	o horizonte, em dias	simbolo	h	2		2
+Y	o segundo sorteio, na prova da variância da soma	simbolo	Y	2		2
+mu	a média do incremento	simbolo	\mu	2	esperanca	2

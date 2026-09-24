@@ -236,7 +236,7 @@ def limiar(series, taxas, verdade, inicio: int = 0, horizonte: int = HORIZONTE_P
     como fração do NÍVEL novo, que é a unidade do erro medido aqui, e os dias previstos, que são da
     proposição, saem na unidade do DEGRAU: a conversão é feita com \emph{fator}, o quanto o mundo
     dobra de uma vez. Sem ela, o mesmo 0,15 valia como duas coisas diferentes --- o defeito que a
-    prosa do capítulo 12 e o critério de viabilidade tinham, cada um com a sua unidade. É a
+    prosa do capítulo 13 e o critério de viabilidade tinham, cada um com a sua unidade. É a
     resposta em forma de número à pergunta da travessia: abaixo dessa taxa o sistema lembra demais
     para aprender.
     """

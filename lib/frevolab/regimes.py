@@ -1,6 +1,6 @@
 r"""Regimes: quantas explicações cabem nos mesmos dados.
 
-Volta 3, a geometria do condicionamento. O capítulo 6 deixou a pergunta em termos de informação
+Volta 3, a geometria do condicionamento. O capítulo 7 deixou a pergunta em termos de informação
 --- quanta cabe num pedaço finito de passado ---, e este módulo a torna contável: dada uma
 família de explicações e um conjunto de estatísticas medidas no dado, **quantos membros da
 família reproduzem todas elas** dentro da tolerância?
@@ -39,7 +39,7 @@ def estatisticas(valores, janela: int = JANELA_PADRAO, posto: int = POSTO_PADRAO
                  bloco: int = BLOCO_PADRAO, taxa: float = TAXA_PADRAO) -> dict:
     r"""As quatro leituras do dado: a taxa, o pior bloco, a mediana e o excesso de blocos cheios.
 
-    A taxa é a leitura que a promessa do capítulo 2 entrega; as outras três são a forma com que
+    A taxa é a leitura que a promessa do capítulo 3 entrega; as outras três são a forma com que
     os rompimentos chegam, e é aí que as famílias se separam.
     """
     v = np.asarray(valores, dtype=float)

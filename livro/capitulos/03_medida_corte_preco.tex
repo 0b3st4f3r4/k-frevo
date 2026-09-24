@@ -1,5 +1,5 @@
 % =============================================================================
-% CAPÍTULO 2 — a raiz (AGENTS.md §6): a medida, o corte e o preço de fixar.
+% CAPÍTULO 3 — a raiz (AGENTS.md §6): a medida, o corte e o preço de fixar.
 %
 % O fracasso que o abre, com número na mão: a linha erguida no décimo terceiro pior
 % dia dos últimos 252 pregões entrega 5,135% contra os 5% anunciados — parece
@@ -41,24 +41,15 @@ alguma coisa a ver com a promessa?
 
 \section{O dado e a regra}
 
-O dia tem um número de ordem, o índice $t$; o preço daquele dia é $p_t$, e o do dia seguinte é
-$p_{t+1}$. O retorno de um dia para o outro sai da razão entre os dois preços.
-% aterramento: r
-% aterramento: t
+O dado é o retorno de um dia para o outro, que o capítulo anterior escreveu como o logaritmo
+da razão entre dois preços:
+
 \[
   r_{t+1} = \log \frac{p_{t+1}}{p_t}.
 \]
 
-% aterramento: logaritmo
-O logaritmo está ali por um motivo prático: ele é a operação que troca multiplicação por soma
---- o logaritmo de um produto é a soma dos logaritmos dos fatores. Ele faz um preço que desce e
-volta ao lugar terminar com retornos que somam zero, e é isso que permite acompanhar o dia a dia
-sem perder o fio da conta:
-
-\[ 100 \to 95: -0{,}0513; \qquad 95 \to 100: +0{,}0513; \qquad \text{queda de } 5\% \text{ pede alta de } 5{,}26\% . \] % numeros-ok: exemplo mínimo
-
-Em porcentagem a volta também acontece, com outros números, porque porcentagem multiplica
-onde o logaritmo soma.
+O retorno é o incremento e o preço é o nível: empilhar dias é somar retornos, e é isso que
+permite acompanhar o dia a dia sem perder o fio da conta.
 
 A série é o índice S\&P 500, % numeros-ok: nome próprio, não medição
 com \numSerieDias{} pregões, de \numSerieInicio{} a \numSerieFim. Ela vem do arquivo do

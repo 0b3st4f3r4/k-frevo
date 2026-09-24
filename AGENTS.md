@@ -48,22 +48,23 @@ conferida por portão (§9). Onde cada degrau sobe:
 | degrau | capítulo |
 |---|---|
 | o sorteio, a lei, a probabilidade como frequência, a média, a variância, o desvio e a barra | 1 |
-| o incremento, o logaritmo, o quantil, o posto, a amostra e o viés | 2 |
-| a independência, a contagem do bloco, a binomial e o falso alarme | 3 |
-| o erro-padrão, a latência, o barulho sigma e o passo do deslocamento | 4 |
-| a partição, as células e o controle | 5 |
-| a dependência, a cópula que se dispensa e a cauda | 6 |
-| o posto, o décimo e o controle da relação | 7 |
-| a tolerância | 8 |
-| a semente | 9 |
-| a memória, o estacionário, a recursão da oscilação e o ponto fixo | 11 |
-| a padronização | 12 |
-| o esquecimento, a meia-vida e a tolerância do degrau | 13 |
-| a assimetria | 14 |
-| o episódio dirigido | 15 |
-| o recorde e o harmônico | 16 |
-| a esperança condicional e a reconstrução | 17 |
-| o choque comum e a curtose | 18 |
+| o nível, o incremento, o retorno, o logaritmo e a banda do nível com a raiz do horizonte | 2 |
+| o quantil, o posto, a amostra e o viés | 3 |
+| a independência, a contagem do bloco, a binomial e o falso alarme | 4 |
+| o erro-padrão, a latência, o barulho sigma e o passo do deslocamento | 5 |
+| a partição, as células e o controle | 6 |
+| a dependência, a cópula que se dispensa e a cauda | 7 |
+| a correlação de posto, o décimo e o controle da relação | 8 |
+| a tolerância | 9 |
+| a semente | 10 |
+| a memória, o estacionário, a recursão da oscilação e o ponto fixo | 12 |
+| a padronização | 13 |
+| o esquecimento, a meia-vida e a tolerância do degrau | 14 |
+| a assimetria | 15 |
+| o episódio dirigido | 16 |
+| o recorde e o harmônico | 17 |
+| a esperança condicional e a reconstrução | 18 |
+| o choque comum e a curtose | 19 |
 
 Consequências duras desta escolha:
 
@@ -391,9 +392,11 @@ ewtheorem` do preâmbulo e **reprova** o `\cref` cujo ambiente não seja dono do
 
 - **2026-09-24.** **O §3.5 virou portão: todo objeto do livro tem de estar aterrado, ou declarado na fila.** A varredura em ordem de leitura (a ordem dos `\input`, e não a do nome do arquivo) achou 30 símbolos de matemática e mostrou o estado real: "variável aleatória", "densidade", "covariância", "lei dos grandes números", "derivada", "integral", "simulação" e "semente" **não aparecem em página nenhuma**; a "esperança" entra no cap. 16 dentro do GARCH, a "variância" no 10 e a "curtose" no 17 em cabeçalho de tabela. Entraram `dados/aterramento.tsv` (66 objetos: endereço, nunca definição) e `lab/aterramento.py`, com o portão `conferir_aterramento` cobrando símbolo registrado, entrada viva, âncora existente, uso depois dela e pré-requisito em ordem --- os seis ramos provados por teste negativo, um a um, com o livro real passando limpo. O objeto na fila vira **aviso**, e os 66 avisos são o trabalho declarado que falta.
 
-- **2026-09-24.** **O motor do livro passou a ser declarado, e o portão passou a nomeá-lo.** O mesmo `latexmk` de sempre escolheu nesta árvore o LuaHBTeX em vez do pdfTeX, e o log dele traz `Missing character` para o apóstrofo tipográfico dos títulos: o livro compilava, o PDF safa e faltava uma letra no papel. O portão da compilação acusava «log sem compilação» com 46 KB de log dentro. O `-pdf` entrou no §9.3 e a mensagem passou a imprimir a máquina que escreveu o log.
+- **2026-09-24.** **O motor do livro passou a ser declarado, e o portão passou a nomeá-lo.** O mesmo `latexmk` de sempre escolheu nesta árvore o LuaHBTeX em vez do pdfTeX, e o log dele traz `Missing character` para o apóstrofo tipográfico dos títulos: o livro compilava, o PDF safa e faltava uma letra no papel. O portão da compilação acusava «log sem compilação` com 46 KB de log dentro. O `-pdf` entrou no §9.3 e a mensagem passou a imprimir a máquina que escreveu o log.
 
 
 - **2026-09-24.** **A raiz ganhou o capítulo que faltava: o número e a barra.** O livro media com máquinas que nunca construía --- sorteava mundos inteiros e tirava média de muitos sorteios sem que "sorteio", "média" e "variância" fossem construídos em lugar nenhum. O capítulo abre nos dois números do índice (a fração de altas nos últimos vinte e um pregões e nos últimos duzentos e cinquenta e dois), constrói sorteio, lei, probabilidade como frequência, variável aleatória, média, variância e desvio, prova a barra da fração contando os pares de dias e mede em quatro mil mundos por janela. No dado, as janelas de vinte e um dias têm dispersão de 10,40 contra a barra de 10,86 (razão 0,957), e a leitura é que **o que muda no mundo não é a média**. Dois registros de método: o plano previa **dois** capítulos novos na raiz e o segundo (a taxa, o decaimento, o ponto fixo) **não entrou**, porque esse material já tem onde nascer --- o logaritmo vive no capítulo 2, a recursão no 12 e no 14 --- e capítulo de preparação sem fracasso próprio não é capítulo (§4); e a ordem que o portão cobra passou a ser a de **capítulo**, não a de linha, porque o §4 manda cada capítulo abrir num fracasso que nomeia o objeto antes de o construir.
 
-- **2026-09-24.** **O livro ganhou um capítulo 1 e todos os outros andaram uma casa --- este é o mapa.** O capítulo novo (o número e a barra) entrou antes da raiz antiga, e com ele as partes ficaram assim: **A raiz (1 e 2), As voltas (3 a 9), A travessia (10 a 15), O que não se compra (16 a 18), O enquadramento (19 e 20), O fecho (21)** --- vinte e um capítulos, seis partes. Os cadernos E01 a E21 seguem com os mesmos ids: o id do experimento é estável e **não** segue o número do capítulo. A renumeração foi um deslocamento de mais um em tudo: os vinte arquivos renomeados com `git mv`, os `\input` e os comentários do `livro.tex`, os cabeçalhos «% CAPÍTULO n», e as referências numéricas em `lib/`, `lab/` e nos cadernos. **O log acima não é reescrito --- esta entrada é o mapa.** Dois defeitos que a varredura sozinha deixou passar e a conferência por busca no arquivo pegou: a faixa «capítulos 2 e 4» virou «3 e 4», porque o segundo número não estava colado na palavra, e uma referência sem acento («capitulo 11») escapou do padrão acentuado. Entrou o ramo da renumeração no portão --- o número no nome do arquivo tem de ser a posição do capítulo na ordem de leitura ---, provado por teste negativo.
+- **2026-09-24.** **O livro ganhou um capítulo 1 e todos os outros andaram uma casa --- este é o mapa.** O capítulo novo (o número e a barra) entrou antes da raiz antiga, e com ele as partes ficaram assim: **A raiz (1 e 2), As voltas (3 a 9), A travessia (10 a 15), O que não se compra (16 a 18), O enquadramento (19 e 20), O fecho (21)** --- vinte e um capítulos, seis partes. Os cadernos E01 a E21 seguem com os mesmos ids: o id do experimento é estável e **não** segue o número do capítulo. A renumeração foi um deslocamento de mais um em tudo: os vinte arquivos renomeados com `git mv`, os `\input` e os comentários do `livro.tex`, os cabeçalhos «% CAPÍTULO n`, e as referências numéricas em `lib/`, `lab/` e nos cadernos. **O log acima não é reescrito --- esta entrada é o mapa.** Dois defeitos que a varredura sozinha deixou passar e a conferência por busca no arquivo pegou: a faixa «capítulos 2 e 4` virou «3 e 4`, porque o segundo número não estava colado na palavra, e uma referência sem acento («capitulo 11`) escapou do padrão acentuado. Entrou o ramo da renumeração no portão --- o número no nome do arquivo tem de ser a posição do capítulo na ordem de leitura ---, provado por teste negativo.
+
+- **2026-09-24.** **O segundo capítulo novo entrou, e o livro está em vinte e dois --- este é o mapa.** «O que a soma guarda` abre na conta que soma as porcentagens diárias para saber o que o índice andou: num mês as duas contas quase coincidem, e em vinte e seis anos a soma entrega metade do que aconteceu, sem que nada na conta avise. Ele constrói o **nível** e o **incremento** como dois objetos, o **logaritmo** como a operação que troca multiplicação por soma, o **retorno**, e a **banda do nível**, que cresce com a raiz do horizonte --- proposição própria, medida em quatro mil mundos e depois na série, onde ela exagera porque o desvio de um dia é carregado por poucos dias. Caderno E22 e o módulo `nivel` na biblioteca. As partes ficaram: **A raiz (1 a 3), As voltas (4 a 10), A travessia (11 a 16), O que não se compra (17 a 19), O enquadramento (20 e 21), O fecho (22)**. A renumeração foi o deslocamento de mais um nos vinte arquivos, nos `\input`, nos cabeçalhos, nas referências de `lib/` e `lab/` e nas âncoras do registro; o logaritmo e o índice `t` passaram a ser aterrados no capítulo 2, e o capítulo 3 perdeu o parágrafo que os construía, porque agora ele cita. **O log acima não é reescrito --- esta entrada é o mapa.** O portão ganhou uma regra: o que está dentro de um `\text{}` é prosa, e não símbolo --- sem ela, o artigo «a` de «a soma das duas` era lido como o coeficiente de memória e acusava uso antes de aterrar.

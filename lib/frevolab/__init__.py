@@ -15,8 +15,8 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 from importlib.metadata import PackageNotFoundError, version
 
 from . import (calendario, centro, dados, dependencia, direcao, esquecimento, estabilidade,
-               graficos, intervencao, mudanca, partilha, proporcao, promessa, recorde, regimes,
-               vigia, volatilidade)
+               graficos, intervencao, mudanca, nivel, partilha, proporcao, promessa, recorde,
+               regimes, vigia, volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -27,8 +27,8 @@ except PackageNotFoundError:
     VERSAO = "0.1.0"
 
 __all__ = ["calendario", "dados", "dependencia", "esquecimento", "estabilidade", "graficos",
-           "intervencao", "mudanca", "partilha", "proporcao", "promessa", "recorde", "regimes",
-           "vigia", "volatilidade", "VERSAO", "auto_teste"]
+           "intervencao", "mudanca", "nivel", "partilha", "proporcao", "promessa", "recorde",
+           "regimes", "vigia", "volatilidade", "VERSAO", "auto_teste"]
 
 
 def auto_teste() -> list:
@@ -498,7 +498,7 @@ def auto_teste() -> list:
     if centro.limiar_do_orcamento(nulo, 0.10) > centro.limiar_do_orcamento(nulo, 0.05):
         problemas.append("o limiar do centro não é monótono no orçamento")
 
-    # --- regimes: a família do capítulo 7 ---
+    # --- regimes: a família do capítulo 8 ---
     real = {"taxa": 0.05, "pior": 20.0, "mediana": 3.0, "acima_do_dobro": 0.10}
     tol = {"taxa": 0.002, "pior": 2.0, "mediana": 1.0, "acima_do_dobro": 0.03}
     if len(regimes.cabem([{"estatisticas": dict(real)}], real, tol, ("pior",))) != 1:
@@ -531,7 +531,7 @@ def auto_teste() -> list:
         problemas.append("os blocos da direção não são sem sobreposição (%d para %d esperados)"
                          % (quantos, passos.size // 252 - 1))
 
-    # --- intervencao: o desenho experimental do capítulo 10 ---
+    # --- intervencao: o desenho experimental do capítulo 11 ---
     from statistics import NormalDist as _NormalDist
     zeta = _NormalDist().inv_cdf(1.0 - (1.0 - intervencao.CONFIANCA) / 2.0)
     if abs(intervencao.replicatas_necessarias(0.20, 0.50) - (zeta * 0.50 / 0.20) ** 2) > 1e-9:
@@ -582,7 +582,7 @@ def auto_teste() -> list:
         problemas.append("o desvio da mistura exponencial não decai como (1 - taxa) elevado a t")
     if abs(esquecimento.dias_para_tolerancia(taxa_esq, 0.15) - np.log(0.15) / np.log(1.0 - taxa_esq)) > 1e-12:
         problemas.append("os dias até a tolerância não são log(eps) sobre log(1 - taxa)")
-    # A tolerância do capítulo 12 tinha DUAS unidades com o mesmo 0,15: a do nível, que o erro
+    # A tolerância do capítulo 13 tinha DUAS unidades com o mesmo 0,15: a do nível, que o erro
     # medido usa, e a do degrau, que a proposição usa. Num mundo que dobra, 0,15 do nível é 0,30 do
     # degrau — e enquanto isso não esteve separado, a prosa dizia uma unidade e o critério media na
     # outra. Estas três asserções fixam a ponte: a conversão, a conta dos dias em degraus, e o
@@ -615,6 +615,33 @@ def auto_teste() -> list:
     # os ciclos da partilha: os três casos testados dividiam exatamente, onde truncar dá o mesmo
     if partilha.ciclos(3, 7, 500) != (167, 71):
         problemas.append("os ciclos da partilha não arredondam para o mais próximo")
+
+    # --- nivel: as porcentagens não se somam, e o desvio do nível cresce com a raiz ---
+    # O caso mínimo, escrito à mão: cem desce a noventa e cinco e volta a cem. As porcentagens
+    # não somam zero (-5% e +5,26% dão +0,26%), e os logaritmos somam exatamente zero.
+    desce_e_volta = np.array([-0.05, 0.05 / 0.95])
+    if abs(nivel.soma_das_variacoes(desce_e_volta) - 0.002631578947368421) > 1e-12:
+        problemas.append("a soma das porcentagens não dá o resíduo esperado na ida e volta")
+    if abs(nivel.soma_dos_logs(np.log1p(desce_e_volta))) > 1e-15:
+        problemas.append("o logaritmo não soma zero na ida e volta")
+    if abs(nivel.produto_das_variacoes(desce_e_volta)) > 1e-15:
+        problemas.append("o produto das variações não devolve o lugar")
+    # as três contas do pedaço, juntas: a variação real e a soma dos logaritmos fecham em zero,
+    # e a soma das porcentagens não fecha.
+    contas = nivel.contas_do_pedaco([100.0, 95.0, 100.0])
+    if abs(contas["variação real (%)"]) > 1e-12 or abs(contas["soma dos logaritmos (%)"]) > 1e-12:
+        problemas.append("a ida e volta não fecha em zero na variação real e nos logaritmos")
+    if abs(contas["soma das porcentagens (%)"] - 0.2631578947368421) > 1e-10:
+        problemas.append("a soma das porcentagens não dá o resíduo esperado no pedaço de teste")
+    # a previsão da raiz, no caso em que ela é exata, e contra a dispersão medida em mundos.
+    if abs(nivel.desvio_do_nivel(0.01, 252) - 0.01 * np.sqrt(252)) > 1e-15:
+        problemas.append("o desvio do nível não é o desvio de um dia vezes a raiz dos dias")
+    sorteio_nivel = np.random.default_rng(20260924)
+    medido_nivel = float(nivel.mundos_do_passeio(0.01213, 252, 4000, sorteio_nivel).std(ddof=1))
+    previsto_nivel = nivel.desvio_do_nivel(0.01213, 252)
+    if abs(medido_nivel - previsto_nivel) / previsto_nivel > 0.15:
+        problemas.append("a dispersão do nível entre mundos sorteados não bate com a raiz "
+                         "(medido %.5f, previsto %.5f)" % (medido_nivel, previsto_nivel))
 
     # --- proporcao: a barra da média de muitos sorteios ---
     # A previsão da proposição, no caso em que ela é exata: a barra de uma moeda em cem

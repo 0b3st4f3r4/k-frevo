@@ -9,7 +9,7 @@ o domingo.
 
 **O que este módulo faz.** Trata o calendário como uma partição dos dias em \emph{células} e
 ergue o corte \emph{dentro} de cada célula: cada dia é comparado com os seus iguais. O
-argumento é o da proposição do capítulo 2, aplicado uma célula por vez --- e dele sai o preço,
+argumento é o da proposição do capítulo 3, aplicado uma célula por vez --- e dele sai o preço,
 que é o que este módulo mede junto:
 
     com uma janela de n dias e C células, cada célula recebe n/C dias, e o alarme mais raro

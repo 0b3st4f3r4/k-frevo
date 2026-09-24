@@ -113,8 +113,14 @@ def sem_comentario(texto: str) -> str:
     return "\n".join(re.sub(r"(?<!\\)%.*", "", linha) for linha in texto.splitlines())
 
 
+# O que esta dentro de um \text{} e prosa: em "$\text{a soma das duas}$" o "a" e artigo, e nao
+# o simbolo do coeficiente de memoria. Sem esta linha o portao acusava uso antes de aterrar num
+# artigo de duas letras.
+PROSA_NA_MATEMATICA = re.compile(r"\\text\{[^}]*\}")
+
+
 def sem_matematica(linha: str) -> str:
-    return GRANDEZA.sub(" ", NAO_MATEMATICA.sub(" ", linha))
+    return PROSA_NA_MATEMATICA.sub(" ", GRANDEZA.sub(" ", NAO_MATEMATICA.sub(" ", linha)))
 
 
 def linha_limpa(linha: str) -> str:
