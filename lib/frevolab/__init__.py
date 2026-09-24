@@ -14,7 +14,7 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 """
 from importlib.metadata import PackageNotFoundError, version
 
-from . import (calendario, centro, dados, dependencia, direcao, esquecimento, estabilidade,
+from . import (calendario, centro, dados, dependencia, direcao, evidencia, esquecimento, estabilidade,
                graficos, intervencao, mudanca, multiplicidade, nivel, operador, partilha, proporcao, promessa, recorde,
                regimes, vigia, volatilidade)
 
@@ -63,6 +63,13 @@ def auto_teste() -> list:
         problemas.append("multiplicidade: o quantil da familia nao e maior que a barra de uma")
     if multiplicidade.comparacoes() != multiplicidade.SINAIS_PADRAO * multiplicidade.FAIXAS_PADRAO:
         problemas.append("multiplicidade: a contagem de comparacoes nao bate")
+
+    # A folga de uma explicacao e a distancia a fronteira da tolerancia, medida na unidade
+    # dela: a que esta em 1 esta na borda, e a que esta em 0,5 tem metade do que se aceita.
+    if not (0.0 <= evidencia.TOLERANCIA_PADRAO["taxa"] < 1.0):
+        problemas.append("evidencia: a tolerancia da taxa nao esta na unidade declarada")
+    if len(evidencia.CHAVES_PADRAO) != 4:
+        problemas.append("evidencia: as quatro estatisticas do capitulo nao sao quatro")
 
     # uma série constante não tem volatilidade
     constante = pd.Series(np.full(600, 100.0))

@@ -151,6 +151,36 @@ Vale a distinção, porque ela reaparece em tudo o que vem: \textbf{refutação 
 região é do critério}. O capítulo do corte já tinha mostrado a versão disso numa estatística só
 --- o corte assina a média ---, e aqui ela aparece na forma completa.
 
+\section{O peso de cada explicação}
+
+O capítulo responde \emph{quantas} peças da família reproduzem as quatro estatísticas do dado:
+\numEvidenciaCabem{}, das \numEvidenciaPecas{}. Ele não responde \emph{com que folga} cada uma
+cabe, e a diferença importa: um empate de verdade e uma ordem com folga pequena têm a mesma cara
+numa contagem.
+
+A folga de uma peça é a distância à fronteira da tolerância, medida na unidade de cada estatística
+--- de modo que \emph{um} é estar na borda e meio é ter metade do que se aceita. Medidas assim, as
+duas que cabem não cabem igual: a primeira fica a \numEvidenciaFolgaPrimeira{} e a segunda a
+\numEvidenciaFolgaSegunda, \textbf{exatamente na fronteira}, enquanto a primeira que fica de fora
+está a \numEvidenciaFolgaTerceira. A razão entre as duas que entram é de
+\numEvidenciaRazaoDuas{}, e da segunda até a que fica de fora é de \numEvidenciaRazaoFronteira.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E25_evidencia_1.pdf}
+  \caption{A folga de cada peça da família, da que mais tem a favor para a que menos tem. A linha
+    tracejada é a fronteira da tolerância e a faixa verde, as \numEvidenciaCabem{} peças que o
+    capítulo conta. A mais distante das \numEvidenciaPecas{} está a
+    \numEvidenciaFolgaDistante{} tolerâncias.}
+  \label{fig:folga}
+\end{figure}
+
+O que isso acrescenta à contagem é uma medida do quanto a fronteira decide. As duas peças que entram
+estão separadas por três por cento da tolerância, e a segunda está em cima da linha: apertar a
+tolerância um décimo a tira da conta. \textbf{O empate não é um empate: é uma ordem estreita
+encostada na borda do critério} --- e é por isso que o capítulo declara a tolerância junto do número
+que ela julga.
+
 \section{O que fica}
 
 Fica a \textbf{geometria}: uma família de explicações, um punhado de estatísticas, e o conjunto

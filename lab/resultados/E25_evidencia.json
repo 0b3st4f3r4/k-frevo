@@ -1,0 +1,12 @@
+{
+ "evidencia_cabem": 2,
+ "evidencia_folga_distante": 6.5,
+ "evidencia_folga_primeira": 0.9676915873263623,
+ "evidencia_folga_segunda": 1.0,
+ "evidencia_folga_terceira": 1.0925550179491188,
+ "evidencia_pecas": 180,
+ "evidencia_razao_duas": 1.033387096774193,
+ "evidencia_razao_fronteira": 1.0925550179491188,
+ "evidencia_semente": 131,
+ "evidencia_tolerancias": 4
+}
