@@ -9,50 +9,53 @@
 \contentsline {table}{\numberline {4.1}{\ignorespaces Os dois piores tombos do período, com o dia do alarme e a fração do prejuízo total que já tinha acontecido quando ele soou. No tombo mais recente, o alarme veio com 29,18\% de queda já realizada, de um total de 33,92\%.}}{52}{table.4.1}%
 \contentsline {table}{\numberline {4.2}{\ignorespaces A troca, medida. Baixar o limiar antecipa o alarme e multiplica o falso alarme; a taxa de câmbio não é constante, e piora à direita da tabela.}}{53}{table.4.2}%
 \addvspace {10\p@ }
-\addvspace {10\p@ }
-\contentsline {table}{\numberline {6.1}{\ignorespaces O tamanho do calendário, medido. Nas cargas europeias a semana desenha em torno de um desvio-padrão, e a França é o caso mais fraco; no índice americano ela desenha quase nada.}}{70}{table.6.1}%
-\contentsline {table}{\numberline {6.2}{\ignorespaces A mesma janela de 252{} dias, repartida de quatro jeitos, na carga dinamarquesa. Entre parênteses, o alarme mais raro que aquela memória consegue declarar.}}{72}{table.6.2}%
-\addvspace {10\p@ }
-\contentsline {table}{\numberline {7.1}{\ignorespaces A mesma série, com o par trocado. A coluna da esquerda é a que importa: a primeira perna rompe os mesmos 315{} dias em todas as linhas, porque a série dela não foi tocada. O pareamento é a única coisa que mudou.}}{83}{table.7.1}%
-\contentsline {table}{\numberline {7.2}{\ignorespaces A barra da concordância contra a fração dos pares que se conta, medida em 40{} mundos e comparada com a lei.}}{86}{table.7.2}%
-\addvspace {10\p@ }
-\contentsline {table}{\numberline {8.1}{\ignorespaces Cada sinal olhando para trás, contra os rompimentos dos 60{} dias seguintes. A última coluna é a média do alvo no décimo mais baixo e no mais alto do sinal.}}{93}{table.8.1}%
-\contentsline {table}{\numberline {8.2}{\ignorespaces Os mesmos sinais nos dois mundos, para os três que o mundo parado tem medidos --- o nível sobre a oscilação ficou sem controle. No mundo em que nada muda não há o que anunciar, e ainda assim o nível do corte produz correlação.}}{94}{table.8.2}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces O orçamento de cada um dos 6{} limiares, medido nos mesmos 200{} mundos parados. O limiar do livro é o mais raro da família.}}{62}{table.5.1}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces A aposta medida: o orçamento é respeitado, o capital típico se perde, e a certeza custa tempo.}}{64}{table.5.2}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {10.1}{\ignorespaces Dos 280{} triplos da grade fina, quantos satisfazem cada estatística nos três mercados simultaneamente.}}{112}{table.10.1}%
+\contentsline {table}{\numberline {7.1}{\ignorespaces O tamanho do calendário, medido. Nas cargas europeias a semana desenha em torno de um desvio-padrão, e a França é o caso mais fraco; no índice americano ela desenha quase nada.}}{76}{table.7.1}%
+\contentsline {table}{\numberline {7.2}{\ignorespaces A mesma janela de 252{} dias, repartida de quatro jeitos, na carga dinamarquesa. Entre parênteses, o alarme mais raro que aquela memória consegue declarar.}}{78}{table.7.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {11.1}{\ignorespaces O orçamento e a latência do instrumento conjunto, com a mudança acontecendo no meio da série. O orçamento é medido no mundo em que o par não muda, e a latência no mundo em que ele muda.}}{124}{table.11.1}%
+\contentsline {table}{\numberline {8.1}{\ignorespaces A mesma série, com o par trocado. A coluna da esquerda é a que importa: a primeira perna rompe os mesmos 315{} dias em todas as linhas, porque a série dela não foi tocada. O pareamento é a única coisa que mudou.}}{89}{table.8.1}%
+\contentsline {table}{\numberline {8.2}{\ignorespaces A barra da concordância contra a fração dos pares que se conta, medida em 40{} mundos e comparada com a lei.}}{92}{table.8.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {12.1}{\ignorespaces A resposta dos dois mundos empatados, com 60{} replicatas por contenção e 20{} dias de espera depois da soltura. A última coluna é o preço do desenho que declara exatamente a diferença medida naquela linha.}}{131}{table.12.1}%
+\contentsline {table}{\numberline {9.1}{\ignorespaces Cada sinal olhando para trás, contra os rompimentos dos 60{} dias seguintes. A última coluna é a média do alvo no décimo mais baixo e no mais alto do sinal.}}{99}{table.9.1}%
+\contentsline {table}{\numberline {9.2}{\ignorespaces Os mesmos sinais nos dois mundos, para os três que o mundo parado tem medidos --- o nível sobre a oscilação ficou sem controle. No mundo em que nada muda não há o que anunciar, e ainda assim o nível do corte produz correlação.}}{100}{table.9.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {13.1}{\ignorespaces A partilha do orçamento de 60{} atualizações. O desvio entre os 20{} mundos sorteados está na \cref {fig:partilha}. A fração que falta em cada linha vai para a forma.}}{142}{table.13.1}%
-\contentsline {table}{\numberline {13.2}{\ignorespaces O ganho de partilhar bem, contra o tamanho do orçamento. Com orçamento folgado, dividir de qualquer maneira dá quase o mesmo.}}{143}{table.13.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {14.1}{\ignorespaces O erro nos 250{} dias seguintes ao degrau, o erro no mundo que não muda e os dias que a \cref {prop:meia-vida} prevê para chegar a 0,15{} do nível novo --- que, num mundo que dobra de uma vez, é 0,3{} do degrau. A memória é a memória efetiva: o inverso da taxa, para a mistura, e o número de dias, para a janela.}}{150}{table.14.1}%
-\contentsline {table}{\numberline {14.2}{\ignorespaces O melhor erro possível em cada horizonte, e a memória que o entrega. O horizonte é o tempo disponível depois da mudança para o sistema aprender o nível novo.}}{152}{table.14.2}%
+\contentsline {table}{\numberline {11.1}{\ignorespaces Dos 280{} triplos da grade fina, quantos satisfazem cada estatística nos três mercados simultaneamente.}}{120}{table.11.1}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {15.1}{\ignorespaces O acerto do vigia da direção em mundos com assimetria declarada, com o limiar da conta e com o limiar honesto. A primeira linha é o mundo sem direção: ali o acerto é o gasto em alarme falso, e é contra ele que as outras linhas se leem.}}{158}{table.15.1}%
+\contentsline {table}{\numberline {12.1}{\ignorespaces O orçamento e a latência do instrumento conjunto, com a mudança acontecendo no meio da série. O orçamento é medido no mundo em que o par não muda, e a latência no mundo em que ele muda.}}{132}{table.12.1}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {16.1}{\ignorespaces Os episódios dirigidos no par, por janela. A janela é quanto tempo se espera pela segunda perna depois de a primeira ter rompido.}}{165}{table.16.1}%
+\contentsline {table}{\numberline {13.1}{\ignorespaces A resposta dos dois mundos empatados, com 60{} replicatas por contenção e 20{} dias de espera depois da soltura. A última coluna é o preço do desenho que declara exatamente a diferença medida naquela linha.}}{139}{table.13.1}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {17.1}{\ignorespaces A conta dos recordes é sempre a mesma, 9,97{}, porque ela não sabe da mudança. A última coluna é a razão entre o extremo de depois da mudança e o de antes, e confere com o fator posto no mundo.}}{179}{table.17.1}%
+\contentsline {table}{\numberline {14.1}{\ignorespaces A partilha do orçamento de 60{} atualizações. O desvio entre os 20{} mundos sorteados está na \cref {fig:partilha}. A fração que falta em cada linha vai para a forma.}}{150}{table.14.1}%
+\contentsline {table}{\numberline {14.2}{\ignorespaces O ganho de partilhar bem, contra o tamanho do orçamento. Com orçamento folgado, dividir de qualquer maneira dá quase o mesmo.}}{151}{table.14.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {18.1}{\ignorespaces As duas reconstruções medidas, e a escala do processo que serve de referência. Um erro igual à escala quer dizer que a reconstrução não sabe mais do que um palpite sorteado da distribuição.}}{183}{table.18.1}%
-\contentsline {table}{\numberline {18.2}{\ignorespaces O horizonte de recuperação medido, em dias, para duas tolerâncias, ao lado da memória do processo. As duas medidas descrevem o mesmo sistema e não são a mesma coisa.}}{185}{table.18.2}%
+\contentsline {table}{\numberline {15.1}{\ignorespaces O erro nos 250{} dias seguintes ao degrau, o erro no mundo que não muda e os dias que a \cref {prop:meia-vida} prevê para chegar a 0,15{} do nível novo --- que, num mundo que dobra de uma vez, é 0,3{} do degrau. A memória é a memória efetiva: o inverso da taxa, para a mistura, e o número de dias, para a janela.}}{158}{table.15.1}%
+\contentsline {table}{\numberline {15.2}{\ignorespaces O melhor erro possível em cada horizonte, e a memória que o entrega. O horizonte é o tempo disponível depois da mudança para o sistema aprender o nível novo.}}{160}{table.15.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {19.1}{\ignorespaces A correlação declarada é respeitada em todos os mundos --- a medida vai de 0,4941{} a 0,5006{} ---, e o que muda é a cauda e o agrupamento dos dias ruins. A última coluna é o instrumento do capítulo da dependência: quantas vezes os dois rompem juntos, contra o que a independência preveria.}}{190}{table.19.1}%
-\contentsline {table}{\numberline {19.2}{\ignorespaces A perda média de uma carteira de peso igual no pior 0,05{} dos dias, e a profundidade média além do corte de uma das pernas. A coluna da perda é o prejuízo; a de além do corte é o que a margem paga quando ele é rompido.}}{191}{table.19.2}%
+\contentsline {table}{\numberline {16.1}{\ignorespaces O acerto do vigia da direção em mundos com assimetria declarada, com o limiar da conta e com o limiar honesto. A primeira linha é o mundo sem direção: ali o acerto é o gasto em alarme falso, e é contra ele que as outras linhas se leem.}}{166}{table.16.1}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {20.1}{\ignorespaces O erro de cada estimador no mesmo horizonte, em 40{} mundos. O degrau é o do capítulo da memória, e a tolerância daquele capítulo é de 0,15{} do nível novo.}}{201}{table.20.1}%
+\contentsline {table}{\numberline {17.1}{\ignorespaces Os episódios dirigidos no par, por janela. A janela é quanto tempo se espera pela segunda perna depois de a primeira ter rompido.}}{173}{table.17.1}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {21.1}{\ignorespaces A entrega do corte medida em pedaços de três tamanhos. A última coluna é o que a conta de sempre prevê para a dispersão entre pedaços, que é a conta de quem supõe dias independentes: $\sqrt {p(1-p)/n}$.}}{206}{table.21.1}%
-\contentsline {table}{\numberline {21.2}{\ignorespaces O excesso de quedas conjuntas em cada pedaço, contra a independência. A última coluna conta os pedaços em que a dependência some.}}{208}{table.21.2}%
+\contentsline {table}{\numberline {18.1}{\ignorespaces A conta dos recordes é sempre a mesma, 9,97{}, porque ela não sabe da mudança. A última coluna é a razão entre o extremo de depois da mudança e o de antes, e confere com o fator posto no mundo.}}{187}{table.18.1}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {22.1}{\ignorespaces A entrega do corte contra a idade do dado, no índice. A conta do corte é de 0,05138{}, e é ela que a última coluna toma por referência.}}{212}{table.22.1}%
+\contentsline {table}{\numberline {19.1}{\ignorespaces As duas reconstruções medidas, e a escala do processo que serve de referência. Um erro igual à escala quer dizer que a reconstrução não sabe mais do que um palpite sorteado da distribuição.}}{191}{table.19.1}%
+\contentsline {table}{\numberline {19.2}{\ignorespaces O horizonte de recuperação medido, em dias, para duas tolerâncias, ao lado da memória do processo. As duas medidas descrevem o mesmo sistema e não são a mesma coisa.}}{193}{table.19.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {23.1}{\ignorespaces As explicações que cabem na mesma tolerância, contra o tamanho da família e o número de dias vistos. A série é a do primeiro mercado, truncada. As três linhas são as três curvas do caderno, e a do meio é a que cruza a de cima no extremo longo.}}{222}{table.23.1}%
-\contentsline {table}{\numberline {23.2}{\ignorespaces O preço do resumo: o erro do esboço contra o número de contadores guardados, medido sobre os mesmos dias que o livro conta um a um.}}{226}{table.23.2}%
+\contentsline {table}{\numberline {20.1}{\ignorespaces A correlação declarada é respeitada em todos os mundos --- a medida vai de 0,4941{} a 0,5006{} ---, e o que muda é a cauda e o agrupamento dos dias ruins. A última coluna é o instrumento do capítulo da dependência: quantas vezes os dois rompem juntos, contra o que a independência preveria.}}{198}{table.20.1}%
+\contentsline {table}{\numberline {20.2}{\ignorespaces A perda média de uma carteira de peso igual no pior 0,05{} dos dias, e a profundidade média além do corte de uma das pernas. A coluna da perda é o prejuízo; a de além do corte é o que a margem paga quando ele é rompido.}}{199}{table.20.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {24.1}{\ignorespaces A promessa medida nas 12{} configurações, em 20{} mundos sorteados por célula, na janela de 250{} dias que segue a mudança. A última coluna é a entrega dividida pela promessa, e a dispersão entre os mundos, no mundo parado e sem atraso, é de 0,008337{} na janela curta e de 0,01367{} na longa.}}{230}{table.24.1}%
-\contentsline {table}{\numberline {24.2}{\ignorespaces Os preços que o livro mediu, cada um na moeda em que foi medido.}}{233}{table.24.2}%
+\contentsline {table}{\numberline {21.1}{\ignorespaces O erro de cada estimador no mesmo horizonte, em 40{} mundos. O degrau é o do capítulo da memória, e a tolerância daquele capítulo é de 0,15{} do nível novo.}}{209}{table.21.1}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {22.1}{\ignorespaces A entrega do corte medida em pedaços de três tamanhos. A última coluna é o que a conta de sempre prevê para a dispersão entre pedaços, que é a conta de quem supõe dias independentes: $\sqrt {p(1-p)/n}$.}}{214}{table.22.1}%
+\contentsline {table}{\numberline {22.2}{\ignorespaces O excesso de quedas conjuntas em cada pedaço, contra a independência. A última coluna conta os pedaços em que a dependência some.}}{216}{table.22.2}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {23.1}{\ignorespaces A entrega do corte contra a idade do dado, no índice. A conta do corte é de 0,05138{}, e é ela que a última coluna toma por referência.}}{220}{table.23.1}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {24.1}{\ignorespaces As explicações que cabem na mesma tolerância, contra o tamanho da família e o número de dias vistos. A série é a do primeiro mercado, truncada. As três linhas são as três curvas do caderno, e a do meio é a que cruza a de cima no extremo longo.}}{230}{table.24.1}%
+\contentsline {table}{\numberline {24.2}{\ignorespaces O preço do resumo: o erro do esboço contra o número de contadores guardados, medido sobre os mesmos dias que o livro conta um a um.}}{234}{table.24.2}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {25.1}{\ignorespaces A promessa medida nas 12{} configurações, em 20{} mundos sorteados por célula, na janela de 250{} dias que segue a mudança. A última coluna é a entrega dividida pela promessa, e a dispersão entre os mundos, no mundo parado e sem atraso, é de 0,008337{} na janela curta e de 0,01367{} na longa.}}{238}{table.25.1}%
+\contentsline {table}{\numberline {25.2}{\ignorespaces Os preços que o livro mediu, cada um na moeda em que foi medido.}}{241}{table.25.2}%
