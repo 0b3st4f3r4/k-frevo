@@ -231,3 +231,18 @@ acompanhar o que mudou, e mais violações cabem no pedaço ruim.
 
 Se os blocos têm data, alguma coisa no mundo se move, e a média olha para outro lugar. Resta
 medir essa mudança, e os capítulos seguintes fazem isso.
+
+\section{O que fica}
+
+Fica o instrumento, e ele é uma linha: o $k$-ésimo pior dos últimos $n$ dias, que assina a taxa
+$k/(n+1)$ antes de qualquer dado chegar. Fica também o primeiro preço medido do livro: o corte
+entrega \numCorteContaPct\% onde a promessa era de \numPromessaPct\%, e essa média não distingue
+o mercado de um mundo que nunca muda.
+
+O que distingue os dois é a forma com que as violações chegam. Nos mundos que nunca mudam o pior
+bloco de \numBlocoDias{} dias parou em \numNuncaMudaPiorBloco; aqui ele chegou a \numBlocoPior, em
+\numBlocoPiorData.
+
+E fica a pergunta que abre todo o resto: um corte fixo vale enquanto o passado se parecer com o que
+vem, e este capítulo mostrou que ele não se parece. Medir essa mudança, e o que se pode fazer com
+um alarme que chega depois dela, é o que vem.
