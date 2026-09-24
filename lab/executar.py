@@ -628,6 +628,55 @@ def conferir_cobertura_da_biblioteca(falhas: list) -> None:
             falhas.append("biblioteca: %s tem algoritmo e nenhuma asserção no auto_teste()" % nome)
 
 
+def conferir_ordinais(falhas: list) -> None:
+    r"""O ordinal de capítulo nu envelhece sozinho, e já envelheceu duas vezes.
+
+    O livro insere capítulos no meio da espiral --- a raiz ganhou dois de uma vez ---, e "o
+    primeiro capítulo" é a única referência que não acompanha: nas 24 ocorrências, 21 passaram a
+    apontar para o capítulo errado (o corte, a janela de 252 e a promessa nascem no capítulo 3, e
+    o capítulo 1 é O número e a barra). O §12 do contrato declara que o livro não imprime número
+    de capítulo em prosa, e declaração não é portão: este é.
+
+    "o capítulo anterior" e "o capítulo seguinte" ficam de fora de propósito: são relativos, e a
+    renumeração não os alcança.
+    """
+    padrao = re.compile(r"\b(primeir[oa]|segund[oa]|terceir[oa]|quart[oa]|quint[oa]) capítulo")
+    for caminho in arquivos_do_livro():
+        for numero, linha in enumerate(caminho.read_text(encoding="utf-8").splitlines(), 1):
+            if linha.lstrip().startswith("%"):
+                continue
+            if padrao.search(linha):
+                falhas.append("ordinal de capítulo em prosa: %s:%d --- aponte o objeto, não o "
+                              "ordinal (§12)" % (caminho.relative_to(RAIZ), numero))
+
+
+def conferir_paratexto(falhas: list) -> None:
+    r"""O texto de livro.tex não tinha portão, e foi ali que quatro frases morreram.
+
+    Duas conferências baratas e visíveis. A primeira: todo capítulo não numerado entra nos
+    sumários --- o \chapter* sem \addcontentsline é invisível para as três listas do fim. A
+    segunda: nenhum parágrafo de prosa termina sem pontuação final, porque a frase cortada no meio
+    da palavra (o lote de 42970e5 deixou quatro) é a assinatura de uma edição que ninguém releu.
+    """
+    fonte = LIVRO / "livro.tex"
+    linhas = fonte.read_text(encoding="utf-8").splitlines()
+    for i, linha in enumerate(linhas):
+        if linha.lstrip().startswith("\\chapter*"):
+            vizinhanca = " ".join(linhas[max(0, i - 2):i + 3])
+            if "\\addcontentsline" not in vizinhanca:
+                falhas.append("capítulo fora dos sumários: livro.tex:%d %s"
+                              % (i + 1, linha.strip()[:60]))
+    for bloco in re.split(r"\n\s*\n", fonte.read_text(encoding="utf-8")):
+        prosa = bloco.strip()
+        if not prosa or prosa.startswith(("%", "\\")):
+            continue
+        if len(prosa) < 40:
+            continue
+        if prosa[-1] not in ".:!?»\"'":
+            falhas.append("parágrafo de livro.tex sem pontuação final: ...%s"
+                          % prosa[-48:].replace("\n", " "))
+
+
 def check() -> int:
     avisos, falhas = [], []
     conferir_biblioteca(falhas)
@@ -643,6 +692,8 @@ def check() -> int:
     conferir_digitos(avisos)
     conferir_cadernos_sem_algoritmo(avisos)
     conferir_perguntas(falhas)
+    conferir_ordinais(falhas)
+    conferir_paratexto(falhas)
     conferir_aterramento(avisos, falhas)
     for a in avisos:
         print("  aviso: %s" % a)
