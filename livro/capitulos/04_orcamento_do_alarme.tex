@@ -2,7 +2,7 @@
 % CAPÍTULO 4 — volta 1 (AGENTS.md §6): o orçamento do alarme.
 %
 % O fracasso que o abre, com número na mão: o vigia do capítulo 3, ligado no limiar que o
-% mundo parado nunca alcançou, soa uma vez a cada 3632 anos de mundo parado e avisa do
+% mundo parado não ultrapassa, soa uma vez a cada 3632 anos de mundo parado e avisa do
 % tombo de 2020 com 86% do prejuízo já pago. A troca entre silêncio e antecedência é a
 % curva da fig:troca; o atraso tem piso provado (prop:piso); o orçamento se compra com
 % memória (1/(n+1)) — e a forma da mudança, que decide o preço desse silêncio, é o capítulo
@@ -23,8 +23,9 @@ blocos têm data: a contagem sobe nos mesmos anos, e sobe sempre no mesmo lugar 
 A tentação, agora, é pequena e razoável. Se o bloco sabe \emph{quando} o mundo aperta, basta
 ligar nele um alarme: soa quando a contagem passa de um limiar. E o limiar já vem escolhido
 por medição, não por gosto, porque no capítulo anterior o pior bloco de duzentos mundos que
-nunca mudam chegou a \numNuncaMudaPiorBloco{} violações. Um número que o mundo parado nunca
-alcançou é um candidato honesto a linha de alarme.
+nunca mudam chegou a \numNuncaMudaPiorBloco{} violações. Um número que o mundo parado não
+ultrapassa é um candidato honesto a linha de alarme --- e \numVigiaMundosQueSoamPct\% dos mundos
+parados o alcançam, um em cada duzentos.
 
 Fica então o vigia mais simples que dá para escrever: \emph{soa quando as violações dos
 últimos \numVigiaBloco{} dias chegam a \numVigiaLimiar}.
