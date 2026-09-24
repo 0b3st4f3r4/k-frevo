@@ -6,6 +6,8 @@ passado de volta.
 
 \section{A tentativa que explode}
 
+% aterramento: a
+% aterramento: eta
 O sistema mais simples que esquece é $x(t) = a\,x(t-1) + \eta(t)$ \cite{box2008time}, com \emph{a} entre zero e
 um. Aqui $x(t)$ é o estado no dia $t$, $\eta(t)$ é o ruído que entra naquele dia --- o que a lei não
 explica --- e a escala desse ruído é $\sigma$.
@@ -25,6 +27,14 @@ acumulado \textbf{e} o ruído desconhecido que entrou naquele passo. O ruído en
 cada passo para trás o multiplica.
 
 \section{As duas reconstruções}
+
+% aterramento: condicional
+% aterramento: e
+% aterramento: j
+A \textbf{esperança condicional} é a melhor aposta que se pode fazer com o que se sabe: a média de
+muitos sorteios restrita aos casos em que o que se observou foi o que se observou --- aqui, o melhor
+palpite para o passado, dado o estado de hoje. O erro da reconstrução no passo $j$ para trás
+escreve-se $e_j$, e é o que as duas reconstruções comparam.
 
 \begin{proposicao}[o erro de cada reconstrução]\label{prop:reconstrucao}
 Para o processo $x(t) = a\,x(t-1) + \eta(t)$, com $\eta$ de variância $\sigma^2$ e $0<a<1$:
@@ -90,7 +100,10 @@ distância entre as duas cresce sem parar, com a ótima já parada na escala do 
 
 Se o passado desbota em vez de sumir, então "até onde ele volta" é uma escolha declarada, e a
 escolha é a tolerância: quanto de erro se aceita, em fração da escala do processo. Com ela, o
-horizonte sai da conta: $\log(1-\theta^{2})$ dividido por $2\log a$ dias.
+horizonte sai da conta: $\log(1-\theta^{2})$ dividido por $2\log a$ dias --- e $\theta$ é a
+fração do degrau que ainda se quer recuperar, o quanto do passado se aceita perder antes de dizer
+que ele voltou.
+% aterramento: theta
 
 \begin{table}[htbp]
   \centering
