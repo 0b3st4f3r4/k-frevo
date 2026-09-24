@@ -1,4 +1,11 @@
 {
+ "esquecimento_base_dez_maior": 0.1513451592068093,
+ "esquecimento_base_dez_menor": 0.1410019713094824,
+ "esquecimento_bases": 5,
+ "esquecimento_bases_dentro": 2,
+ "esquecimento_dez_dispersao": 0.017456449174957492,
+ "esquecimento_dez_erro": 0.15056050983583194,
+ "esquecimento_dez_erro_padrao": 0.003903380700097507,
  "esquecimento_dias_cinco": 5.395507946499494,
  "esquecimento_dias_cinquenta": 59.594626868740015,
  "esquecimento_dias_de_serie": 14000,
@@ -66,5 +73,6 @@
  "esquecimento_quando": 4000,
  "esquecimento_sementes": 20,
  "esquecimento_tolerancia": 0.15,
- "esquecimento_tolerancia_degrau": 0.3
+ "esquecimento_tolerancia_degrau": 0.3,
+ "esquecimento_vinte_e_um_erro": 0.11782142015982681
 }

@@ -178,10 +178,23 @@ e a distância entre as duas é o atraso em relação à mudança. A memória ce
 total, e não a que minimiza a distância entre as duas curvas: as duas quase se tocam nas memórias
 curtas, e é lá que o erro ainda é quase todo ruído.
 
+O esquecimento mínimo que este capítulo publica sai de uma margem estreita, e vale medir a margem.
+A memória de dez dias entrega \numEsquecimentoDezErro{} contra a tolerância de
+\numEsquecimentoTolerancia{}, com dispersão entre os mundos de \numEsquecimentoDezDispersao{} --- e o
+erro-padrão da média é de \numEsquecimentoDezErroPadrao{}, de modo que a distância que separa as duas
+é de um décimo do que a própria medição balança. Repetida em \numEsquecimentoBases{} bases de série
+independentes, a memória de dez fica \emph{dentro} da tolerância em \numEsquecimentoBasesDentro{}
+delas, e o erro dela vai de \numEsquecimentoBaseDezMenor{} a \numEsquecimentoBaseDezMaior.
+\textbf{A fronteira entre dez e vinte e um dias é do sorteio tanto quanto do dado}: o que esta medição
+sustenta é a ordem de grandeza --- a memória certa está na casa das dezenas de dias, e não na das
+unidades nem na das centenas.
+
 \section{O que fica}
 
-Fica a resposta da travessia, e ela é estreita. O esquecimento mínimo, no sentido da menor memória que entrega a tolerância, é o de vinte e um
-dias --- uma taxa de \numEsquecimentoMelhorTaxa{} por
+Fica a resposta da travessia, e ela é estreita. O esquecimento mínimo, no sentido da menor memória que
+entrega a tolerância, é o de vinte e um dias \emph{nesta média} --- a fronteira entre dez e vinte e um
+não é resolvida por ela, e o parágrafo anterior mede o porquê ---, com uma taxa de
+\numEsquecimentoMelhorTaxa{} por
 dia ---, e ele exige um horizonte de pelo menos \numEsquecimentoHorizonteCurto{} dias para entregar
 \numEsquecimentoTolerancia{} do nível novo, contra os \numEsquecimentoMelhorDias{} dias que a conta
 do cruzamento previa para essa mesma memória. Os dois números não se contradizem, porque não medem a
