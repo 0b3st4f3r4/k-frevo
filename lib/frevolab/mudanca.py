@@ -33,8 +33,43 @@ QUANDO_PADRAO = 1500       # o dia em que a mudança entra, contado do começo d
 DIAS_DE_RAMPA = 250        # quantos dias a rampa leva para chegar ao fator
 PASSO_PADRAO = -0.0005     # o deslocamento diário da média, em unidades de retorno
 
-__all__ = ["SIGMA_PADRAO", "ar1", "FATOR_PADRAO", "QUANDO_PADRAO", "DIAS_DE_RAMPA",
+__all__ = ["SIGMA_PADRAO", "ar1", "par_de_cauda", "FATOR_PADRAO", "QUANDO_PADRAO", "DIAS_DE_RAMPA",
            "PASSO_PADRAO", "estavel", "degrau", "rampa", "deriva", "dependencia"]
+
+
+def par_de_cauda(n: int, rng: np.random.Generator, sigma: float = 0.01, rho: float = 0.5,
+                p: float = 0.0, f: float = 3.0) -> tuple:
+    r"""Um par com a correlação **declarada** e a cauda **declarada**, as duas independentes.
+
+    Com probabilidade emph{p} as duas pernas recebem o mesmo choque, de tamanho emph{f}; no resto
+    do tempo andam juntas com uma correlação de corpo. A correlação de corpo é resolvida para que a
+    correlação total continue sendo emph{rho}, qualquer que seja emph{p}: é isso que faz da
+    família um experimento controlado do segundo momento contra a cauda --- o mesmo emph{rho}, e o
+    que muda é só a forma como os dias ruins chegam juntos.
+
+    Com emph{p = 0} o par é gaussiano puro, que é o controle. A margem de cada perna não é
+    preservada: o choque comum engrossa a cauda de cada uma, e é por isso que a família mede o
+    **segundo** momento contra o resto, e não a margem contra a margem.
+    """
+    if n < 2:
+        raise ValueError("o par precisa de pelo menos dois dias")
+    if not 0.0 <= p < 1.0:
+        raise ValueError("a probabilidade do choque comum precisa estar entre zero e um")
+    if not -1.0 < rho < 1.0:
+        raise ValueError("a correlacao precisa estar entre menos um e um")
+    z1 = rng.normal(0.0, 1.0, n)
+    z2 = rng.normal(0.0, 1.0, n)
+    if p == 0.0:
+        return sigma * z1, sigma * (rho * z1 + np.sqrt(1.0 - rho ** 2) * z2)
+    if f <= 0.0:
+        raise ValueError("o tamanho do choque precisa ser positivo")
+    corpo = (rho * (p * f ** 2 + 1.0 - p) - p * f ** 2) / (1.0 - p)
+    if not -1.0 < corpo < 1.0:
+        raise ValueError("com essa probabilidade e esse tamanho, a correlacao declarada nao e alcancavel")
+    zc = rng.normal(0.0, 1.0, n)
+    comum = rng.random(n) < p
+    segunda = corpo * z1 + np.sqrt(1.0 - corpo ** 2) * z2
+    return sigma * np.where(comum, f * zc, z1), sigma * np.where(comum, f * zc, segunda)
 
 
 def ar1(n: int, rng: np.random.Generator, a: float, sigma: float = 1.0) -> np.ndarray:

@@ -1,0 +1,129 @@
+\chapter{O que a margem deixa de fora}\label{cap:margem}
+
+Este é o último pedaço do andar, e ele junta duas coisas que a espiral encontrou separadas: o vigia
+de margem não vê o que acontece **entre** as pernas, e ler uma série pelo segundo momento é ler
+metade dela. A pergunta é quanto custa a metade que fica de fora.
+
+\section{O experimento controlado pelo segundo momento}
+
+Para medir o que a margem não conta é preciso um par de mundos que tenha tudo igual e uma coisa
+diferente. A família usada aqui tem a correlação **declarada**: com probabilidade $p$ as duas pernas
+recebem o mesmo choque, de tamanho $f$, e a correlação do corpo é resolvida para que a correlação
+total continue valendo \numMargemRho{} em todos os mundos. O que muda de um mundo para o outro é só
+a forma como os dias ruins chegam juntos.
+
+O controle é o par gaussiano puro, que é o mundo sem choque comum. Os outros quatro têm o choque
+declarado em \numMargemMundos{} mundos ao todo, medidos em \numMargemDias{} dias e
+\numMargemSementes{} sorteios por célula, com o corte na janela de \numMargemJanela{} dias e a
+carteira com peso igual, \numMargemPeso{} em cada perna.
+
+Se o segundo momento resumisse o risco conjunto, nada mudaria entre esses mundos.
+
+\section{O que fica parado e o que cresce}
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \begin{tabular}{lrrr}
+    \hline
+    mundo & correlação & curtose da & dias juntos, \\
+    & medida & margem & contra a independência \\
+    \hline
+    controle & \numMargemCorrelacaoControle & \numMargemCurtoseControle & \numMargemExcessoControle \\
+    choque em dois por cento & \numMargemCorrelacaoDoisPorCento & \numMargemCurtoseDoisPorCento & \numMargemExcessoDoisPorCento \\
+    choque em cinco por cento & \numMargemCorrelacaoCincoPorCento & \numMargemCurtoseCincoPorCento & \numMargemExcessoCincoPorCento \\
+    choque em dez por cento & \numMargemCorrelacaoDezPorCento & \numMargemCurtoseDezPorCento & \numMargemExcessoDezPorCento \\
+    choque grande & \numMargemCorrelacaoChoqueGrande & \numMargemCurtoseChoqueGrande & \numMargemExcessoChoqueGrande \\
+    \hline
+  \end{tabular}
+  \caption{A correlação declarada é respeitada em todos os mundos --- ela vai de
+    \numMargemCorrelacaoMenor{} a \numMargemCorrelacaoMaior{} ---, e o que muda é a cauda e o
+    agrupamento dos dias ruins. A última coluna é o instrumento do capítulo da dependência: quantas
+    vezes os dois rompem juntos, contra o que a independência previria.}
+  \label{tab:margem}
+\end{table}
+
+A correlação anda de \numMargemCorrelacaoMenor{} a \numMargemCorrelacaoMaior{}, um vaivém de menos
+de dois por cento que é ruído de amostragem. No mesmo conjunto de mundos, os dias em que as duas
+pernas rompem juntas vão de \numMargemExcessoMenor{} a \numMargemExcessoMaior{} vezes o que a
+independência previria: quase o dobro. O segundo momento fica parado enquanto o agrupamento dos dias
+ruins quase dobra.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \begin{tabular}{lrr}
+    \hline
+    mundo & perda conjunta & além do próprio \\
+    & no pior \numMargemCauda{} & corte \\
+    \hline
+    controle & \numMargemPerdaControle & \numMargemProfundidadeControle \\
+    choque em dois por cento & \numMargemPerdaDoisPorCento & \numMargemProfundidadeDoisPorCento \\
+    choque em cinco por cento & \numMargemPerdaCincoPorCento & \numMargemProfundidadeCincoPorCento \\
+    choque em dez por cento & \numMargemPerdaDezPorCento & \numMargemProfundidadeDezPorCento \\
+    choque grande & \numMargemPerdaChoqueGrande & \numMargemProfundidadeChoqueGrande \\
+    \hline
+  \end{tabular}
+  \caption{A perda média de uma carteira de peso igual no pior \numMargemCauda{} dos dias, e a
+    profundidade média além do corte de uma das pernas. A primeira coluna é o prejuízo; a segunda é
+    o que a margem paga quando o corte dela é rompido.}
+  \label{tab:perdas}
+\end{table}
+
+A perda conjunta sai de \numMargemPerdaMenor{} para \numMargemPerdaMaior{}, uma razão de
+\numMargemPerdaRazao{} entre o mundo mais calmo e o mais pesado, sem que a correlação tenha se
+mexido. Quem dimensiona a proteção pela correlação dimensiona o mesmo número para os cinco mundos, e
+o que se paga no pior dia difere por mais da metade.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E17_o_que_a_margem_nao_conta_1.pdf}
+  \caption{A correlação medida e a perda conjunta, contra os cinco mundos. Os dois eixos são
+    diferentes de propósito: a linha de cima não se mexe e a de baixo quase dobra.}
+  \label{fig:parado}
+\end{figure}
+
+\section{A margem cumpre a taxa e paga mais fundo}
+
+Vale ser exato sobre o que a margem conta e o que ela não conta, porque a diferença é fina e importa.
+
+A taxa de rompimento do corte é \numMargemTaxaDeRompimento{} em todos os cinco mundos, e o motivo é do
+instrumento: o corte é um quantil, e um quantil entrega a taxa que promete em qualquer mundo que tenha
+uma distribuição contínua. A promessa do primeiro capítulo é honrada em todos eles.
+
+O que não é honrado é o que acontece **depois** do rompimento. A profundidade média além do corte vai
+de \numMargemProfundidadeControle{} no controle a \numMargemProfundidadeChoqueGrande{} no mundo de
+choque grande: o dia em que o corte é rompido passa a doer três vezes mais, e o número de dias não
+mudou. A margem conta que a cauda engordou --- a curtose dela vai de \numMargemCurtoseMenor{} a
+\numMargemCurtoseMaior{}, e isso é visível numa série só. O que ela não conta é que os dias
+engordaram **juntos**.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E17_o_que_a_margem_nao_conta_2.pdf}
+  \caption{A nuvem das duas pernas no mundo gaussiano e no mundo com choque comum. O núcleo elíptico
+    é o mesmo nos dois, e o que o segundo tem a mais é um braço na diagonal, que vai até os cantos.}
+  \label{fig:nuvem-do-choque}
+\end{figure}
+
+A figura mostra a diferença de forma, e ela é a coisa toda. Nos dois mundos o miolo é a mesma
+elipse, com a mesma inclinação e a mesma largura --- é isso que a correlação enxerga. O que o mundo
+do choque tem a mais é um braço na diagonal, que sai do miolo e vai até os cantos do gráfico: são os
+dias em que as duas pernas caem juntas e fundo, e é ali que o prejuízo mora.
+
+\section{O que fica}
+
+Fica a resposta do terceiro pedaço do andar, e ela é mais fina do que a queixa usual contra a
+correlação. A margem **não** é cega à cauda: ela conta que a cauda engordou, e conta pela taxa e pela
+profundidade. O que ela não conta é a **junto**; e como o prejuízo de uma carteira é feito de dias em
+que tudo cai ao mesmo tempo, é justamente a parte que falta que decide a conta.
+
+Fica também, com este capítulo, o andar inteiro medido. Os três pedaços são o mesmo movimento visto
+de três lugares: o resumo --- o recorde, o estado guardado, o segundo momento --- é sempre uma
+compressão, e o que escapa da compressão é exatamente o que decide. O mundo que faltou não está no
+recorde, o dia apagado não está no estado, e o dia em que tudo cai junto não está na correlação.
+
+A espiral vira agora para o andar do enquadramento. Tudo o que a espiral mediu até aqui supôs que
+havia uma série, um agora e um sistema com fronteira --- e nenhuma dessas três coisas foi discutida.
+Elas vêm a seguir, e vêm porque a conta deste andar mostrou quanto custa o que fica de fora quando a
+fronteira é escolhida no escuro.

@@ -406,6 +406,23 @@ def auto_teste() -> list:
     if abs(np.mean(erros_otm) - esquecimento.erro_do_otimo(0.8, 5, 1.0)) / esquecimento.erro_do_otimo(0.8, 5, 1.0) > 0.1:
         problemas.append("o erro ótimo medido não bate com a fórmula")
 
+    # --- o segundo momento contra a cauda (mudanca.py) ---
+
+    # com p = 0 o par de cauda é o par gaussiano de sempre
+    gauss_a, gauss_b = mudanca.par_de_cauda(40000, np.random.default_rng(77), 1.0, 0.5, 0.0)
+    if abs(np.corrcoef(gauss_a, gauss_b)[0, 1] - 0.5) > 0.03:
+        problemas.append("o par de cauda sem choque não tem a correlação declarada")
+
+    # com choque comum a correlação continua a mesma e a cauda marginal engorda
+    cauda_a, cauda_b = mudanca.par_de_cauda(40000, np.random.default_rng(78), 1.0, 0.5, 0.05, 3.0)
+    if abs(np.corrcoef(cauda_a, cauda_b)[0, 1] - 0.5) > 0.03:
+        problemas.append("o choque comum mexeu na correlação, que devia ficar declarada")
+    curtose_gauss = float(((gauss_a / gauss_a.std(ddof=1)) ** 4).mean())
+    curtose_cauda = float(((cauda_a / cauda_a.std(ddof=1)) ** 4).mean())
+    if not curtose_cauda > 1.5 * curtose_gauss:
+        problemas.append("o choque comum não engrossou a cauda marginal (%.2f contra %.2f)"
+                         % (curtose_cauda, curtose_gauss))
+
     # o salvamento grava os dois formatos
     import tempfile
     from pathlib import Path
