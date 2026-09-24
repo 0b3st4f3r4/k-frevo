@@ -74,8 +74,8 @@ entre a estimativa e a verdade declarada, dia a dia.
   \small
   \begin{tabular}{rrrrr}
     \hline
-    memória & erro da & erro da & piso de & dias previstos \\
-    (dias) & mistura & janela & ruído & até \numEsquecimentoTolerancia{} do nível \\
+    memória & erro da & erro da & piso da & dias previstos \\
+    (dias) & mistura & janela & mistura & até \numEsquecimentoTolerancia{} do nível \\
     \hline
     mil & \numEsquecimentoErroMil & \numEsquecimentoJanelaMil & \numEsquecimentoPisoMil & \numEsquecimentoDiasMil \\
     duzentos e cinquenta & \numEsquecimentoErroDuzentosECinquenta & \numEsquecimentoJanelaDuzentosECinquenta & \numEsquecimentoPisoDuzentosECinquenta & \numEsquecimentoDiasDuzentosECinquenta \\
@@ -164,8 +164,9 @@ memórias testadas entrega a tolerância declarada --- nem esquecendo depressa, 
 
 A figura mostra o cruzamento que fecha o capítulo. Para memórias curtas as duas curvas andam juntas:
 o erro é todo ruído. Para memórias longas elas se separam: o piso cai, o erro total não cai com ele,
-e a distância entre as duas é o atraso em relação à mudança. A memória certa é a que fica no ponto em
-que as duas quase se tocam sem ainda ter subido.
+e a distância entre as duas é o atraso em relação à mudança. A memória certa é a que minimiza o erro
+total, e não a que minimiza a distância entre as duas curvas: as duas quase se tocam nas memórias
+curtas, e é lá que o erro ainda é quase todo ruído.
 
 \section{O que fica}
 

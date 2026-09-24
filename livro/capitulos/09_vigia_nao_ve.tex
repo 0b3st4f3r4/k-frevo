@@ -62,8 +62,8 @@ instrumento extra --- cai por aritmética, e não por medição.
 O instrumento que vê já existe desde o capítulo da dependência: contar os dias em que as \textbf{duas}
 pernas rompem o próprio corte, em blocos móveis, e comparar com o que a independência preveria
 \cite{garcin2026nonparametric}. A
-mesma contagem, aqui, antes e depois do dia da mudança: \numVizinhancaConjuntoAntes{} por bloco
-antes, \numVizinhancaConjuntoDepois{} depois.
+mesma contagem, aqui, antes e depois do fim da janela da margem, que é a linha que a figura
+desenha: \numVizinhancaConjuntoAntes{} por bloco antes, \numVizinhancaConjuntoDepois{} depois.
 
 Ele vê. E, como todo instrumento deste livro, cobra --- e a cobrança tem a mesma forma da do
 orçamento do alarme, medida agora para a dependência.
@@ -104,7 +104,8 @@ em \numFormaDerivaDias.
 
 O instrumento da dependência, no seu orçamento mais falador, leva
 \numVizinhancaLimiarDoisLatencia{} dias. Ele é mais caro que o instrumento de margem por um fator
-que vai de duas vezes e meia a cinquenta vezes, conforme a forma da mudança com que se compare --- e o
+que vai de pouco mais de duas vezes a cinquenta vezes, conforme a forma da mudança com que se
+compare --- e o
 orçamento dele já é mais silencioso que o do vigia de margem, o que só aumenta a distância: um alarme mais raro chega mais
 tarde, como a \cref{tab:vizinhanca} mostra ao subir do limiar dois ao quatro.
 
@@ -115,7 +116,7 @@ meses no melhor caso, e não a vê em boa parte dos mundos quando se pede que el
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{figuras/E09_dependencia_vigiada_1.pdf}
-  \caption{A contagem conjunta, dia a dia, com a janela da margem e o limiar que ela nunca alcança. Antes da
+  \caption{A contagem conjunta, dia a dia, com a janela da margem e o limiar do instrumento conjunto. Antes da
     linha, a série é quase colada no chão; depois, os picos ficam mais altos e mais próximos. A
     mudança não aparece como degrau: aparece como mais dentes na linha, e quem procura um salto na
     figura não o encontra.}
