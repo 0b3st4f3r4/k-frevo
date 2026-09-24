@@ -329,7 +329,11 @@ def conferir_nomes(falhas: list) -> None:
     conferência exige que todo tipo referenciado tenha nome declarado, e que os nomes
     fixos da classe estejam trocados.
     """
-    fixos = ("contentsname", "chaptername", "bibname", "proofname", "figurename", "tablename")
+    # "partname" entrou com as partes: a folha de parte usa o nome que a classe cunha, e sem a
+    # troca ela imprimiria "Part I" no meio de um livro em português --- a mesma família do
+    # "Figure" e do "September", que este portão já cobre.
+    fixos = ("contentsname", "chaptername", "bibname", "proofname", "figurename", "tablename",
+             "partname")
     bruto = (LIVRO / "livro.tex").read_text(encoding="utf-8")
     fonte = "\n".join(re.sub(r"(?<!\\)%.*", " ", l) for l in bruto.splitlines())
     for nome in fixos:
@@ -339,8 +343,9 @@ def conferir_nomes(falhas: list) -> None:
         falhas.append("\\today sem babel escreve o mês em inglês: use \\mesEmPortugues")
 
     tipos = {"fig": "figure", "tab": "table", "cap": "chapter", "sec": "section",
-             "eq": "equation", "prop": "proposicao", "teo": "teorema", "lem": "lema",
-             "cor": "corolario", "def": "definicao", "ex": "exemplo", "obs": "observacao"}
+             "par": "part", "eq": "equation", "prop": "proposicao", "teo": "teorema",
+             "lem": "lema", "cor": "corolario", "def": "definicao", "ex": "exemplo",
+             "obs": "observacao"}
     usados = set()
     for caminho in arquivos_do_livro():
         for chaves in re.findall(r"\\[cC]ref\{([^}]*)\}", caminho.read_text(encoding="utf-8")):

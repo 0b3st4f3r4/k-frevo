@@ -6,7 +6,8 @@
 % lab/executar.py), e a bibliografia vem de livro/fontes.tex (gerada por
 % lab/fontes.py). Arquivo gerado não se edita à mão.
 %
-% Estrutura (AGENTS.md §6): raiz, cinco voltas, travessia, dois andares, fecho.
+% Estrutura (AGENTS.md §6): raiz, quatro voltas, travessia, dois andares e fecho --- as seis
+% partes impressas, na ordem em que o livro as percorre.
 % Nenhum capítulo entra sem o fracasso concreto que o abre, com número na mão.
 % =============================================================================
 \documentclass[11pt,a4paper]{book}
@@ -40,6 +41,10 @@
 % "Table 3.1:" em cima de legenda escrita em português.
 \renewcommand{\figurename}{Figura}
 \renewcommand{\tablename}{Tabela}
+\renewcommand{\partname}{Parte}
+% A folha de parte usa o nome que a classe cunha, e sem troca ela imprimiria "Part I" no
+% meio de um livro em português --- a mesma família do "Figure" e do "September". O
+% `conferir_nomes` passou a exigir esta troca.
 % E a data: sem babel, \today escreve "September 24, 2026" na folha de rosto.
 \newcommand{\mesEmPortugues}{\ifcase\month\or janeiro\or fevereiro\or março\or abril\or maio\or junho\or julho\or agosto\or setembro\or outubro\or novembro\or dezembro\fi}
 
@@ -69,6 +74,9 @@
 \Crefname{table}{Tabela}{Tabelas}
 \crefname{chapter}{capítulo}{capítulos}
 \Crefname{chapter}{Capítulo}{Capítulos}
+\crefname{part}{parte}{partes}
+\Crefname{part}{Parte}{Partes}
+\Crefname{part}{Parte}{Partes}
 \crefname{section}{seção}{seções}
 \Crefname{section}{Seção}{Seções}
 \crefname{equation}{equação}{equações}
@@ -136,7 +144,20 @@ números.
 % Um arquivo por capítulo, em livro/capitulos/, nomeado pelo conceito.
 % -----------------------------------------------------------------------------
 
+\part{A raiz}
+
+A pergunta de onde tudo começa é a mais simples que existe: quanto se pode perder amanhã. A
+resposta usual é uma linha erguida sobre os piores dias do passado, e essa linha tem um preço
+que se mede. Sem ela não há promessa, e sem promessa não há entrega para comparar.
+
 \input{capitulos/01_medida_corte_preco.tex}
+\part{As voltas}
+
+Com o corte na mão, o instrumento ganha orçamento e o mundo ganha formas. A mesma linha é
+vigiada com um alarme declarado, e a mudança chega de maneiras diferentes: a cauda que se abre
+de uma vez, a rampa que se aproxima devagar, a média que se desloca, o relógio da semana e a
+outra perna do par. Cada forma cobra do mesmo silêncio um preço diferente.
+
 \input{capitulos/02_orcamento_do_alarme.tex}
 
 % O capítulo 3 — a segunda forma que a margem não vê: o calendário.
@@ -158,6 +179,14 @@ números.
 % O capítulo 7 — a volta 4: ver mundos basta, ou é preciso mexer no mundo?
 
 \input{capitulos/07_ver_mundos_basta.tex}
+
+\part{A travessia}
+
+Cada instrumento construído até aqui lê uma margem de uma série, e é isso que a travessia vem
+testar. O objeto de uma família passa a ser medido com o instrumento de outra: a dependência com
+o vigia da margem, a intervenção com o desenho do experimento, a leitura da série com a partilha
+do relógio, e a direção do tempo com o orçamento do alarme. As cinco perguntas pagam em moedas
+diferentes --- dias de experimento, trabalho de atualização, passado apagado, anos de espera.
 
 % O capítulo 8 — a travessia: o vigia de margem não vê a dependência.
 
@@ -183,6 +212,12 @@ números.
 
 \input{capitulos/13_quem_cai_primeiro.tex}
 
+\part{O que não se compra}
+
+O orçamento visto pelo avesso. Três coisas ficam fora de qualquer compra: o mundo que não foi
+observado, o dia que já foi apagado e o dia em que tudo cai junto. As três são o mesmo movimento
+--- um resumo que comprime ---, e o que escapa da compressão é o que decide a conta.
+
 % O capítulo 14 — andar 1: o que não se compra, começando pelo mundo que não foi observado.
 
 \input{capitulos/14_mundo_que_faltou.tex}
@@ -195,6 +230,12 @@ números.
 
 \input{capitulos/16_o_que_a_margem_nao_conta.tex}
 
+\part{O enquadramento}
+
+A espiral mediu tudo isso supondo três coisas que nunca discutiu: que existe uma série com
+começo e fim, que a decisão usa o dado de hoje, e que se sabe quanto passado ainda conta. As
+três são escolhas do instrumento, e as três têm preço medido.
+
 % O capítulo 17 — andar 2: o enquadramento, começando pela série.
 
 \input{capitulos/17_o_pedaco_escolhido.tex}
@@ -202,6 +243,12 @@ números.
 % O capítulo 18 — andar 2: o agora, e as três bordas do enquadramento.
 
 \input{capitulos/18_o_agora.tex}
+
+\part{O fecho}
+
+A pergunta da raiz, refeita com os buracos abertos ao mesmo tempo: a janela da calibração, o
+atraso do dado e o mundo que muda. O que se prometeu no primeiro capítulo é conferido contra o
+que se paga, e o preço sai declarado.
 
 % O capítulo 19 — o fecho: a pergunta da raiz, refeita com tudo o que foi construído.
 
