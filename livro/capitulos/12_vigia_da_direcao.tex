@@ -10,8 +10,8 @@ O instrumento é o mesmo das outras travessias: uma estatística, um limiar e um
 estatística é o terceiro momento do incremento, e a razão de ser dele está na proposição abaixo.
 
 \begin{proposicao}[o desvio do nulo]\label{prop:nulo-da-direcao}
-Se os incrementos de um mundo forem simétricos e de escala constante, a média do cubo do incremento
-padronizado tem média zero e desvio $\sqrt{15/n}$ numa janela de $n$ dias.
+Se os incrementos padronizados de um mundo forem normais padrão e independentes, a média do cubo do
+incremento padronizado tem média zero e desvio $\sqrt{15/n}$ numa janela de $n$ dias.
 \end{proposicao}
 
 \begin{proof}
@@ -32,9 +32,13 @@ que entrega a promessa é \numDirecaoLimiarMedido{}, contra \numDirecaoLimiar{} 
 alto, \numDirecaoLimiarMedidoRazao{} vezes. A média do nulo, medida, é \numDirecaoNuloMedia{}, que é zero
 dentro do ruído --- o que está errado na conta é a dispersão, e não o centro.
 
-O motivo da diferença não é um erro de conta. A conta supõe escala constante, e o mundo deste livro
-tem agrupamento: num bloco em que a oscilação se agita, os incrementos padronizados ficam longe do
-normal, e o cubo deles cresce mais depressa do que a conta prevê.
+O motivo da diferença não é um erro de conta, e também não é o agrupamento: é a padronização. A conta
+supõe que o incremento padronizado de um dia não saiba nada dos outros, e o instrumento padroniza o
+bloco inteiro pela média e pelo desvio \emph{estimados} da janela anterior --- de modo que os
+\numDirecaoJanela{} dias do bloco compartilham a mesma média, e a média do cubo ganha um termo que a
+conta não previu. Num mundo simétrico e de escala constante, sem agrupamento nenhum, é esse
+compartilhamento que responde pela diferença. O agrupamento tem o seu lugar, e é adiante: ele explica
+a dispersão medida nos blocos do dado real.
 
 \section{O instrumento, conferido}
 
