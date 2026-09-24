@@ -78,6 +78,15 @@ def auto_teste() -> list:
     if not (esquecimento.dias_da_idade(250) > esquecimento.dias_da_idade(50) > esquecimento.dias_da_idade(21)):
         problemas.append("esquecimento: os dias da idade nao crescem com ela")
 
+    # A media acumulada nao esquece: no dia t o peso de cada dia e 1/t, e a estimativa demora a
+    # reagir a uma mudanca que aconteceu ontem.
+    degrau = np.concatenate([np.zeros(100), np.ones(100)])
+    acumulada = esquecimento.media_acumulada(degrau)
+    # Devagar quer dizer: dois dias depois do degrau ela ainda esta abaixo de um vigesimo do
+    # caminho, e cem dias depois nao chegou a metade. A desigualdade anterior estava invertida.
+    if not (acumulada[101] < 0.05 and acumulada[-1] < 0.6 < 1.0):
+        problemas.append("esquecimento: a media acumulada nao reage devagar ao degrau")
+
     # uma série constante não tem volatilidade
     constante = pd.Series(np.full(600, 100.0))
     if abs(volatilidade.volatilidade_anualizada(volatilidade.retornos_log(constante))) > 1e-12:

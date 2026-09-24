@@ -1,0 +1,15 @@
+{
+ "conserto_dias": 14000,
+ "conserto_dias_da_idade": 7223.234822831011,
+ "conserto_erro_acumulada": 0.39478428097404,
+ "conserto_erro_exponencial": 0.19267830153223858,
+ "conserto_erro_janela": 0.1741596298148726,
+ "conserto_erro_reinicia": 0.40295285336227965,
+ "conserto_fator": 2.0,
+ "conserto_horizonte": 250,
+ "conserto_idade_no_degrau": 6000,
+ "conserto_janela": 250,
+ "conserto_mundos": 40,
+ "conserto_quando": 6000,
+ "conserto_razao_pior_melhor": 2.3136983799897175
+}

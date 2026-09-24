@@ -271,3 +271,15 @@ def dias_da_idade(idade: int, tolerancia: float = None) -> float:
     """Os dias que a memoria da idade leva para cruzar a tolerancia --- a conta da prop. 14.1."""
     tol = TOLERANCIA_DEGRAU if tolerancia is None else float(tolerancia)
     return dias_para_tolerancia(memoria_da_idade(idade), tol)
+
+def media_acumulada(serie) -> "np.ndarray":
+    """A media de tudo ate hoje: a estimativa que da o mesmo peso a todos os dias ja vistos.
+
+    E o estimador mais antigo que existe, e o unico que ninguem escolhe: ele cai de graca de quem
+    nao quer decidir. A memoria dele e a propria idade --- no dia t, a taxa e 1/t ---, de modo que
+    um sistema que nunca esquece aprende cada vez mais devagar.
+    """
+    import numpy as np
+    x = np.asarray(serie, dtype=float)
+    vistas = np.arange(1, x.size + 1, dtype=float)
+    return np.cumsum(x) / vistas
