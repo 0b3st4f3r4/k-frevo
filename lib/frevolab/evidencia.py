@@ -75,3 +75,29 @@ def as_que_cabem(pecas: list, tolerancia: float = 1.0) -> list:
 def margens(pecas: list, quantas: int = 5) -> list:
     """As peças mais próximas do dado, da mais próxima para a mais distante."""
     return sorted(pecas, key=lambda c: c["folga"])[:int(quantas)]
+
+def contagem(dias: int, grade_p=GRADE_P_PADRAO, grade_razao=GRADE_RAZAO_PADRAO,
+             grade_permanencia=GRADE_PERMANENCIA_PADRAO, serie: str = SERIE_PADRAO,
+             semente: int = SEMENTE_PADRAO) -> dict:
+    """Quantas pecas da familia cabem, numa grade e num comprimento de serie declarados.
+
+    A pergunta do capitulo da tolerancia --- quantas explicacoes reproduzem o dado --- depende de
+    DUAS coisas que ele nao varia: quantas pecas foram tentadas e quantos dias foram vistos. Esta
+    funcao varia as duas, e a contagem sai com elas.
+    """
+    retornos = volatilidade.retornos_log(dados.carregar_serie(serie))
+    x = retornos.to_numpy()[:int(dias)]
+    sigma = float(x.std(ddof=1))
+    real = regimes.estatisticas(x, JANELA_PADRAO, POSTO_PADRAO, BLOCO_PADRAO)
+    sorteio = np.random.default_rng(int(semente))
+    pecas = []
+    for p in grade_p:
+        for razao in grade_razao:
+            for permanencia in grade_permanencia:
+                e = regimes.estatisticas(
+                    regimes.persistente(len(x), sorteio, sigma, p, razao, permanencia),
+                    JANELA_PADRAO, POSTO_PADRAO, BLOCO_PADRAO)
+                pecas.append({k: abs(e[k] - real[k]) <= TOLERANCIA_PADRAO[k] for k in CHAVES_PADRAO})
+    cabem = sum(1 for c in pecas if all(c.values()))
+    return {"dias": int(dias), "tentadas": len(pecas), "cabem": int(cabem),
+            "fracao_pct": 100.0 * cabem / max(1, len(pecas))}

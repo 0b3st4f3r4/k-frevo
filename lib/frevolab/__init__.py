@@ -87,6 +87,11 @@ def auto_teste() -> list:
     if not (acumulada[101] < 0.05 and acumulada[-1] < 0.6 < 1.0):
         problemas.append("esquecimento: a media acumulada nao reage devagar ao degrau")
 
+    # A contagem de explicacoes que cabem e um MAXIMO sobre a familia: ela cresce com o numero
+    # de pecas tentadas e cai com o numero de dias vistos.
+    if len(evidencia.GRADE_P_PADRAO) * len(evidencia.GRADE_RAZAO_PADRAO) != 36:
+        problemas.append("evidencia: a grade padrao deixou de ser seis por seis")
+
     # uma série constante não tem volatilidade
     constante = pd.Series(np.full(600, 100.0))
     if abs(volatilidade.volatilidade_anualizada(volatilidade.retornos_log(constante))) > 1e-12:
