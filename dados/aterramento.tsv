@@ -47,7 +47,7 @@ f	o tamanho do choque comum ao par	simbolo	f	-		-
 probabilidade	a probabilidade de um evento, medida como frequência de muitos sorteios	termo	probabilidade	1		-
 independencia	dois dias não têm nada a dizer um sobre o outro	termo	independent|independência	1	probabilidade	-
 sorteio	repetir o mundo inteiro com outra semente	termo	sorteio|sorteado|sorteamos	1		-
-semente	o número que torna o sorteio repetível	termo	semente	-	sorteio	-
+semente	o número que torna o sorteio repetível	termo	semente	9	sorteio	9
 media	a média de muitos dias ou de muitos sorteios	termo	média	1	sorteio	-
 desvio	o desvio de um dia, e a sua média	termo	desvi	1	media	-
 variancia	a variância — o quadrado do tamanho típico do dia	termo	variância	1	media	-
@@ -55,23 +55,23 @@ esperanca	a esperança — a média de muitos sorteios, dita em símbolo	termo	e
 curtose	a curtose — o quanto a cauda pesa, comparada com a normal	termo	curtose	-	variancia	-
 quantil	o valor que deixa uma fração declarada dos dias abaixo dele	termo	quantil	2	probabilidade	2
 mediana	o quantil de metade	termo	mediana	2	quantil	2
-décimo	cada uma das dez fatias iguais de uma lista ordenada	termo	por d[ée]cimo|d[ée]cimo mais|d[ée]cimos	-	quantil	-
+décimo	cada uma das dez fatias iguais de uma lista ordenada	termo	por d[ée]cimo\b|d[ée]cimo mais\b	-	quantil	-
 vies	o erro que a própria regra assina, antes de o dado chegar	termo	viés	2		2
 amostra	o pedaço finito de dias de que se dispõe	termo	amostra	2		2
 erro-padrao	o quanto a média de n dias erra por si mesma	termo	erro-padrão|erro padrão	4	desvio	4
 replicata	um mundo sorteado inteiro, medido uma vez	termo	replicata	-	sorteio	-
 controle	o mundo em que nada muda, medido com a mesma rotina	termo	controle	5		5
 mundo-parado	o mundo sorteado em que nada muda	termo	mundo que nunca muda	2	sorteio	2
-tolerancia	o erro que ainda se aceita, com a unidade declarada	termo	tolerância	-		-
+tolerancia	o erro que ainda se aceita, com a unidade declarada	termo	tolerância	8		8
 latencia	quantos dias o alarme demora a ver a mudança	termo	latência	4		4
 falso-alarme	o alarme que dispara num mundo que não mudou	termo	falso alarme	3	mundo-parado	3
 cauda	os dias extremos, e o que a média não vê deles	termo	cauda	-	quantil	-
 recorde	o dia que supera todos os anteriores	termo	recorde	-		-
 episodio	o episódio dirigido — a corrida de dias que começa num rompimento	termo	episódio dirigido	-		-
 padronizacao	dividir a série pelo seu próprio tamanho, e o que isso apaga	termo	padroniza	-	desvio	-
-dependencia	as coisas ruins que vêm juntas	termo	dependência	-	independencia	-
-posto	a correlação que olha a ordem e não os valores	termo	correlação de posto	-	dependencia	-
-copula	a forma da dependência separada das margens	termo	cópula	-	dependencia	-
+dependencia	as coisas ruins que vêm juntas	termo	\bdependência	6	independencia	6
+posto	a correlação que olha a ordem e não os valores	termo	correlação de posto	7	dependencia	7
+copula	a forma da dependência separada das margens	termo	cópula	6	dependencia	6
 condicional	a lei que vale depois de se saber alguma coisa	termo	condicional	-	probabilidade	-
 estacionaria	a lei que não muda com o dia	termo	estacionári	-	probabilidade	-
 memoria	quanto um dia carrega do anterior	termo	memória que aprende|memória efetiva|memória mora	-	estacionaria	-

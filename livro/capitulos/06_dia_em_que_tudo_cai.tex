@@ -17,7 +17,7 @@
 \section{O que a margem não vê}
 
 Os três capítulos anteriores vigiaram uma série por vez: o corte, o vigia, a célula do
-calendário. Todos eles leem uma margem, e este capítulo trata de duas ao mesmo tempo. Ele começa por uma
+calendário. Todos eles leem uma margem, e aqui se trata de duas ao mesmo tempo. Ele começa por uma
 tentativa que qualquer mesa faz: proteger cada mercado no seu próprio corte de
 \numPromessaPct\%, e supor que a proteção dos dois é a soma das duas.
 
@@ -34,8 +34,12 @@ dos dias, contra os \numDependenciaEsperadoPct\% que a independência preveria. 
 Dito pela outra ponta, que é como quem carrega a posição sente: dos \numDependenciaRompeA{}
 rompimentos do primeiro mercado, \numDependenciaAcompanhadosPct\% vieram acompanhados por um
 rompimento do segundo. Somando as duas proteções, esperar-se-ia
-\numDependenciaAcompanhadosIndependentePct\%. Essa fração é a dependência de cauda, e estimá-la de
-uma amostra finita tem viés próprio \cite{garcin2026nonparametric}.
+% aterramento: dependencia
+\numDependenciaAcompanhadosIndependentePct\%.
+A \textbf{dependência} entre duas séries é o quanto saber de uma muda o que se espera da outra.
+O caso extremo é a independência, em que saber de uma não muda nada: a chance de as duas
+romperem no mesmo dia passa a ser o produto das duas chances. Essa fração é a dependência de
+cauda, e estimá-la de uma amostra finita tem viés próprio \cite{garcin2026nonparametric}.
 
 \section{A conta que a soma faz}
 
@@ -63,6 +67,11 @@ acertar na cauda, que é onde a conta é paga. O que se conta aqui é mais cru e
 quantos dias as duas romperam o próprio corte, contra quantos dias a independência preveria.
 Nenhuma forma de dependência é suposta --- não há normalidade, não há cópula, não há parâmetro
 ---, só a contagem dos dias em que as duas séries existem.
+% aterramento: copula
+A \textbf{cópula}, que é a peça dispensada aqui, é a função que costura duas séries pela
+dependência delas depois de cada uma ter sido padronizada pela própria margem: ela descreve a
+junta inteira, e para isso tem de ser escolhida --- e escolher errado erra na cauda, que é onde a
+conta é paga.
 
 A cota da \cref{prop:teto-do-par} diz quanto essa contagem pode andar: o par como veio entrega
 \numDependenciaExcesso{} vezes o que a soma prevê, e o teto do corte de \numPromessaPct\% é de vinte
