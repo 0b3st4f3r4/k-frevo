@@ -61,6 +61,12 @@ OPERADORES = {
     r"\tilde", r"\widehat", r"\widetilde", r"\sum", r"\prod", r"\int", r"\infty",
     r"\approx", r"\sim", r"\equiv", r"\times", r"\div", r"\quad", r"\qquad", r"\hspace",
     r"\phantom", r"\ensuremath", r"\ast", r"\star",
+    # \begin e \end sao ESTRUTURA, e nao simbolo: um ambiente de matriz nao pede
+    # aterramento. Sem esta linha, \begin{pmatrix} reprovava como simbolo nao registrado.
+    # \bm e negrito de matematica, e \in e o sinal de pertinencia: os dois sao notacao, e nao
+    # objeto do livro. A lista abaixo e a mesma familia de \mathbb e \mathrm.
+    r"\bm", r"\in",
+    r"\begin", r"\end",
 }
 
 # O que aparece em modo matemático e **não é matemática**: rótulo, citação, nome de arquivo e

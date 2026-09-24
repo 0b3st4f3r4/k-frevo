@@ -1,0 +1,23 @@
+{
+ "operador_acoplamentos": 4,
+ "operador_dias_autovalor": 19,
+ "operador_dias_cem": 108,
+ "operador_dias_dez": 83,
+ "operador_dias_maior": 108,
+ "operador_dias_menor": 19,
+ "operador_dias_um": 58,
+ "operador_dias_zero": 19,
+ "operador_memoria_media": 10.000000000000002,
+ "operador_passos": 200,
+ "operador_pico_cem": 387.42087642010176,
+ "operador_pico_dez": 38.745922717546996,
+ "operador_pico_dia_cem": 9,
+ "operador_pico_dia_dez": 9,
+ "operador_pico_dia_um": 9,
+ "operador_pico_dia_zero": 0,
+ "operador_pico_um": 3.9125670783766604,
+ "operador_pico_zero": 1.0,
+ "operador_raio": 0.9,
+ "operador_taxa_maior": 5.684210526315789,
+ "operador_tolerancia": 0.15
+}

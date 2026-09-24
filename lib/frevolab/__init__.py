@@ -15,7 +15,7 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 from importlib.metadata import PackageNotFoundError, version
 
 from . import (calendario, centro, dados, dependencia, direcao, esquecimento, estabilidade,
-               graficos, intervencao, mudanca, nivel, partilha, proporcao, promessa, recorde,
+               graficos, intervencao, mudanca, nivel, operador, partilha, proporcao, promessa, recorde,
                regimes, vigia, volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
@@ -42,6 +42,18 @@ def auto_teste() -> list:
     import pandas as pd
 
     problemas = []
+
+    # O criterio pelos autovalores e cego fora do caso simetrico: na familia de mesmo autovalor,
+    # o caso diagonal tem as duas memorias iguais, e o acoplado tem pico maior que o prometido.
+    serie_diagonal = operador.normas(0.0, 12)
+    if abs(serie_diagonal[-1] - operador.RADIO_PADRAO ** 12) > 1e-12:
+        problemas.append("operador: no caso diagonal a norma nao e raio^k")
+    if operador.pico_da_norma(0.0, 12)[1] > 1.0 + 1e-12:
+        problemas.append("operador: o caso diagonal nao tem pico")
+    if not (operador.pico_da_norma(100.0, 40)[1] > operador.pico_da_norma(1.0, 40)[1] > 1.0):
+        problemas.append("operador: o pico nao cresce com o acoplamento")
+    if not (operador.memoria_da_norma(100.0) > operador.memoria_do_autovalor()):
+        problemas.append("operador: o acoplado diz lembrar menos do que lembra")
 
     # uma série constante não tem volatilidade
     constante = pd.Series(np.full(600, 100.0))

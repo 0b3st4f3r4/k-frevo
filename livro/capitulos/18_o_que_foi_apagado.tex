@@ -156,6 +156,42 @@ A leitura é direta: o que apaga o passado é o \textbf{ruído que entrou nele},
 ele foi guardado. Um sistema que guarda o estado em \numApagadoBitsMenor{} bits e outro que o guarda em precisão cheia
 perdem o passado no mesmo lugar.
 
+\section{O critério que fica cego}
+
+O capítulo mediu um sistema de um número só: a estimativa de hoje é uma mistura da de ontem com o
+dia de hoje, e ali a memória é $1/(1-a)$ dias. A pergunta E3 da lista do contrato declara, para
+este ponto, a referência a bater: \emph{o critério pelos autovalores, que é cego fora do caso
+simétrico}.
+
+A família que testa isso tem uma matriz por acoplamento, e o \textbf{mesmo autovalor} em todas
+elas.
+% aterramento: operador
+\[ \bm{M}(c) = \begin{pmatrix} 0{,}9 & c \\ 0 & 0{,}9 \end{pmatrix}, \qquad c \in \{0;\, 1;\, 10;\, 100\}. \]
+O critério escalar devolve o mesmo número para as \numOperadorAcoplamentos{} colunas:
+\numOperadorMemoriaMedia{} dias de memória média, e \numOperadorDiasAutovalor{} dias para a
+influência do estado inicial cair até \numOperadorTolerancia{} do que era. A influência, porém,
+não é o autovalor: é a norma da potência, e ela \textbf{cresce antes de cair}, tanto mais quanto
+maior o acoplamento --- \numOperadorPicoUm{} no acoplamento de um, \numOperadorPicoDez{} no de dez
+e \numOperadorPicoCem{} no de cem, todos no dia \numOperadorPicoDiaCem.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E23_operador_1.pdf}
+  \caption{A influência do estado inicial, dia a dia, para os quatro acoplamentos. O eixo vertical
+    é logarítmico, de modo que uma queda exponencial sai reta: só a curva do acoplamento zero é
+    reta, e as outras três sobem antes de descer, virando todas no mesmo dia. A linha tracejada
+    marca os \numOperadorDiasAutovalor{} dias que o autovalor prevê e a pontilhada, a tolerância de
+    \numOperadorTolerancia{}.}
+  \label{fig:operador}
+\end{figure}
+
+Medida contra a mesma tolerância, a travessia real vai de \numOperadorDiasZero{} dias no caso
+diagonal --- exatamente o que o critério promete --- a \numOperadorDiasCem{} dias no acoplamento de
+cem: \numOperadorTaxaMaior{} vezes o prometido. \textbf{O autovalor não é a memória}: ele diz onde
+a influência vai parar, e não o quanto ela cresce no caminho. Num sistema de um número só os dois
+coincidem, e é por isso que o capítulo pôde medir tudo com um escalar --- e é por isso que a conta
+não atravessa para o caso em que os passos se acoplam.
+
 \section{O que fica}
 
 Fica a resposta do segundo pedaço do andar, e ela tem uma parte que se compra e uma que fica fora do

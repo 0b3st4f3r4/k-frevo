@@ -95,3 +95,4 @@ incremento	o incremento — o que o dia acrescentou ao nível	termo	incremento	2
 h	o horizonte, em dias	simbolo	h	2		2
 Y	o segundo sorteio, na prova da variância da soma	simbolo	Y	2		2
 mu	a média do incremento	simbolo	\mu	2	esperanca	2
+operador	a matriz que carrega o estado de um passo para o outro	simbolo	M	18		18
