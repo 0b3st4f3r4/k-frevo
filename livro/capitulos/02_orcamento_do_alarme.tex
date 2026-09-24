@@ -191,7 +191,7 @@ mudança. Logo o alarme exige ao menos $L$ pregões.
 
 Com $L = \numVigiaLimiar$, o piso é de \numVigiaPisoPregoes{} pregões. O alarme de
 \numVigiaTomboRecenteData{} soou \numVigiaTomboRecenteAtrasoDias{} dias corridos depois do
-topo, poucos pregões mais do que o piso: o vigia não estava gastando tempo à toa, estava
+topo: o vigia não estava gastando tempo à toa, estava
 esperando a contagem encher, que é o que ele sabe fazer.
 
 A consequência é dura para quem queria melhorar o vigia ajustando números. A única alavanca é
@@ -249,10 +249,11 @@ limiar \numTrocaOitoLimiar, soa uma vez a cada \numTrocaOitoAnos{} anos e chega 
 \numTrocaOitoPagoPct\%. Duas leituras do mesmo corte, o mesmo silêncio, quase o mesmo preço.
 
 E a leitura do dia tem um preço próprio, que a tabela do bloco não mostra. Num mundo que nunca
-muda ela soa, por construção, na taxa que declarou: declarar \numFundoUmAnoAlarmesPorAno{}
-alarme por ano é aceitar \numSegundaLeituraAlarmesReais{} alarmes em vinte e cinco anos, ou
-\numSegundaLeituraAlarmesAno{} por ano, enquanto o vigia do bloco soou \numVigiaAlarmesReais{}
-vezes no mesmo período. A escolha é entre um vigia que fala \numSegundaLeituraAlarmesAno{}
+muda ela soa, por construção, na taxa que declarou: a conta pede
+\numSegundaLeituraParadoDeclarado{} alarmes e a medição devolveu \numSegundaLeituraParadoAlarmes{}.
+Na série real foram \numSegundaLeituraAlarmesReais{}, ou \numSegundaLeituraAlarmesAno{} por ano,
+contra o \numFundoUmAnoAlarmesPorAno{} declarado --- enquanto o vigia do bloco soou
+\numVigiaAlarmesReais{} vezes no mesmo período. A escolha é entre um vigia que fala \numSegundaLeituraAlarmesAno{}
 vezes por ano e chega cedo, e um vigia que fala uma vez a cada três anos e meio e chega depois.
 
 \section{A forma decide o preço}
@@ -319,8 +320,8 @@ eles não é de calibração. É de memória.
 
 A promessa se sustenta porque a memória esquece. O mesmo movimento que restaura a taxa apaga
 a mudança, e um vigia feito dessa taxa fica sem o que ver depois que a janela se renova: no
-degrau isso custa uma dúzia de dias, e na rampa, \numFormasVigiaRampaDoisDias{} dias para o
-mesmo tamanho final. A forma não muda o que aconteceu ao mundo. Muda o que sobra para o
+degrau de oito vezes isso custa \numFormasVigiaDegrauOitoDias{} dias, e na rampa do mesmo
+tamanho final, \numFormasVigiaRampaOitoDias{} dias. A forma não muda o que aconteceu ao mundo. Muda o que sobra para o
 vigia ver.
 
 A deriva escapa aos dois cortes. Deslocar a média não mexe na oscilação, e a contagem sente

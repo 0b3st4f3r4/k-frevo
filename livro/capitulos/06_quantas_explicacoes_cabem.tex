@@ -71,8 +71,8 @@ direto: o melhor pior bloco que qualquer membro consegue produzir é de
 \numCondicionamentoMelhorPior{} rompimentos, contra os \numCondicionamentoPior{} do dado.
 
 Há uma coincidência que não é coincidência. Quando o primeiro capítulo submeteu duzentos mundos
-que nunca mudam à mesma rotina, o pior bloco de todos eles parou em treze. A família deste
-capítulo bate no mesmo teto, e pelo mesmo motivo: sem memória, os dias ruins não têm como se
+que nunca mudam à mesma rotina, o pior bloco de todos eles parou em \numNuncaMudaPiorBloco. A família deste
+capítulo chega perto desse teto sem alcançá-lo, e pelo mesmo motivo: sem memória, os dias ruins não têm como se
 agrupar.
 
 \begin{figure}[htbp]
@@ -87,7 +87,7 @@ agrupar.
 
 O que falta à família é a única coisa que o dado parece exigir: que o regime dure. Um terceiro
 parâmetro entra, e ele é a permanência média do regime agitado, em dias. Com permanência de um
-dia a família é a anterior, sem memória.
+dia o dia agitado nunca é seguido de outro, e a família fica mais arrumada que a sem memória.
 
 A grade passa a \numCondicionamentoPersistenteCombinacoes{} membros, e a resposta muda de
 natureza. Com a taxa sozinha cabem \numCondicionamentoPersistenteCabemTaxa. Com a taxa e o pior
@@ -108,14 +108,15 @@ deste capítulo: o dado identifica uma \textbf{região}, e não um ponto.
   \centering
   \includegraphics[width=\linewidth]{figuras/E07_condicionamento_2.pdf}
   \caption{O conjunto factível no plano dos dois primeiros parâmetros, para a permanência longa.
-    À esquerda, os membros que reproduzem apenas a taxa; à direita, os que reproduzem as quatro
-    estatísticas. A mancha escura da esquerda é o tamanho do que a média não decide. A cor conta quantas estatísticas cada ponto satisfaz, e não quão bom é o ajuste: claro não é aprovação.}
+    À esquerda, os pontos que reproduzem a taxa; à direita, quantas das quatro
+    estatísticas cada ponto satisfaz. A cor conta estatísticas satisfeitas, e não quão bom é o
+    ajuste: escuro não é aprovação --- \numCondicionamentoPontosAsQuatro{} pontos da permanência
+    mais longa chegam às quatro, e as catorze da esquerda são as mais pálidas da escala.}
   \label{fig:factivel}
 \end{figure}
 
 O mapa da \cref{fig:factivel} diz o mesmo em duas dimensões. Na permanência mais longa,
-\numCondicionamentoPontosSoATaxa{} dos \numCondicionamentoCombinacoes{} pontos do plano reproduzem apenas
-a taxa, e \numCondicionamentoPontosAsQuatro{} reproduzem as quatro estatísticas --- o que confirma,
+\numCondicionamentoPontosSoATaxa{} dos \numCondicionamentoCombinacoes{} pontos do plano reproduzem a taxa, e \numCondicionamentoPontosAsQuatro{} reproduzem as quatro estatísticas --- o que confirma,
 por outro caminho, que as duas explicações que sobrevivem têm permanência curta.
 
 \section{O tamanho da região é de quem mede}

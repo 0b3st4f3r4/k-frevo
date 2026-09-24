@@ -36,7 +36,7 @@ e o calendário não muda.
 
 \section{O tamanho do calendário}
 
-O domingo consome \numCalendarioDomingoPct\% menos que o dia médio, e o padrão se repete em todas as semanas dos cinco anos. Vale medir o tamanho desse perfil
+O domingo consome \numCalendarioDomingoAbaixoPct\% menos que o dia médio, e o padrão se repete em quase todas as semanas dos cinco anos --- as exceções são as de Natal e Ano-Novo, quando o feriado do meio da semana pesa mais que o domingo. Vale medir o tamanho desse perfil
 em cada série, porque é ele que decide se o calendário atrapalha o vigia. A medida é a
 distância entre o dia mais cheio e o mais vazio da semana, contada em desvios-padrão do dia.
 
@@ -56,8 +56,8 @@ distância entre o dia mais cheio e o mais vazio da semana, contada em desvios-p
     índice S\&P 500 & \numCalendarioAmplitudeIndice \\ % numeros-ok: nome próprio, não medição
     \hline
   \end{tabular}
-  \caption{O tamanho do calendário, medido. Nas cargas europeias a semana desenha mais de um
-    desvio-padrão; no índice americano ela desenha quase nada.}
+  \caption{O tamanho do calendário, medido. Nas cargas europeias a semana desenha em torno de um
+    desvio-padrão, e a França é o caso mais fraco; no índice americano ela desenha quase nada.}
   \label{tab:perfil}
 \end{table}
 
@@ -169,8 +169,9 @@ aplicado ao índice acionário americano, que não tem semana, diz o que ela cus
 o que ler.
 
 Nas \numSerieDias{} observações do índice, a leitura crua dá \numCalendarioIndiceCruAlarmesAno{}
-alarmes por ano contra os \numCalendarioCruPisoAno{} que a memória declara --- uma diferença de
-pouco, e da mesma natureza da que o capítulo anterior discutiu. A leitura por dia da semana,
+alarmes por ano contra o piso de \numCalendarioIndiceCruPisoAno{} que a memória do índice
+declara --- uma diferença de pouco mais de vinte por cento, da mesma natureza da que o capítulo
+anterior discutiu. A leitura por dia da semana,
 com a mesma janela, sobe para \numCalendarioIndiceSemanaAlarmesAno{} alarmes por ano, contra os
 \numCalendarioIndiceSemanaPisoAno{} que a memoria declara. Nada foi
 encontrado em troca: gastou-se um fator de quatro em falso alarme para descobrir que segunda

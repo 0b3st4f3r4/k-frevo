@@ -12,15 +12,15 @@ Ela tem duas falhas, e as duas se medem.
 A primeira é que o pior dia do registro não é um teto, e a chance de perdê-lo é exata. Com um ano de
 histórico e um ano pela frente, a probabilidade de que apareça um dia pior do que tudo o que já se
 viu é de \numRecordeProbabilidade{} --- meio. A chance de que seja já o dia seguinte é de
-\numRecordeDoProximo{}, medida sobre o registro de \numRecordeIndiceDias{} dias do índice.
+\numRecordeDoProximo{}, com o registro de \numRecordeIndiceDias{} dias do índice.
 
 A segunda é o tamanho do salto quando o recorde cai. No índice, medido em \numRecordeIndiceDias{} dias, o pior dia perde \numRecordeIndicePior{} contra
 \numRecordeIndiceSegundo{} do segundo pior, numa razão de \numRecordeIndiceRazao{}; no Ibovespa, em
 \numRecordeIbovespaDias{} dias, o pior perde \numRecordeIbovespaPior{} contra
 \numRecordeIbovespaSegundo{} do segundo, numa razão de \numRecordeIbovespaRazao{}; e no Bitcoin, em
 \numRecordeBitcoinDias{} dias, o pior dia perde \numRecordeBitcoinPior{} contra
-\numRecordeBitcoinSegundo{} do segundo, uma razão de \numRecordeBitcoinRazao{}. Um recorde novo não
-chega encostado no antigo.
+\numRecordeBitcoinSegundo{} do segundo, uma razão de \numRecordeBitcoinRazao{}. No índice e no Bitcoin o recorde novo não
+chega encostado no antigo; no Ibovespa ele chega, com \numRecordeIbovespaRazao{} quase empatado.
 
 \section{A conta exata}
 
@@ -42,8 +42,8 @@ o que tem probabilidade $1/k$; somando sobre $k$ chega-se ao harmônico.
 \end{proof}
 
 A proposição dá o preço de uma coisa que ninguém vende: a chance de o mundo que faltou ser pior do
-que o mundo que se viu. Com mil dias de histórico ela é de \numRecordeEsperadoMil{} recordes ao
-longo do caminho, e com \numRecordeDiasPorMundo{} dias ela é de \numRecordeEsperadoMundo{} --- o
+que o mundo que se viu. Com mil dias de histórico o número esperado de recordes é de \numRecordeEsperadoMil{}, e com
+\numRecordeDiasPorMundo{} dias ele sobe a \numRecordeEsperadoMundo{} --- o
 logaritmo cresce devagar, e é por isso que a memória compra tão pouco.
 
 \section{A conta conferida, e o dado real}
@@ -81,8 +81,8 @@ lado para o qual ela erra é conhecido.
   \small
   \begin{tabular}{lrrr}
     \hline
-    mudança no & recordes & dias por cima & razão dos \\
-    meio da série & medidos & do recorde & extremos \\
+    mudança no & recordes & fração de dias & razão dos \\
+    meio da série & medidos & por cima do recorde & extremos \\
     \hline
     nenhuma & \numRecordeRecordesSemMudanca & \numRecordeFracaoSemMudanca & \numRecordeRazaoSemMudanca \\
     vinte por cento & \numRecordeRecordesVintePorCento & \numRecordeFracaoVintePorCento & \numRecordeRazaoVintePorCento \\

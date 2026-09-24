@@ -9,7 +9,7 @@ que o sistema deixe de aprender?
 O primeiro capítulo deste livro fixou uma janela de um ano para o corte, e ela funciona lá. Levada
 para a escala de um mundo que dobra de uma vez, a mesma janela erra por \numEsquecimentoJanelaDuzentosECinquenta{}
 no ano seguinte à mudança. É um erro de um quarto, e ele não se anuncia: no mundo que não muda, a
-mesma janela erra por \numEsquecimentoPisoDuzentosECinquenta{}, que é pouco. Quem só olha o mundo
+mesma janela erra por \numEsquecimentoPisoJanelaDuzentosECinquenta{}, que é pouco. Quem só olha o mundo
 parado conclui que a janela está calibrada.
 
 O defeito tem nome: uma janela carrega os dias velhos com o mesmo peso dos novos, e no dia em que
@@ -106,7 +106,7 @@ da amostra.
 Sobre a referência declarada, a janela: com memória de vinte e um dias ela erra por
 \numEsquecimentoJanelaVinteEUm{} contra \numEsquecimentoErroVinteEUm{} da mistura, e o melhor dela
 aparece com \numEsquecimentoMelhorJanela{} dias, erro de \numEsquecimentoMelhorJanelaErro{}. A
-janela perde para a mistura na mesma memória, e a proposição explica: a janela joga fora os dias de
+janela perde para a mistura nas memórias curtas, e a proposição explica: a janela joga fora os dias de
 uma vez, e a queda brusca machuca tanto quanto a entrada lenta.
 
 \section{O que cabe prometer}
@@ -159,18 +159,19 @@ que as duas quase se tocam sem ainda ter subido.
 
 \section{O que fica}
 
-Fica a resposta da travessia, e ela é estreita. O esquecimento mínimo que ainda aprende, neste mundo
-e nesta tolerância, é o de memória de vinte e um dias --- uma taxa de \numEsquecimentoMelhorTaxa{} por
+Fica a resposta da travessia, e ela é estreita. O esquecimento mínimo, no sentido da menor memória que entrega a tolerância, é o de vinte e um
+dias --- uma taxa de \numEsquecimentoMelhorTaxa{} por
 dia ---, e ele exige um horizonte de pelo menos \numEsquecimentoHorizonteCurto{} dias para entregar
 \numEsquecimentoTolerancia{} do degrau, contra os \numEsquecimentoMelhorDias{} dias que a conta previa
-para essa mesma memória. Quem lembra mais do que isso fica cego à mudança; quem apaga
+para essa mesma memória. A memória mais longa que ainda entrega a tolerância é a de \numEsquecimentoMemoriaLonga{} dias;
+daí para cima, lembrar mais é ficar cego à mudança; quem apaga
 mais depressa troca cegueira por ruído, e o erro cresce dos dois lados.
 
 Fica também o que a medição não promete. A melhor combinação de todas erra por
 \numEsquecimentoMelhor{}, e é isso que se pode exigir deste estimador neste mundo: pedir menos do que
 isso não é um problema de memória, é um problema de amostra. E a janela deslizante, que era a
-referência a bater, ficou atrás: na mesma memória ela erra mais, o que decide a favor da mistura nos
-lugares em que o mundo muda.
+referência a bater, ficou atrás nas memórias curtas: é ali que ela erra mais, e é ali que o mundo
+mudado obriga a escolher.
 
 O fracasso seguinte não fala do nível, e sim do que o esquecimento joga fora junto com os dias velhos.
 A memória apaga os dias, e apaga com eles a \textbf{ordem} em que eles vieram --- e é a ordem que diz para
