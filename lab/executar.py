@@ -634,8 +634,9 @@ def conferir_ordinais(falhas: list) -> None:
     O livro insere capítulos no meio da espiral --- a raiz ganhou dois de uma vez ---, e "o
     primeiro capítulo" é a única referência que não acompanha: nas 24 ocorrências, 21 passaram a
     apontar para o capítulo errado (o corte, a janela de 252 e a promessa nascem no capítulo 3, e
-    o capítulo 1 é O número e a barra). O §12 do contrato declara que o livro não imprime número
-    de capítulo em prosa, e declaração não é portão: este é.
+    o capítulo 1 é O número e a barra). A regra nasceu como decisão no §12 do contrato e hoje mora
+    aqui: conferido que a lição estava inteira nesta docstring, a entrada saiu do contrato --- que
+    precisa caber numa leitura ---, e este portão ficou sendo o registro dela.
 
     "o capítulo anterior" e "o capítulo seguinte" ficam de fora de propósito: são relativos, e a
     renumeração não os alcança.
@@ -647,7 +648,7 @@ def conferir_ordinais(falhas: list) -> None:
                 continue
             if padrao.search(linha):
                 falhas.append("ordinal de capítulo em prosa: %s:%d --- aponte o objeto, não o "
-                              "ordinal (§12)" % (caminho.relative_to(RAIZ), numero))
+                              "ordinal" % (caminho.relative_to(RAIZ), numero))
 
 
 def conferir_paratexto(falhas: list) -> None:
