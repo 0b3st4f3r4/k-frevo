@@ -7,9 +7,10 @@ que se gasta. Cada um tem o seu preço medido, e nenhum foi medido junto com os 
 Este capítulo mede a promessa do primeiro capítulo com \textbf{três buracos abertos ao mesmo tempo}: a
 janela da calibração, o atraso do dado e o mundo. A promessa é a mesma em todas as
 \numFechoConfiguracoes{} configurações --- \numPromessaPct{}\% dos dias rompendo o corte, que é
-\numFechoPromessa{} em fração, com o posto
-acompanhando a janela para que a taxa anunciada não mude ---, com \numFechoJanelas{} tamanhos de
-janela em mundos de \numFechoDias{} dias. A pergunta é se os buracos somam ou se compõem.
+\numFechoPromessa{} em fração ---, com \numFechoJanelas{} tamanhos de
+janela em mundos de \numFechoDias{} dias. O posto acompanha a janela, mas ele é um número inteiro:
+arredondado para cima, o corte assina sozinho \numFechoAssinadoCurta{} na janela curta,
+\numFechoAssinadoMedia{} na média e \numFechoAssinadoLonga{} na longa. A pergunta é se os buracos somam ou se compõem.
 
 \section{A medição da pilha}
 
@@ -37,13 +38,19 @@ janela em mundos de \numFechoDias{} dias. A pergunta é se os buracos somam ou s
   \end{tabular}
   \caption{A promessa medida nas \numFechoConfiguracoes{} configurações, em
     \numFechoSementes{} mundos sorteados por célula, na janela de \numFechoHorizonte{} dias que segue
-    a mudança. A última coluna é a entrega dividida pela promessa.}
+    a mudança. A última coluna é a entrega dividida pela promessa, e a dispersão entre os mundos,
+    no mundo parado e sem atraso, é de \numFechoDispersaoParadoCurtaSemAtraso{} na janela curta e de
+    \numFechoDispersaoParadoLongaSemAtraso{} na longa.}
   \label{tab:pilha}
 \end{table}
 
-A primeira metade da tabela traz o mundo parado, e ali a lição é conhecida: a janela longa entrega
-\numFechoParadoLongaSemAtraso{} vezes a promessa e a curta \numFechoParadoCurtaSemAtraso{}, de modo que
-mais memória é melhor; o atraso não move nada de importante.
+A primeira metade da tabela traz o mundo parado, e ali a lição é conhecida: \textbf{o que se quer é
+entregar a promessa}, e a mais perto dela é a melhor --- a janela longa entrega
+\numFechoParadoLongaSemAtraso{} vezes a promessa e a curta \numFechoParadoCurtaSemAtraso{}. A diferença
+entre as duas, medida nos mesmos \numFechoSementes{} mundos sorteados, é de \numFechoParadoDiferenca{}
+vezes, ou \numFechoParadoDiferencaDesvios{} erros-padrão da média, com dispersão de
+\numFechoParadoDiferencaDispersao{} entre os mundos: é o limite do que \numFechoSementes{} mundos
+separam. O atraso não move nada de importante.
 
 A segunda metade inverte a ordem. Com o mundo dobrando, a janela longa entrega
 \numFechoMudadoLongaSemAtraso{} vezes a promessa e a curta \numFechoMudadoCurtaSemAtraso{}: \textbf{a
