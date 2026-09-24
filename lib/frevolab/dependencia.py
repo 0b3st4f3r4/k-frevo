@@ -31,7 +31,7 @@ __all__ = ["JANELA_EPISODIO", "rompimentos", "pareado", "juntos", "episodios_dir
 
 
 def rompimentos(serie: pd.Series, janela: int = 252, cauda: float = promessa.CAUDA_PADRAO) -> pd.Series:
-    r"""Os dias em que a série rompeu o próprio corte, pelos dias de graça do capítulo 1."""
+    r"""Os dias em que a série rompeu o próprio corte, pelos dias de graça do capítulo 2."""
     return promessa.violacoes(serie, janela, cauda)
 
 

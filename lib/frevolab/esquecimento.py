@@ -27,7 +27,7 @@ HORIZONTE_PADRAO = 250
 # distancia relativa media entre a estimativa e a verdade, dia a dia. A proposicao da meia-vida
 # fala em tolerancia do DEGRAU, que e outra unidade: num mundo que dobra de uma vez o degrau e
 # metade do nivel, de modo que 0,15 do nivel e 0,30 do degrau. Enquanto as duas foram o mesmo
-# 0,15, a prosa do capitulo 11 dizia uma unidade e o criterio media na outra (2026-09-24).
+# 0,15, a prosa do capitulo 12 dizia uma unidade e o criterio media na outra (2026-09-24).
 TOLERANCIA = 0.15
 FATOR_PADRAO = 2.0
 TOLERANCIA_DEGRAU = TOLERANCIA / (1.0 - 1.0 / FATOR_PADRAO)
@@ -236,7 +236,7 @@ def limiar(series, taxas, verdade, inicio: int = 0, horizonte: int = HORIZONTE_P
     como fração do NÍVEL novo, que é a unidade do erro medido aqui, e os dias previstos, que são da
     proposição, saem na unidade do DEGRAU: a conversão é feita com \emph{fator}, o quanto o mundo
     dobra de uma vez. Sem ela, o mesmo 0,15 valia como duas coisas diferentes --- o defeito que a
-    prosa do capítulo 11 e o critério de viabilidade tinham, cada um com a sua unidade. É a
+    prosa do capítulo 12 e o critério de viabilidade tinham, cada um com a sua unidade. É a
     resposta em forma de número à pergunta da travessia: abaixo dessa taxa o sistema lembra demais
     para aprender.
     """

@@ -1,7 +1,7 @@
 r"""Estabilidade: a estatística que estima é a mesma que anuncia a quebra?
 
 Família A/B, a volta 2. A pergunta que este módulo serve é uma só, e ela é a do fecho do
-capítulo 4: a estatística que responde "que conjunto ainda vale" e a que responde "em que
+capítulo 5: a estatística que responde "que conjunto ainda vale" e a que responde "em que
 instante ele deixou de valer" são a mesma, lida ao contrário?
 
 O instrumento é pequeno: a **correlação de posto** entre um sinal que olha para trás e o que
@@ -12,7 +12,7 @@ cauda é justamente onde ela deixa de ser.
 **O defeito que este módulo torna impossível.** Ler o poder de um sinal sem o controle de um
 mundo em que não há nada a prever. Um corte erguido numa janela e um alvo contado com cortes que
 carregam pedaço da mesma janela se sobrepõem, e a sobreposição sozinha produz correlação — no
-caderno do capítulo 5, o nível do corte dá +0,414 num mundo sorteado independente, onde não há
+caderno do capítulo 6, o nível do corte dá +0,414 num mundo sorteado independente, onde não há
 nada para anunciar. Quem mede sinal sem medir o chão mede aritmética e chama de descoberta.
 """
 import numpy as np

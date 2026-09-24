@@ -11,9 +11,8 @@ O que a varredura mostrou, e é o motivo desta ferramenta existir: o livro mede 
 nunca constrói. Ele sorteia mundos inteiros, tira média de muitos sorteios, usa decaimento
 geométrico, ponto fixo, variância e curtose --- e `variável aleatória`, `densidade`,
 `covariância`, `lei dos grandes números`, `teorema central do limite`, `derivada`, `integral`,
-`simulação` e `semente` não aparecem em página nenhuma. A `esperança` entra no capítulo 16,
-dentro da recursão do GARCH; a `variância` no 10, dentro da proposição do piso; a `curtose` no
-17, em cabeçalho de tabela.
+`simulação` e `semente` não aparecem em página nenhuma. A `esperança` entra no capítulo 17,
+dentro da recursão do GARCH; a `variância` no 11, dentro da proposição do piso; a `curtose` no 18, em cabeçalho de tabela.
 
 **O registro.** `dados/aterramento.tsv` é curadoria manual, como o corpus de fontes: uma linha
 por objeto, e nada mais que id, nome, tipo, padrão de busca, onde aterrou, o que exige e onde
@@ -237,9 +236,10 @@ def capitulo_do_trecho(indice: int):
 def conferir(falhas: list, avisos: list) -> None:
     r"""O portão: o objeto não aparece antes de aterrar, nem aparece sem estar declarado.
 
-    Quatro ramos, e cada um existe porque o contrário é defeito de página: símbolo sem registro
+    Cinco ramos, e cada um existe porque o contrário é defeito de página: símbolo sem registro
     (o §3.5 rompido em silêncio), entrada morta (registro que mente sobre o objeto), uso antes da
-    âncora (o §4 rompido) e pré-requisito fora de ordem (o capítulo constrói com o que não tem).
+    âncora (o §4 rompido), pré-requisito fora de ordem (o capítulo constrói com o que não tem) e
+    numeração fora de lugar (o nome do arquivo deixou de dizer onde o capítulo está).
     """
     linhas, defeitos = registro()
     falhas += defeitos
@@ -256,6 +256,19 @@ def conferir(falhas: list, avisos: list) -> None:
     for simbolo in sorted(vistos_no_livro - conhecidos):
         falhas.append("símbolo %s aparece no livro e não está no registro (§3.5): declare o nome, "
                       "o motivo e o exemplo" % simbolo)
+
+    # Ramo da renumeração: o número no nome do arquivo é a posição do capítulo no livro.
+    # Ele existe porque inserir um capítulo antes da raiz move todos os outros uma casa, e o
+    # deslocamento deixa nome antigo para trás em silêncio --- foi assim que o capítulo 2 virou
+    # dois e os capítulos 3 a 19 andaram uma casa sem que nada conferisse.
+    for posicao, nome in enumerate(capitulos(), 1):
+        achado = re.match(r"^(\d+)_", nome)
+        if achado is None:
+            falhas.append("numeração: %s não tem número no nome — o nome do arquivo é a posição "
+                          "do capítulo na ordem de leitura" % nome)
+        elif int(achado.group(1)) != posicao:
+            falhas.append("numeração fora de lugar: %s é o capítulo %d da ordem de leitura e o "
+                          "nome diz %s" % (nome, posicao, achado.group(1)))
 
     na_fila, ativos = [], []
     for item in linhas:

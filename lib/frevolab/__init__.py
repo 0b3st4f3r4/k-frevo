@@ -498,7 +498,7 @@ def auto_teste() -> list:
     if centro.limiar_do_orcamento(nulo, 0.10) > centro.limiar_do_orcamento(nulo, 0.05):
         problemas.append("o limiar do centro não é monótono no orçamento")
 
-    # --- regimes: a família do capítulo 6 ---
+    # --- regimes: a família do capítulo 7 ---
     real = {"taxa": 0.05, "pior": 20.0, "mediana": 3.0, "acima_do_dobro": 0.10}
     tol = {"taxa": 0.002, "pior": 2.0, "mediana": 1.0, "acima_do_dobro": 0.03}
     if len(regimes.cabem([{"estatisticas": dict(real)}], real, tol, ("pior",))) != 1:
@@ -531,7 +531,7 @@ def auto_teste() -> list:
         problemas.append("os blocos da direção não são sem sobreposição (%d para %d esperados)"
                          % (quantos, passos.size // 252 - 1))
 
-    # --- intervencao: o desenho experimental do capítulo 9 ---
+    # --- intervencao: o desenho experimental do capítulo 10 ---
     from statistics import NormalDist as _NormalDist
     zeta = _NormalDist().inv_cdf(1.0 - (1.0 - intervencao.CONFIANCA) / 2.0)
     if abs(intervencao.replicatas_necessarias(0.20, 0.50) - (zeta * 0.50 / 0.20) ** 2) > 1e-9:
@@ -582,7 +582,7 @@ def auto_teste() -> list:
         problemas.append("o desvio da mistura exponencial não decai como (1 - taxa) elevado a t")
     if abs(esquecimento.dias_para_tolerancia(taxa_esq, 0.15) - np.log(0.15) / np.log(1.0 - taxa_esq)) > 1e-12:
         problemas.append("os dias até a tolerância não são log(eps) sobre log(1 - taxa)")
-    # A tolerância do capítulo 11 tinha DUAS unidades com o mesmo 0,15: a do nível, que o erro
+    # A tolerância do capítulo 12 tinha DUAS unidades com o mesmo 0,15: a do nível, que o erro
     # medido usa, e a do degrau, que a proposição usa. Num mundo que dobra, 0,15 do nível é 0,30 do
     # degrau — e enquanto isso não esteve separado, a prosa dizia uma unidade e o critério media na
     # outra. Estas três asserções fixam a ponte: a conversão, a conta dos dias em degraus, e o
