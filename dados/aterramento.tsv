@@ -19,9 +19,9 @@ n	o número de dias da janela	simbolo	n	1		-
 p	a probabilidade de alta do dia; mais tarde, o preço	simbolo	p	1		-
 r	o retorno do dia, em logaritmo	simbolo	r	2		2
 t	o índice do dia na série	simbolo	t	2		2
-B	o número de dias do bloco	simbolo	B	-		-
-L	o número de violações do bloco; mais tarde, o nível da série	simbolo	L	-		-
-prob	a probabilidade de um evento	simbolo	\Prob	-		-
+B	o número de dias do bloco	simbolo	B	3		3
+L	o número de violações do bloco; mais tarde, o nível da série	simbolo	L	3		3
+prob	a probabilidade de um evento	simbolo	\Prob	3		3
 sigma	a oscilação de um dia, medida em desvio	simbolo	\sigma	-		-
 C	o número de células em que a janela é repartida	simbolo	C	-		-
 omega	o parâmetro de piso da recursão da oscilação	simbolo	\omega	-	variancia	-
@@ -64,7 +64,7 @@ controle	o mundo em que nada muda, medido com a mesma rotina	termo	controle	-		-
 mundo-parado	o mundo sorteado em que nada muda	termo	mundo que nunca muda	2	sorteio	2
 tolerancia	o erro que ainda se aceita, com a unidade declarada	termo	tolerância	-		-
 latencia	quantos dias o alarme demora a ver a mudança	termo	latência	-		-
-falso-alarme	o alarme que dispara num mundo que não mudou	termo	falso alarme	-	controle	-
+falso-alarme	o alarme que dispara num mundo que não mudou	termo	falso alarme	3	mundo-parado	3
 cauda	os dias extremos, e o que a média não vê deles	termo	cauda	-	quantil	-
 recorde	o dia que supera todos os anteriores	termo	recorde	-		-
 episodio	o episódio dirigido — a corrida de dias que começa num rompimento	termo	episódio dirigido	-		-
@@ -74,7 +74,7 @@ posto	a correlação que olha a ordem e não os valores	termo	correlação de po
 copula	a forma da dependência separada das margens	termo	cópula	-	dependencia	-
 condicional	a lei que vale depois de se saber alguma coisa	termo	condicional	-	probabilidade	-
 estacionaria	a lei que não muda com o dia	termo	estacionári	-	probabilidade	-
-memoria	quanto um dia carrega do anterior	termo	memória	-	estacionaria	-
+memoria	quanto um dia carrega do anterior	termo	memória que aprende|memória efetiva|memória mora	-	estacionaria	-
 esquecimento	a taxa com que o passado cede lugar ao presente	termo	esquecimento	-	memoria	-
 meia-vida	os dias que apagam metade de um degrau	termo	meia-vida	-	esquecimento	-
 ponto-fixo	o valor que a recursão alcança e não deixa mais	termo	ponto fixo	-		-
@@ -87,3 +87,6 @@ variavel-aleatoria	um número que sai de um sorteio	termo	variável aleatória	1
 lei	o que diz a chance de cada resultado do sorteio	termo	\blei\b	1	sorteio	1
 barra	o desvio da média — de quanto ela se mexe sozinha	termo	barra	1	desvio	1
 dispersao	de quanto uma média se mexeria se os dias fossem outros	termo	dispers	1	media	1
+memoria-janela	a memória do instrumento: quantos dias o alarme olha	termo	dias de memória|memória do vigia	3		3
+binomial	a contagem de altas em B sorteios independentes	termo	binomial	3	probabilidade	3
+A	o acontecimento, na escrita da probabilidade	simbolo	A	3	prob	3

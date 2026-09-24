@@ -35,8 +35,11 @@ duas precisam de resposta junta, porque cada uma é paga com a outra \cite{wald1
 
 \section{Quanto ele soa quando nada muda}
 
+% aterramento: falso-alarme
 A primeira pergunta não se responde no mercado, porque no mercado não se sabe quais alarmes
-eram falsos. Sabe-se que houve alarme, e só. Responde-se em mundos em que nada muda:
+eram falsos. Sabe-se que houve alarme, e só. O alarme que soa num mundo que não mudou tem nome
+--- é o \textbf{falso alarme} ---, e a frequência com que ele soa é o orçamento do vigia.
+Responde-se em mundos em que nada muda:
 \numVigiaMundos{} séries do tamanho da nossa, com retornos independentes e sempre a mesma
 lei, submetidas ao mesmo corte, aos mesmos blocos e ao mesmo limiar.
 
@@ -52,6 +55,18 @@ entrega é a ordem de grandeza --- milhares de anos ---, e não o número exato.
 
 Há um jeito de conferir esse orçamento sem sortear nada, e ele cabe numa proposição, porque a
 conta é uma união de acontecimentos.
+
+% aterramento: prob
+% aterramento: A
+% aterramento: binomial
+% aterramento: B
+% aterramento: L
+Escrevo $\Prob(A)$ para a probabilidade do acontecimento $A$. Falta nomear as peças do bloco:
+ele tem $B$ dias, cada um com a probabilidade $p$ de violar o corte, e o alvo é $L$ violações.
+A contagem dentro de um bloco de $B$ dias independentes é a soma de $B$ indicadores --- o mesmo indicador
+do dia que a barra da média usou ---, de modo que a chance de ela alcançar $L$ é a cauda dessa soma, que se escreve
+$\Prob\big(\text{Bin}(B, p) \geq L\big)$ e se lê assim: a probabilidade de a contagem de
+$B$ sorteios independentes, cada um com probabilidade $p$, chegar a $L$.
 
 \begin{proposicao}[o teto independente]
 \label{prop:teto}
@@ -229,7 +244,10 @@ devolveu \numSegundaLeituraParadoAlarmes{} alarmes contra os \numSegundaLeituraP
 que a conta declara.
 
 Daí sai um limite que calibração nenhuma contorna. O posto mais fundo possível é o primeiro da
-fila, de modo que com $n$ dias de memória o alarme mais raro que existe é $1/(n+1)$. Um alarme
+fila, de modo que com $n$ dias de memória --- e aqui \textbf{memória} é o nome do que se compra:
+quantos dias o alarme olha para trás --- o alarme mais raro que existe é $1/(n+1)$.
+% aterramento: memoria-janela
+Um alarme
 por ano custa \numMemoriaUmAlarmePorAnoDias{} dias de memória; um alarme por década custa
 \numMemoriaUmAlarmePorDecadaDias{} dias, que são dez anos de série, e quem não tem esses dias
 não tem esse alarme.
