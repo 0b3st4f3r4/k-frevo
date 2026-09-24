@@ -71,6 +71,13 @@ def auto_teste() -> list:
     if len(evidencia.CHAVES_PADRAO) != 4:
         problemas.append("evidencia: as quatro estatisticas do capitulo nao sao quatro")
 
+    # Quem nunca esquece aprende cada vez mais devagar: a memoria da media acumulada e a idade
+    # dela, e os dias para cruzar a tolerancia crescem com essa idade.
+    if not (20.0 < esquecimento.dias_da_idade(21) < 30.0):
+        problemas.append("esquecimento: a memoria da idade nao reproduz os vinte e um dias")
+    if not (esquecimento.dias_da_idade(250) > esquecimento.dias_da_idade(50) > esquecimento.dias_da_idade(21)):
+        problemas.append("esquecimento: os dias da idade nao crescem com ela")
+
     # uma série constante não tem volatilidade
     constante = pd.Series(np.full(600, 100.0))
     if abs(volatilidade.volatilidade_anualizada(volatilidade.retornos_log(constante))) > 1e-12:

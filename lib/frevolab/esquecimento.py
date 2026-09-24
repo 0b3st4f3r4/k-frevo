@@ -254,3 +254,20 @@ def limiar(series, taxas, verdade, inicio: int = 0, horizonte: int = HORIZONTE_P
                     "tolerancia_degrau": float(tolerancia_degrau),
                     "dias_previstos": dias_para_tolerancia(taxa, tolerancia_degrau)}
     raise ValueError("nenhuma taxa da varredura aprende dentro do horizonte declarado")
+
+def memoria_da_idade(idade: int) -> float:
+    """A taxa de quem nunca esquece: a media de tudo tem memoria igual a sua propria idade.
+
+    A media acumulada de \emph{t} dias da o mesmo peso a todos eles, e essa mistura tem taxa
+    \emph{1/t} --- de modo que quanto mais o sistema viu, mais lento ele aprende. E o caso que a
+    proposicao da meia-vida preve sem que ninguem o tenha escolhido.
+    """
+    if int(idade) < 1:
+        raise ValueError("a idade precisa de pelo menos um dia")
+    return 1.0 / float(idade)
+
+
+def dias_da_idade(idade: int, tolerancia: float = None) -> float:
+    """Os dias que a memoria da idade leva para cruzar a tolerancia --- a conta da prop. 14.1."""
+    tol = TOLERANCIA_DEGRAU if tolerancia is None else float(tolerancia)
+    return dias_para_tolerancia(memoria_da_idade(idade), tol)
