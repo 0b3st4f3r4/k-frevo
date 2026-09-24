@@ -53,9 +53,12 @@ calma e uma agitada, com o estado durando ---, e as quatro estatísticas que ele
 mediana dos blocos e a fração de blocos acima do dobro da promessa. Uma explicação serve a um mercado
 quando reproduz as quatro com as tolerâncias declaradas lá.
 
-O primeiro mercado admite \numObservarSobreviventesIndice{} explicações. O segundo admite
-\numObservarSobreviventesIbov. O terceiro admite \numObservarSobreviventesBitcoin. Ao todo,
-\numObservarUniao{} explicações sobrevivem em algum deles.
+O primeiro mercado admite \numObservarSobreviventesIndice{} explicações numa varredura --- e entre
+\numObservarIndiceMenor{} e \numObservarIndiceMaior{} em \numObservarSementesControle{} sementes,
+mediana \numObservarIndiceMediana{}, de modo que o número de uma varredura sozinha não é uma
+medida. O segundo admite \numObservarSobreviventesIbov. O terceiro admite
+\numObservarSobreviventesBitcoin. Ao todo, \numObservarUniao{} explicações sobrevivem em algum
+deles.
 
 Quantas sobrevivem aos três, ao mesmo tempo, é o número que a medição persegue:
 \numObservarIntersecao.
@@ -63,10 +66,10 @@ Quantas sobrevivem aos três, ao mesmo tempo, é o número que a medição perse
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.8\linewidth]{figuras/E08_observar_ou_intervir_1.pdf}
-  \caption{Quantas explicações cada mercado admite sozinho, e a linha da interseção. A primeira
-    barra não aparece porque o valor dela é o zero: o mercado com mais dados é o que não admite
-    explicação nenhuma. Barra ausente e barra que faltou têm a mesma cara, e a linha colada no
-    eixo some.}
+  \caption{Quantas explicações cada mercado admite sozinho, numa varredura, e a linha da interseção.
+    Cada barra é uma varredura só: a do mercado com mais dados vai de \numObservarIndiceMenor{} a
+    \numObservarIndiceMaior{} em \numObservarSementesControle{} sementes. A linha colada no eixo é
+    a interseção --- nenhuma explicação serve aos três ---, e não uma barra que faltou.}
   \label{fig:admite}
 \end{figure}
 
@@ -166,7 +169,7 @@ desta pergunta. O que está medido, e é o que o capítulo assina, é mais estre
 forte: na família de mundos que se sabe construir, \textbf{ver mundos não basta}.
 
 O que sobra é a intervenção, e com ela o fracasso seguinte. Não basta querer intervir: é preciso
-dizer que intervenção distinguiria as duas explicações que sobreviveram no primeiro mercado, e
+dizer que intervenção distinguiria as duas famílias de explicação que a mesma série admite, e
 quanto ela custaria em dado que não existe. Um experimento que não se pode fazer é uma opinião com
 instrumentos; um que se pode fazer é uma medida, e é essa diferença que a travessia
 ainda tem de enfrentar.

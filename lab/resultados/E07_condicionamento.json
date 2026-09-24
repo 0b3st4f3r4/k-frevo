@@ -2,6 +2,9 @@
  "condicionamento_acima_do_dobro": 0.1304822850007804,
  "condicionamento_apertada_persistente_quatro": 1,
  "condicionamento_apertada_sem_memoria_taxa_pior": 0,
+ "condicionamento_cabem_quatro_maior": 5,
+ "condicionamento_cabem_quatro_mediana": 2.5,
+ "condicionamento_cabem_quatro_menor": 0,
  "condicionamento_cabem_taxa": 34,
  "condicionamento_cabem_taxa_pior": 0,
  "condicionamento_combinacoes": 36,
@@ -21,5 +24,6 @@
  "condicionamento_pior": 20,
  "condicionamento_pontos_as_quatro": 0,
  "condicionamento_pontos_so_a_taxa": 14,
+ "condicionamento_sementes_controle": 10,
  "condicionamento_taxa": 0.05134549953603464
 }
