@@ -446,6 +446,26 @@ def auto_teste() -> list:
            - estabilidade.banda_independente(0.05, 100)) > 1e-15:
         problemas.append("a banda independente não segue a lei da raiz do número de dias")
 
+    # --- o agora (promessa.py) ---
+
+    # com atraso zero, o corte atrasado é o corte do primeiro capítulo
+    serie_atraso = pd.Series(rng.normal(0.0, 0.01, 2000))
+    if not (promessa.violacoes_atrasadas(serie_atraso, 252, 0.05, 0)
+            .equals(promessa.violacoes(serie_atraso, 252, 0.05))):
+        problemas.append("o corte com atraso zero não é o corte do primeiro capítulo")
+
+    # num mundo que não muda, o atraso não mexe na taxa entregue
+    taxas_atraso = [promessa.violacoes_atrasadas(serie_atraso, 252, 0.05, d).mean()
+                    for d in (0, 1, 5, 21, 63)]
+    if max(taxas_atraso) - min(taxas_atraso) > 0.01:
+        problemas.append("num mundo parado o atraso mexeu na taxa entregue (%.4f a %.4f)"
+                         % (min(taxas_atraso), max(taxas_atraso)))
+    try:
+        promessa.violacoes_atrasadas(serie_atraso, 252, 0.05, -1)
+        problemas.append("o corte atrasado aceitou atraso negativo")
+    except ValueError:
+        pass
+
     # o salvamento grava os dois formatos
     import tempfile
     from pathlib import Path

@@ -31,7 +31,8 @@ CAUDA_PADRAO = 0.05
 BLOCO_PADRAO = 60
 
 __all__ = ["CAUDA_PADRAO", "BLOCO_PADRAO", "posto", "corte", "corte_no_posto",
-           "violacoes", "violacoes_no_posto", "entrega_do_corte", "conta_em_blocos",
+           "violacoes", "violacoes_no_posto", "violacoes_atrasadas", "entrega_do_corte",
+           "conta_em_blocos",
            "episodios_acima", "entrega"]
 
 
@@ -95,6 +96,25 @@ def corte(retornos: pd.Series, janela: int, cauda: float = CAUDA_PADRAO) -> pd.S
 def violacoes(retornos: pd.Series, janela: int, cauda: float = CAUDA_PADRAO) -> pd.Series:
     r"""As violações por cauda: a taxa anunciada escolhendo o posto."""
     return violacoes_no_posto(retornos, janela, posto(janela, cauda))
+
+
+def violacoes_atrasadas(retornos: pd.Series, janela: int, cauda: float = CAUDA_PADRAO,
+                        atraso: int = 0) -> pd.Series:
+    r"""As violações quando a decisão de hoje usa o corte de emph{atraso} dias atrás.
+
+    O atraso é a distância entre o instante da decisão e o instante do dado em que ela se apoia ---
+    o emph{agora} que ninguém declarou. Com atraso zero isto é exatamente a função do primeiro
+    capítulo, e é essa identidade que o 	exttt{auto_teste} confere.
+
+    Num mundo que não muda o atraso não custa nada: o corte é um quantil, e a distribuição da série
+    não sabe que dia é hoje. O que o atraso cobra é a mudança que coube dentro dele.
+    """
+    if atraso < 0:
+        raise ValueError("o atraso nao pode ser negativo")
+    linha = corte_no_posto(retornos, janela, posto(janela, cauda)).shift(atraso)
+    existe = ~linha.isna()
+    abaixo = np.asarray(retornos, dtype=float) < linha.to_numpy()
+    return pd.Series(abaixo[existe], index=retornos.index[existe], name="violacao")
 
 
 def entrega_do_corte(janela: int, cauda: float = CAUDA_PADRAO) -> float:

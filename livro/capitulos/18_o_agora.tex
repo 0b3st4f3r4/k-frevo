@@ -1,0 +1,115 @@
+\chapter{O agora}\label{cap:agora}
+
+O capítulo anterior mediu o corte no espaço: onde a série começa e termina. Este mede o corte no
+**tempo**. Há um instante em que a decisão é tomada, e os dados em que ela se apoia são de antes
+disso; a distância entre os dois é o atraso, e quase ninguém o declara.
+
+\section{O dado que chega velho}
+
+O atraso entra no corte do primeiro capítulo de um jeito simples: a barreira que vale hoje é a que
+foi calculada com o dado de \emph{d} dias atrás, sobre a janela de \numAgoraJanela{} dias. Com \emph{d} zero isso é exatamente o corte do
+primeiro capítulo, e a identidade é conferida pelo teste da biblioteca --- o atraso não muda o
+instrumento, muda a idade do dado que ele lê.
+
+Medida no índice, ao longo dos \numAgoraDias{} dias, a entrega do corte com atraso é esta.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \begin{tabular}{rrr}
+    \hline
+    atraso do & entrega & em razão da \\
+    dado (dias) & medida & promessa \\
+    \hline
+    nenhum & \numAgoraEntregaZero & \numAgoraRazaoZero \\
+    um & \numAgoraEntregaUm & \numAgoraRazaoUm \\
+    cinco & \numAgoraEntregaCinco & \numAgoraRazaoCinco \\
+    vinte e um & \numAgoraEntregaVinteEUm & \numAgoraRazaoVinteEUm \\
+    sessenta e três & \numAgoraEntregaSessentaETres & \numAgoraRazaoSessentaETres \\
+    duzentos e cinquenta e dois & \numAgoraEntregaDuzentosECinquentaEDois & \numAgoraRazaoDuzentosECinquentaEDois \\
+    \hline
+  \end{tabular}
+  \caption{A entrega do corte contra a idade do dado, no índice. A promessa é de
+    \numAgoraPromessa{}, e é ela que a última coluna toma por referência.}
+  \label{tab:atraso-do-dado}
+\end{table}
+
+Um dia de atraso não se nota. Um ano de atraso entrega \numAgoraRazaoDuzentosECinquentaEDois{} vez o
+prometido: o instrumento passa a romper \numAgoraEntregaDuzentosECinquentaEDois{} dos dias onde
+prometeu \numAgoraPromessa{}. E o atraso, na prática, nunca é zero: o dado fecha depois do dia que
+descreve, e o intervalo entre o fechamento e a decisão é uma escolha de quem opera.
+
+\section{O atraso não custa dias}
+
+A tentação é ler a tabela acima como um preço por dia de atraso. Não é. A medição do controle
+mostra por quê.
+
+No mesmo experimento em \numAgoraSementes{} mundos que **não** mudam, a entrega do corte com atraso
+de nenhum atraso a \numAgoraAtrasoMaior{} dias fica entre
+\numAgoraParadoMenor{} e \numAgoraParadoMaior{} --- uma variação de \numAgoraParadoVariacao{}. O
+atraso de um ano move a taxa no quarto decimal: de \numAgoraParadoZero{} no atraso nenhum a
+\numAgoraParadoVinteEUm{} em vinte e um dias.
+
+O motivo é o instrumento: o corte é um quantil, e um quantil não sabe que dia é hoje. Num mundo cuja
+distribuição não se mexe, a barreira de um ano atrás vale tanto quanto a de ontem. **O atraso não
+cobra dias; ele cobra a mudança que coube dentro dele.**
+
+\section{O que ele cobra, então}
+
+Para ver a cobrança é preciso olhar onde o mundo muda. O mundo do controle dobra de uma vez no meio
+da série, e a leitura é feita só na janela que segue a mudança --- os \numAgoraHorizonte{} dias
+seguintes.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E19_o_agora_1.pdf}
+  \caption{A entrega do corte contra a idade do dado, nas três situações. A linha de baixo é o mundo
+    que não muda, que fica em cima da promessa em qualquer atraso; a de cima é a janela que segue
+    uma mudança.}
+  \label{fig:atraso-geral}
+\end{figure}
+
+Na janela depois da mudança, e sem atraso nenhum, a entrega já é de \numAgoraDepoisZero{} --- o dobro
+da promessa, e isso é a mudança, não o atraso. Com um ano de atraso ela vai a
+\numAgoraDepoisDuzentosECinquentaEDois{}, quatro vezes o prometido.
+
+O que a figura mostra é que as duas coisas se multiplicam. A mudança sozinha já estraga a entrega; o
+atraso impede o instrumento de reagir a ela, e o efeito de um sobre o outro é o produto. Num mundo
+parado o atraso não aparece; num mundo que muda ele é o que decide quanto tempo a barreira continua
+errada.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E19_o_agora_2.pdf}
+  \caption{O mundo parado e o mundo que dobra, na janela que segue a mudança, por atraso. A barra
+    azul é o controle: ela fica na promessa em todos os atrasos.}
+  \label{fig:atraso-por-mundo}
+\end{figure}
+
+\section{O agora é uma janela}
+
+Com este capítulo o enquadramento fecha, e ele fecha numa imagem só. No instante da decisão, o que
+um sistema tem é um **retângulo**. O eixo do tempo vai até \emph{t} menos o atraso, e
+para trás até \emph{t} menos o atraso menos a memória.
+
+A borda da direita é o atraso, medido aqui. A borda da esquerda é a memória, medida duas vezes neste
+livro: pela taxa de esquecimento, que diz quanto do passado ainda pesa, e pelo horizonte de
+recuperação, que diz até onde o passado apagado volta. E o capítulo anterior mostrou que o próprio
+eixo --- onde a série começa e termina --- também é uma escolha.
+
+Nenhuma das três bordas é um fato sobre o mundo. As três são declarações do instrumento, e as três
+foram medidas: a individuação, o atraso e a memória. O que sobra depois delas é a pergunta da raiz,
+agora com preço conhecido.
+
+\section{O que fica}
+
+Fica a regra do andar do enquadramento, e ela vale para qualquer medição futura: **declarar as três
+bordas**. Onde a série começa e termina, quanto tempo o dado tem, e quanto passado ainda conta.
+Nenhuma delas é neutra, e as três foram medidas separadamente neste andar --- com a mesma conclusão
+nos três casos, que é a conclusão do livro inteiro: a borda escolhida não é a resposta, e o que
+aparece quando ela se mexe é o que ela escondia.
+
+A espiral tem um movimento só por fazer, e ele reaproveita tudo o que já está construído: refazer a pergunta da
+raiz com tudo o que foi construído. O corte do primeiro capítulo, o orçamento do alarme, a
+geometria, a dependência, o esquecimento e o enquadramento já foram medidos; falta lê-los juntos e
+responder, com número, o que se pode garantir, medir e otimizar quando o mundo não para de mudar.
