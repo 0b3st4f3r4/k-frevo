@@ -34,7 +34,7 @@
 % LaTeX cunha são trocados à mão.
 \renewcommand{\contentsname}{Sumário}
 \renewcommand{\chaptername}{Capítulo}
-\renewcommand{\bibname}{Fontes}
+\renewcommand{\bibname}{Referências}
 \renewcommand{\proofname}{Prova}
 % As duas que faltavam, e são as mais visíveis: a classe `book` prefixa toda
 % legenda com o nome do objeto, de modo que o livro imprimia "Figure 3.2:" e
@@ -378,4 +378,15 @@ que mais interessou, abrir o caderno dele, mexer num parâmetro e medir de novo.
 cada número daqui apareceu, e é assim que os que faltam vão aparecer.
 
 \input{fontes.tex}
+
+% -----------------------------------------------------------------------------
+% Sumário completo, no fim: o mesmo mapa do começo, agora com as Referências dentro.
+% Não é um segundo \tableofcontents: no fim do documento o .toc ainda está sendo
+% escrito e a lista sai vazia --- conferido na página. A lista é gerada de fora, por
+% lab/sumario.py, em cima do .toc da compilação anterior.
+% -----------------------------------------------------------------------------
+\cleardoublepage
+\chapter*{Sumário completo}
+\input{sumario.tex}
+
 \end{document}

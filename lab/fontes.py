@@ -163,6 +163,9 @@ def gerar_bibliografia() -> int:
     linhas = [
         "% GERADO POR lab/fontes.py — NÃO EDITE À MÃO.",
         "\\begin{thebibliography}{%d}" % (len(fontes) + 1),
+        # A entrada no sumário sai daqui, e não do livro.tex: assim ela fica na página em
+        # que a lista começa, e o gerador não deixa a entrada para trás quando reescreve.
+        "\\addcontentsline{toc}{chapter}{\\bibname}",
         "",
     ]
     for f in fontes:
