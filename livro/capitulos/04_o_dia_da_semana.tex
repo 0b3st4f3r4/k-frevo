@@ -86,10 +86,24 @@ começou a falar de consumo em vez de falar de calendário.
 
 \section{A partição divide a memória}
 
-O preço aparece na conta do capítulo anterior, lida célula por célula. Repartida por $C$ células, a janela de \numCalendarioJanela{} dias deixa de ser memória inteira de cada decisão: cada célula recebe $n/C$ dias, e o alarme mais raro que uma célula
-consegue declarar é $1/(n/C + 1)$. Somando as sete células da semana, o orçamento mais fino
-que a leitura inteira consegue declarar é $C/(n+C)$ por dia --- e sete células tornam o alarme
-quase sete vezes mais frequente do que a leitura crua.
+O preço aparece na conta do capítulo anterior, lida célula por célula, e ele cabe numa
+proposição.
+
+\begin{proposicao}[o preço da partição]\label{prop:particao}
+Repartida a janela de $n$ dias em $C$ células iguais, o alarme mais raro que a leitura consegue
+declarar soa $C/(n+C)$ das vezes por dia.
+\end{proposicao}
+
+\begin{proof}
+Cada célula recebe $n/C$ dias, e a conta do corte vale dentro dela: o posto mais fundo que uma
+célula declara é o primeiro da fila dela, de modo que ela soa $1/(n/C + 1)$ das vezes por dia, que
+é $C/(n+C)$. Cada dia pertence a uma única célula, e a taxa da leitura inteira é a mesma delas.
+Com $C$ igual a um a forma devolve $1/(n+1)$, a conta do primeiro capítulo.
+\end{proof}
+
+Repartida por $C$ células, a janela de \numCalendarioJanela{} dias deixa de ser memória inteira de
+cada decisão: cada célula recebe $n/C$ dias, e sete células tornam o alarme quase sete vezes mais
+frequente do que a leitura crua.
 
 Cada célula que se decide ler multiplica o orçamento, e a medição acompanha. Repartir a janela
 entre sete dias da semana dá 

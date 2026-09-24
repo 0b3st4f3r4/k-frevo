@@ -41,19 +41,31 @@ descreve, e o intervalo entre o fechamento e a decisão é uma escolha de quem o
 
 \section{O atraso não custa dias}
 
-A tentação é ler a tabela acima como um preço por dia de atraso. Não é. A medição do controle
-mostra por quê.
+A tentação é ler a tabela acima como um preço por dia de atraso. Não é, e o motivo é aritmético.
 
-No mesmo experimento em \numAgoraSementes{} mundos que \textbf{não} mudam, a entrega do corte com atraso
-de nenhum dia a \numAgoraAtrasoMaior{} dias fica entre
-\numAgoraParadoMenor{} e \numAgoraParadoMaior{} --- uma variação de \numAgoraParadoVariacao{} entre o atraso nenhum e o de um ano. O
-atraso de um ano move a taxa no quarto decimal, e essa é toda a variação que o atraso produz:
-\numAgoraParadoZero{} no atraso nenhum, \numAgoraParadoVinteEUm{} em vinte e um dias e
-\numAgoraParadoMaior{} com um ano.
+\begin{proposicao}[o atraso não cobra dias]\label{prop:atraso-parado}
+Num mundo cuja lei não muda no tempo e cujos dias são trocáveis, a entrega do corte não depende do
+atraso: para qualquer $d$, a chance de o dia de hoje romper uma barreira erguida sobre os $n$ dias
+que terminam $d$ dias antes é a mesma.
+\end{proposicao}
 
-O motivo é o instrumento: o corte é um quantil, e um quantil não sabe que dia é hoje. Num mundo cuja
-distribuição não se mexe, a barreira de um ano atrás vale tanto quanto a de ontem. \textbf{O atraso não
-cobra dias; ele cobra a mudança que coube dentro dele.}
+\begin{proof}
+A barreira de hoje é o $k$-ésimo pior daqueles $n$ dias, e o dia julgado é o de hoje, de modo que
+a pergunta é sobre o posto de um dia entre $n+1$. Sob permutabilidade os $n+1$ dias são trocáveis,
+o posto do dia de hoje é uniforme entre eles, e a chance de ele estar entre os $k$ piores é
+$k/(n+1)$ --- a \cref{prop:conta}, para todo $d$. O atraso desloca a janela no tempo, e a troca de
+$d$ não muda a lei de nenhum dos $n+1$ dias.
+\end{proof}
+
+É o que a medição do controle encontra. No mesmo experimento em \numAgoraSementes{} mundos que
+\textbf{não} mudam, a entrega do corte com atraso de nenhum dia a \numAgoraAtrasoMaior{} dias fica
+entre \numAgoraParadoMenor{} e \numAgoraParadoMaior{} --- uma variação de \numAgoraParadoVariacao{}
+entre o atraso nenhum e o de um ano, que é o tamanho do ruído contra a proposição. O atraso de um
+ano move a taxa no quarto decimal: \numAgoraParadoZero{} no atraso nenhum,
+\numAgoraParadoVinteEUm{} em vinte e um dias e \numAgoraParadoMaior{} com um ano.
+
+O que a proposição supõe é o que o mundo que muda quebra, e ali a barreira de ontem já mede outra
+coisa. \textbf{O atraso não cobra dias; ele cobra a mudança que coube dentro dele.}
 
 \section{O que ele cobra, então}
 

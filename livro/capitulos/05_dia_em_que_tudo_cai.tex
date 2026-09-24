@@ -44,12 +44,29 @@ independentes, a chance de as duas romperem no mesmo dia seria o produto das dua
 a soma das proteções ser, ao mesmo tempo, correta e inútil. O produto supõe que saber de uma
 perna não diga nada sobre a outra, e é exatamente isso que um dia ruim desmente.
 
+\begin{proposicao}[o teto do par]\label{prop:teto-do-par}
+Se cada perna rompe o próprio corte com probabilidade $p$, a chance de as duas romperem no mesmo
+dia não passa de $p$, por mais forte que seja a dependência entre elas. A independência previria
+$p^{2}$, de modo que o par pode entregar até $1/p$ vezes o que a soma prevê.
+\end{proposicao}
+
+\begin{proof}
+O acontecimento \emph{as duas rompem} está contido em \emph{a primeira rompe}, e a probabilidade
+de um acontecimento não passa da probabilidade do que o contém: a chance conjunta não passa de
+$p$. A independência é o outro extremo, com $p^{2}$, e a razão entre os dois extremos é $1/p$ ---
+vinte no corte de \numPromessaPct\%.
+\end{proof}
+
 A medida que este capítulo usa não é a correlação, e a escolha é deliberada. Correlação é uma
 média do miolo: ela resume os dias comuns, que são a maioria, e não tem motivo nenhum para
 acertar na cauda, que é onde a conta é paga. O que se conta aqui é mais cru e mais direto:
 quantos dias as duas romperam o próprio corte, contra quantos dias a independência previria.
 Nenhuma forma de dependência é suposta --- não há normalidade, não há cópula, não há parâmetro
 ---, só a contagem dos dias em que as duas séries existem.
+
+A cota da \cref{prop:teto-do-par} diz quanto essa contagem pode andar. O par deste capítulo entrega
+\numDependenciaExcesso{} vezes o que a soma prevê, e o teto do corte de \numPromessaPct\% é de vinte
+vezes.
 
 \begin{figure}[htbp]
   \centering
