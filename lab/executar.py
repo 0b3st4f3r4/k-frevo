@@ -499,7 +499,13 @@ def conferir_biblioteca(falhas: list) -> None:
     except Exception as erro:  # a biblioteca tem de importar antes de qualquer outra conta
         falhas.append("biblioteca não importa: %s" % erro)
         return
-    problemas = frevolab.auto_teste()
+    try:
+        problemas = frevolab.auto_teste()
+    except Exception as erro:
+        # Uma biblioteca quebrada devolvendo lista vazia ou tipo trocado derrubava o portão com
+        # traceback em vez de reprovar. O estrondo não é diagnóstico: o portão nomeia a falha.
+        falhas.append("biblioteca: o auto_teste estourou em vez de reprovar: %s" % erro)
+        return
     print("biblioteca frevolab %s | auto_teste: %s"
           % (frevolab.VERSAO, "limpo" if not problemas else "%d problema(s)" % len(problemas)))
     for problema in problemas:

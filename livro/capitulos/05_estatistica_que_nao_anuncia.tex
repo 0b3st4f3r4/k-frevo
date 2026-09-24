@@ -32,14 +32,15 @@ linha mais vezes. É essa hipótese que a medição testa, e a resposta sai com 
 
 O palco é a mesma série de sempre, com \numEstabilidadeDias{} dias utilizáveis, o corte do
 primeiro capítulo --- o décimo terceiro pior de \numCorteJanela{} --- e o bloco de
-\numBlocoDias{} dias do segundo. Para cada dia, três sinais olhando para trás, e um alvo olhando
+\numBlocoDias{} dias do segundo. Para cada dia, quatro sinais olhando para trás, e um alvo olhando
 para frente: quantos rompimentos acontecem nos \numBlocoDias{} dias \emph{seguintes}. A média do
 alvo é de \numEstabilidadeFuturoMedio{} rompimentos por bloco, e o pior bloco futuro tem
 \numEstabilidadeFuturoPior.
 
-Os três sinais são o \textbf{movimento do corte} (a estimativa se mexeu), a \textbf{contagem
-recente} (o vigia do capítulo do orçamento) e o \textbf{nível do corte} (a própria estimativa, e a sua
-versão dividida pela oscilação de agora).
+Os quatro sinais são o \textbf{movimento do corte} (a estimativa se mexeu), a \textbf{contagem
+recente} (o vigia do capítulo do orçamento), o \textbf{nível do corte} (a própria estimativa) e o
+\textbf{nível sobre a oscilação}, que é a mesma estimativa dividida pela oscilação de agora --- o nível
+já descontado do tamanho do ano.
 
 A medida é a correlação de posto, e a escolha é deliberada: nada aqui supõe relação linear, e é
 justamente na cauda que a relação deixa de ser linear. A correlação de posto olha a ordem e não os
@@ -94,7 +95,7 @@ na faixa calma, \numEstabilidadeFaixaMediaNivelPosto{} na média e
 O segundo teste é o que decide, e é o mais barato de todos: um mundo em que nada muda. Retornos
 sorteados, independentes, sempre a mesma lei, submetidos à mesma rotina. Nesse mundo não há nada
 a anunciar, e a média do alvo é de \numEstabilidadeControleFuturoMedio{} rompimentos por bloco,
-igual à do mercado. Aplicados os três sinais, o resultado é este.
+igual à do mercado. Aplicados os quatro sinais, o resultado é este.
 
 \begin{table}[htbp]
   \centering
@@ -107,7 +108,7 @@ igual à do mercado. Aplicados os três sinais, o resultado é este.
     nível do corte & \numEstabilidadeNivelPosto & \numEstabilidadeControleNivelPosto \\
     \hline
   \end{tabular}
-  \caption{Os mesmos três sinais nos dois mundos. No mundo em que nada muda não há o que
+  \caption{Os mesmos quatro sinais nos dois mundos. No mundo em que nada muda não há o que
     anunciar, e ainda assim o nível do corte produz correlação.}
   \label{tab:controle}
 \end{table}
@@ -151,7 +152,7 @@ ordem: nível \numEstabilidadeSegundaPosto, contagem \numEstabilidadeSegundaCont
 movimento \numEstabilidadeSegundaMovimentoPosto.
 
 A ordem é do dado, então, e não de um mercado. O movimento da estimativa fica em último nos dois.
-O que a prática vigia --- a linha se mexeu, é hora de recalibrar --- é o único dos três sinais
+O que a prática vigia --- a linha se mexeu, é hora de recalibrar --- é o único dos quatro sinais
 que não vale nada, nem onde há o que prever nem onde não há.
 
 \section{O que fica}

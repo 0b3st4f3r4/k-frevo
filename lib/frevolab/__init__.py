@@ -117,9 +117,9 @@ def auto_teste() -> list:
 
     # --- o vigia e o seu orçamento (vigia.py) ---
 
-    # o piso do atraso é o próprio limiar
+    # o piso do atraso é o limiar menos um: o dia da mudança conta zero
     if vigia.piso_de_atraso(13) != 12:
-        problemas.append("o piso de atraso não é o limiar")
+        problemas.append("o piso de atraso não é o limiar menos um (13 -> 12)")
     try:
         vigia.piso_de_atraso(0)
         problemas.append("piso de atraso aceitou limiar zero")
@@ -530,6 +530,62 @@ def auto_teste() -> list:
     if not 0.75 * 1e-4 < variancia < 1.25 * 1e-4:
         problemas.append("a variância de repouso do mundo de memória não é sigma ao quadrado (%.6f)" % variancia)
 
+    # --- segunda passada: asserções de VALOR onde a primeira media propriedade fraca ---
+    # Uma auditoria independente mutou cada função pública para uma versão plausivelmente errada e
+    # achou 21 mutações que quebravam a matemática sem que o auto_teste acusasse. Cada linha abaixo
+    # é uma delas, e cada uma foi conferida por mutação depois de escrita.
+
+    # o posto do orçamento: o único ponto testado era 1/253, onde 'ceil' e 'floor' coincidem --- e o
+    # piso promete MAIS do que o orçamento declarado, que é o oposto da promessa do módulo
+    if vigia.posto_do_orcamento(252, 2.5 / 253.0) != 3:
+        problemas.append("o posto do orçamento não arredonda para cima: ele entregaria mais do que o declarado")
+
+    # a amplitude do calendário: só era medida com uma célula, onde toda implementação dá zero
+    serie_amp = pd.Series(np.abs(np.random.default_rng(3).normal(0.0, 0.01, 3000)),
+                          index=pd.date_range("2015-01-01", periods=3000, freq="D"))
+    if not calendario.amplitude(serie_amp, calendario.semana) > calendario.amplitude(serie_amp, calendario.unica):
+        problemas.append("a amplitude da semana não passa a de uma célula só: a partição não move nada")
+
+    # padronizar olhando para a frente: a perturbação estava a cem dias da leitura e não podia ver.
+    # As duas metades juntas são o teste --- uma sozinha não distingue a janela de trás da da frente.
+    base_pad = np.abs(np.random.default_rng(4).normal(0.0, 0.01, 4000))
+    dentro = base_pad.copy()
+    dentro[490] *= 7.0
+    depois = base_pad.copy()
+    depois[521] *= 7.0
+    referencia = partilha.padronizado(base_pad, 21)[500]
+    if partilha.padronizado(dentro, 21)[500] == referencia:
+        problemas.append("perturbar um dia dentro da janela não mudou a estatística: ela não olha os dias de trás")
+    if partilha.padronizado(depois, 21)[500] != referencia:
+        problemas.append("perturbar um dia depois da janela mudou a estatística: ela olha para a frente")
+
+    # a proposição do esquecimento, que o próprio módulo declara conferida aqui e não era
+    degrau = np.concatenate([np.zeros(60), np.ones(120)])
+    taxa_esq = 1.0 / 21.0
+    desvio_degrau = np.abs(esquecimento.exponencial(degrau, taxa_esq)[60:] - 1.0)
+    # O expoente e t+1, e nao t: o estimador ja carrega o dia anterior no dia da mudanca.
+    # A forma ingenua passou por aqui e foi reprovada pela propria assercao.
+    if not np.allclose(desvio_degrau, (1.0 - taxa_esq) ** (np.arange(120) + 1), rtol=1e-9):
+        problemas.append("o desvio da mistura exponencial não decai como (1 - taxa) elevado a t")
+    if abs(esquecimento.dias_para_tolerancia(taxa_esq, 0.15) - np.log(0.15) / np.log(1.0 - taxa_esq)) > 1e-12:
+        problemas.append("os dias até a tolerância não são log(eps) sobre log(1 - taxa)")
+    if abs(esquecimento.horizonte(0.99, 0.5) - np.log(1.0 - 0.25) / (2.0 * np.log(0.99))) > 1e-9:
+        problemas.append("o horizonte de recuperação não é log(1 - t ao quadrado) sobre 2 log a")
+
+    # a taxa da entrega nunca era lida, e é ela que separa a média da conta assinada
+    entrega_curta = promessa.entrega(pd.Series(np.random.default_rng(6).normal(0.0, 0.01, 600)), 21, bloco=60)
+    if abs(entrega_curta["taxa"] - entrega_curta["violacoes"] / entrega_curta["dias"]) > 1e-12:
+        problemas.append("a taxa da entrega não é a razão entre violações e dias")
+
+    # a dispersão entre pedaços: era conferida com valores idênticos, onde o ddof não existe
+    if abs(estabilidade.resumo(np.array([1.0, 2.0, 3.0, 4.0]), 2.5, 1.0)["dispersao"]
+           - np.std([1.0, 2.0, 3.0, 4.0], ddof=1)) > 1e-12:
+        problemas.append("a dispersão entre pedaços não usa o desvio de amostra")
+
+    # os ciclos da partilha: os três casos testados dividiam exatamente, onde truncar dá o mesmo
+    if partilha.ciclos(3, 7, 500) != (167, 71):
+        problemas.append("os ciclos da partilha não arredondam para o mais próximo")
+
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -538,6 +594,9 @@ def auto_teste() -> list:
         fig, _ = plt.subplots()
         caminhos = graficos.salvar(fig, "auto_teste", 1, destino=Path(pasta))
         plt.close(fig)
+        if {c.suffix for c in caminhos} != {".pdf", ".png"}:
+            problemas.append("a figura não saiu nos dois formatos: os caminhos foram %s"
+                             % sorted(c.suffix for c in caminhos))
         for caminho in caminhos:
             if not caminho.exists() or caminho.stat().st_size == 0:
                 problemas.append("figura não foi gravada: %s" % caminho.name)
