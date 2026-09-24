@@ -37,21 +37,20 @@ A família do capítulo da tolerância tem \numTetoPecasMaior{} peças na grade 
 as duas coisas separadamente --- a grade por um lado, o comprimento da série por outro ---, a
 contagem sai assim.
 
-\begin{table}[htbp]
-  \centering
+\begin{table}[htbp]\  \centering
   \small
   \begin{tabular}{lrrr}
     \hline
     peças tentadas & \numTetoDiasMenor{} dias & \numTetoDiasMeio{} dias & \numTetoDiasMaior{} dias \\
     \hline
-    
     \numTetoPecasMenor & \numTetoDoisQuinhentos & \numTetoDoisDoisMil & \numTetoDoisSeisMilSetecentosEDezoito \\
-    
-umTetoPecasMaior & \numTetoSeisQuinhentos & \numTetoSeisDoisMil & \numTetoSeisSeisMilSetecentosEDezoito \\
+    \numTetoPecasMeio & \numTetoTresQuinhentos & \numTetoTresDoisMil & \numTetoTresSeisMilSetecentosEDezoito \\
+    \numTetoPecasMaior & \numTetoSeisQuinhentos & \numTetoSeisDoisMil & \numTetoSeisSeisMilSetecentosEDezoito \\
     \hline
   \end{tabular}
   \caption{As explicações que cabem na mesma tolerância, contra o tamanho da família e o número de
-    dias vistos. A série é a do primeiro mercado, truncada.}
+    dias vistos. A série é a do primeiro mercado, truncada. As três linhas são as três curvas do
+    caderno, e a do meio é a que cruza a de cima no extremo longo.}
   \label{tab:teto}
 \end{table}
 
@@ -61,12 +60,20 @@ inteira e a grade cheia, cabem as duas de sempre. Com quinhentos dias e a mesma 
 foi quanto se viu. E com a grade grossa e quinhentos dias, cabem \numTetoDoisQuinhentos{} das \numTetoPecasMenor{} peças --- uma em cada oito,
 num dado que tem quinhentos dias.
 
+E a ordem das famílias não se sustenta no extremo longo: com a série inteira, a grade de
+\numTetoPecasMeio{} peças devolve \numTetoTresSeisMilSetecentosEDezoito{} onde a de
+\numTetoPecasMaior{} devolve \numTetoSeisSeisMilSetecentosEDezoito{}. O cruzamento é do desenho
+de um sorteio só, e nada nele diz que a família menor aprende mais --- diz que a contagem, com o
+dado inteiro, já está na casa do que o sorteio sozinho mexe.
+
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{figuras/E28_teto_1.pdf}
   \caption{As explicações que cabem, contra os dias vistos, uma curva por tamanho de família. O eixo
-    dos dias é logarítmico. As curvas descem conforme o dado cresce: o mesmo critério, com mais
-    dias, admite menos.}
+    dos dias é logarítmico. A queda é a tendência, e não a regra: entre mil e quatro mil dias as
+    curvas sobem e descem, e no extremo longo a família de \numTetoPecasMeio{} peças passa a de
+    \numTetoPecasMaior{} --- \numTetoTresSeisMilSetecentosEDezoito{} contra
+    \numTetoSeisSeisMilSetecentosEDezoito{}.}
   \label{fig:teto}
 \end{figure}
 
