@@ -284,6 +284,54 @@ def conferir_figuras(avisos: list, falhas: list) -> None:
         avisos.append("figura citada que nenhum caderno gera: %s" % nome)
 
 
+def conferir_nomes(falhas: list) -> None:
+    r"""Sem babel, o LaTeX cunha os nomes em inglês e ninguém reclama.
+
+    A distribuição local não traz os arquivos de idioma do português, então os nomes
+    que o LaTeX e o cleveref inventam saem no idioma padrão: o livro imprimia
+    \texttt{Figure 3.2:} em cima de legenda escrita em português, \texttt{Table 3.2}
+    dentro de uma frase, e \texttt{September 24, 2026} na folha de rosto. Foram 43
+    "Figure", 36 "Table" e a data inteira em inglês, em 110 páginas, com a compilação
+    limpa e todos os portões satisfeitos.
+
+    A troca à mão resolve o presente e não o futuro: um \texttt{\textbackslash cref} novo
+    para um tipo que ninguém nomeou volta a imprimir em inglês, em silêncio. Esta
+    conferência exige que todo tipo referenciado tenha nome declarado, e que os nomes
+    fixos da classe estejam trocados.
+    """
+    fixos = ("contentsname", "chaptername", "bibname", "proofname", "figurename", "tablename")
+    bruto = (LIVRO / "livro.tex").read_text(encoding="utf-8")
+    fonte = "\n".join(re.sub(r"(?<!\\)%.*", " ", l) for l in bruto.splitlines())
+    for nome in fixos:
+        if not re.search(r"\\renewcommand\{\\%s\}" % nome, fonte):
+            falhas.append("nome não trocado: \\%s sai em inglês" % nome)
+    if re.search(r"\\today\b", fonte):
+        falhas.append("\\today sem babel escreve o mês em inglês: use \\mesEmPortugues")
+
+    tipos = {"fig": "figure", "tab": "table", "cap": "chapter", "sec": "section",
+             "eq": "equation", "prop": "proposicao", "teo": "teorema", "lem": "lema",
+             "cor": "corolario", "def": "definicao", "ex": "exemplo", "obs": "observacao"}
+    usados = set()
+    for caminho in arquivos_do_livro():
+        for chaves in re.findall(r"\\[cC]ref\{([^}]*)\}", caminho.read_text(encoding="utf-8")):
+            for chave in chaves.split(","):
+                prefixo = chave.strip().split(":")[0]
+                if prefixo:
+                    usados.add(prefixo)
+    for prefixo in sorted(usados):
+        tipo = tipos.get(prefixo)
+        if tipo is None:
+            falhas.append("referência \\cref{%s:...} com prefixo desconhecido: "
+                          "declare o tipo e o nome em livro.tex" % prefixo)
+        else:
+            # As duas formas são declarações separadas: o cleveref usa \crefname
+            # para \cref e \Crefname para \Cref. Ter só uma deixa a outra em inglês.
+            for forma in ("crefname", "Crefname"):
+                if not re.search(r"\\%s\{%s\}" % (forma, tipo), fonte):
+                    falhas.append("\\cref{%s:...} imprimiria o nome em inglês: "
+                                  "falta \\%s{%s} em livro.tex" % (prefixo, forma, tipo))
+
+
 def conferir_digitos(avisos: list) -> None:
     r"""Dígito no corpo do livro vira aviso: grandeza medida se cita, não se digita.
 
@@ -398,6 +446,7 @@ def check() -> int:
     conferir_rotulos(falhas)
     conferir_comandos_orfaos(falhas)
     conferir_marcacao(falhas)
+    conferir_nomes(falhas)
     conferir_digitos(avisos)
     conferir_cadernos_sem_algoritmo(avisos)
     conferir_perguntas(falhas)

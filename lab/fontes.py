@@ -57,6 +57,28 @@ SEGUROS = ACENTOS + "–—‘’“”…°±×÷"
 
 
 def tex(texto: str) -> str:
+    """Escapa o título para o LaTeX, deixando intacto o que vier entre cifrões.
+
+    Um título de artigo carrega notação que não se escreve em texto corrido: um
+    "L_{p,q}" de medida de variação, por exemplo. Escapado, isso imprime chaves e
+    sublinhado, e o leitor recebe o código em vez da notação. O cifrão é a
+    declaração de que aquele trecho é matemática: ele sai como está, e o resto
+    continua escapado. Cifrão ímpar não declara nada --- e aí o texto inteiro é
+    escapado, como antes.
+    """
+    if texto.count("$") % 2:
+        return _escapa(texto)
+    partes, dentro = [], False
+    for pedaco in texto.split("$"):
+        if dentro:
+            partes.append("$" + pedaco + "$")
+        else:
+            partes.append(_escapa(pedaco))
+        dentro = not dentro
+    return "".join(partes)
+
+
+def _escapa(texto: str) -> str:
     """Escapa o que o LaTeX interpretaria e translitera o que ele não aceita.
 
     Um "&" cru derruba a compilação; um caractere matemático alfanumérico
