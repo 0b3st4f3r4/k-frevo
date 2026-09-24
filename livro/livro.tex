@@ -57,6 +57,9 @@
             citecolor=green!50!black, urlcolor=blue!80!black}
 \usepackage[capitalise,noabbrev]{cleveref}
 \usepackage{url}
+% As urls da bibliografia (DOIs longos) precisam poder quebrar em qualquer ponto:
+% sem isto a linha da lista estoura a mancha de 11 cm.
+\usepackage{xurl}
 
 % NBR 10520, sistema numerico: a chamada da citacao vai em sobrescrito, sem os colchetes
 % de Vancouver. O pacote cite faz isso na fonte, e o hyperref continua levando o leitor a lista.
