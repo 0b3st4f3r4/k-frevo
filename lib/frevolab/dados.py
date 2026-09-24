@@ -7,6 +7,10 @@ import pandas as pd
 # (AGENTS.md §10): o dado atravessa, o resultado não.
 ARQUIVO = Path(".old/dados")
 
+# Este modulo e I/O: le CSV. A superficie publica e declarada como nos outros, e o
+# contrato registra que ele e a excecao da regra do teste de propriedade.
+__all__ = ["ARQUIVO", "carregar_serie"]
+
 
 def carregar_serie(nome: str, coluna: str = "close") -> pd.Series:
     """Lê uma série do arquivo e devolve uma Series indexada por data.

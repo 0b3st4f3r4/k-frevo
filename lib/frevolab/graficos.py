@@ -3,6 +3,8 @@ from pathlib import Path
 
 DESTINO = Path("livro/figuras")
 
+__all__ = ["DESTINO", "salvar"]
+
 
 def salvar(fig, identificador: str, indice: int = 1,
            destino: Path = DESTINO) -> list:

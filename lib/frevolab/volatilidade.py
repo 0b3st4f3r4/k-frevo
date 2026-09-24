@@ -4,6 +4,9 @@ import pandas as pd
 
 DIAS_UTEIS = 252
 
+__all__ = ["DIAS_UTEIS", "retornos_log", "volatilidade_anualizada", "volatilidade_rolante",
+           "razao_recente_historica"]
+
 
 def retornos_log(serie: pd.Series) -> pd.Series:
     """Retorno logarítmico entre pregões consecutivos, com o primeiro descartado."""

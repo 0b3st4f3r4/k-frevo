@@ -506,9 +506,44 @@ def conferir_biblioteca(falhas: list) -> None:
         falhas.append("biblioteca: %s" % problema)
 
 
+# Módulos que são I/O e não têm propriedade a afirmar: o dado que entra e a figura que sai.
+# Declarados aqui, com o motivo, para que a exceção seja uma decisão --- foi por não haver
+# esta lista que quatro módulos com algoritmo ficaram sem cobertura sem que ninguém visse.
+SEM_PROPRIEDADE = {"dados": "lê CSV do arquivo", "graficos": "grava figura nos dois formatos"}
+
+
+def conferir_cobertura_da_biblioteca(falhas: list) -> None:
+    r"""Todo módulo da biblioteca declara a superfície, é alcançável e é exercitado.
+
+    O contrato §7 diz que todo algoritmo do projeto tem teste próprio no auto_teste() --- e
+    isso era falso para quatro módulos, dois deles o motor dos capítulos 9 e 12, sem que
+    portão nenhum visse. Este é o portão: módulo sem __all__ reprova (§8.8), módulo que o
+    pacote não alcança reprova, e módulo com algoritmo e nenhuma menção no auto_teste reprova.
+    """
+    pasta = RAIZ / "lib" / "frevolab"
+    fonte = (pasta / "__init__.py").read_text(encoding="utf-8")
+    corpo = fonte.split("def auto_teste", 1)[-1] if "def auto_teste" in fonte else ""
+    if not corpo:
+        falhas.append("biblioteca: não há auto_teste() para conferir")
+        return
+    importacoes = fonte.split("__all__")[0]
+    for caminho in sorted(pasta.glob("*.py")):
+        nome = caminho.stem
+        if nome == "__init__":
+            continue
+        texto = caminho.read_text(encoding="utf-8")
+        if "__all__" not in texto:
+            falhas.append("biblioteca: %s não declara __all__ (§8.8)" % nome)
+        if ("%s," % nome) not in importacoes and ("%s)" % nome) not in importacoes:
+            falhas.append("biblioteca: %s não é importado em __init__.py" % nome)
+        if nome not in SEM_PROPRIEDADE and ("%s." % nome) not in corpo:
+            falhas.append("biblioteca: %s tem algoritmo e nenhuma asserção no auto_teste()" % nome)
+
+
 def check() -> int:
     avisos, falhas = [], []
     conferir_biblioteca(falhas)
+    conferir_cobertura_da_biblioteca(falhas)
     conferir_frescor(falhas)
     conferir_numeros(avisos, falhas)
     conferir_figuras(avisos, falhas)

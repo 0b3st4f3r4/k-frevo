@@ -41,7 +41,10 @@ def media_padronizada(retornos: pd.Series, janela: int = JANELA_PADRAO) -> pd.Se
         raise ValueError("a janela precisa de pelo menos dois dias")
     media = retornos.rolling(janela).mean()
     desvio = retornos.rolling(janela).std(ddof=1)
-    return (media / (desvio / np.sqrt(janela))).rename("centro")
+    # Janela sem barulho não tem erro-padrão por onde medir o centro, e sem isto a divisão
+    # devolve infinito --- que num vigia dispara todos os dias, porque |t| >= limiar. A
+    # docstring já prometia o vazio; agora o código o entrega.
+    return (media / (desvio / np.sqrt(janela))).where(desvio > 0.0).rename("centro")
 
 
 def dispara(retornos: pd.Series, janela: int = JANELA_PADRAO,

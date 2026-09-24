@@ -14,8 +14,9 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 """
 from importlib.metadata import PackageNotFoundError, version
 
-from . import (calendario, dados, dependencia, esquecimento, estabilidade, graficos, intervencao,
-               mudanca, partilha, promessa, recorde, regimes, vigia, volatilidade)
+from . import (calendario, centro, dados, dependencia, direcao, esquecimento, estabilidade,
+               graficos, intervencao, mudanca, partilha, promessa, recorde, regimes, vigia,
+               volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -469,6 +470,65 @@ def auto_teste() -> list:
     # o salvamento grava os dois formatos
     import tempfile
     from pathlib import Path
+
+    # --- centro: o instrumento de outra forma, e ele tem de ser cego à escala ---
+    base = pd.Series(np.random.default_rng(11).normal(0.0, 0.01, 400))
+    t_um = centro.media_padronizada(base, 60)
+    t_dois = centro.media_padronizada(base * 2.0, 60)
+    if not np.allclose(t_um.dropna().to_numpy(), t_dois.dropna().to_numpy()):
+        problemas.append("o centro mudou quando a escala do mundo dobrou: ele não é cego à escala")
+    if int(t_um.notna().to_numpy().argmax()) != 59:
+        problemas.append("a janela do centro não vale para trás: ela não começa onde devia")
+    if not np.isnan(centro.media_padronizada(pd.Series(np.full(120, 0.01)), 60).to_numpy()[-1]):
+        problemas.append("janela sem barulho devolveu número: não há erro-padrão por onde medir o centro")
+    nulo = np.abs(t_um.dropna().to_numpy())
+    if centro.limiar_do_orcamento(nulo, 0.10) > centro.limiar_do_orcamento(nulo, 0.05):
+        problemas.append("o limiar do centro não é monótono no orçamento")
+
+    # --- regimes: a família do capítulo 6 ---
+    real = {"taxa": 0.05, "pior": 20.0, "mediana": 3.0, "acima_do_dobro": 0.10}
+    tol = {"taxa": 0.002, "pior": 2.0, "mediana": 1.0, "acima_do_dobro": 0.03}
+    if len(regimes.cabem([{"estatisticas": dict(real)}], real, tol, ("pior",))) != 1:
+        problemas.append("um membro idêntico ao dado não caberia na tolerância")
+    if len(regimes.cabem([{"estatisticas": {**real, "pior": 22.0}}], real, tol, ("pior",))) != 1:
+        problemas.append("a tolerância do pior bloco excluiu o próprio limite: ela é fechada")
+    if regimes.cabem([{"estatisticas": {**real, "pior": 22.5}}], real, tol, ("pior",)):
+        problemas.append("a tolerância aceitou um membro que está fora dela")
+    sem = regimes.persistente(20000, np.random.default_rng(7), 0.01, 0.08, 3.0, permanencia=1.0)
+    com = regimes.persistente(20000, np.random.default_rng(7), 0.01, 0.08, 3.0, permanencia=320.0)
+    ac_um = float(np.corrcoef(np.abs(sem[:-1]), np.abs(sem[1:]))[0, 1])
+    ac_muito = float(np.corrcoef(np.abs(com[:-1]), np.abs(com[1:]))[0, 1])
+    if not ac_um < 0.05:
+        problemas.append("com permanência de um dia o regime ainda encadeia (%.3f)" % ac_um)
+    if not ac_muito > 0.15:
+        problemas.append("com permanência longa o regime não encadeia (%.3f)" % ac_muito)
+
+    # --- direcao: o instrumento da seta do tempo ---
+    if abs(direcao.desvio_da_conta(252) - np.sqrt(15.0 / 252.0)) > 1e-12:
+        problemas.append("o desvio da conta da direção não é raiz de 15 sobre a janela")
+    passos = np.random.default_rng(11).normal(0.0, 0.01, 5000)
+    ida = direcao.momento_amostral(passos)["momento"]
+    volta = direcao.momento_amostral(direcao.invertida(passos))["momento"]
+    if abs(ida + volta) > 1e-9:
+        problemas.append("inverter o relógio não trocou o sinal da direção")
+    if abs(ida - volta) < 1e-6:
+        problemas.append("inverter o relógio trocou o tamanho da direção, e ele devia ficar")
+    quantos = direcao.blocos(passos, 252).size
+    if quantos != passos.size // 252 - 1:
+        problemas.append("os blocos da direção não são sem sobreposição (%d para %d esperados)"
+                         % (quantos, passos.size // 252 - 1))
+
+    # --- intervencao: o desenho experimental do capítulo 9 ---
+    from statistics import NormalDist as _NormalDist
+    zeta = _NormalDist().inv_cdf(1.0 - (1.0 - intervencao.CONFIANCA) / 2.0)
+    if abs(intervencao.replicatas_necessarias(0.20, 0.50) - (zeta * 0.50 / 0.20) ** 2) > 1e-9:
+        problemas.append("a conta do tamanho da amostra não é (z s / d) ao quadrado")
+    if abs(intervencao.custo(7.7, 80, 20) - 7.7 * 100.0) > 1e-9:
+        problemas.append("o custo não é replicatas vezes (contenção mais espera)")
+    sopro = intervencao.serie("memoria", 8000, np.random.default_rng(5), 0.01)
+    variancia = float(sopro[intervencao.AQUECIMENTO:].var())
+    if not 0.75 * 1e-4 < variancia < 1.25 * 1e-4:
+        problemas.append("a variância de repouso do mundo de memória não é sigma ao quadrado (%.6f)" % variancia)
 
     import matplotlib
     matplotlib.use("Agg")
