@@ -14,7 +14,7 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 """
 from importlib.metadata import PackageNotFoundError, version
 
-from . import (calendario, centro, dados, dependencia, direcao, evidencia, esquecimento, estabilidade,
+from . import (aposta, calendario, centro, dados, dependencia, direcao, evidencia, esquecimento, estabilidade,
                graficos, intervencao, mudanca, multiplicidade, nivel, operador, partilha, proporcao, promessa, recorde,
                pares, regimes, resumo, vigia, volatilidade)
 
@@ -759,6 +759,29 @@ def auto_teste() -> list:
     if not (1.4 < perto / longe < 2.8):
         problemas.append("pares: o desvio medido nao cai com a raiz do numero de pares "
                          "(%.5f contra %.5f)" % (perto, longe))
+
+    # --- a aposta e o orcamento que sobrevive a ser lido sempre (aposta.py) ---
+
+    # Um bloco do mundo parado vale um em media: e essa a martingala que o capital usa.
+    rng_aposta = np.random.default_rng(2026)
+    bloco_unico = rng_aposta.binomial(60, 0.05, size=20000)
+    media_razao = float(aposta.razao(bloco_unico, 60).mean())
+    if abs(media_razao - 1.0) > 0.03:
+        problemas.append("aposta: um bloco do mundo parado nao vale um em media (%.4f)" % media_razao)
+    # E a desigualdade de Ville e respeitada: o mundo parado cruza um sobre alfa em no maximo alfa.
+    caminhos_aposta = aposta.capital(rng_aposta.binomial(60, 0.05, size=(2000, 60)), 60, eixo=1)
+    if float((caminhos_aposta.max(axis=1) >= aposta.orcamento_de_ville(0.05)).mean()) > 0.05:
+        problemas.append("aposta: o mundo parado cruza o limiar de Ville demais")
+    if abs(aposta.orcamento_de_ville(0.05) - 20.0) > 1e-12:
+        problemas.append("aposta: o orcamento de Ville nao e um sobre alfa")
+    # E o capital cresce no mundo que muda: com a taxa dobrada, a maioria dos mundos cruza.
+    mudados_aposta = np.concatenate([rng_aposta.binomial(60, 0.05, size=(2000, 30)),
+                                     rng_aposta.binomial(60, 0.10, size=(2000, 30))], axis=1)
+    if float((aposta.capital(mudados_aposta, 60, eixo=1)[:, -1] >= 20).mean()) < 0.5:
+        problemas.append("aposta: o capital nao cresce no mundo que muda")
+    # Os blocos do capital nao se sobrepoem, e o resto da serie e descartado.
+    if aposta.contagens_por_bloco(np.ones(125), 60).tolist() != [60.0, 60.0]:
+        problemas.append("aposta: os blocos do capital se sobrepoem")
 
     import matplotlib
     matplotlib.use("Agg")
