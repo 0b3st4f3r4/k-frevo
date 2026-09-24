@@ -32,21 +32,28 @@ dentro da janela; a \textbf{promessa} é a taxa de violação que se anuncia; e 
 é a taxa que de fato acontece.
 
 A linha posta no quantil dos piores dias sustenta a medida de risco mais usada em finanças,
-discutida e corrigida há décadas \cite{oconnell2026extreme}. O quantil de uma fração declarada é o
-valor que deixa essa fração dos dias abaixo dele, e é ele que o corte deste capítulo usa. O que se pergunta aqui vem antes
-disso, e é bem menor: a entrega tem alguma coisa a ver com a promessa?
+discutida e corrigida há décadas \cite{oconnell2026extreme}.
+% aterramento: quantil
+O quantil de uma fração declarada é o valor que deixa essa fração dos dias abaixo dele, e é ele
+que o corte usa aqui. Com cem dias e a fração de um quinto, o quantil é o vigésimo pior dia:
+vinte dos cem ficam abaixo dele. O que se pergunta vem antes disso, e é bem menor: a entrega tem
+alguma coisa a ver com a promessa?
 
 \section{O dado e a regra}
 
-O dado é o retorno de um dia para o outro. Com o preço de hoje $p_t$ e o de amanhã
-$p_{t+1}$,
+O dia tem um número de ordem, o índice $t$; o preço daquele dia é $p_t$, e o do dia seguinte é
+$p_{t+1}$. O retorno de um dia para o outro sai da razão entre os dois preços.
+% aterramento: r
+% aterramento: t
 \[
   r_{t+1} = \log \frac{p_{t+1}}{p_t}.
 \]
 
-O logaritmo está ali por um motivo prático. Ele faz um preço que desce e volta ao lugar
-terminar com retornos que somam zero, e é isso que permite acompanhar o dia a dia sem perder o
-fio da conta:
+% aterramento: logaritmo
+O logaritmo está ali por um motivo prático: ele é a operação que troca multiplicação por soma
+--- o logaritmo de um produto é a soma dos logaritmos dos fatores. Ele faz um preço que desce e
+volta ao lugar terminar com retornos que somam zero, e é isso que permite acompanhar o dia a dia
+sem perder o fio da conta:
 
 \[ 100 \to 95: -0{,}0513; \qquad 95 \to 100: +0{,}0513; \qquad \text{queda de } 5\% \text{ pede alta de } 5{,}26\% . \] % numeros-ok: exemplo mínimo
 
@@ -74,6 +81,13 @@ bastante para deixar a impressão de que a regra funcionou.
 A impressão engana, e o motivo é aritmético. Quem decidiu o número foi o gesto de erguer a
 linha dentro da janela, e não o que o mercado fez depois.
 
+% aterramento: k
+% aterramento: n
+Vale dar nome às duas peças da decisão, porque a conta inteira se escreve com elas: $n$ é o
+número de dias da janela, e $k$ é o posto do corte dentro dela --- o lugar que a linha ocupa na
+fila dos piores dias. O corte é o décimo terceiro pior, de modo que aqui $k$ é treze e $n$ é
+\numCorteJanela.
+
 \begin{proposicao}[a conta do corte]
 \label{prop:conta}
 Suponha que os $n$ dias da janela e o dia seguinte sejam $n+1$ valores de uma mesma lei
@@ -94,9 +108,13 @@ que todas as ordens são igualmente prováveis é a hipótese de que os dias nã
 uns sobre os outros, que é justamente o que um mundo que muda viola. A proposição não prevê o
 que vai acontecer. Ela é o contraste contra o qual o que aconteceu se lê.
 
-Ela também é um caso pequeno e exato de um viés conhecido: o quantil estimado de uma amostra
-não entrega a probabilidade que se anuncia, e o tamanho do erro depende do tamanho da amostra
-\cite{taleb2020super}.
+Ela também é um caso pequeno e exato de um viés conhecido. Uma \textbf{amostra} é o pedaço
+finito de dias de que se dispõe --- aqui, a janela ---, e um \textbf{viés} é o erro que a própria
+regra assina antes de o dado chegar, e que por isso não vem do mundo.
+% aterramento: amostra
+% aterramento: vies
+O quantil estimado de uma amostra não entrega a probabilidade que se anuncia, e o tamanho do
+erro depende do tamanho da amostra \cite{taleb2020super}.
 
 Com $n = \numCorteJanela$ e $k = \numCortePosto$, a conta dá
 $\numCortePosto/(\numCorteJanela+1)$, que é \numCorteContaPct\%. Esse número não veio do
@@ -109,6 +127,9 @@ O mercado entregou \numEntregaTaxaPct\%: \numEntregaViolacoes{} rompimentos em
 \numEntregaDias{} dias, com poucos milésimos de diferença da conta do corte. Para saber se
 essa diferença diz alguma coisa, falta o contraste que responde, e ele pede um mundo em que
 nada muda submetido à mesma rotina.
+% aterramento: mundo-parado
+A esse contraste dou um nome, porque ele volta quase toda vez daqui em diante: o \textbf{mundo
+que nunca muda}.
 
 Sorteamos \numNuncaMudaMundos{} séries do tamanho da nossa, com retornos independentes e
 sempre a mesma lei, e aplicamos a cada uma a mesma regra. A entrega média desses mundos foi
@@ -127,8 +148,10 @@ caem em cada janela móvel de \numBlocoDias{} dias --- a isso chamamos um \textb
 e olhamos o bloco mais cheio. A promessa de \numPromessaPct\% admite \numBlocoPrometido{}
 violações em \numBlocoDias{} dias.
 
-A mediana dos blocos é \numBlocoMediana{}: na maior parte do tempo a linha aguenta mais do que
-prometeu. O pior bloco tem \numBlocoPior{} violações, e termina em \numBlocoPiorData. Onde a
+% aterramento: mediana
+A mediana dos blocos é \numBlocoMediana. A mediana é o quantil de metade: metade dos blocos tem
+menos violações que ela, e a outra metade tem mais. Na maior parte do tempo a linha aguenta mais
+do que prometeu. O pior bloco tem \numBlocoPior{} violações, e termina em \numBlocoPiorData. Onde a
 promessa admitia \numBlocoPrometido{}, aconteceram \numBlocoPior.
 
 Nos \numNuncaMudaMundos{} mundos que nunca mudam, o pior bloco de cada um teve, em média,

@@ -14,11 +14,11 @@
 #
 # O registro guarda ENDEREÇO, NUNCA DEFINIÇÃO: a prosa vive só no capítulo, e não existe segunda
 # cópia para divergir. Quem confere é o lab/aterramento.py, pelo portão conferir_aterramento.
-k	o posto do corte na fila — o k-ésimo pior dos n dias	simbolo	k	-		-
+k	o posto do corte na fila — o k-ésimo pior dos n dias	simbolo	k	2		2
 n	o número de dias da janela	simbolo	n	1		-
 p	a probabilidade de alta do dia; mais tarde, o preço	simbolo	p	1		-
-r	o retorno do dia, em logaritmo	simbolo	r	-		-
-t	o índice do dia na série	simbolo	t	-		-
+r	o retorno do dia, em logaritmo	simbolo	r	2		2
+t	o índice do dia na série	simbolo	t	2		2
 B	o número de dias do bloco	simbolo	B	-		-
 L	o número de violações do bloco; mais tarde, o nível da série	simbolo	L	-		-
 prob	a probabilidade de um evento	simbolo	\Prob	-		-
@@ -53,15 +53,15 @@ desvio	o desvio de um dia, e a sua média	termo	desvio-padrão|desvio padrão	1	
 variancia	a variância — o quadrado do tamanho típico do dia	termo	variância	1	media	-
 esperanca	a esperança — a média de muitos sorteios, dita em símbolo	termo	esperança	1	media	-
 curtose	a curtose — o quanto a cauda pesa, comparada com a normal	termo	curtose	-	variancia	-
-quantil	o valor que deixa uma fração declarada dos dias abaixo dele	termo	quantil	-	probabilidade	-
-mediana	o quantil de metade	termo	mediana	-	quantil	-
-décimo	cada uma das dez fatias iguais de uma lista ordenada	termo	décimo	-	quantil	-
-vies	o erro que a própria regra assina, antes de o dado chegar	termo	viés	-		-
-amostra	o pedaço finito de dias de que se dispõe	termo	amostra	-		-
+quantil	o valor que deixa uma fração declarada dos dias abaixo dele	termo	quantil	2	probabilidade	2
+mediana	o quantil de metade	termo	mediana	2	quantil	2
+décimo	cada uma das dez fatias iguais de uma lista ordenada	termo	por d[ée]cimo|d[ée]cimo mais|d[ée]cimos	-	quantil	-
+vies	o erro que a própria regra assina, antes de o dado chegar	termo	viés	2		2
+amostra	o pedaço finito de dias de que se dispõe	termo	amostra	2		2
 erro-padrao	o quanto a média de n dias erra por si mesma	termo	erro-padrão|erro padrão	-	desvio	-
 replicata	um mundo sorteado inteiro, medido uma vez	termo	replicata	-	sorteio	-
 controle	o mundo em que nada muda, medido com a mesma rotina	termo	controle	-		-
-mundo-parado	o mundo sorteado em que nada muda	termo	mundo que nunca muda	-	sorteio	-
+mundo-parado	o mundo sorteado em que nada muda	termo	mundo que nunca muda	2	sorteio	2
 tolerancia	o erro que ainda se aceita, com a unidade declarada	termo	tolerância	-		-
 latencia	quantos dias o alarme demora a ver a mudança	termo	latência	-		-
 falso-alarme	o alarme que dispara num mundo que não mudou	termo	falso alarme	-	controle	-
@@ -79,7 +79,7 @@ esquecimento	a taxa com que o passado cede lugar ao presente	termo	esquecimento	
 meia-vida	os dias que apagam metade de um degrau	termo	meia-vida	-	esquecimento	-
 ponto-fixo	o valor que a recursão alcança e não deixa mais	termo	ponto fixo	-		-
 assimetria	o quanto o lado de cima difere do lado de baixo	termo	assimetria	-	variancia	-
-logaritmo	a conta que soma onde a porcentagem multiplica	termo	logaritmo	-		-
+logaritmo	a conta que soma onde a porcentagem multiplica	termo	logaritmo	2		2
 X	a variável aleatória do dia: um quando o índice sobe, zero quando não	simbolo	X	1		1
 N	o número de altas na janela	simbolo	N	1		1
 media-simbolo	a média de muitos sorteios, dita em símbolo	simbolo	\E	1	esperanca	1
