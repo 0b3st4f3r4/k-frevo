@@ -12,3 +12,6 @@ __pycache__/
 *.synctex.gz
 *.toc
 *.synctex*
+
+# detrito do pdftohtml: ele extrai imagem raster ao lado do fonte
+livro-*.png
