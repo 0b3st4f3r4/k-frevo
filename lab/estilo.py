@@ -57,7 +57,9 @@ CLICHES = (
         r"\bd[ií]as atuais\b", r"\bem um mundo cada vez\b",
     )),
     ("cliche de novidade", (
-        r"\brevolucion\w+", r"\bmudar o jogo\b", r"\bdivisor de [áa]guas\b", r"\bde ponta\b",
+        # "de ponta a ponta" e locucao, e o padrao antigo casava a locucao inteira: contava
+        # cliche em dois capitulos que nao tem nenhum. O cliche e "de ponta" sozinho.
+        r"\brevolucion\w+", r"\bmudar o jogo\b", r"\bdivisor de [áa]guas\b", r"\bde ponta\b(?!\s+a\s+ponta\b)",
         r"\bestado da arte\b", r"\bsolu[cç][ãa]o robusta\b", r"\babordagem hol[íi]stica\b",
         r"\bsinergia\w*", r"\balavanc(?:ar|ando|agem|aram)\b", r"\bdesvendar o potencial\b", r"\bum marco\b",
         r"\becossistema vibrante\b", r"\bpilar fundamental\b", r"\bprotagonista\b",
