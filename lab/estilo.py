@@ -41,7 +41,10 @@ pelo pela pelos pelas ser sao foi era serao tem tinha ter ha havia pode podem po
 feito cada outro outra mesmo mesma ainda tambem so apenas entao assim porque pois""".split())
 
 MARCAS = (
-    ("definicao por negacao", r"n[ãa]o\s[^.:]{0,70}:"),
+    # O molde e intra-oracional: a negacao define quando o dois-pontos explica o que ela
+    # negou. Atravessar o ponto e virgula casava a negacao de uma oracao com o dois-pontos
+    # da seguinte, que nao tem nada a ver com ela.
+    ("definicao por negacao", r"n[ãa]o\s[^.;:]{0,70}:"),
     ("definicao por antitese", r"\b[Éé]\s(?:o|a)\s(?:que|pergunta|instrumento|conta|medida)\b"),
     ("meta-comentario sobre o livro", r"\b(?:este livro|neste cap[íi]tulo|ao longo deste|deste cap[íi]tulo)\b"),
 )
@@ -94,7 +97,15 @@ def prosa(caminho: pathlib.Path) -> str:
     t = "\n".join(linhas)
     t = re.sub(r"\\\[.*?\\\]", " ", t, flags=re.S)
     t = re.sub(r"\$[^$]*\$", " ", t)
-    t = re.sub(r"\\includegraphics(?:\[[^]]*\])?\{[^}]+\}", " ", t)
+    # Comandos que nomeiam objeto: o nome e rotulo, nao prosa. Despejar o argumento no
+    # texto (como o desembrulho generico faz) inventa palavra e chega a inventar marca --
+    # "nao ve o que nao esta na serie cap:" era o rotulo cap:dependencia_vigiada.
+    t = re.sub(
+        r"\\(?:label|cref|Cref|ref|eqref|autoref|cite|citep|citet|citealp|citeauthor|citeyear"
+        r"|includegraphics|input|index)(?:\[[^]]*\])?\{[^}]*\}",
+        " ",
+        t,
+    )
     for _ in range(4):
         t = re.sub(r"\\[a-zA-Z]+\*?(\[[^\]]*\])?\{([^{}]*)\}", r"\2", t)
     t = re.sub(r"\\[a-zA-Z]+\*?", " ", t)

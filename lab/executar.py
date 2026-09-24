@@ -236,6 +236,37 @@ def conferir_rotulos(falhas: list) -> None:
                 vistos[rotulo] = onde
 
 
+def conferir_marcacao(falhas: list) -> None:
+    r"""Marcação de outro idioma vaza para o LaTeX e sai impressa, sem nada reclamar.
+
+    O negrito de markdown, \texttt{**assim**}, é a forma de quem escreve texto em caderno ou em
+    conversa. Dentro de um \texttt{.tex} ele não é marcação de nada: o LaTeX imprime os quatro
+    asteriscos, no meio da frase, e o leitor recebe isso. Foram 51 pares em 14 capítulos antes
+    desta conferência existir, e nenhum portão viu: a compilação sai limpa, não há referência
+    indefinida, não há caixa estourada, o dígito digitado não tem a ver, e o comando órfão olha
+    barra perdida, não asterisco. O defeito só apareceu quando o texto do PDF foi lido.
+
+    A família é a mesma e vale inteira: crase de código, título de markdown, link em colchete
+    e parêntese, riscado. Comentário fica de fora --- ali a marcação é do autor, e não do livro.
+    """
+    padroes = (
+        ("negrito de markdown", r"\*\*"),
+        ("crase de código", chr(96)),
+        ("título de markdown", r"(?m)^\s*\#{1,6}\s"),
+        ("link de markdown", r"\[[^\]]+\]\([^)]+\)"),
+        ("riscado de markdown", r"~~"),
+    )
+    for caminho in arquivos_do_livro():
+        texto = caminho.read_text(encoding="utf-8")
+        linhas = [re.sub(r"(?<!\\)%.*", " ", l) for l in texto.splitlines()]
+        onde = caminho.relative_to(LIVRO).as_posix()
+        for _n, linha in enumerate(linhas, start=1):
+            for nome, padrao in padroes:
+                for achado in re.findall(padrao, linha):
+                    falhas.append("%s em %s:%d — %s"
+                                  % (nome, onde, _n, achado.strip()[:40]))
+
+
 def conferir_figuras(avisos: list, falhas: list) -> None:
     citadas = set()
     for caminho in arquivos_do_livro():
@@ -366,6 +397,7 @@ def check() -> int:
     conferir_figuras(avisos, falhas)
     conferir_rotulos(falhas)
     conferir_comandos_orfaos(falhas)
+    conferir_marcacao(falhas)
     conferir_digitos(avisos)
     conferir_cadernos_sem_algoritmo(avisos)
     conferir_perguntas(falhas)
