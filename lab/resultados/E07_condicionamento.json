@@ -14,6 +14,7 @@
  "condicionamento_melhor_pior": 11,
  "condicionamento_persistente_cabem_quatro": 2,
  "condicionamento_persistente_cabem_taxa": 122,
+ "condicionamento_persistente_cabem_taxa_pior": 12,
  "condicionamento_persistente_combinacoes": 180,
  "condicionamento_persistente_melhor_excesso": 0.2249102544092399,
  "condicionamento_persistente_melhor_pior": 23,
