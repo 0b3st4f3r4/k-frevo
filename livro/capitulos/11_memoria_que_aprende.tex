@@ -70,7 +70,7 @@ entre a estimativa e a verdade declarada, dia a dia.
   \begin{tabular}{rrrrr}
     \hline
     memória & erro da & erro da & piso de & dias previstos \\
-    (dias) & mistura & janela & ruído & até \numEsquecimentoTolerancia \\
+    (dias) & mistura & janela & ruído & até \numEsquecimentoTolerancia{} do nível \\
     \hline
     mil & \numEsquecimentoErroMil & \numEsquecimentoJanelaMil & \numEsquecimentoPisoMil & \numEsquecimentoDiasMil \\
     duzentos e cinquenta & \numEsquecimentoErroDuzentosECinquenta & \numEsquecimentoJanelaDuzentosECinquenta & \numEsquecimentoPisoDuzentosECinquenta & \numEsquecimentoDiasDuzentosECinquenta \\
@@ -84,6 +84,7 @@ entre a estimativa e a verdade declarada, dia a dia.
   \end{tabular}
   \caption{O erro nos \numEsquecimentoHorizonte{} dias seguintes ao degrau, o erro no mundo que não
     muda e os dias que a \cref{prop:meia-vida} prevê para chegar a \numEsquecimentoTolerancia{} do
+    nível novo --- que, num mundo que dobra de uma vez, é \numEsquecimentoToleranciaDegrau{} do
     degrau. A memória é a
     memória efetiva: o inverso da taxa, para a mistura, e o número de dias, para a janela.}
   \label{tab:esquecimento}
@@ -115,8 +116,9 @@ uma vez, e a queda brusca machuca tanto quanto a entrada lenta.
 \section{O que cabe prometer}
 
 Falta a conta que decide se um esquecimento \textbf{ainda aprende}, e ela depende do tempo que se tem
-para aprender. Com uma tolerância declarada de \numEsquecimentoTolerancia{} do degrau, varrendo as
-memórias e os horizontes, dos \numEsquecimentoParesTodos{} pares testados apenas
+para aprender. Com uma tolerância declarada de \numEsquecimentoTolerancia{} do nível novo --- o
+mesmo que \numEsquecimentoToleranciaDegrau{} do degrau, porque o mundo aqui dobra de uma vez ---,
+varrendo as memórias e os horizontes, dos \numEsquecimentoParesTodos{} pares testados apenas
 \numEsquecimentoParesViaveis{} aprendem.
 
 \begin{table}[htbp]
@@ -149,8 +151,8 @@ memórias testadas entrega a tolerância declarada --- nem esquecendo depressa, 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{figuras/E12_esquecimento_2.pdf}
-  \caption{O erro depois do degrau contra os dias que a conta prevê até \numEsquecimentoTolerancia{}
-    do degrau. A curva tracejada é o piso de ruído da mesma memória: onde ela alcança a curva de
+  \caption{O erro depois do degrau contra os dias que a conta do cruzamento prevê até
+    \numEsquecimentoTolerancia{} do nível novo. A curva tracejada é o piso de ruído da mesma memória: onde ela alcança a curva de
     cima, o erro deixou de ser atraso e passou a ser tamanho de amostra.}
   \label{fig:prometer}
 \end{figure}
@@ -165,8 +167,11 @@ que as duas quase se tocam sem ainda ter subido.
 Fica a resposta da travessia, e ela é estreita. O esquecimento mínimo, no sentido da menor memória que entrega a tolerância, é o de vinte e um
 dias --- uma taxa de \numEsquecimentoMelhorTaxa{} por
 dia ---, e ele exige um horizonte de pelo menos \numEsquecimentoHorizonteCurto{} dias para entregar
-\numEsquecimentoTolerancia{} do degrau, contra os \numEsquecimentoMelhorDias{} dias que a conta previa
-para essa mesma memória. A memória mais longa que ainda entrega a tolerância é a de \numEsquecimentoMemoriaLonga{} dias;
+\numEsquecimentoTolerancia{} do nível novo, contra os \numEsquecimentoMelhorDias{} dias que a conta
+do cruzamento previa para essa mesma memória. Os dois números não se contradizem, porque não medem a
+mesma coisa: \numEsquecimentoMelhorDias{} dias é o instante em que o desvio cruza a tolerância, e
+\numEsquecimentoHorizonteCurto{} dias é o horizonte em que a \emph{média} do erro fica dentro dela ---
+e a média carrega os primeiros dias depois da mudança, quando o desvio ainda é o degrau inteiro. A memória mais longa que ainda entrega a tolerância é a de \numEsquecimentoMemoriaLonga{} dias;
 daí para cima, lembrar mais é ficar cego à mudança; quem apaga
 mais depressa troca cegueira por ruído, e o erro cresce dos dois lados.
 

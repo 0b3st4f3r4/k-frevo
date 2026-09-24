@@ -361,6 +361,28 @@ def conferir_nomes(falhas: list) -> None:
                     falhas.append("\\cref{%s:...} imprimiria o nome em inglês: "
                                   "falta \\%s{%s} em livro.tex" % (prefixo, forma, tipo))
 
+    # O nome que o cleveref imprime é o do CONTADOR, e não o do ambiente: dois ambientes que
+    # compartilham contador saem com o mesmo nome, e o do ambiente se perde. Enquanto o contador
+    # de base se chamava "teorema", toda referência a uma proposição imprimia "a teorema 15.1" na
+    # página — com o artigo errado, porque quem escreveu o texto escreveu "a". O nome estava
+    # declarado, o \\cref existia e este portão passava: o que faltava era olhar o contador.
+    # A forma do ambiente que compartilha é \newtheorem{ambiente}[contador]{Nome}; quem tem
+    # contador próprio não aparece aqui, e é isso que se exige de quem é referenciado.
+    compartilham = dict(re.findall(r"\\newtheorem\{(\w+)\}\[(\w+)\]", fonte))
+    for prefixo in sorted(usados):
+        tipo = tipos.get(prefixo)
+        if tipo is None or tipo not in compartilham:
+            continue
+        base = compartilham[tipo]
+        if base != tipo:
+            nome_base = re.search(r"\\crefname\{%s\}\{([^}]*)\}" % base, fonte)
+            nome_tipo = re.search(r"\\crefname\{%s\}\{([^}]*)\}" % tipo, fonte)
+            falhas.append("\\cref{%s:...} sai com o nome do contador e não com o do ambiente: "
+                          "%s compartilha o contador %s, de modo que a página imprime %r no lugar "
+                          "de %r" % (prefixo, tipo, base,
+                                     nome_base.group(1) if nome_base else base,
+                                     nome_tipo.group(1) if nome_tipo else tipo))
+
 
 def conferir_digitos(avisos: list) -> None:
     r"""Dígito no corpo do livro vira aviso: grandeza medida se cita, não se digita.

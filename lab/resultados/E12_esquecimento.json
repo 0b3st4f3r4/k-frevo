@@ -1,13 +1,13 @@
 {
- "esquecimento_dias_cinco": 8.501791666004884,
- "esquecimento_dias_cinquenta": 93.90424536026066,
+ "esquecimento_dias_cinco": 5.395507946499494,
+ "esquecimento_dias_cinquenta": 59.594626868740015,
  "esquecimento_dias_de_serie": 14000,
- "esquecimento_dias_dez": 18.005986142352004,
- "esquecimento_dias_dois": 2.736965594166206,
- "esquecimento_dias_duzentos_e_cinquenta": 473.33080258773884,
- "esquecimento_dias_mil": 1896.171266721008,
+ "esquecimento_dias_dez": 11.427172663391419,
+ "esquecimento_dias_dois": 1.7369655941662063,
+ "esquecimento_dias_duzentos_e_cinquenta": 300.390812550365,
+ "esquecimento_dias_mil": 1203.3707175425077,
  "esquecimento_dias_um": 0.0,
- "esquecimento_dias_vinte_e_um": 38.89919194274966,
+ "esquecimento_dias_vinte_e_um": 24.686666938539673,
  "esquecimento_erro_cinco": 0.20719718729808467,
  "esquecimento_erro_cinquenta": 0.12009396093223305,
  "esquecimento_erro_dez": 0.15056050983583194,
@@ -30,7 +30,7 @@
  "esquecimento_janela_um": 0.6062729100864426,
  "esquecimento_janela_vinte_e_um": 0.14860437716265756,
  "esquecimento_melhor": 0.11782142015982681,
- "esquecimento_melhor_dias": 38.89919194274966,
+ "esquecimento_melhor_dias": 24.686666938539673,
  "esquecimento_melhor_dispersao": 0.017619797984874598,
  "esquecimento_melhor_janela": 50,
  "esquecimento_melhor_janela_erro": 0.12369936687066733,
@@ -65,5 +65,6 @@
  "esquecimento_piso_vinte_e_um": 0.10445160198260528,
  "esquecimento_quando": 4000,
  "esquecimento_sementes": 20,
- "esquecimento_tolerancia": 0.15
+ "esquecimento_tolerancia": 0.15,
+ "esquecimento_tolerancia_degrau": 0.3
 }

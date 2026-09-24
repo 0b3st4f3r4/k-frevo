@@ -569,6 +569,23 @@ def auto_teste() -> list:
         problemas.append("o desvio da mistura exponencial não decai como (1 - taxa) elevado a t")
     if abs(esquecimento.dias_para_tolerancia(taxa_esq, 0.15) - np.log(0.15) / np.log(1.0 - taxa_esq)) > 1e-12:
         problemas.append("os dias até a tolerância não são log(eps) sobre log(1 - taxa)")
+    # A tolerância do capítulo 11 tinha DUAS unidades com o mesmo 0,15: a do nível, que o erro
+    # medido usa, e a do degrau, que a proposição usa. Num mundo que dobra, 0,15 do nível é 0,30 do
+    # degrau — e enquanto isso não esteve separado, a prosa dizia uma unidade e o critério media na
+    # outra. Estas três asserções fixam a ponte: a conversão, a conta dos dias em degraus, e o
+    # caminho que a viabilidade percorre.
+    if abs(esquecimento.TOLERANCIA_DEGRAU - 0.30) > 1e-12:
+        problemas.append("0,15 do nível não virou 0,30 do degrau no mundo que dobra")
+    if abs(esquecimento.dias_para_tolerancia(taxa_esq)
+           - np.log(esquecimento.TOLERANCIA_DEGRAU) / np.log(1.0 - taxa_esq)) > 1e-12:
+        problemas.append("o padrão dos dias até a tolerância não é a tolerância em degraus")
+    aprendido = esquecimento.limiar([degrau], [0.2], degrau, 60, 120,
+                                    tolerancia_nivel=esquecimento.TOLERANCIA)
+    if abs(aprendido["tolerancia_degrau"] - esquecimento.TOLERANCIA_DEGRAU) > 1e-12:
+        problemas.append("a viabilidade converte a tolerância do nível para o degrau errado")
+    if abs(aprendido["dias_previstos"]
+           - esquecimento.dias_para_tolerancia(0.2, esquecimento.TOLERANCIA_DEGRAU)) > 1e-12:
+        problemas.append("os dias previstos da viabilidade não usam a tolerância em degraus")
     if abs(esquecimento.horizonte(0.99, 0.5) - np.log(1.0 - 0.25) / (2.0 * np.log(0.99))) > 1e-9:
         problemas.append("o horizonte de recuperação não é log(1 - t ao quadrado) sobre 2 log a")
 

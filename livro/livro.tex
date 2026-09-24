@@ -43,20 +43,26 @@
 % E a data: sem babel, \today escreve "September 24, 2026" na folha de rosto.
 \newcommand{\mesEmPortugues}{\ifcase\month\or janeiro\or fevereiro\or março\or abril\or maio\or junho\or julho\or agosto\or setembro\or outubro\or novembro\or dezembro\fi}
 
-\newtheorem{teorema}{Teorema}[chapter]
-\newtheorem{lema}[teorema]{Lema}
-\newtheorem{proposicao}[teorema]{Proposição}
-\newtheorem{corolario}[teorema]{Corolário}
+% O cleveref imprime o nome do CONTADOR, e não o do ambiente: com o contador de base chamado
+% "teorema", toda referência a uma proposição saía na página como "a teorema 15.1" — com o artigo
+% errado, porque quem escreve o texto escreveu "a". O nome estava declarado, o \cref existia e o
+% portão passava; o que ninguém olhava era o contador. Ele agora tem o nome do tipo que o livro
+% de fato referencia, e os outros ambientes continuam compartilhando o mesmo.
+\newtheorem{proposicao}{Proposição}[chapter]
+\newtheorem{lema}[proposicao]{Lema}
+\newtheorem{teorema}[proposicao]{Teorema}
+\newtheorem{corolario}[proposicao]{Corolário}
 \theoremstyle{definition}
-\newtheorem{definicao}[teorema]{Definição}
-\newtheorem{exemplo}[teorema]{Exemplo}
+\newtheorem{definicao}[proposicao]{Definição}
+\newtheorem{exemplo}[proposicao]{Exemplo}
 \theoremstyle{remark}
-\newtheorem{observacao}[teorema]{Observação}
+\newtheorem{observacao}[proposicao]{Observação}
 
 % O cleveref cunha as referências no idioma que o babel carrega; sem babel ele
 % cunha em inglês, e o livro imprimia "Table 3.2" no meio de uma frase em
 % português. Os nomes saem declarados um por um, e o tipo é o do contador ---
-% todos os ambientes de teorema compartilham o contador `teorema`.
+% todos os ambientes de teorema compartilham o contador `proposicao`, que é o tipo que o livro
+% referencia; o portão `conferir_nomes` reprova o `\cref` cujo ambiente não seja o dono do contador.
 \crefname{figure}{figura}{figuras}
 \Crefname{figure}{Figura}{Figuras}
 \crefname{table}{tabela}{tabelas}

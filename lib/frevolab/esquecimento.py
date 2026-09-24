@@ -23,9 +23,17 @@ import numpy as np
 TAXA_PADRAO = 0.048
 JANELA_PADRAO = 21
 HORIZONTE_PADRAO = 250
+# A tolerancia deste modulo tem UMA unidade declarada, e e a do NIVEL novo: o erro medido e a
+# distancia relativa media entre a estimativa e a verdade, dia a dia. A proposicao da meia-vida
+# fala em tolerancia do DEGRAU, que e outra unidade: num mundo que dobra de uma vez o degrau e
+# metade do nivel, de modo que 0,15 do nivel e 0,30 do degrau. Enquanto as duas foram o mesmo
+# 0,15, a prosa do capitulo 11 dizia uma unidade e o criterio media na outra (2026-09-24).
 TOLERANCIA = 0.15
+FATOR_PADRAO = 2.0
+TOLERANCIA_DEGRAU = TOLERANCIA / (1.0 - 1.0 / FATOR_PADRAO)
 
-__all__ = ["TAXA_PADRAO", "JANELA_PADRAO", "HORIZONTE_PADRAO", "TOLERANCIA", "exponencial",
+__all__ = ["TAXA_PADRAO", "JANELA_PADRAO", "HORIZONTE_PADRAO", "FATOR_PADRAO", "TOLERANCIA",
+           "TOLERANCIA_DEGRAU", "exponencial",
            "janela", "memoria", "meia_vida", "dias_para_tolerancia", "erro", "erro_medio",
            "erro_varios", "limiar", "reverter", "erro_do_inverso", "erro_do_otimo", "horizonte"]
 
@@ -86,12 +94,15 @@ def meia_vida(taxa: float) -> float:
     return float(np.log(0.5) / np.log(1.0 - taxa))
 
 
-def dias_para_tolerancia(taxa: float, tolerancia: float = TOLERANCIA) -> float:
+def dias_para_tolerancia(taxa: float, tolerancia: float = TOLERANCIA_DEGRAU) -> float:
     r"""Quantos dias a estimativa leva para chegar a \emph{tolerancia} do degrau.
 
     É a conta da proposição: o desvio decai como \emph{(1-taxa) elevado a t}, de modo que cruzar
-    até \emph{eps} do degrau leva \emph{log(eps)/log(1-taxa)} dias. É essa conta que decide se uma
-    taxa ainda aprende dentro do horizonte que se tem.
+    até \emph{eps} do degrau leva \emph{log(eps)/log(1-taxa)} dias. A tolerância aqui é fração do
+    DEGRAU --- o tamanho do salto ---, e não do nível novo: quem declara a tolerância em fração do
+    nível converte por \emph{TOLERANCIA_DEGRAU}, que já traz a conta feita para o fator do mundo.
+    Confundir as duas unidades dá uma coluna de dias certa pela metade, que é o defeito que esta
+    rodada consertou. É essa conta que decide se uma taxa ainda aprende dentro do horizonte.
     """
     if not 0.0 < taxa <= 1.0:
         raise ValueError("a taxa precisa estar entre zero e um")
@@ -216,20 +227,30 @@ def horizonte(a: float, tolerancia: float = 0.5) -> float:
 
 
 def limiar(series, taxas, verdade, inicio: int = 0, horizonte: int = HORIZONTE_PADRAO,
-           tolerancia: float = TOLERANCIA, estimador=None) -> dict:
+           tolerancia_nivel: float = TOLERANCIA, fator: float = FATOR_PADRAO,
+           estimador=None) -> dict:
     r"""O esquecimento **mínimo** que ainda aprende dentro do horizonte declarado.
 
     Varre as taxas da mais lenta para a mais rápida e devolve a primeira que fica dentro da
-    tolerância, com o erro que ela entrega e os dias que a proposição previa. É a resposta em forma
-    de número à pergunta da travessia: abaixo dessa taxa o sistema lembra demais para aprender.
+    tolerância, com o erro que ela entrega e os dias que a proposição previa. A tolerância entra
+    como fração do NÍVEL novo, que é a unidade do erro medido aqui, e os dias previstos, que são da
+    proposição, saem na unidade do DEGRAU: a conversão é feita com \emph{fator}, o quanto o mundo
+    dobra de uma vez. Sem ela, o mesmo 0,15 valia como duas coisas diferentes --- o defeito que a
+    prosa do capítulo 11 e o critério de viabilidade tinham, cada um com a sua unidade. É a
+    resposta em forma de número à pergunta da travessia: abaixo dessa taxa o sistema lembra demais
+    para aprender.
     """
+    if fator <= 1.0:
+        raise ValueError("o fator do mundo precisa ser maior que um")
     if estimador is None:
         estimador = exponencial
+    tolerancia_degrau = tolerancia_nivel / (1.0 - 1.0 / fator)
     for taxa in sorted(taxas):
         media, dispersao = erro_medio(series, estimador, taxa, verdade, inicio, horizonte)
-        if media <= tolerancia:
+        if media <= tolerancia_nivel:
             return {"taxa": float(taxa), "memoria": float(memoria(taxa)), "erro": media,
                     "dispersao": dispersao, "horizonte": int(horizonte),
-                    "tolerancia": float(tolerancia),
-                    "dias_previstos": dias_para_tolerancia(taxa, tolerancia)}
+                    "tolerancia_nivel": float(tolerancia_nivel),
+                    "tolerancia_degrau": float(tolerancia_degrau),
+                    "dias_previstos": dias_para_tolerancia(taxa, tolerancia_degrau)}
     raise ValueError("nenhuma taxa da varredura aprende dentro do horizonte declarado")
