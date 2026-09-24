@@ -29,6 +29,11 @@ dos mesmos \numConjuntaJanelaEpisodio{} dias seguintes, e a perna que rompeu pri
 liderados pela outra, dividida pelo total de episódios dirigidos.
 \end{definicao}
 
+Vale um exemplo, porque esta é a única regra do capítulo. Se uma perna rompe num dia e a outra rompe
+quatro dias depois, o primeiro rompimento abre o episódio, o segundo o torna dirigido, e a perna que
+rompeu primeiro é a líder --- e o segundo rompimento, por cair dentro dos
+\numConjuntaJanelaEpisodio{} dias de um episódio que já começou, não abre episódio nenhum.
+
 A regra tem um viés próprio, e escondê-lo seria medir a regra em vez do mundo: a espera olha para
 trás e a detecção olha para a frente, de modo que num par sem adiantamento nenhum os dois lados não
 saem iguais. Por isso o número do par real só vale contra o número dos pares sorteados, e nunca

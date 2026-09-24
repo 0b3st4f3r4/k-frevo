@@ -84,10 +84,17 @@ def episodios_dirigidos(rompe_a: pd.Series, rompe_b: pd.Series,
                         janela: int = JANELA_EPISODIO) -> dict:
     r"""Quem rompeu primeiro, e se o outro veio atrás dentro da janela.
 
-    Um episódio começa no dia em que **uma** das pernas rompe e nenhuma rompeu nos \emph{janela}
-    dias anteriores; se a outra perna romper dentro dos \emph{janela} dias seguintes, o episódio é
-    **dirigido**, e a primeira perna é a que liderou. O que se conta é a diferença entre os
+    Um episódio começa no dia em que **uma** das pernas rompe, desde que nenhum episódio tenha
+    começado nos \emph{janela} dias anteriores: rompimentos dentro desses dias não abrem episódio
+    novo. Se a outra perna romper dentro dos \emph{mesmos} \emph{janela} dias seguintes, o episódio
+    é **dirigido**, e a primeira perna é a que liderou. O que se conta é a diferença entre os
     episódios liderados por uma e os liderados pela outra, dividida pelo total.
+
+    A distinção é fina e já custou um defeito: o relógio da espera reinicia quando um episódio
+    **começa**, e não a cada rompimento. Quem escreve "nenhum rompimento nos dias anteriores"
+    descreve uma regra que este código não executa --- e mede vinte e seis episódios onde ele mede
+    trinta e cinco. A asserção do \emph{auto\_teste} fixa a regra, e a prosa do capítulo diz a
+    mesma coisa.
 
     A regra tem um viés próprio, e ele precisa ser declarado: a espera olha para trás e a
     detecção olha para a frente, de modo que **num par sem adiantamento nenhum** os dois lados já

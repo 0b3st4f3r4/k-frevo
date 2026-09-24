@@ -327,6 +327,19 @@ def auto_teste() -> list:
     if (sozinho["lider_a"], sozinho["sozinho_a"]) != (0, 1):
         problemas.append("a perna que rompeu fora da janela não ficou sozinha")
 
+    # O relógio da espera reinicia quando um episódio COMEÇA, e não a cada rompimento. As três
+    # séries abaixo separam as duas regras: com o rompimento do meio contando, o episódio de 58
+    # não abriria, e o instrumento mediria um episódio onde mede dois. A regra já foi escrita
+    # errada na docstring e no capítulo, e é esta asserção que impede a volta.
+    forjado_b.iloc[60] = False
+    forjado_a.iloc[50] = True
+    forjado_a.iloc[54] = True
+    forjado_a.iloc[58] = True
+    seguidos = dependencia.episodios_dirigidos(forjado_a, forjado_b, 5)
+    if seguidos["sozinho_a"] != 2:
+        problemas.append("o relógio da espera reinicia a cada rompimento, e não a cada episódio: "
+                         "com a regra escrita o instrumento mediria um episódio aqui, e não dois")
+
     # --- o recorde e o mundo que faltou (recorde.py) ---
 
     # a soma das duas chances é um: o maior valor do conjunto está de um lado ou do outro
