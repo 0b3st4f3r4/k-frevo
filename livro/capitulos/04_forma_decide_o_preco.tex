@@ -85,8 +85,14 @@ pouco: no corte fixo, uma deriva de \numFormasDerivaForteAnoPct\% ao ano leva a 
 passo de dois décimos por cento contra um barulho de um por cento por dia mal move a cauda
 esquerda.
 
-Para essa forma existe outro instrumento, e ele mede outra coisa: a média da janela em
-erros-padrão dela mesma (\texttt{centro.py}). Ele vê a deriva forte em
+Para essa forma existe outro instrumento, e ele mede outra coisa: a média da janela medida em
+erros-padrão dela mesma (\texttt{centro.py}).
+% aterramento: erro-padrao
+O \textbf{erro-padrão} de uma média é o nome que a prática dá à barra: o desvio de um dia
+dividido pela raiz do número de dias. Numa janela de dez dias em que cada dia oscila um por
+cento, a média carrega um erro-padrão de um terço de um por cento, e é contra esse número que
+ela mede a si mesma.
+Ele vê a deriva forte em
 \numFormasLeiForteDias{} dias, com \numFormasLeiForteNadaPct\% dos mundos sem alarme nenhum
 no horizonte de \numFormasHorizonteDias{} dias. E é cego à escala: nos mundos de degrau e de
 rampa ele não soa em quase oitenta por cento dos casos, porque dobrar a oscilação dobra o
@@ -112,8 +118,14 @@ cada um vê uma forma e tropeça na outra.
   \label{fig:instrumentos}
 \end{figure}
 
-A demora dele se paga em memória, e a conta fecha em duas linhas. Uma regra de $L$
-erros-padrão vê uma deriva de passo $p$ contra um barulho $\sigma$ quando a janela tem
+% aterramento: latencia
+% aterramento: sigma
+A demora dele se paga em memória, e a conta fecha em duas linhas. Chamo de \textbf{latência} os
+dias que um instrumento leva para dar o alarme, contados do dia em que o mundo mudou: é o atraso
+dele, na mesma unidade das tabelas. O barulho de um dia --- o tamanho típico do que ele anda por
+conta própria --- escreve-se $\sigma$, e o passo com que a média se desloca escreve-se $p$; os
+dois na mesma unidade do dado, um por cento por dia contra dois décimos, por exemplo. Uma regra
+de $L$ erros-padrão vê uma deriva de passo $p$ contra um barulho $\sigma$ quando a janela tem
 $(L\sigma/p)^2$ dias --- e a latência mínima é esse mesmo número, porque o instrumento
 precisa dos dias antes de poder julgá-los. Com um ano de memória, a regra enxerga a deriva
 que o barulho esconde por um fator de $\sqrt{\numCorteJanela}$; com catorze anos, uma quatro

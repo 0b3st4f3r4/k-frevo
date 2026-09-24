@@ -88,6 +88,10 @@ começou a falar de consumo em vez de falar de calendário.
 
 O preço aparece na conta do capítulo anterior, lida célula por célula, e ele cabe numa
 proposição.
+% aterramento: C
+A partição tem um número só, e é ele que a proposição usa: $C$ é o número de células em que a
+janela é repartida --- sete, quando a partição é a semana, com o domingo numa célula, a segunda
+na outra, e assim por diante.
 
 \begin{proposicao}[o preço da partição]\label{prop:particao}
 Repartida a janela de $n$ dias em $C$ células iguais, o alarme mais raro que a leitura consegue
@@ -183,9 +187,11 @@ ruim é um terço dos dias, e volta toda semana no mesmo lugar.
 
 \section{Onde não há calendário, a partição só custa}
 
-Falta o controle, porque a partição é uma decisão e não uma melhoria. O mesmo procedimento
-aplicado ao índice acionário americano, que não tem semana, diz o que ela custa quando não há
-o que ler.
+% aterramento: controle
+Falta o \textbf{controle}, porque a partição é uma decisão e não uma melhoria. O controle é a
+mesma rotina aplicada a um mundo onde não há o que a decisão possa ler. Aqui ele é o índice
+acionário americano, que não tem semana: o que a partição faz lá diz o que ela custa quando não
+há calendário para ler.
 
 Nas \numSerieDias{} observações do índice, a leitura crua dá \numCalendarioIndiceCruAlarmesAno{}
 alarmes por ano contra o piso de \numCalendarioIndiceCruPisoAno{} que a memória do índice

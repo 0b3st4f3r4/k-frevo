@@ -22,8 +22,8 @@ t	o índice do dia na série	simbolo	t	2		2
 B	o número de dias do bloco	simbolo	B	3		3
 L	o número de violações do bloco; mais tarde, o nível da série	simbolo	L	3		3
 prob	a probabilidade de um evento	simbolo	\Prob	3		3
-sigma	a oscilação de um dia, medida em desvio	simbolo	\sigma	-		-
-C	o número de células em que a janela é repartida	simbolo	C	-		-
+sigma	a oscilação de um dia, medida em desvio	simbolo	\sigma	4		4
+C	o número de células em que a janela é repartida	simbolo	C	5		5
 omega	o parâmetro de piso da recursão da oscilação	simbolo	\omega	-	variancia	-
 alpha	o parâmetro do choque na recursão da oscilação	simbolo	\alpha	-	variancia	-
 beta	o parâmetro da memória na recursão da oscilação	simbolo	\beta	-	variancia	-
@@ -49,7 +49,7 @@ independencia	dois dias não têm nada a dizer um sobre o outro	termo	independen
 sorteio	repetir o mundo inteiro com outra semente	termo	sorteio|sorteado|sorteamos	1		-
 semente	o número que torna o sorteio repetível	termo	semente	-	sorteio	-
 media	a média de muitos dias ou de muitos sorteios	termo	média	1	sorteio	-
-desvio	o desvio de um dia, e a sua média	termo	desvio-padrão|desvio padrão	1	media	-
+desvio	o desvio de um dia, e a sua média	termo	desvi	1	media	-
 variancia	a variância — o quadrado do tamanho típico do dia	termo	variância	1	media	-
 esperanca	a esperança — a média de muitos sorteios, dita em símbolo	termo	esperança	1	media	-
 curtose	a curtose — o quanto a cauda pesa, comparada com a normal	termo	curtose	-	variancia	-
@@ -58,12 +58,12 @@ mediana	o quantil de metade	termo	mediana	2	quantil	2
 décimo	cada uma das dez fatias iguais de uma lista ordenada	termo	por d[ée]cimo|d[ée]cimo mais|d[ée]cimos	-	quantil	-
 vies	o erro que a própria regra assina, antes de o dado chegar	termo	viés	2		2
 amostra	o pedaço finito de dias de que se dispõe	termo	amostra	2		2
-erro-padrao	o quanto a média de n dias erra por si mesma	termo	erro-padrão|erro padrão	-	desvio	-
+erro-padrao	o quanto a média de n dias erra por si mesma	termo	erro-padrão|erro padrão	4	desvio	4
 replicata	um mundo sorteado inteiro, medido uma vez	termo	replicata	-	sorteio	-
-controle	o mundo em que nada muda, medido com a mesma rotina	termo	controle	-		-
+controle	o mundo em que nada muda, medido com a mesma rotina	termo	controle	5		5
 mundo-parado	o mundo sorteado em que nada muda	termo	mundo que nunca muda	2	sorteio	2
 tolerancia	o erro que ainda se aceita, com a unidade declarada	termo	tolerância	-		-
-latencia	quantos dias o alarme demora a ver a mudança	termo	latência	-		-
+latencia	quantos dias o alarme demora a ver a mudança	termo	latência	4		4
 falso-alarme	o alarme que dispara num mundo que não mudou	termo	falso alarme	3	mundo-parado	3
 cauda	os dias extremos, e o que a média não vê deles	termo	cauda	-	quantil	-
 recorde	o dia que supera todos os anteriores	termo	recorde	-		-
