@@ -423,6 +423,29 @@ def auto_teste() -> list:
         problemas.append("o choque comum não engrossou a cauda marginal (%.2f contra %.2f)"
                          % (curtose_cauda, curtose_gauss))
 
+    # --- o pedaço escolhido (estabilidade.py) ---
+
+    # pedaços sem sobreposição cabem na série, e o último fecha dentro dela
+    fatias = estabilidade.janelas(1000, 250)
+    if len(fatias) != 4 or fatias[-1].stop > 1000:
+        problemas.append("as janelas sem sobreposição não cobrem a série como deviam")
+    if len(estabilidade.janelas(1000, 250, 100)) != 8:
+        problemas.append("as janelas com passo não são as que o passo declara")
+
+    # a mesma pergunta em cada pedaço: série constante dá respostas constantes
+    constante_janela = pd.Series(np.full(1000, 3.0))
+    respostas_constantes = estabilidade.por_janela(constante_janela, lambda p: float(p.mean()), 250)
+    if not np.allclose(respostas_constantes, 3.0):
+        problemas.append("a mesma pergunta em cada pedaço não devolveu o mesmo numa série constante")
+    resumo_constante = estabilidade.resumo(respostas_constantes, 3.0, 0.01)
+    if resumo_constante["dispersao"] != 0.0 or resumo_constante["fora_da_banda"] != 0.0:
+        problemas.append("respostas constantes deveriam dar dispersão zero e nada fora da banda")
+
+    # a banda independente cai com a raiz do número de dias
+    if abs(estabilidade.banda_independente(0.05, 400) * 2
+           - estabilidade.banda_independente(0.05, 100)) > 1e-15:
+        problemas.append("a banda independente não segue a lei da raiz do número de dias")
+
     # o salvamento grava os dois formatos
     import tempfile
     from pathlib import Path
