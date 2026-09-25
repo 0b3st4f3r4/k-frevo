@@ -53,7 +53,7 @@ conferida por portão (§9). Onde cada degrau sobe:
 | a independência, a contagem do bloco, a binomial e o falso alarme | 4 |
 | o erro-padrão, a latência, o barulho sigma, o passo do deslocamento e a fusão que sobrevive à dependência arbitrária | 5 |
 | a partição, as células e o controle | 6 |
-| a dependência, a cópula que se dispensa e a cauda | 7 |
+| a dependência, a cópula que se dispensa, a cauda e a cópula que a contagem não escolhe | 7 |
 | a correlação de posto, o décimo e o controle da relação | 8 |
 | a tolerância | 9 |
 | o episódio do alarme, o chão do mundo parado e a assimetria | 10 |

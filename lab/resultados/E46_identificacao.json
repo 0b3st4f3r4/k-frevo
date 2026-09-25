@@ -1,0 +1,18 @@
+{
+ "familia_dias": 6198,
+ "familia_membros": 5,
+ "familia_residuo_max": 7.294165271787278e-14,
+ "familia_massa_pct": 1.8232,
+ "familia_conjuntos": 113,
+ "familia_fundo_pct": 0.5,
+ "familia_fundo_min_pct": 0.0971,
+ "familia_fundo_max_pct": 0.1794,
+ "familia_fundo_razao": 1.848,
+ "familia_fundo_medido_pct": 0.2171,
+ "familia_fundo_barra_pct": 0.2658,
+ "familia_cortes_dentro": 1,
+ "familia_cortes": 4,
+ "familia_controle_razao": 10.798,
+ "familia_controle_largura_pct": 0.0227,
+ "familia_peso_mistura_pct": 35.87
+}

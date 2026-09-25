@@ -18,16 +18,31 @@ correlação, não é cópula, é contagem.
 série, e muda tudo o que se pode perder junto. Por isso \texttt{pareado} existe: desloca uma das
 séries e deixa a outra exatamente onde estava, de modo que a experiência possa mostrar que a
 margem não se mexeu e a conta conjunta desabou.
+
+**A continuação que a identificação pede.** A contagem da junta assina quatro cantos e
+nenhum ponto a mais: a \emph{subcópula} mede esses cantos, a \emph{família de extensões}
+constrói um subconjunto explícito das medidas duplamente estocásticas que os casam, e o
+\emph{conjunto identificado} devolve o intervalo que esse subconjunto assina em cada nível de
+corte. O defeito que elas tornam impossível: casar a família na margem nominal em vez da
+medida --- cada membro carrega o resíduo contra a massa-alvo, e resíduo grande é erro de
+construção, não largura de família.
 """
+import math
+
 import numpy as np
 import pandas as pd
+from scipy.integrate import quad
+from scipy.special import ndtr as _ndtr, ndtri as _ndtri
+from scipy.stats import chi2 as _chi2
+from scipy.stats import t as _t
 
 from . import promessa
 
 JANELA_EPISODIO = 5
 
 __all__ = ["JANELA_EPISODIO", "rompimentos", "pareado", "juntos", "episodios_dirigidos",
-           "bloco_conjunto", "carteira", "perda_media"]
+           "bloco_conjunto", "carteira", "perda_media", "subcopula", "familia_compativel",
+           "conjunto_identificado"]
 
 
 def rompimentos(serie: pd.Series, janela: int = 252, cauda: float = promessa.CAUDA_PADRAO) -> pd.Series:
@@ -178,3 +193,222 @@ def perda_media(carteira: pd.Series, mascara: pd.Series) -> float:
     if selecionados.empty:
         raise ValueError("a mascara nao seleciona dia nenhum")
     return float(selecionados.mean())
+
+
+# --- a cópula que a contagem não escolhe: subcópula, família e conjunto identificado ---
+
+def subcopula(rompe_a: pd.Series, rompe_b: pd.Series) -> dict:
+    r"""O que a contagem assina na grade das margens: os quatro cantos da subcópula.
+
+    A margem deste capítulo é binária --- o dia rompe o corte ou não rompe ---, e a
+    probabilidade integral de uma margem binária só visita três pontos: zero, o ponto em
+    que ela salta e um. Lida nessa grade, a junta inteira se decide em quatro cantos: os
+    dois que cada margem assina sozinha, o canto do um, e o canto de \emph{dia nenhum},
+    único que a contagem conjunta assina. É pouco, e é tudo: a subcópula carrega esse
+    pouco sem inventar o resto --- e sem escolher membro nenhum da família que o estende.
+
+    Devolve as taxas marginais medidas, a massa do retângulo em que as duas rompem, os
+    quatro cantos na grade das margens e a contagem que assina cada um. A margem casada é
+    sempre a \emph{medida} --- a taxa que o dado entregou ---, e nunca a nominal: casar na
+    nominal é o defeito que o resíduo da família pega, porque nenhum membro devolveria a
+    massa-alvo.
+    """
+    comuns = rompe_a.index.intersection(rompe_b.index)
+    if comuns.empty:
+        raise ValueError("as duas series nao tem datas em comum")
+    a = rompe_a.loc[comuns].astype(bool).to_numpy()
+    b = rompe_b.loc[comuns].astype(bool).to_numpy()
+    taxa_a, taxa_b = float(a.mean()), float(b.mean())
+    if not 0.0 < taxa_a < 1.0 or not 0.0 < taxa_b < 1.0:
+        raise ValueError("a grade exige margem com rompimento e com dia comum "
+                         "(taxa estritamente entre zero e um em cada perna)")
+    nenhum = int((~a & ~b).sum())
+    somente_a = int((a & ~b).sum())
+    somente_b = int((~a & b).sum())
+    juntos_ = int((a & b).sum())
+    massa = juntos_ / a.size
+    return {
+        "dias": int(a.size),
+        "taxa_a": taxa_a,
+        "taxa_b": taxa_b,
+        "u_a": 1.0 - taxa_a,
+        "u_b": 1.0 - taxa_b,
+        "massa_retangulo": float(massa),
+        "canto_nenhum": 1.0 - taxa_a - taxa_b + massa,
+        "canto_margem_a": 1.0 - taxa_a,
+        "canto_margem_b": 1.0 - taxa_b,
+        "canto_tudo": 1.0,
+        "contagem": {"nenhum": nenhum, "somente_a": somente_a,
+                     "somente_b": somente_b, "juntos": juntos_},
+    }
+
+
+def _normal_binaria(rho: float, x: float, y: float) -> float:
+    r"""A acumulada normal bivariada de correlação \emph{rho} em (\emph{x}, \emph{y}).
+
+    Pela fórmula de Plackett: a acumulada é o produto das marginais mais a integral da
+    densidade bivariada, integrada de correlação zero até \emph{rho}. É quadratura
+    determinística de função suave --- sem sorteio nenhum, porque a família inteira não
+    sorteia: a correlação de cada membro é resolvida, não estimada.
+    """
+    if rho <= -1.0 + 1e-12:
+        return max(_ndtr(x) + _ndtr(y) - 1.0, 0.0)
+    if rho >= 1.0 - 1e-12:
+        return min(_ndtr(x), _ndtr(y))
+
+    def densidade(t):
+        um_menos = 1.0 - t * t
+        expoente = -(x * x - 2.0 * t * x * y + y * y) / (2.0 * um_menos)
+        return math.exp(expoente) / (2.0 * math.pi * math.sqrt(um_menos))
+
+    integral, _ = quad(densidade, 0.0, rho, epsabs=1e-13, epsrel=1e-13, limit=200)
+    return _ndtr(x) * _ndtr(y) + integral
+
+
+def _cdf_gaussiana(rho: float, u: float, v: float) -> float:
+    r"""A cópula gaussiana de correlação \emph{rho}, lida em (\emph{u}, \emph{v})."""
+    if u <= 0.0 or v <= 0.0:
+        return 0.0
+    if u >= 1.0:
+        return v
+    if v >= 1.0:
+        return u
+    if rho <= -1.0 + 1e-12:
+        return max(u + v - 1.0, 0.0)
+    if rho >= 1.0 - 1e-12:
+        return min(u, v)
+    return _normal_binaria(rho, _ndtri(u), _ndtri(v))
+
+
+def _cdf_t(nu: float, rho: float, u: float, v: float) -> float:
+    r"""A cópula t de \emph{nu} graus de liberdade e correlação \emph{rho}, em (\emph{u}, \emph{v}).
+
+    A t bivariada é uma mistura de escala da normal: o denominador comum vem de uma
+    qui-quadrado, e a acumulada é a esperada da acumulada normal sobre ela. A esperada sai
+    por quadratura no quantil da qui-quadrado --- determinística ---, com a escala
+    limitada, para o extremo da quadratura não produzir infinito vezes zero.
+    """
+    if u <= 0.0 or v <= 0.0:
+        return 0.0
+    if u >= 1.0:
+        return v
+    if v >= 1.0:
+        return u
+    if rho <= -1.0 + 1e-12:
+        return max(u + v - 1.0, 0.0)
+    if rho >= 1.0 - 1e-12:
+        return min(u, v)
+    x, y = _t.ppf(u, nu), _t.ppf(v, nu)
+
+    def esperada(quantil):
+        escala = min(math.sqrt(_chi2.ppf(quantil, nu) / nu), 1e12)
+        return _normal_binaria(rho, x * escala, y * escala)
+
+    integral, _ = quad(esperada, 0.0, 1.0, epsabs=1e-13, epsrel=1e-13, limit=200)
+    return integral
+
+
+def _rho_do_canto(cdf, u: float, v: float, alvo: float) -> float:
+    r"""A correlação que faz a cópula valer \emph{alvo} em (\emph{u}, \emph{v}), por bisseção.
+
+    A acumulada cresce com a correlação --- a derivada é a densidade, que não é negativa
+    ---, e o alvo está dentro das bordas de Fréchet: a bisseção converge sem sorteio e sem
+    inicialização. No alvo que encosta numa borda devolve a borda, porque toda cópula
+    coincide com as duas.
+    """
+    piso, teto = max(u + v - 1.0, 0.0), min(u, v)
+    if alvo <= piso + 1e-14:
+        return -1.0
+    if alvo >= teto - 1e-14:
+        return 1.0
+    baixo, alto = -1.0, 1.0
+    for _ in range(200):
+        meio = 0.5 * (baixo + alto)
+        valor = cdf(meio, u, v)
+        if abs(valor - alvo) < 1e-13:
+            return meio
+        if valor < alvo:
+            baixo = meio
+        else:
+            alto = meio
+        if alto - baixo < 1e-14:
+            break
+    return 0.5 * (baixo + alto)
+
+
+def familia_compativel(u_a: float, u_b: float, massa: float,
+                       nus: tuple = (2.0, 4.0, 8.0)) -> list:
+    r"""Um subconjunto explícito e declarado das extensões duplamente estocásticas da subcópula.
+
+    O teorema garante que toda medida duplamente estocástica que casa os quatro cantos é
+    uma cópula legítima das margens da contagem --- e são infinitas. Esta função constrói
+    um subconjunto finito e declarado delas: a gaussiana, uma t para cada elemento de
+    \emph{nus} e a mistura das duas bordas (comonótone e anti), com o peso resolvido pela
+    linearidade da massa no canto. A correlação de cada membro sai por bisseção no canto
+    que a contagem assina, e cada membro carrega o resíduo contra a massa-alvo: resíduo
+    grande é erro de construção, não largura de família. O subconjunto não é a família do
+    teorema --- é o que se escreve para ler a banda sem escolher membro.
+    """
+    if not 0.0 < u_a < 1.0 or not 0.0 < u_b < 1.0:
+        raise ValueError("os pontos da grade precisam ser interiores ao intervalo aberto")
+    if not nus:
+        raise ValueError("a familia declarada precisa de pelo menos um grau de liberdade")
+    if any(nu <= 0.0 for nu in nus):
+        raise ValueError("os graus de liberdade precisam ser positivos")
+    piso = max((1.0 - u_a) + (1.0 - u_b) - 1.0, 0.0)
+    teto = min(1.0 - u_a, 1.0 - u_b)
+    if not piso - 1e-12 <= massa <= teto + 1e-12:
+        raise ValueError("massa %g fora das bordas de Frechet [%g, %g] para essas margens"
+                         % (massa, piso, teto))
+    massa = min(max(massa, piso), teto)
+    alvo = u_a + u_b - 1.0 + massa
+    membros = []
+    rho = _rho_do_canto(lambda r, u, v: _cdf_gaussiana(r, u, v), u_a, u_b, alvo)
+    membros.append({"nome": "gaussiana", "familia": "gaussiana", "correlacao": rho,
+                    "cdf": lambda u, v, r=rho: _cdf_gaussiana(r, u, v)})
+    for nu in nus:
+        rho = _rho_do_canto(lambda r, u, v, n=nu: _cdf_t(n, r, u, v), u_a, u_b, alvo)
+        membros.append({"nome": "t_%s" % ("%g" % nu), "familia": "t",
+                        "nu": float(nu), "correlacao": rho,
+                        "cdf": lambda u, v, r=rho, n=float(nu): _cdf_t(n, r, u, v)})
+    borda_baixa, borda_alta = max(u_a + u_b - 1.0, 0.0), min(u_a, u_b)
+    peso = (alvo - borda_baixa) / (borda_alta - borda_baixa)
+    membros.append({"nome": "mistura", "familia": "mistura", "peso": peso,
+                    "cdf": lambda u, v, w=peso: w * min(u, v)
+                    + (1.0 - w) * max(u + v - 1.0, 0.0)})
+    for membro in membros:
+        membro["canto"] = float(membro["cdf"](u_a, u_b))
+        membro["residuo"] = abs(membro["canto"] - alvo)
+    return membros
+
+
+def conjunto_identificado(membros: list, niveis) -> dict:
+    r"""O intervalo que a família inteira assina na diagonal, em cada nível de corte.
+
+    No corte de nível \emph{q}, a taxa conjunta que um membro prevê é a leitura da
+    diagonal do canto de cima: a acumulada no ponto \emph{um menos q} de cada margem, mais
+    duas vezes o nível, menos um. A identidade vive aqui --- e não no caderno --- porque é
+    o lugar onde um sinal trocado passa sem ninguém ver. O dicionário devolvido tem, para
+    cada nível, a taxa de cada membro, o mínimo, o máximo e a razão entre os dois.
+    """
+    if not membros:
+        raise ValueError("a familia nao pode ser vazia")
+    niveis = tuple(niveis)
+    if not niveis:
+        raise ValueError("a varredura precisa de pelo menos um nivel")
+    saida = {}
+    for nivel in niveis:
+        if not 0.0 < nivel < 0.5:
+            raise ValueError("o nivel %g precisa estar entre zero e meio" % nivel)
+        taxas = {}
+        for membro in membros:
+            canto = float(membro["cdf"](1.0 - nivel, 1.0 - nivel))
+            taxa = canto + 2.0 * nivel - 1.0
+            if taxa < -1e-9 or taxa > nivel + 1e-9:
+                raise ValueError("membro %s fora das bordas do par no nivel %g (taxa %g): "
+                                 "erro de leitura da diagonal" % (membro.get("nome", "?"), nivel, taxa))
+            taxas[membro["nome"]] = max(taxa, 0.0)
+        minimo, maximo = min(taxas.values()), max(taxas.values())
+        saida[float(nivel)] = {"taxas": taxas, "minimo": minimo, "maximo": maximo,
+                               "razao": (maximo / minimo) if minimo > 0.0 else float("inf")}
+    return saida

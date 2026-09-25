@@ -8,7 +8,7 @@
 % A prova de cegueira é medida: deslocando só o pareamento do segundo mercado, a primeira
 % perna rompe os MESMOS 315 dias e a razão contra a independência cai de 7,17 para 1,43.
 %
-% Medição: lab/experimentos/E05_dependencia.ipynb. Figuras: figuras/E05_dependencia_*.
+% Medição: lab/experimentos/E05_dependencia.ipynb e lab/experimentos/E46_identificacao.ipynb. Figuras: figuras/E05_dependencia_* e figuras/E46_identificacao_*.
 % =============================================================================
 
 \chapter{O dia em que tudo cai junto}
@@ -91,6 +91,72 @@ As duas retas do desenho marcam o zero de cada mercado, e o corte de cada dia fi
 que ele: o quadrante de baixo à esquerda é muito maior do que o punhado de pontos vermelhos que ele
 contém. Quem passa o olho encontra ali todo dia de queda, e a figura marca outra coisa --- o dia em
 que as duas pernas foram ao fundo juntas.
+
+\section{A cópula que a contagem não escolhe}
+
+A seção anterior dispensou a cópula com um argumento de gosto: se ela tem de ser escolhida,
+escolher errado erra na cauda. Aqui o argumento deixa de ser de gosto e vira consequência de
+teorema --- e a razão está na margem deste capítulo. A margem é de contagem: o dia rompe o corte
+ou não rompe, e numa margem assim a probabilidade integral só visita três pontos, que são o zero,
+o ponto em que ela salta e o um.
+
+% aterramento: subcopula
+Nessa grade, a junta inteira se decide em quatro cantos: os dois que cada perna assina sozinha, o
+canto do um, e o canto de dia nenhum, que é o único que a contagem conjunta assina. O objeto que
+carrega esse pouco sem inventar o resto é a \textbf{subcópula}: a cópula lida apenas no grade das
+margens medidas. São \numFamiliaConjuntos{} dias em que as duas pernas romperam juntas, e é
+\emph{tudo} o que a contagem conjunta diz.
+
+% aterramento: familia-de-extensoes
+% aterramento: conjunto-identificado
+O teorema de Sklar garante que existe cópula casando as margens, e não garante que ela seja uma
+só: o que a subcópula deixa em aberto é preenchido pelas \textbf{medidas duplamente estocásticas}
+que a estendem, e delas há infinitas \cite{amo2012characterization}. É aqui que a escolha que a
+seção anterior tratava como risco muda de estatuto. Com margem de contagem, escolher a cópula não
+é uma decisão arriscada: é uma decisão que o dado não determina. Quem escolhe, escolhe sozinho. O \textbf{conjunto identificado} é o que sobra dessa conta:
+a banda que a contagem admite e não fecha.
+
+O instrumento constrói um subconjunto \emph{declarado} dessas extensões --- a gaussiana, uma t
+para cada grau de liberdade e a mistura das duas bordas, em \numFamiliaMembros{} membros ---, e
+cada membro tem a correlação resolvida por bisseção para casar a massa \emph{medida}, e não a
+nominal. Todos casam: o resíduo máximo é de \numFamiliaResiduoMax. No corte deste capítulo os
+cinco preveem a mesma taxa conjunta, e ela é a medida. A família está colada onde a contagem fala.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E46_identificacao_1.pdf}
+  \caption{A taxa conjunta que cada membro da família prevê, no corte deste capítulo e no corte
+    fundo. No painel da esquerda as cinco barras têm a mesma altura e a linha da taxa medida
+    passa sobre elas; no da direita as mesmas barras se abrem, e o ponto medido vem com a barra de
+    blocos.}
+  \label{fig:familia}
+\end{figure}
+
+No corte fundo ela se abre --- e o dado fica do lado de fora. A \numFamiliaFundoPct\% da
+distribuição, os cinco membros discordam entre \numFamiliaFundoMinPct\% e
+\numFamiliaFundoMaxPct\% --- \numFamiliaFundoRazao{} vezes entre o mínimo e o máximo ---, e a
+taxa medida naquele corte é \numFamiliaFundoMedidoPct\%, acima do máximo da família declarada. A
+taxa medida entra na banda em \numFamiliaCortesDentro{} dos \numFamiliaCortes{} cortes medidos, e
+a barra de blocos daquele corte é de \numFamiliaFundoBarraPct{} pontos percentuais: com
+\numFamiliaConjuntos{} dias conjuntos, o corte fundo tem poucos dias, e a barra engole a
+distância. O que fica dito é o que se pode dizer: a contagem deixa uma banda em aberto, e a
+amostra não é grande o bastante para dizer onde o dado cai dentro dela.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E46_identificacao_2.pdf}
+  \caption{A banda que a contagem deixa em aberto, contra o nível do corte. As duas bordas da
+    família se afastam quando o corte desce; os pontos medidos vêm com a barra de blocos, e as
+    linhas pontilhadas são as bordas de Fréchet do par --- o produto das margens por baixo e o
+    mínimo delas por cima.}
+  \label{fig:banda}
+\end{figure}
+
+Falta o controle que separa a largura da banda do achar das duas pernas: um par
+\emph{independente}, do mesmo tamanho e submetido à mesma rotina, tem razão de
+\numFamiliaControleRazao{} no mesmo corte, contra \numFamiliaFundoRazao{} do par medido. A banda
+não é do achar das pernas, e no par sem dependência nenhuma ela é ainda mais larga: o que a
+contagem deixa em aberto é grandeza da contagem.
 
 \section{O par é que decide}
 

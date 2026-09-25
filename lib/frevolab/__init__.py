@@ -392,6 +392,27 @@ def auto_teste() -> list:
         problemas.append("o relógio da espera reinicia a cada rompimento, e não a cada episódio: "
                          "com a regra escrita o instrumento mediria um episódio aqui, e não dois")
 
+    # --- dependencia: a copula que a contagem nao escolhe, e a familia que a estende ---
+    familia_forjada = dependencia.familia_compativel(0.95, 0.95, 0.02)
+    residuo_forjado = max(m["residuo"] for m in familia_forjada)
+    if residuo_forjado > 1e-9:
+        problemas.append("familia_compativel: membro nao casa a massa-alvo (residuo %.2e)"
+                         % residuo_forjado)
+    banda_forjada = dependencia.conjunto_identificado(familia_forjada, niveis=(0.01,))[0.01]
+    if not banda_forjada["minimo"] < banda_forjada["maximo"]:
+        problemas.append("conjunto_identificado: a banda do corte fundo veio fechada")
+    if banda_forjada["razao"] <= 1.0:
+        problemas.append("conjunto_identificado: a familia nao se abre no corte fundo "
+                         "(razao %.3f)" % banda_forjada["razao"])
+    rng_copula = np.random.default_rng(20260926)
+    indice_copula = pd.RangeIndex(4000)
+    perna_a = pd.Series(rng_copula.random(4000) < 0.05, index=indice_copula)
+    perna_b = pd.Series(rng_copula.random(4000) < 0.05, index=indice_copula)
+    conta_copula = dependencia.subcopula(perna_a, perna_b)
+    if abs(conta_copula["massa_retangulo"] - 0.0025) > 0.004:
+        problemas.append("subcopula: num par independente a massa nao cai no produto das taxas")
+    if conta_copula["contagem"]["juntos"] != int((perna_a & perna_b).sum()):
+        problemas.append("subcopula: a contagem conjunta nao bate com o dado")
     # --- o recorde e o mundo que faltou (recorde.py) ---
 
     # a soma das duas chances é um: o maior valor do conjunto está de um lado ou do outro
