@@ -16,8 +16,8 @@ from importlib.metadata import PackageNotFoundError, version
 
 from . import (adaptativa, alerta, aposta, calendario, centro, dados, dependencia, direcao, evidencia, esquecimento,
                estabilidade, graficos, intervencao, laco, lei, mudanca, multiplicidade, nivel, operador, partilha,
-               pares, profundidade, proporcao, promessa, ramificacao, recorde, regimes, relogio, resumo, vigia,
-                volatilidade)
+               pares, profundidade, proporcao, promessa, protecao, ramificacao, recorde, regimes, relogio,
+                resumo, vigia, volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -29,7 +29,7 @@ except PackageNotFoundError:
 
 __all__ = ["adaptativa", "alerta", "calendario", "dados", "dependencia", "esquecimento", "estabilidade",
            "graficos", "intervencao", "laco", "lei", "mudanca", "nivel", "partilha", "pares", "profundidade",
-           "proporcao",
+           "proporcao", "protecao",
            "promessa", "ramificacao", "recorde", "regimes", "relogio", "resumo", "vigia", "volatilidade",
            "VERSAO", "auto_teste"]
 
@@ -996,5 +996,21 @@ def auto_teste() -> list:
     caixas_g7 = profundidade.razoes(pd.Series(0.01 * gc.to_numpy()), pd.Series(0.012 * gd.to_numpy()), janela=252)
     if profundidade.expoente(list(caixas_g7), caixas_g7) >= alfa_g:
         problemas.append("profundidade: mais correlação não abaixou o expoente da gaussiana")
+
+    # --- o preco da protecao que protege (protecao.py) ---
+    rng_prot = np.random.default_rng(61)
+    indep_a = pd.Series(0.012 * rng_prot.normal(0.0, 1.0, 30000))
+    indep_b = pd.Series(0.017 * rng_prot.normal(0.0, 1.0, 30000))
+    perdas_ind = protecao.perdas_conjuntas(indep_a, indep_b)
+    chao_ind = protecao.capital_conjunto(perdas_ind) / protecao.capital_marginal(indep_a, indep_b)
+    if not 1.2 < chao_ind < 2.2:
+        problemas.append("protecao: o chao independente da conta conjunta saiu do declarado (%.3f)" % chao_ind)
+    choq_a, choq_b = mudanca.par_de_cauda(30000, np.random.default_rng(62), 0.014, 0.5, 0.15, 3.0)
+    perdas_choq = protecao.perdas_conjuntas(pd.Series(choq_a), pd.Series(choq_b))
+    razao_choq = protecao.capital_conjunto(perdas_choq) / protecao.capital_marginal(pd.Series(choq_a), pd.Series(choq_b))
+    if not razao_choq > chao_ind + 0.5:
+        problemas.append("protecao: o choque comum nao encareceu a barreira correta (%.3f contra %.3f)" % (razao_choq, chao_ind))
+    if not 0.0 <= protecao.descoberto(protecao.capital_conjunto(perdas_choq), perdas_choq) <= 0.08:
+        problemas.append("protecao: o capital do quantil nao cobre o nivel prometido")
 
     return problemas
