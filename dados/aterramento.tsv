@@ -154,3 +154,6 @@ funcao-de-crescimento	a contagem das separacoes que a classe realiza	termo	funç
 divergencia-em-bits	o preco da hipotese escolhida, medido em bits	termo	divergência em bits	29	logaritmo	29
 prior	a hipotese de partida, que a cota cobra em bits	termo	prior	29	lei	29
 unidade-dormente	a unidade do estado que satura em quase todos os dias	termo	dormente	29	capacidade	29
+passo-da-recalibragem	o passo que move o limiar contra o orcamento, dia a dia	termo	passo da recalibragem	20	falso-alarme	20
+selecao-ebh	a selecao dos dias a partir de e-valores, com a fracao de falsos assinada	termo	e-BH	20	razao	20
+taxa-de-falsa-descoberta	a fracao de falsos assinada entre as descobertas	termo	falsa descoberta	20	falso-alarme	20

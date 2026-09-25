@@ -66,7 +66,7 @@ conferida por portão (§9). Onde cada degrau sobe:
 | a padronização | 17 |
 | o laço da reação, o controle de reação nula e a recalibragem sobre a própria série | 18 |
 | o esquecimento, a meia-vida, a tolerância do degrau, a plasticidade, o recomeço e o piso | 19 |
-| a janela que se escolhe sozinha, o teste das metades e o orçamento de encolhimentos falsos | 20 |
+| a janela que se escolhe sozinha, o teste das metades, o orçamento de encolhimentos falsos, o limiar que se recalibra e a taxa de falsa descoberta | 20 |
 | o orçamento da conta de direção, o instrumento conferido, o tempo para ver e o ano que não é a direção | 21 |
 | o episódio dirigido | 22 |
 | o relógio contra a causa, os alinhamentos declarados, o controle de canal impossível, a cascata calibrada e a intervenção que separa | 23 |

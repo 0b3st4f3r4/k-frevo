@@ -15,6 +15,7 @@ exatamente a fixa do tamanho máximo, dia a dia: é o controle estrutural desta 
 **O limite declarado (§8.5).** A janela que se encolhe é instrumento: o que ela mede é o preço de
 deixar o dado escolher, não uma afirmação sobre qual mundo está do lado de fora.
 """
+import math
 import numpy as np
 
 MINIMA_PADRAO = 21
@@ -190,6 +191,6 @@ def e_das_metades(serie, minima: int = MINIMA_PADRAO, maxima: int = MAXIMA_PADRA
             p_valores[t] = 1.0
             continue
         z = abs(float(np.mean(nova) - np.mean(velha))) / erro
-        p_valores[t] = float(2.0 * (1.0 - 0.5 * (1.0 + np.math.erf(z / np.sqrt(2.0))))) \
-            if hasattr(np, "math") else float(2.0 * (1.0 - 0.5 * (1.0 + __import__("math").erf(z / np.sqrt(2.0)))))
+        valor_p = math.erfc(z / math.sqrt(2.0))          # o p-valor bilateral, em forma estavel
+        p_valores[t] = float(min(max(valor_p, 1e-12), 1.0))
     return {"p": p_valores, "e": aposta.e_calibrado(p_valores, kapa)}

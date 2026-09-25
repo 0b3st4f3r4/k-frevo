@@ -109,6 +109,80 @@ do seu teto --- a diferença cabe numa dispersão entre mundos. A cadência de f
 escolha é quase grátis quando nada muda: é o seguro que este capítulo mede --- barato no parado,
 insuficiente no degrau.
 
+\section{O limiar que se recalibra, e o falso que se assina}
+
+A seção anterior fechou o diagnóstico com um número: o limiar calibrado na escala do mundo antigo
+fica pequeno demais, a janela despenca e não para mais de cortar. Faltam as duas saídas que a
+literatura oferece --- uma pelo eixo do tempo, outra pelo eixo da bateria --- e faltam medidas.
+
+A primeira é consertar a escala do limiar. Em vez de calibrá-lo uma vez e confiar, o
+\textbf{passo da recalibragem} move o limiar todo dia contra o orçamento declarado: no dia em que
+houve corte o limiar sobe, nos dias em que não houve ele derrete.
+
+% aterramento: passo-da-recalibragem
+Medido em \numRecalibraMundos{} mundos de \numRecalibraDias{} dias, com o orçamento de
+\numRecalibraOrcamento{} falso por ano, o limiar fixo --- calibrado no mundo que nunca muda, limiar
+de \numRecalibraLimiarFixo{} --- obedece onde foi calibrado e quebra onde importa: a cadência é de
+\numRecalibraCadenciaParado{} encolhimentos por ano no mundo parado e de
+\numRecalibraCadenciaDobra{} no mundo que dobra. O limiar recalibrado, nos três ganhos declarados,
+entrega \numRecalibraCadenciaGamaBaixo{}, \numRecalibraCadenciaGamaMeio{} e
+\numRecalibraCadenciaGamaAlto{} --- todos na vizinhança do orçamento, e o fixo corta
+\numRecalibraRazaoCadencias{} vezes mais do que o ganho do meio.
+\textbf{A obediência ao orçamento sobrevive ao deslocamento}, e é isso que a fonte assina
+\cite{candes2021adaptive}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E51_recalibra_1.pdf}
+  \caption{À esquerda, a cadência de encolhimentos por ano de cada braço, contra a linha do
+    orçamento; à direita, a janela mediana depois da mudança. O limiar fixo na dobra corta muito
+    acima da linha, e é o único cujo painel da direita desaba.}
+  \label{fig:recalibra:cadencia}
+\end{figure}
+
+O preço tem lugar e nome. O que obedece ao orçamento não persegue a escala nova: a janela do braço
+recalibrado fica em \numRecalibraJanelaGamaMeio{} dias --- o máximo declarado --- enquanto a do
+limiar fixo cai a \numRecalibraJanelaDobra. \textbf{A recalibragem entrega a promessa e não a
+escala}: a cadência fica certa e a janela velha, e quem lê o erro do nível depois da mudança
+encontra os dois braços parecidos justamente porque a janela que não encolhe erra devagar.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E51_recalibra_2.pdf}
+  \caption{O caminho do limiar nos dois mundos, com a linha do limiar fixo. Em cima, no mundo que
+    dobra, o limiar recalibrado sobe depois da mudança marcada; embaixo, no mundo que nunca muda,
+    ele anda pouco.}
+  \label{fig:recalibra:caminho}
+\end{figure}
+
+A segunda saída é a bateria, e ela responde a outra pergunta: não \emph{quando} cortar, mas
+\emph{quanto} do que se corta se pode assinar. A \textbf{seleção e-BH} escolhe os dias a partir de
+e-valores com a \textbf{taxa de falsa descoberta} declarada, e a garantia vale sob dependência
+arbitrária entre os dias, porque a média de e-valores é e-valor \cite{wang2022false}.
+
+% aterramento: selecao-ebh
+% aterramento: taxa-de-falsa-descoberta
+Medida na bateria de \numRecalibraEbhComparacoesParado{} dias do mundo que não muda, a seleção
+escolhe \numRecalibraEbhDiasParado{} dias --- nenhum falso comprado, contra os
+\numRecalibraCadenciaParado{} cortes por ano do limiar fixo. No mundo que dobra ela compra a
+descoberta verdadeira em \numRecalibraEbhLatencia{} dias depois da mudança, contra os
+\numRecalibraLatenciaFixo{} do limiar fixo: \textbf{o orçamento que o capítulo media passa a ser
+uma conta assinada}, e o preço é a latência --- a garantia não acelera a descoberta, ela a
+certifica.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E51_recalibra_3.pdf}
+  \caption{À esquerda, no mundo que não muda, os falsos comprados por ano: o limiar fixo e a
+    seleção e-BH. À direita, no mundo que dobra, os dias até o primeiro corte comprado.}
+  \label{fig:recalibra:bateria}
+\end{figure}
+
+São dois consertos de moedas diferentes, e é isso que fica. A recalibragem obedece à cadência e
+paga com a janela velha; a seleção assina a fração de falsos e paga com a latência. Nenhuma das
+duas devolve o que o capítulo mediu que se perde --- a rapidez de quem estava na escala certa --- e
+as duas trocam uma promessa por outra declarada, que é a única troca honesta desta família.
+
 \section{As séries reais}
 
 \begin{figure}[ht]
