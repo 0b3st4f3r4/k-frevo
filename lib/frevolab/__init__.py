@@ -15,8 +15,8 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 from importlib.metadata import PackageNotFoundError, version
 
 from . import (alerta, aposta, calendario, centro, dados, dependencia, direcao, evidencia, esquecimento, estabilidade,
-               graficos, intervencao, mudanca, multiplicidade, nivel, operador, partilha, proporcao, promessa, recorde,
-               pares, regimes, resumo, vigia, volatilidade)
+               graficos, intervencao, mudanca, multiplicidade, nivel, operador, partilha, proporcao, promessa, ramificacao,
+               recorde, pares, regimes, resumo, vigia, volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -27,8 +27,8 @@ except PackageNotFoundError:
     VERSAO = "0.1.0"
 
 __all__ = ["alerta", "calendario", "dados", "dependencia", "esquecimento", "estabilidade", "graficos",
-           "intervencao", "mudanca", "nivel", "partilha", "proporcao", "promessa", "recorde",
-           "regimes", "vigia", "volatilidade", "VERSAO", "auto_teste"]
+           "intervencao", "mudanca", "nivel", "partilha", "proporcao", "promessa", "ramificacao",
+           "recorde", "regimes", "vigia", "volatilidade", "VERSAO", "auto_teste"]
 
 
 def auto_teste() -> list:
@@ -832,6 +832,34 @@ def auto_teste() -> list:
         problemas.append("alerta: o limiar calibrado não gasta o orçamento pedido (%.3f)" % gasto_alerta)
     if alerta.orcamento(nulos_alerta, limiar_alerta * 1.01, dias_uteis=252)["episodios_por_ano"] > gasto_alerta:
         problemas.append("alerta: subir o limiar passou a gastar mais")
+
+    # --- as duas famílias que podem ter gerado a cauda (ramificacao.py) ---
+    rng_cauda = np.random.default_rng(41)
+    ext_mao = ramificacao.extremos(np.array([0.01, -0.10, -0.05, 0.02]))
+    if abs(ext_mao["razao"] - 2.0) > 1e-12 or abs(ext_mao["pior"] - 0.10) > 1e-12:
+        problemas.append("ramificacao: extremos não devolve o pior e a razão de mão")
+    try:
+        ramificacao.extremos(np.array([0.01, 0.02, 0.03]))
+        problemas.append("ramificacao: extremos aceitou série sem segundo pior em queda")
+    except ValueError:
+        pass
+    # A família que sorteia: variância um, e a razão mediana do t dentro do intervalo declarado.
+    sorteios_cauda = ramificacao.independente(200000, rng_cauda)
+    if not 0.97 < float(sorteios_cauda.std()) < 1.03 or abs(float(sorteios_cauda.mean())) > 0.02:
+        problemas.append("ramificacao: o t padronizado não tem variância um")
+    razoes_t = [ramificacao.extremos(ramificacao.independente(2000, rng_cauda))["razao"]
+                for _ in range(40)]
+    if not 1.05 < float(np.median(razoes_t)) < 1.70:
+        problemas.append("ramificacao: a razão mediana do t saiu do intervalo declarado")
+    # A família que se reproduz: cacho (dias ruins correlacionados) e pico que o t não faz.
+    mundo_repr = ramificacao.critica(60000, rng_cauda)
+    lag1_repr = float(np.corrcoef(mundo_repr[:-1], mundo_repr[1:])[0, 1])
+    if lag1_repr < 0.2:
+        problemas.append("ramificacao: a família que se reproduz não agrupa os dias ruins (%.3f)" % lag1_repr)
+    if float(-mundo_repr.min()) < 8.0:
+        problemas.append("ramificacao: a ramificação crítica não faz o pico que a cauda pede")
+    if float(np.unique(mundo_repr).size) < 50:
+        problemas.append("ramificacao: a população não visita estados demais")
 
     import matplotlib
     matplotlib.use("Agg")
