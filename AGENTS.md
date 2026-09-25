@@ -60,7 +60,7 @@ conferida por portão (§9). Onde cada degrau sobe:
 | a pergunta herdada, a família mais simples, a taxa sozinha, o estado que dura, o peso de cada explicação e a escolha pela divergência | 11 |
 | o recorde como instrumento de contagem, e as duas famílias geradoras da cauda | 12 |
 | a semente | 13 |
-| a janela ótima por forma de mundo, a família localmente estacionária e o orçamento da variação | 14 |
+| a janela ótima por forma de mundo, a família localmente estacionária e o orçamento da variação e as três réguas do andar da lei | 14 |
 | a primeira travessia, a margem cega por construção, o instrumento que vê e o que ele cobra, a comparação e o controle | 15 |
 | a memória, o estacionário, a recursão da oscilação e o ponto fixo | 16 |
 | a padronização | 17 |

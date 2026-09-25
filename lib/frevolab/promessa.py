@@ -27,13 +27,15 @@ esse comprimento.
 import numpy as np
 import pandas as pd
 
+from . import lei
+
 CAUDA_PADRAO = 0.05
 BLOCO_PADRAO = 60
 
 __all__ = ["CAUDA_PADRAO", "BLOCO_PADRAO", "posto", "corte", "corte_no_posto",
            "violacoes", "violacoes_no_posto", "violacoes_atrasadas", "entrega_do_corte",
            "conta_em_blocos",
-           "episodios_acima", "entrega"]
+           "episodios_acima", "entrega", "corte_com_margem", "margem_do_andar"]
 
 
 def posto(janela: int, cauda: float = CAUDA_PADRAO) -> int:
@@ -188,3 +190,57 @@ def entrega(retornos: pd.Series, janela: int, cauda: float = CAUDA_PADRAO,
         "bloco_pior_data": rotulo,
         "bloco_acima_do_dobro": float((contagem > 2 * prometido).mean()),
     }
+
+
+def corte_com_margem(retornos: pd.Series, janela: int, cauda: float = CAUDA_PADRAO,
+                     margem=0.0) -> pd.Series:
+    r"""O corte com a barra rebaixada de \emph{margem}: a largura que a promessa paga para sobreviver.
+
+    A margem entra como número fixo ou como série do mesmo comprimento --- e é como série que
+    ela chega de \texttt{margem\_do\_andar}. Com margem zero, a barra é exatamente a do corte,
+    e é essa identidade que o \texttt{auto\_teste} confere: a margem só rebaixa, nunca ergue,
+    e os primeiros \emph{janela} dias continuam sem barra, como manda o corte.
+
+    No mundo que anda, a janela que calibra atravessa leis cada vez mais calmas do que a de
+    hoje, e o corte puro --- erguido em dias tranquilos --- é rompido além do que a conta
+    assinou \cite{xu2025wasserstein}. Rebaixar a barra do andar medido devolve a assinatura, e
+    o preço é a largura: a margem é o quanto a barra desce.
+    """
+    if isinstance(margem, pd.Series):
+        finitos = margem.to_numpy(dtype=float)
+        if np.any(finitos[np.isfinite(finitos)] < 0.0):
+            raise ValueError("a margem não pode ser negativa: largura se paga, não se recebe")
+    elif float(margem) < 0.0:
+        raise ValueError("a margem não pode ser negativa: largura se paga, não se recebe")
+    return corte(retornos, janela, cauda) - margem
+
+
+def margem_do_andar(retornos: pd.Series, janela: int, cauda: float = CAUDA_PADRAO,
+                    c: float = 1.0, recentes: int = 63) -> pd.Series:
+    r"""A margem do andar: o quanto a barra desce, medido no andar entre a janela e os dias recentes.
+
+    A cada dia, a régua de Wasserstein entre a lei da janela inteira --- a memória que ergue o
+    corte --- e a lei dos últimos \emph{recentes} dias, multiplicada pela constante declarada
+    \emph{c}. O dia é julgado com o que havia antes dele: as duas leis terminam ontem, como a
+    barra do corte termina.
+
+    A constante não é universal, e isso é declarado: ela traduz andar em largura, e a tradução
+    depende da forma de andar --- o caderno mede o preço de cada forma, e o \texttt{auto\_teste}
+    confere apenas que, na forma medida, a margem devolve a violação à faixa sorteada da conta
+    assinada.
+    """
+    x = np.asarray(retornos, dtype=float)
+    if x.ndim != 1:
+        raise ValueError("a margem quer uma série de retornos, um dia por posição")
+    janela = int(janela)
+    recentes = int(recentes)
+    if janela < 3 or janela >= x.size:
+        raise ValueError("a janela da margem vive entre três dias e a série inteira menos um")
+    if not 2 <= recentes <= janela:
+        raise ValueError("os dias recentes vivem entre dois e a janela inteira")
+    if c <= 0.0:
+        raise ValueError("a constante da margem precisa ser positiva")
+    saida = np.full(x.size, np.nan)
+    for fim in range(janela, x.size):
+        saida[fim] = c * lei.regua(x[fim - janela:fim], x[fim - recentes:fim])["wasserstein"]
+    return pd.Series(saida, index=retornos.index, name="margem")

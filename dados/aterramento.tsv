@@ -124,3 +124,9 @@ desigualdade-de-pitagoras	a desigualdade de Pitagoras da projecao	termo	Pitágor
 subcopula	a copula lida apenas no grade das margens medidas	termo	subcópula	8	copula	8
 familia-de-extensoes	as medidas duplamente estocasticas que estendem a subcopula	termo	duplamente estocástic	8	subcopula	8
 conjunto-identificado	o trecho que a contagem deixa em aberto, no corte fundo	termo	conjunto identificado	8	copula	8
+varTotal	a variacao total entre duas leis: metade da massa que muda de celula	termo	variação total	14	lei	14
+kullback	a divergencia de Kullback-Leibler entre duas leis	termo	Kullback	14	lei	14
+wasserstein	a distancia de Wasserstein entre duas leis: a massa pesada pela distancia	termo	Wasserstein	14	lei,quantil	14
+pinsker	a cota de Pinsker: a variacao total presa a raiz da metade da divergencia	termo	Pinsker	14	kullback,varTotal	14
+diametro	o diametro do suporte declarado	termo	diâmetro	14	varTotal	14
+margem-do-andar	a barra rebaixada pela distancia de Wasserstein do andar	termo	margem do andar	14	barra,quantil	14

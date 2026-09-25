@@ -1,5 +1,5 @@
 % CAPÍTULO 14 — a última volta: a janela e a lei que anda.
-% Medição: lab/experimentos/E34_janela.ipynb. Figuras: figuras/E34_janela_1.pdf, E34_janela_3.pdf, E34_janela_2.pdf.
+% Medição: lab/experimentos/E34_janela.ipynb e lab/experimentos/E48_regua.ipynb. Figuras: figuras/E34_janela_1.pdf, E34_janela_3.pdf, E34_janela_2.pdf. e figuras/E48_regua_*.
 % Fracasso de abertura: a janela do corte e a memória de vinte e um dias foram medidas em mundos
 % que não mudam ou que mudam de uma vez só; a porta que «ver mundos» deixou aberta — parâmetros
 % que variam no tempo — nunca foi atravessada com instrumento na mão. Este capítulo atravessa.
@@ -110,6 +110,96 @@ do logaritmo da escala, a moeda da casa para a medida que orça o movimento de p
 contra \numJanelaIbovOrcamentoChao{} no Ibovespa, \numJanelaBtcOrcamento{} contra
 \numJanelaBtcOrcamentoChao{} no Bitcoin. Em todos os três a lei andou acima do chão, e a distância
 é o que a família ajustada carrega.
+
+\section{A régua: em que moeda a lei andou}
+
+A seção anterior mediu o andar na moeda do \emph{parâmetro}: o orçamento da variação, que soma os
+passos da escala \cite{chen2018stationary}. Mas a promessa mais velha da casa --- o corte --- é
+calibrada na \emph{lei} da janela, e não num número dela. E "quanto a lei andou" não é uma pergunta
+com resposta única: ela depende da régua com que se mede.
+
+% aterramento: varTotal
+% aterramento: kullback
+% aterramento: wasserstein
+O instrumento mede o andar da lei empírica janela a janela em três réguas. A \textbf{variação
+total} é metade da massa que muda de célula. A \textbf{divergência de Kullback--Leibler} pesa o que
+muda pela informação. A \textbf{distância de Wasserstein} pesa o que muda pela distância que a
+massa andou. As três leem a mesma coisa --- duas leis --- e não concordam no número.
+
+Cada mercado tem o seu próprio chão, medido na mesma régua, no mesmo tamanho de série e com a mesma
+rotina: \numReguaChaoMundos{} mundos parados por mercado, com a oscilação daquele mercado,
+submetidos à mesma conta. O chão responde a pergunta que nenhum número de andar responde sozinho
+--- quanto disso o sorteio mostra de graça.
+
+% aterramento: pinsker
+% aterramento: diametro
+As três réguas não são independentes, e as duas amarras são conhecidas: a de \textbf{Pinsker}
+prende a variação total à raiz da metade da divergência, e a do \textbf{diâmetro} prende a
+Wasserstein ao diâmetro do suporte multiplicado pela variação total \cite{gibbs2002choosing}. Nas
+medidas as duas ficam dentro do que prometem: a pior razão de Pinsker é \numReguaPinskerPior{} e a
+pior do diâmetro é \numReguaDiametroPior, ambas abaixo de um.
+
+É aqui que as réguas se separam. Na variação total o andar dos mercados é \numReguaAndarTv{} contra
+o chão de \numReguaChaoTv; na divergência, \numReguaAndarKl{} contra \numReguaChaoKl{} --- as duas
+acima do chão, e as duas dizem que a lei andou. Na Wasserstein o andar mediano é
+\numReguaAndarWasserstein{} contra um chão de \numReguaChaoWasserstein, e o maior dos três mercados
+chega a \numReguaAndarWassersteinMax, ainda dentro do que o sorteio produz. \textbf{A régua que
+cobra a distância é a única que não vê o andar} --- e não há paradoxo nisso: no caminho de uma lei
+para outra, massa que anda pouco pesa pouco, e a maior parte do andar de uma janela não é feita de
+massa que atravessa o suporte.
+
+O brinquedo declarado mostra o mecanismo com uma massa só. Com \numReguaBrinquedoMassaPct\% da massa
+mudando de lugar, a variação total cobra \numReguaBrinquedoTvMiolo{} quando o movimento é no miolo e
+\numReguaBrinquedoTvBorda{} quando ele vai para a borda --- razão de \numReguaBrinquedoRazaoTv. A
+Wasserstein cobra \numReguaBrinquedoWassersteinMiolo{} no miolo e \numReguaBrinquedoWassersteinBorda{}
+na borda, razão de \numReguaBrinquedoRazaoWasserstein: a primeira cobra a massa, a segunda cobra a
+distância --- e é exatamente a distância que a primeira não cobra.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E48_regua_1.pdf}
+  \caption{O andar da lei janela a janela nos três mercados, nas três réguas, contra o chão do
+    próprio mercado. Nos dois primeiros painéis a barra passa o marcador do chão; no terceiro ela
+    não passa.}
+  \label{fig:regua:andar}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E48_regua_2.pdf}
+  \caption{A mesma massa em dois lugares do suporte, nas duas réguas. A variação total cobra o mesmo
+    nas duas posições; a Wasserstein cobra mais quando a massa vai para a borda.}
+  \label{fig:regua:brinquedo}
+\end{figure}
+
+% aterramento: margem-do-andar
+A consequência aparece no corte. No mundo que anda, o corte puro --- erguido em dias mais calmos do
+que os de hoje --- entrega \numReguaViolacaoPuraPct\% de violação contra os \numReguaAssinadaPct\%
+assinados, e passa da assinatura em \numReguaMundosPurosAcima{} dos \numReguaMundosAndando{} mundos:
+a promessa não sobrevive ao andar. O corte com \textbf{margem do andar} --- a barra rebaixada da
+distância de Wasserstein entre a lei da janela e a lei dos dias recentes, na constante declarada
+\cite{xu2025wasserstein} --- devolve \numReguaViolacaoMargemPct\%, ao preço de
+\numReguaMargemMediaPp{} pontos percentuais de largura.
+
+O preço é honesto, e o resultado não é um empate: a margem entrega a assinatura com folga
+--- \numReguaViolacaoMargemPct\% é menos violação do que o corte prometeu ---, e a folga é
+exatamente o que a largura compra. Em \numReguaMundosMargemDentro{} dos \numReguaMundosAndando{}
+mundos ela cai na faixa da assinatura. O que se pode afirmar é isso, e é bastante: a promessa se
+compra, e o preço tem nome.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E48_regua_3.pdf}
+  \caption{A violação depois da mudança, em \numReguaMundosAndando{} mundos que andam: a pilha do
+    corte puro, a do corte com margem e a linha da taxa assinada. A do puro fica à direita da
+    linha; a do com margem, à esquerda dela.}
+  \label{fig:regua:margem}
+\end{figure}
+
+Não sai daqui uma régua coroada. Duas das três veem o andar e uma não; a que não vê é a que cobra a
+distância --- e é justamente ela que a margem usa para devolver a assinatura. A conta da promessa e
+a conta do andar moram em moedas diferentes, e a seção seguinte mede quanto disso é o pedaço
+escolhido e quanto é a lei mudando debaixo dele.
 
 \section{A escada: quanto do pedaço é andar}
 

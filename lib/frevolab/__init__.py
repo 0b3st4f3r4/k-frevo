@@ -988,6 +988,51 @@ def auto_teste() -> list:
     if abs(lei.fracao_na_tolerancia(np.ones(4), np.array([1.0, 1.1, 1.5, 2.0]), 0.2, horizonte=4) - 0.5) > 1e-12:
         problemas.append("lei: a fração na tolerância não é a conta de mão")
 
+    # --- lei: a regua, e as duas amarras que prendem as tres distancias ---
+    rng_regua = np.random.default_rng(20260927)
+    x_regua = rng_regua.normal(0.0, 1.0, 4000)
+    curta_regua = lei.regua(x_regua[:252], x_regua[252:504], 20)
+    if not 0.0 <= curta_regua["tv"] <= 1.0:
+        problemas.append("regua: a variacao total saiu do intervalo de massa")
+    if curta_regua["kl"] < 0.0 or curta_regua["wasserstein"] < 0.0:
+        problemas.append("regua: distancia negativa entre duas amostras")
+    if curta_regua["razao_pinsker"] > 1.0 + 1e-9:
+        problemas.append("regua: a cota de Pinsker nao vale na medida (%.3f)"
+                         % curta_regua["razao_pinsker"])
+    if curta_regua["razao_diametro"] > 1.0 + 1e-9:
+        problemas.append("regua: a cota do diametro nao vale na medida (%.3f)"
+                         % curta_regua["razao_diametro"])
+    andar_regua = lei.andar_da_lei(x_regua, 252, 20)
+    if andar_regua["tv"] <= 0.0 or andar_regua["wasserstein"] <= 0.0:
+        problemas.append("andar_da_lei: o andar de uma serie com sorteio saiu nulo")
+    movida_regua = x_regua.copy()
+    movida_regua[:100] += 6.0
+    duas_reguas = lei.regua(x_regua, movida_regua, 20)
+    if not (duas_reguas["tv"] > 0.0 and duas_reguas["wasserstein"] > 0.05):
+        problemas.append("regua: massa levada longe nao moveu a Wasserstein")
+    base_brinquedo = rng_regua.normal(0.0, 1.0, 2000)
+    miolo_brinquedo = base_brinquedo.copy()
+    miolo_brinquedo[:100] += 1.5
+    borda_brinquedo = base_brinquedo.copy()
+    borda_brinquedo[:100] = 8.0
+    regua_miolo = lei.regua(base_brinquedo, miolo_brinquedo, 20)
+    regua_borda = lei.regua(base_brinquedo, borda_brinquedo, 20)
+    if not regua_borda["wasserstein"] > 2.0 * regua_miolo["wasserstein"]:
+        problemas.append("regua: a mesma massa na borda nao custou mais na Wasserstein")
+    if not (regua_borda["tv"] < 2.0 * regua_miolo["tv"] + 0.02):
+        problemas.append("regua: a variacao total cobrou a distancia")
+    serie_margem = pd.Series(mudanca.andando(3000, rng_regua, 0.01, fator=2.0))
+    corte_regua = promessa.corte(serie_margem, 252, 0.05)
+    sem_margem = promessa.corte_com_margem(serie_margem, 252, 0.05, margem=0.0)
+    if float((sem_margem - corte_regua).abs().max()) > 1e-12:
+        problemas.append("corte_com_margem: com margem zero a barra nao e a do corte")
+    margem_regua = promessa.margem_do_andar(serie_margem, 252, 0.05, c=1.0, recentes=63)
+    com_margem = promessa.corte_com_margem(serie_margem, 252, 0.05, margem=margem_regua)
+    validos_margem = com_margem.notna() & corte_regua.notna()
+    if not (com_margem[validos_margem] <= corte_regua[validos_margem] + 1e-15).all():
+        problemas.append("corte_com_margem: a margem ergueu a barra")
+    if not float(np.nanmedian(margem_regua.to_numpy())) > 0.0:
+        problemas.append("margem_do_andar: a margem do mundo que anda saiu nula")
     # --- o relógio contra a causa (relogio) ---
     rng_r = np.random.default_rng(77)
     xa = pd.Series(rng_r.normal(0.0, 0.012, 900), index=pd.bdate_range("2010-01-01", periods=900))
