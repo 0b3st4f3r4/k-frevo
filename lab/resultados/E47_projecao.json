@@ -1,0 +1,19 @@
+{
+ "projecao_baricentro_p": 0.164,
+ "projecao_baricentro_permanencia": 41.3,
+ "projecao_baricentro_razao": 3.35,
+ "projecao_controle_baricentro_p": 0.164,
+ "projecao_controle_divergencia": 0.0088,
+ "projecao_distancia_nats": 0.0315,
+ "projecao_divergencia_projetada": 0.0095,
+ "projecao_escolha_casas_zero": 1.0,
+ "projecao_escolha_fora": 7,
+ "projecao_peso_dominante": 0.34,
+ "projecao_peso_dominante_max": 0.519,
+ "projecao_replicas": 12,
+ "projecao_separacao_mediana": 0.0,
+ "projecao_separacao_pior": 2.0,
+ "projecao_separacao_tolerancias": 2.0,
+ "projecao_tolerancia_cabem": 2.5,
+ "projecao_vertice_estavel": 2
+}

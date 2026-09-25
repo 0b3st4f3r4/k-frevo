@@ -14,9 +14,18 @@ logaritmos é exatamente o logaritmo do quociente --- e é por isso que o livro 
 logaritmo. E a variância da soma de incrementos independentes é a soma das variâncias, de
 modo que o desvio do nível cresce com a raiz do horizonte: `sigma raiz de h`. É a previsão que o
 `auto_teste` confere contra a dispersão medida em mundos sorteados.
+
+**A inclinação da banda em toda escala.** O passo médio do caminho --- quanto o nível andou
+em `k` dias, em média, sobre todas as janelas --- cresce com o atraso, e o crescimento tem
+inclinação: o expoente do caminho, lido como a rampa do log-passo contra o log-atraso, e a
+dimensão do caminho, que é a mesma reta lida do outro lado, dois menos o expoente. **O
+defeito que este instrumento torna impossível:** comparar inclinações medidas com atrasos
+diferentes e janelas contadas diferentes --- aqui os atrasos são argumento, a regra de
+janelas é uma só, e tudo que se compara passa pela mesma conta.
 """
 __all__ = ["soma_das_variacoes", "produto_das_variacoes", "soma_dos_logs", "contas_do_pedaco",
-           "desvio_do_nivel", "mundos_do_passeio", "mudancas_de_nivel"]
+           "desvio_do_nivel", "mundos_do_passeio", "mudancas_de_nivel", "passo_do_caminho",
+           "expoente_do_caminho", "dimensao_do_caminho", "expoente_do_baralhado"]
 
 import numpy as np
 import pandas as pd
@@ -111,3 +120,90 @@ def mudancas_de_nivel(precos, dias: int) -> np.ndarray:
         raise ValueError("janela de %r dias" % dias)
     niveis = np.log(pd.Series(precos, dtype=float))
     return niveis.diff(dias).dropna().to_numpy()
+
+
+def passo_do_caminho(precos, atrasos) -> dict:
+    r"""O passo médio do caminho em cada atraso: quanto o nível andou em `k` dias, em média.
+
+    Para cada atraso `k`, a média de `|log p_{t+k} - log p_t|` sobre todas as janelas da
+    série, sobrepostas --- e sem normalização por `k`, o que é declaração e não acidente:
+    o passo médio cresce com o atraso, e é o crescimento dele que o expoente lê. É o mesmo
+    objeto da `mudancas_de_nivel`, agora no valor absoluto e em todas as escalas de uma vez.
+    """
+    niveis = np.log(np.asarray(precos, dtype=float))
+    n = niveis.size
+    saida = {}
+    for atraso in atrasos:
+        k = int(atraso)
+        if k < 1 or k >= n:
+            raise ValueError("atraso de %r dias numa série de %d: não há janela" % (k, n))
+        saida[k] = float(np.mean(np.abs(niveis[k:] - niveis[:n - k])))
+    return saida
+
+
+def expoente_do_caminho(precos, atrasos, janelas_minimas: int = 30) -> float:
+    r"""A inclinação do passo médio contra o atraso: a rampa em log-log, por mínimos quadrados.
+
+    Só entram no ajuste os atrasos com pelo menos `janelas_minimas` janelas de sobra ---
+    quem não sustenta um ponto da reta fica de fora, e com menos de dois atrasos válidos o
+    expoente é `nan`, o «não tem sentido» do precedente `profundidade.expoente`. Na série
+    plana o passo é zero em todo atraso e expoente declarado é zero: é o caminho que não
+    alarga em escala nenhuma.
+    """
+    if janelas_minimas < 1:
+        raise ValueError("não há regra de %r janelas mínimas" % janelas_minimas)
+    n = np.asarray(precos, dtype=float).size
+    validos = list(dict.fromkeys(int(k) for k in atrasos if n - int(k) >= janelas_minimas))
+    if not validos:
+        return float("nan")
+    passos = passo_do_caminho(precos, validos)
+    pontos = [(k, passos[k]) for k in validos if passos[k] > 0.0]
+    if not pontos:
+        return 0.0
+    if len(pontos) < 2:
+        return float("nan")
+    xs = np.log(np.asarray([float(k) for k, _ in pontos]))
+    ys = np.log(np.asarray([v for _, v in pontos]))
+    return float(np.polyfit(xs, ys, 1)[0])
+
+
+def dimensao_do_caminho(precos, atrasos, janelas_minimas: int = 30) -> float:
+    r"""A dimensão do caminho: a mesma reta lida do outro lado, dois menos o expoente.
+
+    No passeio puro o expoente é meio e a dimensão, três meios; quanto mais liso o caminho,
+    mais perto de um fica o expoente --- e de um, a dimensão. É a leitura de Higuchi
+    \cite{higuchi1988approach}: a inclinação é um número repetível, e um número só
+    caracteriza a série inteira.
+    """
+    return 2.0 - expoente_do_caminho(precos, atrasos, janelas_minimas)
+
+
+def expoente_do_baralhado(retornos, atrasos, sorteios: int, rng, janelas_minimas: int = 30) -> dict:
+    r"""O controle de ordem: o expoente dos mesmos retornos, baralhados `sorteios` vezes.
+
+    Baralhar guarda cada retorno e destrói só a ordem --- o passeio reconstruído com os
+    mesmos dias em outra ordem é o nulo contra o qual o expoente da série se lê: se a
+    inclinação da série fosse obra dos tamanhos dos dias, o baralhado a reproduziria. O
+    loop mora aqui, e o sorteio entra por `rng`. O dicionário traz a média, a dispersão e
+    quantos expoentes deram número, os expoentes em si e a mediana do passo por atraso ---
+    os dois últimos são o que a figura precisa, e é por isso que o loop não fica no caderno.
+    """
+    r = np.array(retornos, dtype=float)
+    if sorteios < 1:
+        raise ValueError("não há controle com %r sorteios" % sorteios)
+    gammas, curvas = [], []
+    for _ in range(sorteios):
+        rng.shuffle(r)
+        precos_b = np.exp(np.concatenate([[0.0], np.cumsum(r)]))
+        curvas.append(passo_do_caminho(precos_b, atrasos))
+        gammas.append(expoente_do_caminho(precos_b, atrasos, janelas_minimas))
+    validos = [float(g) for g in gammas if np.isfinite(g)]
+    mediana = ({k: float(np.median([c[k] for c in curvas])) for k in curvas[0]}
+               if curvas else {})
+    return {
+        "media": float(np.mean(validos)) if validos else float("nan"),
+        "dispersao": float(np.std(validos, ddof=1)) if len(validos) > 1 else float("nan"),
+        "quantos": len(validos),
+        "gammas": validos,
+        "passo_mediana": mediana,
+    }

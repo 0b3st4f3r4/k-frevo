@@ -7,7 +7,8 @@
 % (\numSomaCurtaVariacoesPct\% contra \numSomaCurtaRealPct\%), e nada avisa que a diferença cresce
 % com o horizonte.
 %
-% Medição: lab/experimentos/E22_soma.ipynb. Figuras: figuras/E22_soma_*.
+% Medição: lab/experimentos/E22_soma.ipynb e E44_expoente.ipynb (a inclinação da banda
+% em toda escala). Figuras: figuras/E22_soma_*, E44_expoente_*.
 % =============================================================================
 
 \chapter{O que a soma guarda}
@@ -195,6 +196,116 @@ separa.
 O desenho mostra o mesmo que a conta: as duas curvas andam próximas por anos, e a distância
 entre elas cresce com o tempo. Ela é pequena enquanto o nível anda pouco, e cresce com o
 próprio nível --- que é o que uma multiplicação faz.
+
+\section{A inclinação da banda em toda escala}
+
+A seção anterior respondeu "quanto a banda da série fica abaixo da previsão" com um número
+por horizonte --- e os quatro números dizem coisas diferentes, sem escada nenhuma entre eles.
+Quem quer um número que valha para a série inteira tem a pergunta certa e o instrumento
+errado: a razão num horizonte é uma leitura pontual, e a curva de \cref{fig:passo} tem
+inclinação própria, esperando quem a meça.
+
+% aterramento: atraso
+% aterramento: passo-do-caminho
+O instrumento mede o caminho em toda escala de uma vez. O \textbf{atraso} é o horizonte
+entre os dois dias que entram na leitura: um dia, um mês de pregões, dois anos. O
+\textbf{passo médio do caminho} é quanto o nível andou entre esses dois dias, em média ---
+para cada atraso $h$, a média de $|\log p_{t+h} - \log p_t|$ sobre todas as janelas da
+série, sobrepostas e sem dividir pelo atraso, o que é declaração: o que interessa é quanto o
+passo cresce quando o atraso cresce. O exemplo mínimo cabe numa frase: no passeio puro,
+quadruplicar o atraso dobra o passo médio.
+
+A \cref{prop:passo} já contém essa frase. O passo típico de um passeio cresce com a raiz do
+atraso, $\sigma\sqrt{h}$, de modo que contra o atraso em escala logarítmica o passo do
+passeio é uma reta --- de inclinação um meio.
+
+% aterramento: gama
+A inclinação da reta é o objeto novo: o \textbf{expoente do caminho}, $\gamma$, um número
+por série. E a leitura de Higuchi \cite{higuchi1988approach} é a de que essa inclinação é
+um número repetível, que caracteriza a série que o produziu --- dita do outro lado, como
+% aterramento: dimensao-do-caminho
+dimensão: a \textbf{dimensão do caminho} é $2 - \gamma$. No sorteio puro a inclinação é meio
+e a dimensão, três meios; caminhos mais lisos aproximam um, e caminhos que enchem a página
+chegam a dois.
+
+A medição corre nos três lugares de sempre: \numExpoenteMundos{} mundos do passeio puro, a
+série, e os \numExpoenteSorteios{} baralhamentos da seção anterior --- o mesmo estimador,
+os mesmos \numExpoenteAtrasos{} atrasos, de um dia a \numExpoenteAtrasoMaximo{} pregões, e
+todo atraso com menos de \numExpoenteJanelasMinimas{} janelas de sobra fica de fora do
+ajuste.
+
+Nos mundos, a inclinação medida é \numExpoenteGammaPasseio{}, com dispersão
+\numExpoenteGammaPasseioDispersao{} entre mundos --- meio, e a dimensão
+\numExpoenteDimensaoPasseio{}, três meios. A régua da \cref{prop:passo}, agora como número
+medido: \cref{fig:escala} mostra a régua caindo junto com o meio dos mundos.
+
+Na série, o número é \numExpoenteGammaReal{} --- e a régua de ordem diz o que ele é. O
+mesmo estimador nos baralhamentos dá \numExpoenteGammaBaralhadoMedia{}, com dispersão
+\numExpoenteGammaBaralhadoDispersao{}: colado no da série, e as dimensões vêm coladas
+junto, \numExpoenteDimensaoReal{} contra \numExpoenteDimensaoBaralhadoMedia{}. A inclinação global é carregada pelos tamanhos dos dias --- baralhar a ordem deixa o
+número onde está. E a compressão que a
+seção anterior mediu, a banda da série abaixo da prevista, mora na forma da curva, de um
+jeito que o número global não vê --- a série nasce junto do baralhamento no atraso de um dia
+(os mesmos dias), corre abaixo do meio dos mundos nos atrasos curtos e médios e a
+alcança no maior deles; o baralhado, que também começa abaixo do meio dos mundos, o ultrapassa
+na faixa curta. A \cref{fig:gamas} mostra o mesmo na contagem: as inclinações dos mundos se
+acumulam no meio, as do baralhado um pouco à direita, e a linha da série cai dentro da
+pilha do baralhado.
+
+A forma aparece quando a inclinação é lida por faixa de atraso:
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \resizebox{\linewidth}{!}{%
+  \begin{tabular}{lrrr}
+    \hline
+    atrasos da faixa & a série & os mundos & o baralhado \\
+    \hline
+    um a oito dias & \numExpoenteGammaFaixaCurtaReal & \numExpoenteGammaFaixaCurtaPasseio & \numExpoenteGammaFaixaCurtaBaralhado \\
+    dezesseis a sessenta e quatro & \numExpoenteGammaFaixaMediaReal & \numExpoenteGammaFaixaMediaPasseio & \numExpoenteGammaFaixaMediaBaralhado \\
+    cento e vinte e oito a quinhentos e doze & \numExpoenteGammaFaixaLongaReal & \numExpoenteGammaFaixaLongaPasseio & \numExpoenteGammaFaixaLongaBaralhado \\
+    \hline
+  \end{tabular}}
+  \caption{O expoente do caminho lido por faixa de atraso. Nos mundos, meio em toda faixa;
+    na série, a inclinação anda com a escala; no baralhado, bem mais parada.}
+  \label{tab:faixas}
+\end{table}
+
+Nos mundos a inclinação é meio em toda faixa --- a régua não depende da escala. Na série
+ela anda: o dia que desfaz parte do dia anterior (\numSomaRhoUm{}) achata a faixa curta,
+\numExpoenteGammaFaixaCurtaReal{} contra \numExpoenteGammaFaixaCurtaBaralhado{} do
+baralhado --- a ordem, que o número global não via, aparece aqui ---, e na faixa longa a
+série passa o próprio baralhado, \numExpoenteGammaFaixaLongaReal{} contra
+\numExpoenteGammaFaixaLongaBaralhado. Entre os extremos, a inclinação sobe de
+\numExpoenteGammaFaixaCurtaReal{} a \numExpoenteGammaFaixaLongaReal.
+
+O que a inclinação entregou, e o que ela cobrou. Entregou: a régua de meio virou número
+medido, a série ganhou o seu, e a régua de ordem disse do que o número é feito --- os
+tamanhos dos dias. Cobrou: um número só descreve a série se a escala vier junto, e a ordem
+dos dias, que decide a banda do mês, só aparece lendo faixa por faixa. O número que
+caracteriza a série existe e é repetível; descrever a série com ele é outra história.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figuras/E44_expoente_1.pdf}
+  \caption{O passo médio do caminho contra o atraso, nos dois eixos em escala logarítmica.
+    A série nasce junto do baralhamento no atraso de um dia --- os mesmos dias ---, corre
+    abaixo do meio dos mundos nos atrasos curtos e médios e a alcança no maior deles; o
+    baralhado começa abaixo do meio dos mundos e o ultrapassa dentro da faixa curta; a régua de
+    meio cai junto com o meio dos mundos.}
+  \label{fig:escala}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{figuras/E44_expoente_2.pdf}
+  \caption{A inclinação de cada mundo e de cada baralhamento, com a da série marcada. As
+    pilhas se acumulam perto de meio --- a dos mundos em cima dele, a do baralhado um pouco
+    à direita --- e a linha da série cai dentro da pilha do baralhamento: o expoente global
+    é um número dos tamanhos dos dias.}
+  \label{fig:gamas}
+\end{figure}
 
 \section{O que fica}
 

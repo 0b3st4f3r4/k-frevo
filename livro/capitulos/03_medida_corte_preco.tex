@@ -6,7 +6,7 @@
 % cumprida —, mas o pior bloco de 60 dias tem 20 violações onde a promessa admitia
 % 3, e nenhum dos 200 mundos que nunca mudam passou de 13.
 %
-% Medição: lab/experimentos/E01_promessa.ipynb. Figuras: figuras/E01_promessa_*.
+% Medição: lab/experimentos/E01_promessa.ipynb e lab/experimentos/E45_reamostragem.ipynb. Figuras: figuras/E01_promessa_* e figuras/E45_reamostragem_*.
 % =============================================================================
 
 \chapter{A medida, o corte e o preço}
@@ -172,6 +172,78 @@ anos têm nome de crise, e todos aconteceram neste mercado.
 A leitura do bloco corrige ainda a primeira impressão: \numBlocoAcimaDoDobroPct\% dos blocos
 passam do dobro da promessa. O que se promete fica longe do que se entrega, tanto na maior
 parte do tempo quanto nos piores pedaços, e a entrega acaba sendo uma média entre os dois.
+
+\section{A barra que a amostra ergue sozinha}
+
+A entrega ficou em \numEntregaTaxaPct\% e a conta do corte em \numCorteContaPct\%. Os dois
+números estão separados por milésimos, e a pergunta que sobra é se essa diferença diz alguma
+coisa. Para responder falta a barra --- e a barra da média, a que a raiz levanta, pede a lei na
+mão: ela vale \emph{se} a probabilidade é conhecida. Aqui não é.
+
+% aterramento: reamostragem
+% aterramento: bootstrap
+Há uma barra que não pede lei nenhuma e não sorteia mundo novo: ela sai da própria amostra,
+\emph{reamostrando-a}. O gesto é de Efron \cite{efron1979bootstrap} e é o mais simples que se
+pode escrever. Dos \numEntregaDias{} dias em que o corte existia, tiramos \numEntregaDias{} dias
+\emph{com reposição} --- o mesmo dia pode sair duas vezes, outro pode não sair --- e medimos a
+taxa de violação dessa lista nova. Repetimos \numBootReamostragens{} vezes. Cada lista é um
+mundo que não existiu, feito só do que existe.
+
+% aterramento: barra-reamostrada
+A \textbf{barra reamostrada} de noventa e cinco por cento é o pedaço entre os dois quantis que
+deixam dois e meio por cento das listas de cada lado. No dado real ela tem
+\numBootLarguraDiaPp{} pontos percentuais de largura. Um mundo feito da própria amostra não
+carrega as datas do calendário: os dias voltam embaralhados pela reposição, e o que
+o bloco mede evapora. A mesma conta feita reamostrando \emph{blocos} inteiros de \numBlocoDias{}
+dias --- para que as datas viajem junto --- devolve uma barra de \numBootLarguraBlocoPp{} pontos
+percentuais: \numBootLarguraRazao{} vezes mais larga. O que vem junto no calendário não é enfeite, e a barra que
+a respeita paga por ela.
+
+A barra não decide a diferença de milésimos; ela diz o tamanho da diferença que a amostra
+sustenta. Para conferir se ela é honesta, existe um lugar onde a verdade é conhecida sem
+sorteio: os \numNuncaMudaMundos{} mundos que nunca mudam, onde a lei é a mesma todos os dias e a
+violação verdadeira é a conta do corte. Lá a barra de dias contém a verdade em
+\numBootCoberturaDiaPct\% dos mundos --- \numBootMundosCobertosDia{} deles --- e a de blocos em
+\numBootCoberturaBlocoPct\%, \numBootMundosCobertosBloco{}. A barra assina noventa e cinco por
+cento, e a contagem de \numNuncaMudaMundos{} mundos tem o próprio ruído de
+\numBootCoberturaMargemPct{} pontos percentuais: dentro dele, as duas cumprem o que prometem, e
+a que cumpre mais perto é a que a figura mostra.
+
+% aterramento: cobertura
+A \textbf{cobertura} de uma barra é essa fração: quanto do que ela promete ela entrega quando a
+verdade é conhecida. É o único teste honesto de uma barra, e é o que os mundos parados oferecem
+--- não como mundo plausível, mas como gabarito.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E45_reamostragem_1.pdf}
+  \caption{As taxas de \numBootReamostragens{} reamostragens dos \numEntregaDias{} dias, com a
+    faixa da barra de noventa e cinco por cento, a linha da entrega medida e a linha da conta do
+    corte. A escala do desenho é a da diferença: as duas linhas quase se sobrepõem, e é a faixa
+    que diz se essa separação é legível.}
+  \label{fig:reamostragem}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E45_reamostragem_2.pdf}
+  \caption{As duas barras da mesma amostra num eixo comum: a de dias, de \numBootLarguraDiaPp{}
+    pontos percentuais, e a de blocos de \numBlocoDias{} dias, de \numBootLarguraBlocoPp{}.}
+  \label{fig:barras}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E45_reamostragem_3.pdf}
+  \caption{A cobertura das duas barras nos \numNuncaMudaMundos{} mundos que nunca mudam, contra
+    os noventa e cinco por cento que a barra assina.}
+  \label{fig:cobertura}
+\end{figure}
+
+O capítulo do fundo já reamostrava blocos para medir a profundidade do corte, e o capítulo da
+proteção também, sem que o gesto tivesse sido construído em lugar nenhum. Ele está construído
+aqui, na raiz, onde a barra nasce: reamostrar é o que se faz quando não há lei para consultar e
+há uma amostra para interrogar.
 
 \section{O preço muda de lugar}
 

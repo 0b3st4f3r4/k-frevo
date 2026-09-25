@@ -5,7 +5,7 @@
 % caberem nos mesmos dados — e o pior bloco de 60 dias não deixa nenhuma, porque a família de
 % duas leis sem memória só alcança 11 contra os 20 do dado.
 %
-% Medição: lab/experimentos/E07_condicionamento.ipynb. Figuras: figuras/E07_condicionamento_*.
+% Medição: lab/experimentos/E07_condicionamento.ipynb e lab/experimentos/E47_projecao.ipynb. Figuras: figuras/E07_condicionamento_* e figuras/E47_projecao_*.
 % =============================================================================
 
 \chapter{Quantas explicações cabem}
@@ -182,6 +182,72 @@ estão separadas por três por cento da tolerância, e a segunda está em cima d
 tolerância um décimo a tira da conta. \textbf{O empate não é um empate: é uma ordem estreita
 encostada na borda do critério} --- e é por isso que o capítulo declara a tolerância junto do número
 que ela julga.
+
+\section{A explicação que a divergência escolhe}
+
+As quatro estatísticas do capítulo --- a taxa, o pior bloco, a mediana e o acima do dobro ---
+são todas funcionais da \emph{mesma} lei: a lei empírica das contagens de rompimento por bloco de
+\numBlocoDias{} dias. A taxa é a média dela dividida pelo bloco, o pior bloco é o máximo, a
+mediana é o meio e o acima do dobro é uma cauda. A tolerância pergunta a quatro funcionais dessa
+lei, uma de cada vez; nenhuma das quatro pergunta pela lei inteira. E é a lei inteira que o dado
+mede.
+
+% aterramento: divergencia
+Para perguntar pela lei inteira é preciso uma régua entre leis, e a régua natural é a
+\textbf{divergência de informação}: $D(p\\|q) = \sum p \ln(p/q)$, a soma sobre as casas da contagem, em
+\emph{nats}. Ela vale zero quando as duas leis são a mesma e cresce quando uma se afasta da
+outra; e ela não sabe nada de tolerâncias --- compara leis, não funcionais.
+
+% aterramento: envoltoria
+% aterramento: projecao
+A família da grade já é um conjunto de leis. O fecho dela por mistura --- a \textbf{envoltória
+convexa}, tudo o que se obtém ponderando os membros --- é o que a geometria pede, porque a
+mistura de duas explicações ainda é uma explicação. A \textbf{projeção em divergência} de uma
+lei sobre esse conjunto é o membro --- ou a mistura --- mais próximo dela, e ela existe e é
+\emph{única}, porque o conjunto é convexo e a divergência é convexa nele: a canonicidade não é
+escolha de quem mede, é propriedade da geometria \cite{csiszar1975divergence}.
+% aterramento: desigualdade-de-pitagoras
+A desigualdade de Pitágoras da divergência sustenta essa canonicidade: a distância de uma lei à família se decompõe na distância dela até o projetado mais a do projetado até qualquer outro membro, de modo que o projetado é o mais próximo de todos.
+
+Feito isso \numProjecaoReplicas{} vezes --- cada réplica re-sorteia a grade inteira e refaz as
+folgas, porque a escolha da tolerância é do sorteio tanto quanto do dado ---, as duas escolhas não
+coincidem. A distância entre elas é de \numProjecaoDistanciaNats{} nats por bloco, medida da
+escolha da tolerância para a escolha da geometria. O ponto escolhido não é um vértice solitário: o
+peso do membro dominante é \numProjecaoPesoDominante{}, chegando a \numProjecaoPesoDominanteMax{}
+na réplica mais decidida --- a escolha é uma mistura, quase sempre. O vértice dominante é o mesmo
+em \numProjecaoVerticeEstavel{} das \numProjecaoReplicas{} réplicas.
+
+Há uma assimetria que o número esconde e que a prosa tem de dizer. A escolha da tolerância deixa
+casas do alfabeto sem massa nenhuma --- casas que o dado visita e ela não ---, e contra essas
+casas a divergência na direção contrária é infinita. É por isso que a distância se mede num
+sentido só, da escolha da tolerância para a projetada: \numProjecaoEscolhaCasasZero{} casas por
+réplica, e em \numProjecaoEscolhaFora{} das \numProjecaoReplicas{} réplicas essa escolha visita
+casas onde o dado tem massa e ela não. A projeção, por construção, não faz isso: ela é obrigada a
+responder a todas as casas em que o dado responde.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E47_projecao_1.pdf}
+  \caption{O vale da divergência no plano da permanência, com a escolha da geometria (a estrela,
+    com o peso do membro dominante) e a escolha da tolerância (os círculos abertos). Os dois
+    critérios respondem a perguntas diferentes, e o desenho mostra que respondem com pontos
+    diferentes.}
+  \label{fig:projecao}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E47_projecao_2.pdf}
+  \caption{As três leis sobre o alfabeto das contagens: o dado, a projeção e a escolha da
+    tolerância. A escala é logarítmica porque a massa cai por décadas.}
+  \label{fig:leis}
+\end{figure}
+
+O que fica desta seção não é que a geometria esteja certa e a tolerância errada. As duas
+respondem a perguntas diferentes: a tolerância responde \emph{quais explicações as quatro
+estatísticas admitem}, e a geometria responde \emph{qual lei desta família está mais perto da lei
+que o dado mostrou} --- e é essa a pergunta que não tem alternativa canônica nenhuma. Nenhuma das
+duas refuta: refutação é do dado, e as duas trabalham dentro da família que sobrou.
 
 \section{O que fica}
 

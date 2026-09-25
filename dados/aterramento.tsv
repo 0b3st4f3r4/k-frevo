@@ -109,3 +109,15 @@ binomio	o numero de pares que n dias formam	simbolo	\binom	8	n	8
 capital	o capital acumulado da aposta: o produto das razoes de cada bloco	simbolo	V	5	razao	5
 razao	o que um bloco vale a favor do mundo que mudou, contra o mundo parado	simbolo	R	5	taxa-de-violacao	5
 taxa-de-violacao	a taxa de violacao do corte num bloco	simbolo	q	5	p	5
+gama	o expoente do caminho — a inclinação do passo médio contra o atraso	simbolo	\gamma	2	h	2
+passo-do-caminho	o passo médio do caminho — quanto o nível andou entre dois dias, em média	termo	passo médio	2	nivel	2
+atraso	o atraso entre os dois dias que o passo médio mede	termo	atraso	2	h	2
+dimensao-do-caminho	a dimensão do caminho — dois menos o expoente	termo	dimensão do caminho	2	passo-do-caminho	2
+reamostragem	a reamostragem com reposicao da propria amostra, quando nao ha lei	termo	reamostr	3	amostra	3
+bootstrap	o nome do gesto de reamostrar, na frase que cita Efron	termo	bootstrap	3	reamostragem	3
+cobertura	a fracao de mundos em que a barra contem a verdade conhecida	termo	cobertur	3	barra	1
+barra-reamostrada	a barra erguida pelos re-sorteios da propria amostra	termo	barra reamostrada	3	barra,reamostragem	3
+divergencia	a divergencia de informacao entre duas leis, em nats	simbolo	D	11	lei	11
+projecao	a lei da envoltoria mais proxima do dado, na divergencia	termo	projeção	11	divergencia	11
+envoltoria	a envoltoria convexa da familia: todas as misturas dos membros	termo	envoltória	11	lei	11
+desigualdade-de-pitagoras	a desigualdade de Pitagoras da projecao	termo	Pitágoras	11	projecao	11

@@ -13,8 +13,16 @@ diz de quanto a média se mexe **sozinha**, quando nada no mundo mudou.
 de altas tem média `p` e desvio `sqrt(p(1-p)/n)` --- a barra cai com a raiz do número de
 dias. É a previsão que o `auto_teste` confere contra a dispersão medida em mundos sorteados, que é
 a propriedade que o capítulo usa.
+
+**A extensão: a barra sem a lei.** A conta mínima pede a lei (`p`) na mão, e a lei é o que
+não se tem quando o mundo muda. A reamostragem ergue a barra com a amostra sozinha:
+re-sortear os próprios dias, com reposição, e ler a dispersão dos re-sorteios. O defeito
+que ela torna impossível é anunciar uma entrega sem barra --- ou com a barra de uma lei que
+ninguém verificou. E o `bloco` é a memória do gesto: re-sortear dia a dia trata o
+calendário como ruído, e o capítulo dos blocos mostrou que ele não é.
 """
-__all__ = ["indicadores", "variacao", "fracao", "barra", "mundos", "janelas"]
+__all__ = ["indicadores", "variacao", "fracao", "barra", "mundos", "janelas",
+           "reamostragens", "barra_reamostrada", "cobertura"]
 
 import numpy as np
 import pandas as pd
@@ -90,3 +98,94 @@ def janelas(serie, tamanho: int) -> np.ndarray:
         raise ValueError("a série tem %d dias e a janela pede %d" % (altas.size, tamanho))
     acumulado = np.concatenate([[0.0], np.cumsum(altas)])
     return (acumulado[tamanho:] - acumulado[:-tamanho]) / tamanho
+
+
+def reamostragens(serie, quantos: int, rng, bloco: int = 1) -> np.ndarray:
+    r"""As frações de `quantos` re-sorteios da amostra, com reposição.
+
+    O gesto é o da urna com devolução: cada re-sorteio devolve o número de dias da
+    amostra, sorteados dela mesma, e a fração é a média do que saiu. Com `bloco=1` os
+    dias são re-sorteados um a um; com `bloco=N`, blocos inteiros de `N` dias ---
+    porque o dia tem data, e o que vem junto no calendário tem de continuar junto no
+    re-sorteio. O resto final, quando não cabe um bloco inteiro, é descartado: é o mesmo
+    critério das contagens em blocos do capítulo do alarme.
+
+    A reposição é o que faz o gesto valer: sem ela, cada re-sorteio é a amostra em outra
+    ordem, a fração é sempre a mesma e a barra colapsa --- e é essa a mutação que o teste
+    de propriedade tem de acusar.
+
+    O sorteio entra por parâmetro (o `rng`), e nunca pela semente global: dois cadernos
+    que sorteiam na mesma sessão não podem mexer um no outro.
+    """
+    valores = np.asarray(serie, dtype=float)
+    if valores.ndim != 1 or valores.size == 0:
+        raise ValueError("a amostra tem de ser unidimensional e não vazia")
+    if quantos < 1:
+        raise ValueError("não há re-sorteio de %r amostras" % quantos)
+    if bloco < 1:
+        raise ValueError("bloco de %r dias" % bloco)
+    n_blocos = valores.size // bloco
+    if n_blocos < 1:
+        raise ValueError("a amostra de %d dias não tem um bloco inteiro de %d dias"
+                         % (valores.size, bloco))
+    # A fração de uma amostra em blocos é a soma das somas dos blocos sorteados sobre os
+    # dias sorteados: somar os blocos primeiro é o que faz o re-sorteio de dias e o de
+    # blocos serem o mesmo código, com o bloco de um dia como caso particular.
+    somas = valores[: n_blocos * bloco].reshape(n_blocos, bloco).sum(axis=1)
+    dias = n_blocos * bloco
+    fracoes = np.empty(quantos, dtype=float)
+    # O lote existe para o re-sorteio de dias não montar a matriz inteira na memória: dez
+    # mil re-sorteios de seis mil dias são sessenta milhões de índices, e um lote de poucos
+    # milhões cabe sem espremer a máquina.
+    lote = max(1, 2_000_000 // n_blocos)
+    feitos = 0
+    while feitos < quantos:
+        tamanho = min(lote, quantos - feitos)
+        sorteados = rng.integers(0, n_blocos, size=(tamanho, n_blocos))
+        fracoes[feitos: feitos + tamanho] = somas[sorteados].sum(axis=1) / dias
+        feitos += tamanho
+    return fracoes
+
+
+def barra_reamostrada(serie, confianca: float = 0.95, quantos: int = 2000, *, rng,
+                      bloco: int = 1) -> tuple:
+    r"""A barra erguida pelos re-sorteios da própria amostra: o par de quantis.
+
+    É a barra da raiz sem a fórmula: em vez de `sqrt(p(1-p)/n)` com a lei na mão, os
+    quantis da confiança declarada sobre as frações dos re-sorteios. A barra diz de quanto
+    a fração se mexeria se os dias fossem outros --- e ela é barra, não promessa de
+    cobertura: quem confere a promessa é o exame de cobertura, com a verdade na mão.
+    """
+    if not 0.0 < confianca < 1.0:
+        raise ValueError("confiança de %r não está entre zero e um" % confianca)
+    fracoes = reamostragens(serie, quantos, rng, bloco=bloco)
+    alfa = 1.0 - confianca
+    inferior, superior = np.quantile(fracoes, [alfa / 2.0, 1.0 - alfa / 2.0])
+    return (float(inferior), float(superior))
+
+
+def cobertura(amostras, verdade, confianca: float = 0.95, quantos: int = 1000, *, rng,
+              bloco: int = 1) -> float:
+    r"""A fração de mundos cuja barra reamostrada contém a verdade.
+
+    É o exame que a barra não faz sozinha: cada linha de `amostras` é um mundo medido
+    uma vez, a barra de cada mundo é erguida por re-sorteios dele mesmo, e o número
+    devolvido diz em que fração dos mundos a verdade conhecida caiu dentro. O `rng` é um
+    só e corre os mundos em ordem, de modo que dois exames com o mesmo estado de sorteio
+    devolvem o mesmo número.
+    """
+    matriz = np.asarray(amostras, dtype=float)
+    if matriz.ndim != 2:
+        raise ValueError("cobertura quer uma matriz: uma linha por mundo, uma coluna por dia")
+    if matriz.shape[0] < 1 or matriz.shape[1] < 1:
+        raise ValueError("não há exame de %s mundos" % (matriz.shape,))
+    if not 0.0 < confianca < 1.0:
+        raise ValueError("confiança de %r não está entre zero e um" % confianca)
+    if quantos < 1:
+        raise ValueError("não há exame com %r re-sorteios" % quantos)
+    dentro = 0
+    for mundo in matriz:
+        inferior, superior = barra_reamostrada(mundo, confianca=confianca, quantos=quantos,
+                                               rng=rng, bloco=bloco)
+        dentro += int(inferior <= verdade <= superior)
+    return dentro / matriz.shape[0]

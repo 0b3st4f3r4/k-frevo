@@ -568,6 +568,24 @@ def auto_teste() -> list:
     if not ac_muito > 0.15:
         problemas.append("com permanência longa o regime não encadeia (%.3f)" % ac_muito)
 
+    # --- regimes: a projecao em divergencia escolhe o que a tolerancia nao escolhe ---
+    membro_a = np.array([0.7, 0.2, 0.1, 0.0])
+    membro_b = np.array([0.1, 0.3, 0.2, 0.4])
+    mistura = 0.4 * membro_a + 0.6 * membro_b
+    if abs(regimes.divergencia(mistura, mistura)) > 1e-15:
+        problemas.append("divergencia: a divergencia de uma lei consigo nao e zero")
+    if regimes.divergencia(np.array([1.0, 0.0]), np.array([0.0, 1.0])) != np.inf:
+        problemas.append("divergencia: massa fora do suporte nao devolve infinito")
+    achado = regimes.projecao(mistura, np.vstack([membro_a, membro_b]), passos=800)
+    if abs(achado["divergencia"]) > 1e-6:
+        problemas.append("projecao: uma lei da envoltoria nao projeta nela mesma (%.2e)"
+                         % achado["divergencia"])
+    vizinho = np.array([0.9, 0.05, 0.05, 0.0])
+    outra = regimes.projecao(vizinho, np.vstack([membro_a, membro_b]), passos=800)
+    pythagoras = (regimes.divergencia(vizinho, mistura)
+                  - outra["divergencia"] - regimes.divergencia(outra["lei"], mistura))
+    if pythagoras < -1e-6:
+        problemas.append("projecao: a desigualdade de Pitagoras nao fecha (%.2e)" % pythagoras)
     # --- direcao: o instrumento da seta do tempo ---
     if abs(direcao.desvio_da_conta(252) - np.sqrt(15.0 / 252.0)) > 1e-12:
         problemas.append("o desvio da conta da direção não é raiz de 15 sobre a janela")
@@ -695,6 +713,34 @@ def auto_teste() -> list:
         problemas.append("a dispersão do nível entre mundos sorteados não bate com a raiz "
                          "(medido %.5f, previsto %.5f)" % (medido_nivel, previsto_nivel))
 
+    # --- nivel: a inclinação da banda em toda escala, o mesmo instrumento nos dois lados ---
+    # No passeio gaussiano o expoente do caminho é meio (a banda cresce com a raiz) e a
+    # dimensão, três meios, dentro da tolerância medida e declarada; na reta o expoente é
+    # um, e na série plana, zero. No mundo antipersistente o expoente fica abaixo do
+    # expoente baralhado da mesma série: é a ordem, e não a cauda, que a faixa curta mede.
+    rng_e44 = np.random.default_rng(11)
+    atrasos_e44 = (1, 2, 4, 8, 16, 32, 64, 128, 256)
+    gamas_e44 = [nivel.expoente_do_caminho(np.exp(rng_e44.normal(0.0, 0.01, 20000).cumsum()),
+                                           atrasos_e44, 30) for _ in range(4)]
+    if not all(abs(g - 0.5) < 0.06 for g in gamas_e44):
+        problemas.append("nivel: o expoente do passeio não dá meio (%s)"
+                         % np.round(gamas_e44, 4))
+    if abs(nivel.dimensao_do_caminho(np.exp(rng_e44.normal(0.0, 0.01, 20000).cumsum()),
+                                     atrasos_e44, 30) - 1.5) > 0.06:
+        problemas.append("nivel: a dimensão do passeio não dá três meios")
+    if abs(nivel.expoente_do_caminho(np.exp(0.001 * np.arange(4000)), atrasos_e44, 30)
+           - 1.0) > 1e-9:
+        problemas.append("nivel: o expoente da reta não dá um")
+    if nivel.expoente_do_caminho(np.full(4000, 100.0), atrasos_e44, 30) != 0.0:
+        problemas.append("nivel: o expoente da série plana não dá zero")
+    ruido_e44 = rng_e44.normal(0.0, 0.01, 20000)
+    anti_e44 = ruido_e44[1:] - 0.5 * ruido_e44[:-1]
+    if not (nivel.expoente_do_caminho(np.exp(np.concatenate([[0.0], anti_e44.cumsum()])),
+                                      atrasos_e44, 30)
+            < nivel.expoente_do_baralhado(anti_e44, atrasos_e44, 8,
+                                          np.random.default_rng(31), 30)["media"]):
+        problemas.append("nivel: o mundo antipersistente não fica abaixo do baralhado")
+
     # --- proporcao: a barra da média de muitos sorteios ---
     # A previsão da proposição, no caso em que ela é exata: a barra de uma moeda em cem
     # sorteios é 0,05, e não "aproximadamente 0,05".
@@ -715,6 +761,33 @@ def auto_teste() -> list:
     if abs(proporcao.janelas(np.arange(1.0, 11.0), 3).mean() - 1.0) > 1e-12:
         problemas.append("as janelas móveis não reproduzem a fração da série constante")
 
+    # --- proporcao: a barra que a amostra ergue sozinha, sem lei e sem mundo novo ---
+    rng_boot = np.random.default_rng(20260925)
+    dias_boot = (rng_boot.random(252) < 0.3).astype(float)
+    fracoes_boot = proporcao.reamostragens(dias_boot, 500, rng_boot)
+    if abs(float(fracoes_boot.mean()) - float(dias_boot.mean())) > 0.01:
+        problemas.append("reamostragens: a urna com reposicao nao centra na amostra")
+    sem_boot = np.array([float(rng_boot.permutation(dias_boot).mean()) for _ in range(40)])
+    if float(sem_boot.std()) > 1e-12:
+        problemas.append("reamostragens: o controle sem reposicao nao colapsa")
+    baixo_boot, alto_boot = proporcao.barra_reamostrada(dias_boot, 0.90, 2000, rng=rng_boot)
+    if not baixo_boot < 0.3 < alto_boot:
+        problemas.append("barra_reamostrada: a barra de 90 por cento nao contem a verdade iid "
+                         "(%.4f, %.4f)" % (baixo_boot, alto_boot))
+    blocos_boot = np.concatenate([np.full(60, float(rng_boot.random() < 0.3))
+                                  for _ in range(10)])
+    par_dia = proporcao.barra_reamostrada(blocos_boot, 0.90, 1000, rng=rng_boot)
+    par_bloco = proporcao.barra_reamostrada(blocos_boot, 0.90, 1000, rng=rng_boot, bloco=60)
+    largura_dia_boot = 100 * (par_dia[1] - par_dia[0])
+    largura_bloco_boot = 100 * (par_bloco[1] - par_bloco[0])
+    if not largura_bloco_boot > 1.5 * largura_dia_boot:
+        problemas.append("barra_reamostrada: a barra de blocos nao e mais larga que a de dias "
+                         "(%.3f contra %.3f pp)" % (largura_bloco_boot, largura_dia_boot))
+    mundos_boot = np.vstack([(rng_boot.random(252) < 0.3).astype(float) for _ in range(60)])
+    cobertura_boot = proporcao.cobertura(mundos_boot, 0.3, 0.90, 300, rng=rng_boot)
+    if abs(cobertura_boot - 0.90) > 0.15:
+        problemas.append("cobertura: a barra de 90 por cento cobre %.2f nos mundos iid"
+                         % cobertura_boot)
     # --- o resumo e o teto dos bits (resumo.py) ---
 
     # O esboco compra o segundo momento: sem vies, com erro que cai com a raiz do numero de

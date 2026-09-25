@@ -1,0 +1,12 @@
+{
+ "boot_cobertura_bloco_pct": 100.0,
+ "boot_cobertura_dia_pct": 100.0,
+ "boot_cobertura_margem_pct": 3.0,
+ "boot_largura_bloco_pp": 2.2,
+ "boot_largura_dia_pp": 1.07,
+ "boot_largura_razao": 2.1,
+ "boot_mundos_cobertos_bloco": 200,
+ "boot_mundos_cobertos_dia": 200,
+ "boot_reamostragens": 10000,
+ "boot_reamostragens_mundos": 1000
+}
