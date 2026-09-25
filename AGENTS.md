@@ -57,14 +57,17 @@ conferida por portão (§9). Onde cada degrau sobe:
 | a correlação de posto, o décimo e o controle da relação | 8 |
 | a tolerância | 9 |
 | o episódio do alarme, o chão do mundo parado e a assimetria | 10 |
+| a pergunta herdada, a família mais simples, a taxa sozinha, o estado que dura e o peso de cada explicação | 11 |
 | o recorde como instrumento de contagem, e as duas famílias geradoras da cauda | 12 |
 | a semente | 13 |
 | a janela ótima por forma de mundo, a família localmente estacionária e o orçamento da variação | 14 |
+| a primeira travessia, a margem cega por construção, o instrumento que vê e o que ele cobra, a comparação e o controle | 15 |
 | a memória, o estacionário, a recursão da oscilação e o ponto fixo | 16 |
 | a padronização | 17 |
 | o laço da reação, o controle de reação nula e a recalibragem sobre a própria série | 18 |
 | o esquecimento, a meia-vida e a tolerância do degrau | 19 |
 | a janela que se escolhe sozinha, o teste das metades e o orçamento de encolhimentos falsos | 20 |
+| o orçamento da conta de direção, o instrumento conferido, o tempo para ver e o ano que não é a direção | 21 |
 | o episódio dirigido | 22 |
 | o relógio contra a causa, os alinhamentos declarados, o controle de canal impossível, a cascata calibrada e a intervenção que separa | 23 |
 | o harmônico e o mundo que não foi observado | 24 |
@@ -73,6 +76,10 @@ conferida por portão (§9). Onde cada degrau sobe:
 | a profundidade do corte, o expoente da cauda conjunta e o preço da extrapolação | 27 |
 | o capital que cobre a perda conjunta, as três contas, o refutador da barreira e o canal com orçamento | 28 |
 | a capacidade de memória, o readout fora da amostra e o teto do posto | 29 |
+| a resposta de um pedaço só e o que não balança | 30 |
+| o dado que chega velho, o atraso que não custa dias, o que ele cobra e o agora como janela | 31 |
+| a contagem como máximo, a medição das duas coisas e o outro teto, o dos bits | 32 |
+| a medição da pilha, os buracos que se compõem e o balanço do livro | 33 |
 
 Consequências duras desta escolha:
 
@@ -324,6 +331,8 @@ Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções 
 > é **registro, não contrato**: onde ele divergir deste documento, **este documento manda**.
 >
 > Ciclos arquivados: **2026-09-23** (47 entradas, abaixo).
+
+2026-09-25 — a auditoria de estrutura fechou três dívidas: os sete degraus que faltavam no §4 (11, 15, 21, 30, 31, 32, 33) foram preenchidos; os fechos variantes são por desenho — 23 fecha com «O preço, na moeda da intervenção», 27 com «O que escapa da compressão, quarta vez», 28 com «O que o andar fecha» (cuja barra de comando da seção, comida por edição, foi restaurada no commit 17a7b61); e os capítulos sem citação são por motivo declarado — 02, 06 e 31 são instrumento da casa (a aritmética do nível, as formas geradoras, o dado que chega velho), 22 mede o par com os mundos da casa (a teoria de recordes clássica é de iid e não carrega a afirmação), e 33 é o fecho.
 
 ### 12.1 Índice das decisões arquivadas
 
