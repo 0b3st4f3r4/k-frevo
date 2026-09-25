@@ -100,6 +100,56 @@ do um e a \numRelogioTerceiroQuaseUmDesvios{} no quase-um. Em nenhum ponto o par
 par real. A perna menos ruidosa rompe antes, é verdade --- mas isso fica longe de escrever a
 frase do leitor. A confusão sozinha não explica a assinatura das sessões.
 
+\section{A perna que falta: a cascata}
+
+O capítulo separou relógio de causa com o terceiro que puxa os dois --- o fator comum. Sobrou uma
+perna que essa família não constrói: o dia em que B rombeu \textbf{porque} A rombeu, a falha que se
+propaga de uma perna à outra \cite{buldyrev2010catastrophic} --- a cascata que não precisa de
+designer nenhum \cite{bak1987self}, e a que o próprio projeto fabrica quando otimiza demais a
+tolerância \cite{carlson1999highly}.
+
+O desenho é o da casa: dois mundos com os \numRelogioDoisDias{} dias do par, calibrados para a
+mesma contagem conjunta na janela de três dias e para as mesmas marginais declaradas --- no choque,
+o fator rompe as duas pernas no mesmo dia; na cascata, A rombe por conta própria e transmite a B
+com a probabilidade calibrada de \numCascataTransmissaoCalibrada, depois de um lag declarado entre
+zero e dois dias; a taxa própria de B é ajustada para a marginal casar --- e casa até a aproximação
+do ajuste em duas passadas: \numCascataChoqueB{} rompimentos de B no choque contra
+\numCascataCascataB{} na cascata, diferença declarada. A calibração da contagem fecha:
+\numCascataChoqueConjuntas{} conjuntas no choque contra \numCascataCascataConjuntas{} na cascata.
+Em contagem, são o mesmo mundo.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E42_cascata_1.pdf}
+  \caption{Os histogramas de alinhamento dos dois mundos, na mesma contagem conjunta. O choque
+    concentra quase tudo no zero; a cascata espalha entre o zero, o um e o dois --- o atraso da
+    propagação é visível no alinhamento. O que o histograma não devolve é a fração de B que
+    depende de A: esse número não mora em nenhuma barra.}
+  \label{fig:cascata_alinhamento}
+\end{figure}
+
+E aqui está a divisão do trabalho entre as leituras. O alinhamento \textbf{vê o atraso}: a fração
+dos pares no lag zero é \numCascataLagZeroChoque{} no choque contra \numCascataLagZeroCascata{} na
+cascata, e a assimetria média vai de \numCascataAssimetriaChoque{} a \numCascataAssimetriaCascata{}
+--- quem olha o histograma sabe que há propagação. Mas nenhuma leitura observacional devolve
+\textbf{quanto} de B depende de A: a fração transmitida não está no alinhamento, nem na contagem,
+nem na marginal --- só existe do lado de quem corta.
+
+A intervenção é o corte: bloquear os rompimentos de A e contar os de B. No choque, o bloqueio mata
+\numCascataChoqueMortas{} rompimentos de B --- zero, porque nenhuma perna deve nada à outra; o
+fator seguiria disparando com A calado. Na cascata, \numCascataCascataMortas{}
+[\numCascataCascataMortasMin{}; \numCascataCascataMortasMax{}] dos rompimentos de B morrem com o
+bloqueio --- dois quintos deles. Esse número, e nenhum outro, é a medida da dependência: e é o
+preço que a seção seguinte cobra, na moeda dela.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E42_cascata_2.pdf}
+  \caption{A intervenção: os rompimentos de B antes e depois do bloqueio de A, nos dois mundos. A
+    barra clara do choque não desce --- zero mortas; a da cascata desce quase à metade: a fração
+    que dependia de A, que nenhum alinhamento devolvia.}
+  \label{fig:cascata_intervencao}
+\end{figure}
 \section{O preço, na moeda da intervenção}
 
 As três contas fecham na mesma direção, e cada uma morre de um jeito: a ordem não sobrevive ao

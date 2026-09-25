@@ -51,25 +51,25 @@
 \contentsline {table}{\numberline {22.1}{\ignorespaces Os episódios dirigidos no par, por janela. A janela é quanto tempo se espera pela segunda perna depois de a primeira ter rompido.}}{219}{table.22.1}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {24.1}{\ignorespaces A conta dos recordes é sempre a mesma, 9,97{}, porque ela não sabe da mudança. A última coluna é a razão entre o extremo de depois da mudança e o de antes, e confere com o fator posto no mundo.}}{239}{table.24.1}%
+\contentsline {table}{\numberline {24.1}{\ignorespaces A conta dos recordes é sempre a mesma, 9,97{}, porque ela não sabe da mudança. A última coluna é a razão entre o extremo de depois da mudança e o de antes, e confere com o fator posto no mundo.}}{241}{table.24.1}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {25.1}{\ignorespaces As duas reconstruções medidas, e a escala do processo que serve de referência. Um erro igual à escala quer dizer que a reconstrução não sabe mais do que um palpite sorteado da distribuição.}}{243}{table.25.1}%
-\contentsline {table}{\numberline {25.2}{\ignorespaces O horizonte de recuperação medido, em dias, para duas tolerâncias, ao lado da memória do processo. As duas medidas descrevem o mesmo sistema e não são a mesma coisa.}}{245}{table.25.2}%
+\contentsline {table}{\numberline {25.1}{\ignorespaces As duas reconstruções medidas, e a escala do processo que serve de referência. Um erro igual à escala quer dizer que a reconstrução não sabe mais do que um palpite sorteado da distribuição.}}{245}{table.25.1}%
+\contentsline {table}{\numberline {25.2}{\ignorespaces O horizonte de recuperação medido, em dias, para duas tolerâncias, ao lado da memória do processo. As duas medidas descrevem o mesmo sistema e não são a mesma coisa.}}{247}{table.25.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {26.1}{\ignorespaces A correlação declarada é respeitada em todos os mundos --- a medida vai de 0,4941{} a 0,5006{} ---, e o que muda é a cauda e o agrupamento dos dias ruins. A última coluna é o instrumento do capítulo da dependência: quantas vezes os dois rompem juntos, contra o que a independência preveria.}}{250}{table.26.1}%
-\contentsline {table}{\numberline {26.2}{\ignorespaces A perda média de uma carteira de peso igual no pior 0,05{} dos dias, e a profundidade média além do corte de uma das pernas. A coluna da perda é o prejuízo; a de além do corte é o que a margem paga quando ele é rompido.}}{251}{table.26.2}%
+\contentsline {table}{\numberline {26.1}{\ignorespaces A correlação declarada é respeitada em todos os mundos --- a medida vai de 0,4941{} a 0,5006{} ---, e o que muda é a cauda e o agrupamento dos dias ruins. A última coluna é o instrumento do capítulo da dependência: quantas vezes os dois rompem juntos, contra o que a independência preveria.}}{252}{table.26.1}%
+\contentsline {table}{\numberline {26.2}{\ignorespaces A perda média de uma carteira de peso igual no pior 0,05{} dos dias, e a profundidade média além do corte de uma das pernas. A coluna da perda é o prejuízo; a de além do corte é o que a margem paga quando ele é rompido.}}{253}{table.26.2}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {29.1}{\ignorespaces O erro de cada estimador no mesmo horizonte, em 40{} mundos. O degrau é o do capítulo da memória, e a tolerância daquele capítulo é de 0,15{} do nível novo.}}{275}{table.29.1}%
+\contentsline {table}{\numberline {29.1}{\ignorespaces O erro de cada estimador no mesmo horizonte, em 40{} mundos. O degrau é o do capítulo da memória, e a tolerância daquele capítulo é de 0,15{} do nível novo.}}{277}{table.29.1}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {30.1}{\ignorespaces A entrega do corte medida em pedaços de três tamanhos. A última coluna é o que a conta de sempre prevê para a dispersão entre pedaços, que é a conta de quem supõe dias independentes: $\sqrt {p(1-p)/n}$.}}{282}{table.30.1}%
-\contentsline {table}{\numberline {30.2}{\ignorespaces O excesso de quedas conjuntas em cada pedaço, contra a independência. A última coluna conta os pedaços em que a dependência some.}}{284}{table.30.2}%
+\contentsline {table}{\numberline {30.1}{\ignorespaces A entrega do corte medida em pedaços de três tamanhos. A última coluna é o que a conta de sempre prevê para a dispersão entre pedaços, que é a conta de quem supõe dias independentes: $\sqrt {p(1-p)/n}$.}}{284}{table.30.1}%
+\contentsline {table}{\numberline {30.2}{\ignorespaces O excesso de quedas conjuntas em cada pedaço, contra a independência. A última coluna conta os pedaços em que a dependência some.}}{286}{table.30.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {31.1}{\ignorespaces A entrega do corte contra a idade do dado, no índice. A conta do corte é de 0,05138{}, e é ela que a última coluna toma por referência.}}{288}{table.31.1}%
+\contentsline {table}{\numberline {31.1}{\ignorespaces A entrega do corte contra a idade do dado, no índice. A conta do corte é de 0,05138{}, e é ela que a última coluna toma por referência.}}{290}{table.31.1}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {32.1}{\ignorespaces As explicações que cabem na mesma tolerância, contra o tamanho da família e o número de dias vistos. A série é a do primeiro mercado, truncada. As três linhas são as três curvas do caderno, e a do meio é a que cruza a de cima no extremo longo.}}{298}{table.32.1}%
-\contentsline {table}{\numberline {32.2}{\ignorespaces O preço do resumo: o erro do esboço contra o número de contadores guardados, medido sobre os mesmos dias que o livro conta um a um.}}{302}{table.32.2}%
+\contentsline {table}{\numberline {32.1}{\ignorespaces As explicações que cabem na mesma tolerância, contra o tamanho da família e o número de dias vistos. A série é a do primeiro mercado, truncada. As três linhas são as três curvas do caderno, e a do meio é a que cruza a de cima no extremo longo.}}{300}{table.32.1}%
+\contentsline {table}{\numberline {32.2}{\ignorespaces O preço do resumo: o erro do esboço contra o número de contadores guardados, medido sobre os mesmos dias que o livro conta um a um.}}{304}{table.32.2}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {33.1}{\ignorespaces A promessa medida nas 12{} configurações, em 20{} mundos sorteados por célula, na janela de 250{} dias que segue a mudança. A última coluna é a entrega dividida pela promessa, e a dispersão entre os mundos, no mundo parado e sem atraso, é de 0,008337{} na janela curta e de 0,01367{} na longa.}}{306}{table.33.1}%
-\contentsline {table}{\numberline {33.2}{\ignorespaces Os preços que o livro mediu, cada um na moeda em que foi medido.}}{309}{table.33.2}%
+\contentsline {table}{\numberline {33.1}{\ignorespaces A promessa medida nas 12{} configurações, em 20{} mundos sorteados por célula, na janela de 250{} dias que segue a mudança. A última coluna é a entrega dividida pela promessa, e a dispersão entre os mundos, no mundo parado e sem atraso, é de 0,008337{} na janela curta e de 0,01367{} na longa.}}{308}{table.33.1}%
+\contentsline {table}{\numberline {33.2}{\ignorespaces Os preços que o livro mediu, cada um na moeda em que foi medido.}}{311}{table.33.2}%

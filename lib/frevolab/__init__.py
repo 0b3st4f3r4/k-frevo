@@ -14,7 +14,7 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 """
 from importlib.metadata import PackageNotFoundError, version
 
-from . import (adaptativa, alerta, aposta, calendario, capacidade, centro, dados, dependencia, direcao, evidencia, esquecimento,
+from . import (adaptativa, alerta, aposta, calendario, capacidade, cascata, centro, dados, dependencia, direcao, evidencia, esquecimento,
                estabilidade, graficos, intervencao, laco, lei, mudanca, multiplicidade, nivel, operador, partilha,
                pares, profundidade, proporcao, promessa, protecao, ramificacao, recorde, regimes, relogio,
                 resumo, vigia, volatilidade)
@@ -27,7 +27,7 @@ try:
 except PackageNotFoundError:
     VERSAO = "0.1.0"
 
-__all__ = ["adaptativa", "alerta", "calendario", "capacidade", "dados", "dependencia", "esquecimento", "estabilidade",
+__all__ = ["adaptativa", "alerta", "calendario", "capacidade", "cascata", "dados", "dependencia", "esquecimento", "estabilidade",
            "graficos", "intervencao", "laco", "lei", "mudanca", "nivel", "partilha", "pares", "profundidade",
            "proporcao", "protecao",
            "promessa", "ramificacao", "recorde", "regimes", "relogio", "resumo", "vigia", "volatilidade",
@@ -1041,5 +1041,20 @@ def auto_teste() -> list:
         capacidade.estados_reservatorio(ruido, 50, semente=65), ruido, 300))
     if not 25.0 <= res_cap <= 52.5:
         problemas.append("capacidade: o reservatorio fora da conservacao (%.2f contra n=50)" % res_cap)
+
+    # a cascata calibrada: mesma contagem conjunta, e so a intervencao separa
+    choque_t = cascata.mundo_choque(4000, 0.02, 0.04, 0.04, semente=81)
+    alvo_t = cascata.pares_de_alinhamento(choque_t, 3).size
+    q_t = cascata.calibra_transmissao(4000, 0.04, 0.02, (0, 1, 2), alvo_t, janela=3, semente=82)
+    cascata_t = cascata.mundo_cascata(4000, 0.04, 0.02, (0, 1, 2), q_t, semente=82)
+    obtido_t = cascata.pares_de_alinhamento(cascata_t, 3).size
+    if abs(obtido_t - alvo_t) > max(3, 0.1 * alvo_t):
+        problemas.append("cascata: a calibracao nao fecha a contagem conjunta (%d contra %d)" % (obtido_t, alvo_t))
+    mortas_c = int(cascata_t['romp_b'].sum()) - int(cascata.bloqueia_a(cascata_t)['romp_b'].sum())
+    mortas_h = int(choque_t['romp_b'].sum()) - int(cascata.bloqueia_a(choque_t)['romp_b'].sum())
+    if not mortas_c > 0.3 * obtido_t:
+        problemas.append("cascata: a intervencao mata pouco da cascata (%d de %d)" % (mortas_c, obtido_t))
+    if mortas_h != 0:
+        problemas.append("cascata: a intervencao mexeu no mundo do choque (%d mortas)" % mortas_h)
 
     return problemas

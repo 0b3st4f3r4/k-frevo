@@ -1,0 +1,16 @@
+{
+ "cascata_assimetria_cascata": 0.715,
+ "cascata_assimetria_choque": 0.02,
+ "cascata_cascata_b": 276.5,
+ "cascata_cascata_conjuntas": 159.0,
+ "cascata_cascata_mortas": 120.0,
+ "cascata_cascata_mortas_max": 133.2,
+ "cascata_cascata_mortas_min": 107.5,
+ "cascata_choque_b": 257.0,
+ "cascata_choque_conjuntas": 160.0,
+ "cascata_choque_mortas": 0.0,
+ "cascata_choque_mortas_max": 0.0,
+ "cascata_lag_zero_cascata": 0.311,
+ "cascata_lag_zero_choque": 0.833,
+ "cascata_transmissao_calibrada": 0.4727
+}
