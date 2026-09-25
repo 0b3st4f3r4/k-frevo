@@ -33,9 +33,10 @@ NUMEROS = RAIZ / "livro" / "numeros.tex"
 FIGURAS = RAIZ / "livro" / "figuras"
 LIVRO = RAIZ / "livro"
 CONTRATO = RAIZ / "AGENTS.md"
-# Gerados que o livro cita e ninguém edita à mão. O sumário do fim entra aqui pelo mesmo
-# motivo dos outros: é uma cópia do .toc da compilação anterior, feita por lab/sumario.py.
-GERADOS = {"numeros.tex", "fontes.tex", "sumario.tex", "proposicoes.tex"}
+# Gerados que o livro cita e ninguém edita à mão: os números e a bibliografia saem do
+# laboratório, e a lista de enunciados sai do .aux da compilação anterior, por
+# lab/enunciados.py. O sumário do fim saiu do livro e daqui --- era duplicata do começo.
+GERADOS = {"numeros.tex", "fontes.tex", "proposicoes.tex"}
 
 # Quirks do ambiente, herdados do arquivo: matplotlib não escreve em ~/.config, o cache do
 # uv é read-only, e o espec de kernel chama "python" pelado — então o venv vai à frente.

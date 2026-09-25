@@ -549,17 +549,9 @@ cada número daqui apareceu, e é assim que os que faltam vão aparecer.
 
 {\singlespacing\input{fontes.tex}}
 
-% -----------------------------------------------------------------------------
-% Sumário completo, no fim: o mesmo mapa do começo, agora com as Referências dentro.
-% Não é um segundo \tableofcontents: no fim do documento o .toc ainda está sendo
-% escrito e a lista sai vazia --- conferido na página. A lista é gerada de fora, por
-% lab/sumario.py, em cima do .toc da compilação anterior.
-% -----------------------------------------------------------------------------
-\cleardoublepage
-\chapter*{Sumário completo}
-\addcontentsline{toc}{chapter}{Sumário completo}
-\markboth{SUMÁRIO COMPLETO}{}
-\input{sumario.tex}
+% O «Sumário completo» que ficava aqui saiu: o sumário do começo já carrega o livro
+% inteiro --- o .toc acumula as entradas do documento todo, Referências e listas
+% incluídas ---, e a cópia do fim era o mesmo mapa impresso duas vezes.
 
 % -----------------------------------------------------------------------------
 % As três listas do fim: figuras, tabelas e os enunciados formais.

@@ -1,16 +1,16 @@
-r"""O mapa do fim do livro: o sumario completo e os enunciados formais.
+r"""Os enunciados formais do livro: numero, titulo e pagina, na ordem de leitura.
 
-**Por que uma copia, e nao um segundo \tableofcontents.** O LaTeX le o .toc **antes** de abri-lo
-para escrita, e o \tableofcontents do comeco ja o truncou: no fim do documento o arquivo tem so o
-que a execucao atual escreveu ate ali. Um segundo \tableofcontents sai **vazio** --- conferido na
-pagina. Copiar o .toc da compilacao anterior resolve, e nao custa passada extra: o sumario
-completo e a ultima coisa do livro, de modo que as paginas que ele cita nao se movem.
+**O sumario completo do fim saiu, e o motivo e a duplicata.** Ele era uma copia do .toc da
+compilacao anterior, porque um segundo \tableofcontents no fim do documento sai vazio (o LaTeX
+abre o .toc para escrita no comeco e o le de novo quando o comando aparece). O sumario do comeco
+ja carrega o livro inteiro --- o .toc acumula as entradas do documento todo, Referencias e listas
+incluidas ---, de modo que a copia do fim era o mesmo mapa impresso duas vezes.
 
 **Os enunciados formais** saem do .aux, que e onde o LaTeX guarda o numero, a pagina e o titulo de
 cada rotulo; a especie (proposicao, definicao) sai do fonte do capitulo, porque o .aux nao a diz.
 O arquivo gerado e incluido com \input, e o portao o trata como gerado --- nao se edita a mao.
 
-Uso: .venv/bin/python lab/sumario.py   (depois de compilar o livro pelo menos uma vez)
+Uso: .venv/bin/python lab/enunciados.py   (depois de compilar o livro pelo menos uma vez)
 """
 import pathlib
 import re
@@ -18,13 +18,8 @@ import sys
 
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
 LIVRO = RAIZ / "livro"
-TOC = LIVRO / "livro.toc"
 AUX = LIVRO / "livro.aux"
-DESTINO = LIVRO / "sumario.tex"
-DESTINO_ENUNCIADOS = LIVRO / "proposicoes.tex"
-
-# Os niveis que entram no sumario completo. Subsecao nao existe no livro.
-NIVEIS = ("part", "chapter", "section")
+DESTINO = LIVRO / "proposicoes.tex"
 
 # As duas especies que o livro numera. Elas compartilham o contador, de modo que a numeracao e
 # continua entre as duas --- e e isso que a lista mostra.
@@ -38,24 +33,6 @@ def capitulos() -> list:
     nomes = [re.sub(r"\.tex$", "", n)
              for n in re.findall(r"\\input\{capitulos/([^}]+)\}", fonte)]
     return [LIVRO / "capitulos" / (n + ".tex") for n in nomes]
-
-
-def sumario() -> int:
-    if not TOC.exists():
-        print("o livro ainda nao foi compilado: falta %s" % TOC.name)
-        return 1
-    linhas = [l for l in TOC.read_text(encoding="utf-8").splitlines()
-              if re.match(r"\\contentsline \{(part|chapter|section)\}", l)]
-    if not linhas:
-        print("o .toc nao tem entradas: compile o livro antes")
-        return 1
-    DESTINO.write_text(
-        "% GERADO POR lab/sumario.py — NÃO EDITE À MÃO.\n"
-        "% Uma cópia do livro.toc da compilação anterior: o \\tableofcontents não pode ser\n"
-        "% repetido no fim do documento, porque o arquivo ainda está sendo escrito.\n"
-        + "\n".join(linhas) + "\n", encoding="utf-8")
-    print("sumário completo: %d entradas em %s" % (len(linhas), DESTINO.relative_to(RAIZ)))
-    return 0
 
 
 def enunciados() -> int:
@@ -88,7 +65,7 @@ def enunciados() -> int:
     if not entradas:
         print("nenhum enunciado numerado encontrado")
         return 1
-    linhas = ["% GERADO POR lab/sumario.py — NÃO EDITE À MÃO.",
+    linhas = ["% GERADO POR lab/enunciados.py — NÃO EDITE À MÃO.",
               "% Os enunciados numerados do livro, na ordem em que aparecem: número, título e página",
               "% saem do livro.aux da compilação anterior; a espécie sai do fonte do capítulo.", ""]
     for especie, numero, titulo, rotulo in entradas:
@@ -98,17 +75,13 @@ def enunciados() -> int:
             texto += " --- %s" % titulo
         linhas.append("\\noindent\\hyperref[%s]{\\textbf{%s}}\\dotfill\\ \\pageref{%s}\\par"
                       % (rotulo, texto, rotulo))
-    DESTINO_ENUNCIADOS.write_text("\n".join(linhas) + "\n", encoding="utf-8")
-    print("enunciados: %d em %s" % (len(entradas), DESTINO_ENUNCIADOS.relative_to(RAIZ)))
+    DESTINO.write_text("\n".join(linhas) + "\n", encoding="utf-8")
+    print("enunciados: %d em %s" % (len(entradas), DESTINO.relative_to(RAIZ)))
     return 0
 
 
 def main() -> int:
-    for passo in (sumario, enunciados):
-        codigo = passo()
-        if codigo:
-            return codigo
-    return 0
+    return enunciados()
 
 
 if __name__ == "__main__":
