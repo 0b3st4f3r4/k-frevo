@@ -452,6 +452,39 @@ def auto_teste() -> list:
         problemas.append("a chance de recorde medida por sorteio saiu de meio (%.3f)"
                          % (venceu / 2000.0))
 
+    # --- esquecimento: a taxa que envelhece e a taxa que se paga ---
+    rng_plast = np.random.default_rng(20260929)
+    serie_plast = rng_plast.normal(0.0, 1.0, 400)
+    com_reset = esquecimento.acumulada_com_reset(serie_plast, [200])
+    sem_reset = esquecimento.media_acumulada(serie_plast)
+    if abs(float(com_reset[199]) - float(sem_reset[199])) > 1e-12:
+        problemas.append("acumulada_com_reset: o pedaco antes do recomeco nao e a media acumulada")
+    if abs(float(com_reset[200]) - float(serie_plast[200])) > 1e-12:
+        problemas.append("acumulada_com_reset: o dia do recomeco nao zera a idade")
+    if abs(esquecimento.piso_exponencial(1.0, 0.5) - 0.5) > 1e-12:
+        problemas.append("piso_exponencial: na taxa um o piso nao e o desvio do mundo")
+    if not esquecimento.piso_exponencial(0.2, 0.5) < esquecimento.piso_exponencial(0.8, 0.5):
+        problemas.append("piso_exponencial: o piso nao sobe com a taxa")
+    if esquecimento.dias_ate_dentro(np.full(50, 1.0), np.full(50, 1.0), 10) != 0.0:
+        problemas.append("dias_ate_dentro: a estimativa ja dentro nao devolveu zero")
+    if not np.isnan(esquecimento.dias_ate_dentro(np.zeros(50), np.ones(50), 10)):
+        problemas.append("dias_ate_dentro: a estimativa que nunca entra nao devolveu nan")
+    series_plast = [np.abs(mudanca.degraus(2030, rng_plast, 0.01, fator=2.0,
+                                                  quandon=(30, 1030, 1500)))
+                    for _ in range(6)]
+    verdade_plast = np.array(
+        [0.01 * np.sqrt(2.0 / np.pi) * 2.0 ** sum(1 for q in (30, 1030, 1500) if d >= q)
+         for d in range(2030)])
+    caixa_plast = esquecimento.plasticidade(series_plast, (30, 1030, 1500), verdade_plast,
+                                            horizonte=250, taxa=esquecimento.TAXA_PADRAO)
+    erro_acum = caixa_plast["por_braco"]["acumulada"][-1]["erro_mediana"]
+    erro_reco = caixa_plast["por_braco"]["recomeco"][-1]["erro_mediana"]
+    if not erro_acum > erro_reco:
+        problemas.append("plasticidade: a media acumulada nao errou mais que o recomeco "
+                         "(%.3f contra %.3f)" % (erro_acum, erro_reco))
+    if not (caixa_plast["por_braco"]["recomeco"][-1]["mundos_sem_volta"]
+            < caixa_plast["por_braco"]["acumulada"][-1]["mundos_sem_volta"]):
+        problemas.append("plasticidade: o recomeco nao voltou mais que a acumulada")
     # --- o passado apagado (esquecimento.py, mudanca.py) ---
 
     # o processo que lembra com decaimento tem a dispersão estacionária que declara

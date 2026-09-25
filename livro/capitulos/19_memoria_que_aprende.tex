@@ -190,6 +190,65 @@ delas, e o erro dela vai de \numEsquecimentoBaseDezMenor{} a \numEsquecimentoBas
 sustenta é a ordem de grandeza --- a memória certa está na casa das dezenas de dias, e não na das
 unidades nem na das centenas.
 
+\section{A taxa que envelhece e a taxa que se paga}
+
+A seção anterior varreu a taxa e mediu o que cada escolha entrega. Falta o que aquela conta
+pressupôs: que a taxa fica fixa. Quem nunca a fixou --- a média acumulada, que dá o mesmo peso a
+todos os dias --- tem taxa um sobre a idade, e a idade cresce a cada dia que passa.
+
+% aterramento: plasticidade
+Num mundo com \numPlastDegraus{} degraus declarados, a escala dobrando em cada um, a
+\textbf{plasticidade} é medida em três braços. O erro na janela de leitura depois do último degrau
+é de \numPlastErroAcumuladaPct\% na média acumulada, \numPlastErroRecomecoPct\% no recomeço e
+\numPlastErroExponencialPct\% na taxa fixa, contra a tolerância de \numPlastToleranciaPct\% do
+nível. E o braço da acumulada não volta em mundo nenhum: \numPlastSemVoltaAcumulada{} dos
+\numPlastMundos{} mundos ficam fora da tolerância durante toda a janela. O dia que não chega é
+resultado, e é o resultado deste braço.
+
+% aterramento: recomeco
+O \textbf{recomeço} zera a \emph{idade}, e não os dados: entre dois recomeços ele é a média do
+pedaço, e no dia do degrau a idade volta a um. É por isso que ele reaprende em
+\numPlastDiasRecomeco{} dias, contra \numPlastDiasExponencial{} da taxa fixa --- e é por isso que a
+conta dele não depende de quantos degraus vieram antes.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E50_plasticidade_1.pdf}
+  \caption{O erro na janela de leitura depois de cada degrau, nos três braços, contra a linha da
+    tolerância. A média acumulada sobe com o dia do degrau e cruza a linha; o recomeço e a taxa
+    fixa ficam abaixo dela em todos os degraus.}
+  \label{fig:plasticidade}
+\end{figure}
+
+% aterramento: piso
+O que a taxa fixa cobra está no mundo que não muda. Ali o erro estacionário da média exponencial
+sobe com a taxa como a raiz de $\text{taxa}/(2 - \text{taxa})$, e a forma é livre da lei dos dias:
+qualquer mundo de dias independentes paga o mesmo fator, e só o desvio do mundo conhece a
+distribuição. Medido, o piso estacionário é de \numPlastPisoMedidoPct\% do nível contra a forma fechada de
+\numPlastPisoFechadoPct\% --- razão de \numPlastPisoRazao. A mesma taxa que compra os dias paga o
+piso: os dias até a tolerância caem de \numPlastDiasTaxaBaixa{} para \numPlastDiasTaxaAlta{} quando
+a taxa sobe na grade medida.
+
+% aterramento: temperatura
+A \textbf{temperatura} é o nome disso no vocabulário bayesiano: a verossimilhança temperada dá o
+mesmo peso decrescente aos dias velhos, e tem limite de generalização explícito em função da
+temperatura \cite{cheriefabdellatif2019generalization}. A analogia é declarada, e é o que ela é:
+a fonte trata de inferência variacional online, e a casa mede a mistura exponencial --- o mesmo
+fator de esquecimento, com o limite ao lado.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E50_plasticidade_2.pdf}
+  \caption{À esquerda, o piso medido no mundo parado contra a forma fechada, na grade de taxas; à
+    direita, os dias até a tolerância depois de um degrau. As duas curvas andam em sentidos
+    opostos: o que a taxa compra em dias, ela paga em piso.}
+  \label{fig:piso}
+\end{figure}
+
+A saída fica visível no desenho e bloqueada no mundo. O recomeço vence nos dois eixos --- volta
+rápido e mantém o piso baixo ---, mas ele precisa do dia do degrau, e o dado não sabe o dia. É essa
+falta que a seção seguinte enfrenta: pode o próprio dado escolher o tamanho, dia a dia?
+
 \section{O que fica}
 
 Fica a resposta da travessia, e ela é estreita. O esquecimento mínimo, no sentido da menor memória que

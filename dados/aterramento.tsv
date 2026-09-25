@@ -135,3 +135,7 @@ influencia	a influencia do dia zero: o produto acumulado dos ganhos	termo	influ�
 expoente-do-produto	a media dos log-ganhos: o ritmo da mediana do produto	termo	expoente do produto	16	logaritmo	16
 conta-da-media	o logaritmo da media do ganho, o ritmo da media do produto	termo	conta da média	16	logaritmo,media	16
 teorema-ergodico-multiplicativo	o nome do teorema que da existencia e ritmo ao produto	termo	ergódico multiplicativo	16	expoente-do-produto	16
+plasticidade	a rapidez com que o estimador reaprende depois de um degrau	termo	plasticidade	19	esquecimento	19
+recomeco	o recomeco da media acumulada no dia declarado, que zera a idade	termo	recomeço	19	plasticidade	19
+piso	o erro estacionario da taxa fixa no mundo que nao muda	termo	piso estacion	19	esquecimento	19
+temperatura	a temperatura da verossimilhanca temperada, analogo bayesiano do esquecimento	termo	temperatura	19	esquecimento	19

@@ -18,6 +18,11 @@ sinônimos:
 4. **nada muda** (\texttt{estavel}) — o controle, sem o qual nenhuma das outras três vale:
    todo alarme que ele produz é alarme falso, e é ele que diz quanto o vigia gasta à toa.
 
+E há o mundo em que as mudanças se acumulam (\texttt{degraus}) --- degrau sobre degrau, com o
+dia de cada um declarado. Ele existe para a pergunta que o degrau único não faz: o que acontece
+a quem aprende quando a mudança seguinte chega antes de a anterior ser aprendida --- e cada uma
+encontra o estimador mais velho do que a anterior.
+
 **Simulação não vira resultado sobre o mundo** (AGENTS.md §8.5). O que se mede aqui é uma
 propriedade do instrumento: quanto tempo ele leva para ver uma mudança de forma e tamanho
 declarados. O número que sai daqui não é uma afirmação sobre o mercado.
@@ -34,7 +39,7 @@ DIAS_DE_RAMPA = 250        # quantos dias a rampa leva para chegar ao fator
 PASSO_PADRAO = -0.0005     # o deslocamento diário da média, em unidades de retorno
 
 __all__ = ["SIGMA_PADRAO", "ar1", "par_de_cauda", "FATOR_PADRAO", "QUANDO_PADRAO", "DIAS_DE_RAMPA",
-           "PASSO_PADRAO", "estavel", "degrau", "rampa", "deriva", "andando", "dependencia"]
+           "PASSO_PADRAO", "estavel", "degrau", "degraus", "rampa", "deriva", "andando", "dependencia"]
 
 
 def par_de_cauda(n: int, rng: np.random.Generator, sigma: float = 0.01, rho: float = 0.5,
@@ -140,6 +145,34 @@ def degrau(n: int, rng: np.random.Generator, sigma: float = SIGMA_PADRAO,
         raise ValueError("o fator precisa ser positivo")
     serie = rng.normal(0.0, sigma, n)
     serie[quando:] *= fator
+    return serie
+
+
+def degraus(n: int, rng: np.random.Generator, sigma: float = SIGMA_PADRAO,
+            fator: float = FATOR_PADRAO,
+            quandon: tuple = (30, 1030, 2030, 3030, 4030, 5030)) -> np.ndarray:
+    r"""Os degraus que se acumulam: a escala multiplica por \emph{fator} em cada dia declarado.
+
+    O plural é o propósito: \texttt{degrau} mede a primeira mudança, este mede a vida em que as
+    mudanças chegam antes de o aprendizado terminar --- e cada uma encontra o estimador mais
+    velho do que a anterior, que é a idade que a proposição do capítulo 19 trava. Cada dia
+    declarado é o primeiro dia já mudado, a convenção do degrau único, e a escala acumula:
+    depois da última mudança, a oscilação é \emph{fator} elevado ao número de dias declarados.
+    """
+    if n < 3:
+        raise ValueError("o mundo precisa de pelo menos tres dias")
+    if fator <= 0:
+        raise ValueError("o fator precisa ser positivo")
+    dias = [int(q) for q in quandon]
+    if not dias:
+        raise ValueError("declare pelo menos um dia de mudanca")
+    if len(set(dias)) != len(dias) or any(b <= a for a, b in zip(dias, dias[1:])):
+        raise ValueError("os dias declarados precisam crescer, sem repeticao")
+    if any(not 1 <= d < n for d in dias):
+        raise ValueError("as mudancas precisam cair dentro da serie (1 <= dia < %d)" % n)
+    serie = rng.normal(0.0, sigma, n)
+    for dia in dias:
+        serie[dia:] *= fator
     return serie
 
 

@@ -35,7 +35,11 @@ TOLERANCIA_DEGRAU = TOLERANCIA / (1.0 - 1.0 / FATOR_PADRAO)
 __all__ = ["TAXA_PADRAO", "JANELA_PADRAO", "HORIZONTE_PADRAO", "FATOR_PADRAO", "TOLERANCIA",
            "TOLERANCIA_DEGRAU", "exponencial",
            "janela", "memoria", "meia_vida", "dias_para_tolerancia", "erro", "erro_medio",
-           "erro_varios", "limiar", "reverter", "erro_do_inverso", "erro_do_otimo", "horizonte"]
+           "erro_varios", "limiar", "reverter", "erro_do_inverso", "erro_do_otimo", "horizonte",
+           # a divida do capitulo 19, paga: as tres funcoes da idade ja existiam e nao estavam na
+           # lista, de modo que "from frevolab.esquecimento import *" nao as via (2026-09-25)
+           "memoria_da_idade", "dias_da_idade", "media_acumulada",
+           "acumulada_com_reset", "dias_ate_dentro", "piso_exponencial", "plasticidade"]
 
 
 def exponencial(serie: np.ndarray, taxa: float) -> np.ndarray:
@@ -283,3 +287,119 @@ def media_acumulada(serie) -> "np.ndarray":
     x = np.asarray(serie, dtype=float)
     vistas = np.arange(1, x.size + 1, dtype=float)
     return np.cumsum(x) / vistas
+
+def acumulada_com_reset(serie, resets) -> np.ndarray:
+    r"""A média acumulada que recomeça a idade em cada dia declarado.
+
+    Entre um dia declarado e o seguinte a estimativa é a \emph{media\_acumulada} do pedaço; no
+    próprio dia declarado ela recomeça do dia sozinho. O reset zera a idade, e não os dados: o
+    passado continua existindo, só deixa de entrar na conta --- e é isso que o recomeço do
+    capítulo 19 pressupõe, o dia da mudança declarado por quem a pôs no mundo. Sem nenhum dia
+    declarado, o recomeço é a própria média acumulada.
+    """
+    x = np.asarray(serie, dtype=float)
+    if x.size < 1:
+        raise ValueError("a serie precisa de pelo menos um dia")
+    marcas = [int(r) for r in resets]
+    if len(set(marcas)) != len(marcas):
+        raise ValueError("os dias declarados nao podem se repetir")
+    if any(not 0 <= r < x.size for r in marcas):
+        raise ValueError("os dias declarados precisam cair dentro da serie")
+    bordas = [0] + sorted(marcas) + [x.size]
+    saida = np.empty(x.size)
+    for inicio, fim in zip(bordas[:-1], bordas[1:]):
+        saida[inicio:fim] = media_acumulada(x[inicio:fim])
+    return saida
+
+
+def dias_ate_dentro(estimativa, verdade, inicio: int,
+                    tolerancia_nivel: float = TOLERANCIA) -> float:
+    r"""O primeiro dia, contado de \emph{inicio}, em que a estimativa entra na tolerância do nível.
+
+    A tolerância é fração do NÍVEL novo --- a unidade do erro medido no capítulo ---, e a ponte
+    para a fração do DEGRAU é a de sempre: num mundo que dobra, a mesma fronteira vale o dobro
+    em degrau, e é ela que a proposição da meia-vida conta. Se a estimativa nunca entra, o dia é
+    \emph{nan} --- como a latência sem alarme: o dia que não chega é resultado declarado, e não
+    zero.
+    """
+    e = np.asarray(estimativa, dtype=float)
+    v = np.asarray(verdade, dtype=float)
+    if e.shape != v.shape:
+        raise ValueError("a estimativa e a verdade precisam ter o mesmo comprimento")
+    if not 0 <= int(inicio) < e.size:
+        raise ValueError("o inicio precisa cair dentro da serie")
+    if not 0.0 < tolerancia_nivel < 1.0:
+        raise ValueError("a tolerancia precisa estar entre zero e um")
+    if not np.all(np.isfinite(e[inicio:])):
+        raise ValueError("a estimativa tem dias sem valor a partir do inicio")
+    if not np.all(v[inicio:] > 0.0):
+        raise ValueError("a tolerancia do nivel pede nivel positivo")
+    desvio = np.abs(e[inicio:] - v[inicio:]) / v[inicio:]
+    dentro = np.flatnonzero(desvio <= tolerancia_nivel)
+    return float(dentro[0]) if dentro.size else float("nan")
+
+
+def piso_exponencial(taxa: float, sigma_x: float) -> float:
+    r"""O piso da taxa no mundo que não muda: \emph{sigma\_x} vezes a raiz de taxa sobre dois menos taxa.
+
+    A variância da mistura é a soma dos pesos ao quadrado, e a soma geométrica dos
+    \emph{(1-taxa)} ao quadrado dá \emph{taxa/(2-taxa)} --- de modo que a FORMA é livre da lei
+    dos dias: qualquer mundo com dias independentes paga o mesmo fator, e só o desvio do mundo
+    conhece a distribuição. É o preço declarado de fixar a taxa: o que ela ganha em dias paga em
+    piso.
+    """
+    if not 0.0 < taxa <= 1.0:
+        raise ValueError("a taxa precisa estar entre zero e um")
+    if sigma_x < 0.0:
+        raise ValueError("o desvio do mundo nao pode ser negativo")
+    return float(sigma_x * np.sqrt(taxa / (2.0 - taxa)))
+
+
+def plasticidade(series, degraus, verdade, horizonte: int = HORIZONTE_PADRAO,
+                 taxa: float = TAXA_PADRAO) -> dict:
+    r"""A plasticidade de três braços no mundo que muda de novo: quem volta, e em quantos dias.
+
+    Os braços são a média de tudo (que nunca escolheu taxa), o recomeço (que zera a idade nos
+    dias declarados) e a taxa fixa. Para cada degrau, na ordem, devolve o erro na janela de
+    leitura e os dias até a tolerância --- mediana e dispersão entre mundos, e o número de
+    mundos em que o dia não chegou. O dia que não chega é resultado: a média de tudo aprende o
+    primeiro degrau e para, e é isso que a medição declara em vez de esconder no zero.
+    """
+    series = [np.asarray(s, dtype=float) for s in series]
+    if not series:
+        raise ValueError("a medicao precisa de pelo menos uma serie")
+    n = series[0].size
+    if any(s.size != n for s in series):
+        raise ValueError("os mundos precisam ter o mesmo comprimento")
+    v = np.asarray(verdade, dtype=float)
+    if v.shape != (n,):
+        raise ValueError("a verdade precisa ter o comprimento dos mundos")
+    dias = [int(d) for d in degraus]
+    if not dias:
+        raise ValueError("declare pelo menos um dia de degrau")
+    if len(set(dias)) != len(dias) or any(b <= a for a, b in zip(dias, dias[1:])):
+        raise ValueError("os dias de degrau precisam crescer, sem repeticao")
+    if any(not 1 <= d < n for d in dias):
+        raise ValueError("os degraus precisam cair dentro da serie")
+    if dias[-1] + horizonte > n:
+        raise ValueError("a janela de leitura nao cabe depois do ultimo degrau")
+    if not 0.0 < taxa <= 1.0:
+        raise ValueError("a taxa precisa estar entre zero e um")
+    bracos = {"acumulada": [media_acumulada(s) for s in series],
+              "recomeco": [acumulada_com_reset(s, dias) for s in series],
+              "exponencial": [exponencial(s, taxa) for s in series]}
+    caixa = {"degraus": tuple(dias), "horizonte": int(horizonte), "taxa": float(taxa),
+             "tolerancia_nivel": float(TOLERANCIA), "por_braco": {}}
+    for nome, estimativas in bracos.items():
+        linhas = []
+        for dia in dias:
+            erros = np.array([erro(e, v, dia, horizonte) for e in estimativas])
+            voltas = np.array([dias_ate_dentro(e, v, dia, TOLERANCIA) for e in estimativas])
+            voltaram = voltas[np.isfinite(voltas)]
+            linhas.append({"erro_mediana": float(np.median(erros)),
+                           "erro_dispersao": float(erros.std(ddof=1)) if erros.size > 1 else 0.0,
+                           "dias_mediana": float(np.median(voltaram)) if voltaram.size else float("nan"),
+                           "dias_dispersao": float(voltaram.std(ddof=1)) if voltaram.size > 1 else 0.0,
+                           "mundos_sem_volta": int(voltas.size - voltaram.size)})
+        caixa["por_braco"][nome] = linhas
+    return caixa

@@ -1,0 +1,22 @@
+{
+ "plast_mundos": 20,
+ "plast_dias": 6030,
+ "plast_degraus": 6,
+ "plast_horizonte": 250,
+ "plast_taxa": 0.048,
+ "plast_tolerancia_pct": 15.0,
+ "plast_erro_acumulada_pct": 78.787,
+ "plast_erro_recomeco_pct": 5.588,
+ "plast_erro_exponencial_pct": 11.079,
+ "plast_dias_acumulada": -1,
+ "plast_dias_recomeco": 4.0,
+ "plast_dias_exponencial": 24.0,
+ "plast_sem_volta_acumulada": 20,
+ "plast_sem_volta_recomeco": 0,
+ "plast_sem_volta_exponencial": 0,
+ "plast_piso_medido_pct": 25.258,
+ "plast_piso_fechado_pct": 25.29,
+ "plast_piso_razao": 1.002,
+ "plast_dias_taxa_baixa": 69.5,
+ "plast_dias_taxa_alta": 5.0
+}

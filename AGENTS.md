@@ -65,7 +65,7 @@ conferida por portão (§9). Onde cada degrau sobe:
 | a memória, o estacionário, a recursão da oscilação e o ponto fixo, o produto e o expoente | 16 |
 | a padronização | 17 |
 | o laço da reação, o controle de reação nula e a recalibragem sobre a própria série | 18 |
-| o esquecimento, a meia-vida e a tolerância do degrau | 19 |
+| o esquecimento, a meia-vida, a tolerância do degrau, a plasticidade, o recomeço e o piso | 19 |
 | a janela que se escolhe sozinha, o teste das metades e o orçamento de encolhimentos falsos | 20 |
 | o orçamento da conta de direção, o instrumento conferido, o tempo para ver e o ano que não é a direção | 21 |
 | o episódio dirigido | 22 |
