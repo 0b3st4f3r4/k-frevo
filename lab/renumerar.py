@@ -108,8 +108,13 @@ def aplicar(inserir: int) -> None:
         velho, novo = f.name[:-4], "%02d%s" % (int(f.name[:2]) + 1, f.name[2:-4])
         for s in ("", ".tex"):
             texto = texto.replace("\\input{capitulos/%s%s}" % (velho, s), "\\input{capitulos/%s%s}" % (novo, s))
-        texto = re.sub(r"^% O cap([ií])tulo %s " % velho[:2],
-                       lambda m: "%% O cap%stulo %s " % (m.group(1), novo[:2]), texto, flags=re.M)
+    # Os comentários sobem em UMA passada, com callback que só sobe o número a partir da
+    # posição de inserção. Em laço ascendente, cada passada re-casava o que a anterior
+    # acabou de escrever ("% O capítulo 11" virava 12, depois 13, ... até 27) --- o segundo
+    # defeito que a produção da posição 10 achou; a passada única não tem com quem cascatear.
+    def _sobe_comentario(m):
+        return "%s%02d " % (m.group(1), int(m.group(2)) + 1) if int(m.group(2)) >= inserir else m.group(0)
+    texto = re.sub(r"^(% O cap[ií]tulo )(\d+) ", _sobe_comentario, texto, flags=re.M)
     LIVRO.write_text(texto, encoding="utf-8")
     print("  livro.tex: inputs e comentarios")
     linhas = REGISTRO.read_text(encoding="utf-8").split(chr(10))

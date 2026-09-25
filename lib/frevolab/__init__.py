@@ -14,7 +14,7 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 """
 from importlib.metadata import PackageNotFoundError, version
 
-from . import (aposta, calendario, centro, dados, dependencia, direcao, evidencia, esquecimento, estabilidade,
+from . import (alerta, aposta, calendario, centro, dados, dependencia, direcao, evidencia, esquecimento, estabilidade,
                graficos, intervencao, mudanca, multiplicidade, nivel, operador, partilha, proporcao, promessa, recorde,
                pares, regimes, resumo, vigia, volatilidade)
 
@@ -26,7 +26,7 @@ try:
 except PackageNotFoundError:
     VERSAO = "0.1.0"
 
-__all__ = ["calendario", "dados", "dependencia", "esquecimento", "estabilidade", "graficos",
+__all__ = ["alerta", "calendario", "dados", "dependencia", "esquecimento", "estabilidade", "graficos",
            "intervencao", "mudanca", "nivel", "partilha", "proporcao", "promessa", "recorde",
            "regimes", "vigia", "volatilidade", "VERSAO", "auto_teste"]
 
@@ -782,6 +782,56 @@ def auto_teste() -> list:
     # Os blocos do capital nao se sobrepoem, e o resto da serie e descartado.
     if aposta.contagens_por_bloco(np.ones(125), 60).tolist() != [60.0, 60.0]:
         problemas.append("aposta: os blocos do capital se sobrepoem")
+
+    # --- o alerta que todo mundo usa, com o par declarado (alerta.py) ---
+
+    # Os tres indicadores da receita recuperam o que o mundo declarou: a variância recupera
+    # sigma^2, a autocorrelação recupera o parametro de um AR(1), e a assimetria acusa o lado
+    # que a construção pesou --- e fica em zero onde o mundo e simetrico.
+    rng_alerta = np.random.default_rng(31)
+    dias_alerta = pd.Series(rng_alerta.normal(0.0, 0.01, 40000))
+    # As janelas medem-se sem sobrepor, e a tolerância cobre o erro do estimador na amostra.
+    var_janelas = alerta.variancia(dias_alerta, 1000).dropna().iloc[::1000]
+    if abs(float(var_janelas.mean()) - 1e-4) / 1e-4 > 0.02:
+        problemas.append("alerta: a variância da janela não recupera sigma^2")
+    if abs(float(alerta.autocorrelacao(dias_alerta, 1000).dropna().iloc[::1000].mean())) > 0.05:
+        problemas.append("alerta: a autocorrelação de um mundo independente não é zero")
+    ruído_ar1 = rng_alerta.normal(0.0, 1.0, 60000)
+    ar1 = pd.Series(np.empty(60000))
+    for t in range(1, 60000):
+        ar1.iloc[t] = 0.5 * ar1.iloc[t - 1] + ruído_ar1[t]
+    if abs(alerta.autocorrelacao(ar1, 20000).iloc[-1] - 0.5) > 0.02:
+        problemas.append("alerta: a autocorrelação não recupera o parâmetro do AR(1)")
+    # A assimetria da construção u = z + a(z^2-1) tem valor fechado, e é ele o que a janela
+    # tem de recuperar: (6a + 8a^3) / (1 + 2a^2)^(3/2).
+    assim = pd.Series(direcao.assimetrico(60000, rng_alerta, sigma=0.01, a=0.3))
+    teorico_alerta = (6 * 0.3 + 8 * 0.3 ** 3) / (1 + 2 * 0.3 ** 2) ** 1.5
+    if abs(alerta.assimetria(assim, 20000).iloc[-1] - teorico_alerta) > 0.05:
+        problemas.append("alerta: a assimetria não recupera o valor fechado da construção")
+    assim_calma = alerta.assimetria(dias_alerta, 1000).dropna().iloc[::1000]
+    if abs(float(assim_calma.median())) > 0.05:
+        problemas.append("alerta: a assimetria de um mundo simétrico não é zero")
+
+    # O silêncio é declarado: quem não tem janela ainda não alerta, e o dia acima do limiar
+    # é alarme onde a estatística existe --- episódio é conta do orçamento, não da leitura.
+    pequena = pd.Series([np.nan, np.nan, 2.0, 2.0, 0.0, 3.0])
+    toques = alerta.dispara(pequena, 1.0)
+    if toques.tolist() != [True, True, False, True] or toques.index[0] != 2:
+        problemas.append("alerta: a leitura não respeita o silêncio da janela")
+    matriz_alerta = np.array([[0.0, 1.0, 1.0, 0.0, 1.0], [0.0, 0.0, 0.0, 0.0, 0.0]])
+    if alerta.orcamento(matriz_alerta, 0.5, dias_uteis=1)["episodios_por_mundo"] != 1.0:
+        problemas.append("alerta: o orçamento não conta episódios, conta dias ou mundos a mais")
+
+    # A calibração entrega o que promete: o limiar devolvido gasta, em episódios por ano, o
+    # orçamento pedido --- e subir o limiar nunca gasta mais.
+    nulos_alerta = rng_alerta.normal(0.0, 0.01, size=(60, 2500))
+    alvo_alerta = 1.0
+    limiar_alerta = alerta.limiar_do_orcamento(nulos_alerta, alvo_alerta, dias_uteis=252)
+    gasto_alerta = alerta.orcamento(nulos_alerta, limiar_alerta, dias_uteis=252)["episodios_por_ano"]
+    if not 0.7 < gasto_alerta < 1.3:
+        problemas.append("alerta: o limiar calibrado não gasta o orçamento pedido (%.3f)" % gasto_alerta)
+    if alerta.orcamento(nulos_alerta, limiar_alerta * 1.01, dias_uteis=252)["episodios_por_ano"] > gasto_alerta:
+        problemas.append("alerta: subir o limiar passou a gastar mais")
 
     import matplotlib
     matplotlib.use("Agg")
