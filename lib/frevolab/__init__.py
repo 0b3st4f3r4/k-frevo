@@ -14,9 +14,9 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 """
 from importlib.metadata import PackageNotFoundError, version
 
-from . import (alerta, aposta, calendario, centro, dados, dependencia, direcao, evidencia, esquecimento, estabilidade,
-               graficos, intervencao, laco, lei, mudanca, multiplicidade, nivel, operador, partilha, proporcao, promessa,
-               ramificacao, recorde, pares, regimes, resumo, vigia, volatilidade)
+from . import (adaptativa, alerta, aposta, calendario, centro, dados, dependencia, direcao, evidencia, esquecimento,
+               estabilidade, graficos, intervencao, laco, lei, mudanca, multiplicidade, nivel, operador, partilha,
+               proporcao, promessa, ramificacao, recorde, pares, regimes, resumo, vigia, volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -26,9 +26,9 @@ try:
 except PackageNotFoundError:
     VERSAO = "0.1.0"
 
-__all__ = ["alerta", "calendario", "dados", "dependencia", "esquecimento", "estabilidade", "graficos",
-           "intervencao", "laco", "lei", "mudanca", "nivel", "partilha", "proporcao", "promessa", "ramificacao",
-           "recorde", "regimes", "vigia", "volatilidade", "VERSAO", "auto_teste"]
+__all__ = ["adaptativa", "alerta", "calendario", "dados", "dependencia", "esquecimento", "estabilidade",
+           "graficos", "intervencao", "laco", "lei", "mudanca", "nivel", "partilha", "proporcao", "promessa",
+           "ramificacao", "recorde", "regimes", "vigia", "volatilidade", "VERSAO", "auto_teste"]
 
 
 def auto_teste() -> list:
@@ -890,6 +890,21 @@ def auto_teste() -> list:
     # A fração na tolerância é conta de mão: dois de quatro dias dentro.
     if abs(lei.fracao_na_tolerancia(np.ones(4), np.array([1.0, 1.1, 1.5, 2.0]), 0.2, horizonte=4) - 0.5) > 1e-12:
         problemas.append("lei: a fração na tolerância não é a conta de mão")
+
+    # --- a janela que se escolhe sozinha (adaptativa) ---
+    plano = np.concatenate((np.full(30, 1.0), np.full(30, 2.0)))
+    caixa = adaptativa.nivel(plano, limiar=0.05, minima=4, maxima=20)
+    if not ((caixa["tamanhos"] <= 20).all() and (caixa["tamanhos"][3:] >= 4).all()):
+        problemas.append("adaptativa: o tamanho escapou dos limites declarados")
+    dia_corte = [d for d, _, _ in caixa["encolhimentos"]]
+    if dia_corte and min(dia_corte) < 30:
+        problemas.append("adaptativa: encolheu antes da mudança que não existe")
+    if not dia_corte or max(dia_corte) > 55:
+        problemas.append("adaptativa: não encolheu perto da mudança declarada")
+    controle = adaptativa.nivel(plano, limiar=1e9, minima=4, maxima=20)
+    direto = np.array([plano[max(0, t - 19):t + 1].mean() for t in range(plano.size)])
+    if not np.allclose(controle["estimativa"], direto, atol=1e-12):
+        problemas.append("adaptativa: o limiar infinito não devolve a janela fixa")
 
     # --- o laço que reage (laco) ---
     rng_laco = np.random.default_rng(41)
