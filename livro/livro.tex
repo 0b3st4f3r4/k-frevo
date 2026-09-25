@@ -155,6 +155,38 @@
 \newlength{\larguraEpigrafe}   \setlength{\larguraEpigrafe}{88mm}
 \newlength{\folgaEpigrafe}     \setlength{\folgaEpigrafe}{118mm}
 
+% -----------------------------------------------------------------------------
+% AS BANDAS DE MARGEM: a arte das duas capas, em cinza, respirando na margem
+% externa --- o infinito no verso, o colapso no recto ---, discreta em toda
+% página do miolo e firme nas seis folhas de parte, onde o livro troca de
+% marcha. Fica na margem externa por desenho: três milímetros da mancha e três
+% do corte, longe da costura e longe do texto. As coordenadas e o tamanho da
+% banda moram aqui, nomeados: dígito no corpo do livro é aviso, e a margem é
+% uma medida só, que muda num lugar só.
+%
+% A folha de parte mais firme sai do \@endpart: ele marca a bandeira antes de
+% embarcar a página do título, e a própria banda consome a marca no primeiro
+% embarque --- de modo que a página do título sai forte e as vizinhas, que já
+% embarcaram ou vão embarcar, continuam discretas.
+% -----------------------------------------------------------------------------
+\usepackage{eso-pic}
+\newif\iffolhadeparte
+\makeatletter
+\let\fimdaparte\@endpart
+\def\@endpart{\folhadepartetrue\fimdaparte}
+\makeatother
+\newcommand{\bandaRecto}{\put(406.9,56.9){\includegraphics[width=39.7pt,height=511.2pt]{../assets/images/margem_colapso.png}}}
+\newcommand{\bandaVerso}{\put(8.5,56.9){\includegraphics[width=39.7pt,height=511.2pt]{../assets/images/margem_infinito.png}}}
+\newcommand{\bandaRectoFirme}{\put(406.9,56.9){\includegraphics[width=39.7pt,height=511.2pt]{../assets/images/margem_colapso_parte.png}}}
+\newcommand{\bandaVersoFirme}{\put(8.5,56.9){\includegraphics[width=39.7pt,height=511.2pt]{../assets/images/margem_infinito_parte.png}}}
+\newcommand{\bandasDoLivro}{%
+  \iffolhadeparte
+    \ifodd\value{page}\bandaRectoFirme\else\bandaVersoFirme\fi
+    \global\folhadepartefalse
+  \else
+    \ifodd\value{page}\bandaRecto\else\bandaVerso\fi
+  \fi}
+
 \title{Kolmogorov-Frevo: A incerteza quando o mundo muda}
 \author{O Besta Fera.}
 \date{\the\year}
@@ -290,6 +322,10 @@ a resposta é «depende da janela que você escolher», é isso que fica escrito
 % O capítulo 3 — a raiz: a medição, o corte e o preço de fixar.
 % Um arquivo por capítulo, em livro/capitulos/, nomeado pelo conceito.
 % -----------------------------------------------------------------------------
+
+% A banda entra aqui, com o primeiro movimento: a capa, a folha de rosto, a
+% epígrafe, o sumário e a abertura ficam de fora --- o miolo é que respira.
+\AddToShipoutPictureBG{\bandasDoLivro}
 
 \part{A raiz}
 
@@ -552,6 +588,8 @@ cada número daqui apareceu, e é assim que os que faltam vão aparecer.
 % a sinopse para quem ainda não abriu. Folha de fora: sem margem, sem número
 % e fora do sumário.
 % -----------------------------------------------------------------------------
+% A contra-capa tem a arte dela: a banda de margem sai de cena aqui.
+\ClearShipoutPictureBG
 % Sem \clearpage na mão: o \newgeometry embaralha a página sozinho, e um segundo
 % embaralhamento sai folha em branco com o hyperref.
 \newgeometry{margin=0pt}% numeros-ok (folha de fora: sangria total, não grandeza)
