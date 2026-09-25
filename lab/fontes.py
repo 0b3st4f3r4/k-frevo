@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """O corpus de fontes: migração, bibliografia e conferência.
 
-O corpus vive em `dados/fontes.tsv`, uma linha por fonte, e o número da linha é o
-identificador (RF###, herdando a numeração do arquivo para que a procedência de
-qualquer empréstimo seja rastreável). Este script faz três coisas:
+O corpus vive em `dados/fontes.tsv`, uma linha por fonte, e o RF### é a LINHA DE ORIGEM
+histórica (o arquivo já foi curado: saem as não citadas sem fila de integração, com
+veredito e motivo em `dados/fontes-fora.tsv`, e os ids ficam não contíguos de propósito
+--- renumerar apagaria a procedência). Este script faz três coisas:
 
   --migrar    lê `.old/dados/references.tsv` e escreve `dados/fontes.tsv` limpo
   (padrão)    gera `livro/fontes.tex` — o ambiente thebibliography do livro, só com
