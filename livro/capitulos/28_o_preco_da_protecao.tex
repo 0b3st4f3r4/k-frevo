@@ -89,7 +89,59 @@ a cada cinco dias deixa de ser cauda: engorda as margens tanto quanto a junta, e
 crescer. O par real, \numPrecoRazao, fica no alto da família --- entre o dez por cento e um pouco
 além ---, que é a mesma leitura do capítulo da margem, agora em moeda de capital.
 
-\section{O que o andar fecha}
+\section{O canal com orçamento}
+
+Tudo o que este capítulo mediu até aqui supôs a observação completa: os dois lados da carteira vistos
+no mesmo dia, todos os dias. A pergunta federada é o que sobra dessa suposição --- garantir incerteza
+quando os observadores estão separados e a comunicação tem orçamento \cite{plassier2023conformal}.
+O desenho é o da casa em outro material: dois canais independentes, um por perna, e só a fração
+declarada dos dias atravessando cada um; o corte recalibra sobre a série que chegou, com buracos,
+porque o observador não sabe o que não atravessou. O controle é embutido: com o canal aberto, os dias
+comuns devolvem \numCanalVerdadeiros{} eventos conjuntos e o capital \numCanalInteiroCapital{} --- a
+conta do capítulo, com a pequena diferença declarada de que a calibração agora conta só os dias
+comuns.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figuras/E40_canal_1.pdf}
+\caption{O recall dos dias conjuntos verdadeiros contra a fração dos dias que atravessam cada canal,
+com a banda entre sortes do canal --- a incerteza aqui é qual dia atravessou, e não a reamostragem dos
+que vieram. A linha tracejada é a referência do quadrado: um dia conjunto só é visto se os dois canais
+o deixarem passar. O recall mediano fica abaixo dela desde a metade: a recalibração sobre séries com
+buracos perde além do que o canal corta.}
+\label{fig:canal_recall}
+\end{figure}
+
+O canal cobra duas vezes. A primeira é o quadrado: com a metade dos dias atravessando cada canal, um
+dia conjunto só é visto se ambos o deixarem passar --- e ainda assim os detectados caem para
+\numCanalMeioDetectados{} [\numCanalMeioDetectadosMin{}; \numCanalMeioDetectadosMax{}] dias, com recall
+de \numCanalMeioRecall{} [\numCanalMeioRecallMin{}; \numCanalMeioRecallMax{}] contra o
+quarto que o quadrado previa. A segunda é a cega recalibração: o posto da janela agora conta dias
+observados, o corte afrouxa ou aperta conforme o que atravessou, e o junto aparece e desaparece com a
+sorte do canal. No orçamento de um quinto ela já não se sustenta: \numCanalQuintoDetectados{} dias
+detectados no mediano, e a barreira conjunta só pode ser lida em \numCanalQuintoCalibraveis{} das
+sortes. No décimo, o veredito é seco: zero dias no mediano, e o quantil conjunto existe em
+\numCanalDecimoCalibraveis{} das sortes --- praticamente nunca.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{figuras/E40_canal_2.pdf}
+\caption{O capital conjunto observado contra a fração do canal, nas frações em que ele pode ser lido,
+com a banda entre sortes e a linha da observação completa. Na metade a banda já engole a linha: o
+capital não fica mais barato --- fica ilegível. O décimo fica de fora do eixo: em quase todas as sortes o quantil nem existe ---
+e o ponto do quinto só existe porque a mediana é lida nas sortes em que deu.}
+\label{fig:canal_capital}
+\end{figure}
+
+E aqui está a leitura que fecha a travessia. O capítulo inteiro mediu o preço da proteção que protege
+sob observação completa; o canal mostra que o preço tem um degrau antes do custo: a legibilidade. Com
+a metade do orçamento, o capital mediano é \numCanalMeioCapital{} com intervalo de
+\numCanalMeioCapitalMin{} a \numCanalMeioCapitalMax{} --- o número do capítulo, \numPrecoCapitalConjunto,
+caído dentro da banda: nenhuma barreira calculada com metade da observação se distingue da completa.
+Com menos, não há barreira que se calcule. O que não se compra tem preço, mediu o andar; o que não se
+observa nem preço tem --- só a declaração honesta do orçamento que faltou.
+
+section{O que o andar fecha}
 
 O andar fechou pelos dois lados. De um lado, a lição com cinco nomes: nenhuma peça do livro devolve
 o que a compressão jogou fora --- nem o mundo, nem o dia, nem a margem, nem a taxa, e a experiência

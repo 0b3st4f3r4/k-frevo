@@ -1012,5 +1012,17 @@ def auto_teste() -> list:
         problemas.append("protecao: o choque comum nao encareceu a barreira correta (%.3f contra %.3f)" % (razao_choq, chao_ind))
     if not 0.0 <= protecao.descoberto(protecao.capital_conjunto(perdas_choq), perdas_choq) <= 0.08:
         problemas.append("protecao: o capital do quantil nao cobre o nivel prometido")
+    # o canal com orcamento: fracao cheia devolve a conta cheia, fracao pequima aproxima o quadrado
+    cheio = protecao.canal(pd.Series(rng_prot.normal(0.0, 0.01, 30000)),
+                            pd.Series(0.012 * rng_prot.normal(0.0, 1.0, 30000)), 1.0,
+                            semente=63)
+    if not 0.85 < cheio["recall"] <= 1.0:
+        problemas.append("protecao: o canal com fracao cheia nao devolve a observacao completa (%.3f)" % cheio["recall"])
+    fino = protecao.canal(pd.Series(rng_prot.normal(0.0, 0.01, 30000)),
+                          pd.Series(0.012 * rng_prot.normal(0.0, 1.0, 30000)), 0.1,
+                          semente=64)
+    if not 0.3 * fino["verdadeiros"] * 0.01 <= fino["detectados"] <= 2.5 * fino["verdadeiros"] * 0.01:
+        problemas.append("protecao: o canal fino nao aproxima o quadrado da fracao (%d contra ~%.1f)" % (
+            fino["detectados"], fino["verdadeiros"] * 0.01))
 
     return problemas

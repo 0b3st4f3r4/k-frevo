@@ -24,7 +24,7 @@ NIVEL_PADRAO = 0.05
 BLOCO_PADRAO = 60
 REPETICOES_PADRAO = 200
 
-__all__ = ["capital_marginal", "perdas_conjuntas", "capital_conjunto", "descoberto", "intervalo"]
+__all__ = ["capital_marginal", "perdas_conjuntas", "capital_conjunto", "descoberto", "canal", "intervalo"]
 
 
 def capital_marginal(retornos_a: pd.Series, retornos_b: pd.Series,
@@ -81,6 +81,39 @@ def descoberto(capital: float, perdas: pd.Series) -> float:
     absorvido = np.minimum(valores, capital)
     return float(1.0 - absorvido.mean() / valores.mean())
 
+
+def canal(retornos_a: pd.Series, retornos_b: pd.Series, fracao: float,
+          janela: int = JANELA_PADRAO, cauda: float = CAUDA_PADRAO,
+          pesos=PESOS_PADRAO, nivel: float = NIVEL_PADRAO, semente: int = 0) -> dict:
+    r"""O observador com orçamento: dois canais independentes, um por perna, e só a fração
+    declarada dos dias atravessando cada um.
+
+    O quadro é o federado \cite{plassier2023conformal}: cada perna é observada no seu nó, e o dia
+    só existe para a conta conjunta se atravessar os DOIS canais. O corte recalibra sobre a série
+    observada de cada perna --- dias com buraco, posto contando dias observados ---, porque o
+    observador não sabe o que não atravessou. O dict devolve os dias conjuntos detectados, o
+    recall contra a observação completa, e as contas do capítulo recalculadas no que sobrou.
+    """
+    if not 0.0 < fracao <= 1.0:
+        raise ValueError("a fração do canal tem de ficar em (0; 1]")
+    comuns = retornos_a.index.intersection(retornos_b.index)
+    rng = np.random.default_rng(semente)
+    passa_a = rng.random(comuns.size) < fracao
+    passa_b = rng.random(comuns.size) < fracao
+    sa = retornos_a.loc[comuns[passa_a]]
+    sb = retornos_b.loc[comuns[passa_b]]
+    verdadeiras = perdas_conjuntas(retornos_a.loc[comuns], retornos_b.loc[comuns],
+                                   janela=janela, cauda=cauda, pesos=pesos)
+    detectadas = perdas_conjuntas(sa, sb, janela=janela, cauda=cauda, pesos=pesos)
+    achados = verdadeiras.index.intersection(detectadas.index)
+    margem = capital_marginal(sa, sb, janela=janela, cauda=cauda, pesos=pesos)
+    junto = capital_conjunto(detectadas, nivel=nivel) if len(detectadas) >= 4 else float("nan")
+    return {"detectados": int(len(detectadas)),
+            "verdadeiros": int(len(verdadeiras)),
+            "recall": float(len(achados) / len(verdadeiras)) if len(verdadeiras) else float("nan"),
+            "capital_marginal": float(margem),
+            "capital_conjunto": float(junto),
+            "descoberto": float(descoberto(margem, detectadas)) if len(detectadas) else float("nan")}
 
 def intervalo(retornos_a: pd.Series, retornos_b: pd.Series,
               janela: int = JANELA_PADRAO, cauda: float = CAUDA_PADRAO,
