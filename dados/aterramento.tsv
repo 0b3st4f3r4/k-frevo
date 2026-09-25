@@ -36,13 +36,13 @@ z	o quantil da confiança declarada; mais tarde, o incremento padronizado	simbol
 c	a constante positiva que multiplica a série	simbolo	c	17		17
 lambda	a taxa de esquecimento da memória	simbolo	\lambda	19	esquecimento	19
 epsilon	a tolerância de erro, em fração do degrau	simbolo	\epsilon	19	tolerancia	19
-H	o número esperado de recordes em n dias	simbolo	H	23	recorde	23
-eta	o choque do dia — o que entra na série e não vem dela	simbolo	\eta	24		24
-theta	a fração do degrau que ainda se quer recuperar	simbolo	\theta	24		24
-a	o coeficiente da memória de um passo	simbolo	a	24		24
-e	o erro da reconstrução do passado	simbolo	e	24		24
-j	o passo da reconstrução do passado	simbolo	j	24		24
-f	o tamanho do choque comum ao par	simbolo	f	25		25
+H	o número esperado de recordes em n dias	simbolo	H	24	recorde	24
+eta	o choque do dia — o que entra na série e não vem dela	simbolo	\eta	25		25
+theta	a fração do degrau que ainda se quer recuperar	simbolo	\theta	25		25
+a	o coeficiente da memória de um passo	simbolo	a	25		25
+e	o erro da reconstrução do passado	simbolo	e	25		25
+j	o passo da reconstrução do passado	simbolo	j	25		25
+f	o tamanho do choque comum ao par	simbolo	f	26		26
 probabilidade	a probabilidade de um evento, medida como frequência de muitos sorteios	termo	probabilidade	1		-
 independencia	dois dias não têm nada a dizer um sobre o outro	termo	independent|independência	1	probabilidade	-
 sorteio	repetir o mundo inteiro com outra semente	termo	sorteio|sorteado|sorteamos	1		-
@@ -51,7 +51,7 @@ media	a média de muitos dias ou de muitos sorteios	termo	média	1	sorteio	-
 desvio	o desvio de um dia, e a sua média	termo	desvi	1	media	-
 variancia	a variância — o quadrado do tamanho típico do dia	termo	variância	1	media	-
 esperanca	a esperança — a média de muitos sorteios, dita em símbolo	termo	esperança	1	media	-
-curtose	a curtose — o quanto a cauda pesa, comparada com a normal	termo	curtose	25	variancia	25
+curtose	a curtose — o quanto a cauda pesa, comparada com a normal	termo	curtose	26	variancia	26
 quantil	o valor que deixa uma fração declarada dos dias abaixo dele	termo	quantil	3	probabilidade	3
 mediana	o quantil de metade	termo	mediana	3	quantil	3
 décimo	cada uma das dez fatias iguais de uma lista ordenada	termo	por d[ée]cimo\b|d[ée]cimo mais\b	9	quantil	9
@@ -71,7 +71,7 @@ padronizacao	dividir a série pelo seu próprio tamanho, e o que isso apaga	term
 dependencia	as coisas ruins que vêm juntas	termo	\bdependência	8	independencia	8
 posto	a correlação que olha a ordem e não os valores	termo	correlação de posto	9	dependencia	9
 copula	a forma da dependência separada das margens	termo	cópula	8	dependencia	8
-condicional	a lei que vale depois de se saber alguma coisa	termo	condicional	24	probabilidade	24
+condicional	a lei que vale depois de se saber alguma coisa	termo	condicional	25	probabilidade	25
 estacionaria	a lei que não muda com o dia	termo	estacionári	16	probabilidade	16
 memoria	quanto um dia carrega do anterior	termo	memória que aprende|memória efetiva|memória mora	16	estacionaria	16
 esquecimento	a taxa com que o passado cede lugar ao presente	termo	esquecimento	19	memoria	19
@@ -95,12 +95,12 @@ incremento	o incremento — o que o dia acrescentou ao nível	termo	incremento	2
 h	o horizonte, em dias	simbolo	h	2		2
 Y	o segundo sorteio, na prova da variância da soma	simbolo	Y	2		2
 mu	a média do incremento	simbolo	\mu	2	esperanca	2
-operador	a matriz que carrega o estado de um passo para o outro	simbolo	M	24		24
-esboco	a familia de contadores de sinal sorteado que estima o segundo momento do fluxo	termo	esboço	29		29
-contador	o valor de um contador do esboco depois de somar o fluxo inteiro	simbolo	u	29	esboco	29
-contadores	o numero de contadores guardados pelo esboco	simbolo	K	29	esboco	29
-energia	a soma dos quadrados dos incrementos: o segundo momento do caminho	simbolo	Q	29	r	29
-precisao	o erro relativo pedido ao esboco	simbolo	\varepsilon	29	esboco	29
+operador	a matriz que carrega o estado de um passo para o outro	simbolo	M	25		25
+esboco	a familia de contadores de sinal sorteado que estima o segundo momento do fluxo	termo	esboço	30		30
+contador	o valor de um contador do esboco depois de somar o fluxo inteiro	simbolo	u	30	esboco	30
+contadores	o numero de contadores guardados pelo esboco	simbolo	K	30	esboco	30
+energia	a soma dos quadrados dos incrementos: o segundo momento do caminho	simbolo	Q	30	r	30
+precisao	o erro relativo pedido ao esboco	simbolo	\varepsilon	30	esboco	30
 concordancia	a fracao de pares de dias que concordam menos a que discorda	simbolo	\tau	8		8
 sigma-um	a covariancia entre dois pares de dias que dividem um dia	simbolo	\sigma_1	8	desvio-padrao	8
 fracao-de-pares	a fracao dos pares que se conta	simbolo	\rho	8		8

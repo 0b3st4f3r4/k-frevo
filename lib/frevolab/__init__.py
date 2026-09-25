@@ -16,7 +16,7 @@ from importlib.metadata import PackageNotFoundError, version
 
 from . import (adaptativa, alerta, aposta, calendario, centro, dados, dependencia, direcao, evidencia, esquecimento,
                estabilidade, graficos, intervencao, laco, lei, mudanca, multiplicidade, nivel, operador, partilha,
-               proporcao, promessa, ramificacao, recorde, pares, regimes, resumo, vigia, volatilidade)
+               pares, proporcao, promessa, ramificacao, recorde, regimes, relogio, resumo, vigia, volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -27,8 +27,9 @@ except PackageNotFoundError:
     VERSAO = "0.1.0"
 
 __all__ = ["adaptativa", "alerta", "calendario", "dados", "dependencia", "esquecimento", "estabilidade",
-           "graficos", "intervencao", "laco", "lei", "mudanca", "nivel", "partilha", "proporcao", "promessa",
-           "ramificacao", "recorde", "regimes", "vigia", "volatilidade", "VERSAO", "auto_teste"]
+           "graficos", "intervencao", "laco", "lei", "mudanca", "nivel", "partilha", "pares", "proporcao",
+           "promessa", "ramificacao", "recorde", "regimes", "relogio", "resumo", "vigia", "volatilidade",
+           "VERSAO", "auto_teste"]
 
 
 def auto_teste() -> list:
@@ -890,6 +891,29 @@ def auto_teste() -> list:
     # A fração na tolerância é conta de mão: dois de quatro dias dentro.
     if abs(lei.fracao_na_tolerancia(np.ones(4), np.array([1.0, 1.1, 1.5, 2.0]), 0.2, horizonte=4) - 0.5) > 1e-12:
         problemas.append("lei: a fração na tolerância não é a conta de mão")
+
+    # --- o relógio contra a causa (relogio) ---
+    rng_r = np.random.default_rng(77)
+    xa = pd.Series(rng_r.normal(0.0, 0.012, 900), index=pd.bdate_range("2010-01-01", periods=900))
+    xb = pd.Series(rng_r.normal(0.0, 0.012, 900), index=xa.index)
+    varrido = relogio.varredura(xa, xb, atrasos=(0, 1), nulos=12, sementes=99)
+    for atraso, caixa in varrido.items():
+        if abs(caixa["desvios"]) > 3.0:
+            problemas.append("relogio: par sem adiantamento saiu do nulo no atraso %d" % atraso)
+        if caixa["dias"] <= 0:
+            problemas.append("relogio: varredura sem dias comuns no atraso %d" % atraso)
+    rompimentos_x = dependencia.rompimentos(xa)
+    rompimentos_y = dependencia.rompimentos(dependencia.pareado(xb, 1))
+    direto = dependencia.episodios_dirigidos(
+        rompimentos_x.reindex(xa.index).fillna(False).astype(bool),
+        rompimentos_y.reindex(xa.index).fillna(False).astype(bool))["assimetria"]
+    if abs(varrido[1]["assimetria"] - direto) > 1e-12:
+        problemas.append("relogio: a varredura não casa com a conta isolada no atraso declarado")
+    ta, tb = relogio.terceiro_comum(4000, np.random.default_rng(55), 0.9, 0.01, 0.02)
+    if not (0.85 < float(np.corrcoef(ta, tb)[0, 1]) < 0.95):
+        problemas.append("relogio: o terceiro comum não entrega a correlação declarada")
+    if abs(float(np.std(ta)) - 0.01) > 0.002 or abs(float(np.std(tb)) - 0.02) > 0.004:
+        problemas.append("relogio: o terceiro comum não guarda as margens declaradas")
 
     # --- a janela que se escolhe sozinha (adaptativa) ---
     plano = np.concatenate((np.full(30, 1.0), np.full(30, 2.0)))

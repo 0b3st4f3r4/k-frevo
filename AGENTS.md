@@ -66,9 +66,10 @@ conferida por portão (§9). Onde cada degrau sobe:
 | o esquecimento, a meia-vida e a tolerância do degrau | 19 |
 | a janela que se escolhe sozinha, o teste das metades e o orçamento de encolhimentos falsos | 20 |
 | o episódio dirigido | 22 |
-| o harmônico e o mundo que não foi observado | 23 |
-| a esperança condicional e a reconstrução | 24 |
-| o choque comum e a curtose | 25 |
+| o relógio contra a causa, os alinhamentos declarados e o controle de canal impossível | 23 |
+| o harmônico e o mundo que não foi observado | 24 |
+| a esperança condicional e a reconstrução | 25 |
+| o choque comum e a curtose | 26 |
 
 Consequências duras desta escolha:
 
@@ -222,7 +223,7 @@ A ordem **não é escolhida**: ela sai de quem precisa de quem. Ela pode mudar q
 | **A raiz** | raiz | a média com a sua barra; a medição, o corte e o preço de fixar | nada acima funciona sem isso: uma afirmação sem procedimento não é afirmação, e fixar finitamente é o que cria a possibilidade de errar. É também o fracasso mais palpável para o leitor |
 | **As voltas** | voltas 1 a 4 | o orçamento; as formas que a mudança tem (cauda, rampa, deriva, calendário, dependência); a estatística que estima e não anuncia; o alerta clássico, com o par que ele nunca declarou; a geometria do condicionamento; de onde vem a cauda, com as duas famílias geradoras; a janela certa quando a lei anda, com a família localmente estacionária ajustada; a cauda conjunta | quatro famílias usam esses objetos; sem eles, A, B, C e D não podem nem ser enunciadas |
 | **A travessia** | travessia | as perguntas que ninguém fez dentro de uma gaveta | F1 a F5 medem o objeto de uma família com o instrumento de outra; é onde a lista cresce sozinha; o instrumento mexe no mundo, com o laço que reage e o controle de reação nula; a janela que se escolhe sozinha, com o teste das metades e o orçamento de falsos |
-| **O que não se compra** | andar 1 | o mundo que faltou, o dia apagado e a margem que não conta o junto | o espelho do orçamento: não se compra o mundo que faltou, não se recupera o que foi apagado, não se vê dependência pela margem, não se identifica além do segundo momento |
+| **O que não se compra** | andar 1 | a experiência que separa relógio de causa, o mundo que faltou, o dia apagado e a margem que não conta o junto | o espelho do orçamento: não se compra a intervenção que identificaria a causa, não se compra o mundo que faltou, não se recupera o que foi apagado, não se vê dependência pela margem, não se identifica além do segundo momento |
 | **O enquadramento** | andar 2 | tempo, memória e individuação | vem depois porque a frase só vale depois de medida — a seta é o que não se reconstruiu |
 | **O fecho** | fecho | a pergunta da raiz, refeita com tudo o que se tem | fecha a espiral sem repeti-la: o corte agora se paga com preço conhecido |
 
