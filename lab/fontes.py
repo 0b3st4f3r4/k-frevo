@@ -6,7 +6,8 @@ identificador (RF###, herdando a numeração do arquivo para que a procedência 
 qualquer empréstimo seja rastreável). Este script faz três coisas:
 
   --migrar    lê `.old/dados/references.tsv` e escreve `dados/fontes.tsv` limpo
-  (padrão)    gera `livro/fontes.tex` — o ambiente thebibliography do livro
+  (padrão)    gera `livro/fontes.tex` — o ambiente thebibliography do livro, só com
+            as fontes citadas, na ordem de primeira aparição no texto (NBR 10520)
   --check     confere chaves únicas e que toda citação do livro existe no corpus
 
 A chave de citação é derivada mecanicamente: sobrenome do primeiro autor + ano +
@@ -178,7 +179,12 @@ def carregar() -> list:
 
 
 def gerar_bibliografia() -> int:
-    fontes = carregar()
+    ordem = citacoes_ordenadas()
+    por_chave = {f["chave"]: f for f in carregar()}
+    ausentes = [k for k in ordem if k not in por_chave]
+    if ausentes:
+        raise SystemExit("citadas e ausentes do corpus: %s" % ", ".join(ausentes))
+    fontes = [por_chave[k] for k in ordem]
     linhas = [
         "% GERADO POR lab/fontes.py — NÃO EDITE À MÃO.",
         "\\begin{thebibliography}{%d}" % (len(fontes) + 1),
@@ -207,7 +213,7 @@ def gerar_bibliografia() -> int:
     os.makedirs(LIVRO, exist_ok=True)
     with open(BIB, "w", encoding="utf-8") as fh:
         fh.write("\n".join(linhas) + "\n")
-    print("bibliografia: %d fontes em %s" % (len(fontes), BIB))
+    print("bibliografia: %d fontes citadas, em ordem de aparição, em %s" % (len(fontes), BIB))
     return 0
 
 
@@ -223,6 +229,34 @@ def citacoes() -> set:
             for chave in grupo.split(","):
                 chaves.add(chave.strip())
     return chaves
+
+
+def citacoes_ordenadas() -> list:
+    r"""As chaves citadas, na ordem de PRIMEIRA APARIÇÃO no texto do livro.
+
+    A NBR 10520 pede que, no sistema numérico, a lista siga a ordem em que as fontes
+    aparecem citadas --- e a aparição é a dos capítulos na ordem de leitura (o número
+    do arquivo é a posição, conferida por portão). As notas de parte do livro.tex não
+    citam nada, mas o gerador as lê na frente por segurança: se um dia citarem, a
+    ordem continua certa.
+    """
+    arquivos = [Path(LIVRO) / "livro.tex"]
+    capitulos = Path(LIVRO) / "capitulos"
+    if capitulos.is_dir():
+        arquivos += sorted(capitulos.glob("*.tex"))
+    else:
+        arquivos += sorted(Path(LIVRO).glob("*.tex"))
+    ordem, vistas = [], set()
+    for caminho in arquivos:
+        if not caminho.exists():
+            continue
+        for grupo in re.findall(r"\\cite\{([^}]+)\}", caminho.read_text(encoding="utf-8")):
+            for chave in grupo.split(","):
+                k = chave.strip()
+                if k and k not in vistas:
+                    vistas.add(k)
+                    ordem.append(k)
+    return ordem
 
 
 def check() -> int:
@@ -244,7 +278,16 @@ def check() -> int:
     for chave in sorted(citacoes()):
         if chave not in chaves:
             avisos.append("citação sem fonte no corpus: %s" % chave)
-    print("corpus: %d fontes | %d citações no livro" % (len(fontes), len(citacoes())))
+    if os.path.exists(BIB):
+        impressas = set(re.findall(r"\\bibitem\{([^}]+)\}",
+                                   open(BIB, encoding="utf-8").read()))
+        if impressas != citacoes():
+            so_impressas = sorted(impressas - citacoes())
+            so_citadas = sorted(citacoes() - impressas)
+            avisos.append("bibliografia desatualizada: gere de novo com lab/fontes.py"
+                          + ("; saiu: %s" % ", ".join(so_impressas) if so_impressas else "")
+                          + ("; entrou: %s" % ", ".join(so_citadas) if so_citadas else ""))
+    print("corpus: %d fontes | %d citações no livro | %d impressas" % (len(fontes), len(citacoes()), len(impressas) if os.path.exists(BIB) else 0))
     if avisos:
         print("auditoria: %d aviso(s)" % len(avisos))
         for a in avisos:

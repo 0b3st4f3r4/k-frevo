@@ -334,6 +334,8 @@ Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções 
 
 2026-09-25 — a auditoria de estrutura fechou três dívidas: os sete degraus que faltavam no §4 (11, 15, 21, 30, 31, 32, 33) foram preenchidos; os fechos variantes são por desenho — 23 fecha com «O preço, na moeda da intervenção», 27 com «O que escapa da compressão, quarta vez», 28 com «O que o andar fecha» (cuja barra de comando da seção, comida por edição, foi restaurada no commit 17a7b61); e os capítulos sem citação são por motivo declarado — 02, 06 e 31 são instrumento da casa (a aritmética do nível, as formas geradoras, o dado que chega velho), 22 mede o par com os mundos da casa (a teoria de recordes clássica é de iid e não carrega a afirmação), e 33 é o fecho.
 
+2026-09-25 — a dívida de ABNT foi paga: lab/fontes.py agora imprime só as fontes citadas (101 de 234), na ordem de primeira aparição no texto — a NBR 10520 do sistema numérico —, a caminhada é livro.tex e os capítulos na ordem de leitura, e o --check passou a conferir a bibliografia impressa contra as citações (bibitem a bibitem); o livro desceu de 389 para 371 páginas.
+
 ### 12.1 Índice das decisões arquivadas
 
 - 2026-09-23 — Recomeço do projeto. O material anterior foi arquivado em `.old` (commits `35f3514` e...
