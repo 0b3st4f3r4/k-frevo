@@ -152,6 +152,8 @@
 \newcommand{\tituloCapa}{\fontsize{28}{34}\selectfont\bfseries}
 \newcommand{\corpoSinopse}{\singlespacing\setlength{\parindent}{0pt}%
   \setlength{\parskip}{0.35em}\setlength{\leftskip}{0pt}\setlength{\rightskip}{0pt}}
+\newlength{\larguraEpigrafe}   \setlength{\larguraEpigrafe}{88mm}
+\newlength{\folgaEpigrafe}     \setlength{\folgaEpigrafe}{118mm}
 
 \title{Kolmogorov-Frevo: A incerteza quando o mundo muda}
 \author{O Besta Fera.}
@@ -188,6 +190,27 @@
 \restoregeometry
 
 \maketitle
+% -----------------------------------------------------------------------------
+% Epígrafe: a folha que era branca --- a que o abrir-direita do sumário pedia
+% --- carrega agora a tese que o livro persegue por debaixo do texto: a
+% ontologia do atrito dissipativo, em que a razão esfria o fluxo ao fixar
+% formas e a arte o reaquece ao fraturá-las. É do autor, e por isso não leva
+% assinatura. A numeração não se mexe: o sumário continua abrindo na página
+% ímpar que o abrir-direita exige.
+% -----------------------------------------------------------------------------
+\clearpage
+\thispagestyle{empty}
+\begingroup
+\itshape
+\vspace*{\folgaEpigrafe}
+\noindent\begin{minipage}{\larguraEpigrafe}
+O ser é o atrito dissipativo de um Real contraditório e termodinâmico, onde a
+razão resfria o fluxo ao recortar e fixar suas formas, enquanto a arte o
+reaquece ao fraturar e transfigurar esses limites, numa dança perpétua
+suspensa sobre o abismo indeterminado do devir.
+\end{minipage}
+\par
+\endgroup
 \tableofcontents
 
 % Números medidos, figuras e fontes: gerados, nunca editados à mão.
