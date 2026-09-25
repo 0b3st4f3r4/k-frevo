@@ -26,7 +26,7 @@ __all__ = ["MINIMA_PADRAO", "MAXIMA_PADRAO", "nivel", "falsos_por_ano"]
 def nivel(serie, limiar: float, minima: int = MINIMA_PADRAO, maxima: int = MAXIMA_PADRAO) -> dict:
     r"""A estimativa do nível com o tamanho da janela escolhido pelo dado, dia a dia.
 
-    A cada dia a janela cobre os últimos dias até 	exttt{maxima}. Enquanto a metade nova e a
+    A cada dia a janela cobre os últimos dias até \texttt{maxima}. Enquanto a metade nova e a
     metade velha discordarem além do 	exttt{limiar} --- e o tamanho permitir o corte ---, a metade
     velha cai. A estimativa do dia é a média da janela que sobrou, e o registro guarda cada
     encolhimento: o dia, o tamanho antes e o tamanho depois.
@@ -74,3 +74,122 @@ def falsos_por_ano(encolhimentos, dias: int, dias_uteis: int = 252) -> float:
     if dias <= 0 or dias_uteis <= 0:
         raise ValueError("os dias precisam ser positivos")
     return len(list(encolhimentos)) * dias_uteis / float(dias)
+
+def limiar_do_orcamento(serie, orcamento_falsos_por_ano: float = 1.0,
+                        minima: int = MINIMA_PADRAO, maxima: int = MAXIMA_PADRAO,
+                        dias_uteis: int = 252, passos: int = 40) -> float:
+    r"""O limiar que entrega o orçamento declarado no pedaço em que ele é calibrado.
+
+    A contagem de encolhimentos cai quando o limiar sobe, e a bisseção acha o limiar que a põe no
+    orçamento. É decisão declarada, e não ajuste: ela é tomada antes de medir o mundo que muda, e é
+    sempre sobre o pedaço que serve de calibração.
+    """
+    if orcamento_falsos_por_ano < 0.0:
+        raise ValueError("o orcamento nao pode ser negativo")
+    x = np.asarray(serie, dtype=float)
+    if x.ndim != 1 or x.size < 2 * maxima:
+        raise ValueError("a calibragem precisa de pelo menos duas janelas maximas")
+    baixo, alto = 1e-9, 10.0
+    for _ in range(int(passos)):
+        meio = 0.5 * (baixo + alto)
+        saida = nivel(x, meio, minima, maxima)
+        cadencia = falsos_por_ano(saida["encolhimentos"], x.size, dias_uteis)
+        if cadencia > orcamento_falsos_por_ano:
+            baixo = meio
+        else:
+            alto = meio
+    return float(alto)
+
+
+def nivel_recalibrado(serie, orcamento_falsos_por_ano: float = 1.0, passo: float = 0.05,
+                      minima: int = MINIMA_PADRAO, maxima: int = MAXIMA_PADRAO,
+                      dias_uteis: int = 252, calibragem: float = 0.4) -> dict:
+    r"""O mesmo laco das metades, com o LIMIAR DE ESTADO: o limiar sobe no dia em que houve corte e
+    derrete nos dias em que nao houve, sempre contra o orcamento diario declarado.
+
+    O limiar de partida e o do orcamento, medido no pedaco de calibragem; a partir dele, o proprio
+    corte de cada dia move o limiar --- e e ele que decide o corte do dia seguinte. O observavel e o
+    CORTE, e nao o falso: falsidade so existe nos mundos sinteticos, e e la que o caderno mede. O
+    preco da obediencia aparece no tamanho da janela depois da mudanca: obedecer ao orcamento e
+    segurar o corte, e segurar o corte envelhece a janela.
+    """
+    x = np.asarray(serie, dtype=float)
+    if x.ndim != 1 or x.size < 2 * maxima:
+        raise ValueError("a recalibragem precisa de pelo menos duas janelas maximas")
+    if not 0.0 < passo <= 1.0:
+        raise ValueError("o passo da recalibragem precisa ficar em (0; 1]")
+    if not 0.0 < calibragem < 1.0:
+        raise ValueError("a fracao de calibragem precisa ficar em (0; 1)")
+    corte_calibragem = int(x.size * calibragem)
+    limiar_orcado = limiar_do_orcamento(x[:corte_calibragem], orcamento_falsos_por_ano,
+                                        minima, maxima, dias_uteis)
+    orcamento_dia = orcamento_falsos_por_ano / float(dias_uteis)
+    pre = np.concatenate(([0.0], np.cumsum(x)))
+    n = x.size
+    est = np.empty(n)
+    tamanhos = np.empty(n, dtype=int)
+    encolhimentos, limiares = [], []
+    limiar = float(limiar_orcado)
+    desvio = 0.0
+    inicio = 0
+    for t in range(n):
+        if t - maxima + 1 > inicio:
+            inicio = t - maxima + 1
+        cortou = False
+        while True:
+            k = t - inicio + 1
+            if k < 2 * minima:
+                break
+            meio = inicio + k // 2
+            velha = (pre[meio] - pre[inicio]) / (meio - inicio)
+            nova = (pre[t + 1] - pre[meio]) / (t + 1 - meio)
+            if abs(nova - velha) > limiar:
+                encolhimentos.append((t, k, t - meio + 1))
+                inicio = meio
+                cortou = True
+            else:
+                break
+        corte_hoje = 1.0 if cortou else 0.0
+        desvio += corte_hoje - orcamento_dia
+        limiar = float(max(limiar + passo * limiar_orcado * (corte_hoje - orcamento_dia), 1e-9))
+        limiares.append((t, limiar, desvio))
+        est[t] = (pre[t + 1] - pre[inicio]) / (t - inicio + 1)
+        tamanhos[t] = t - inicio + 1
+    return {"estimativa": est, "tamanhos": tamanhos, "encolhimentos": encolhimentos,
+            "limiar_orcado": float(limiar_orcado), "limiares": limiares,
+            "desvio": float(desvio), "orcamento_dia": float(orcamento_dia)}
+
+
+def e_das_metades(serie, minima: int = MINIMA_PADRAO, maxima: int = MAXIMA_PADRAO,
+                  kapa: float = 0.5) -> dict:
+    r"""O e-valor do dia: o p-valor do teste das metades, convertido pelo calibrador da aposta.
+
+    O teste é o das metades da janela corrente --- o mesmo do módulo, com o sinal trocado: aqui o
+    que interessa é o valor-p da discordância, e não o corte. A conversão é o calibrador do
+    capítulo da aposta, de média um sob a uniforme e sem exigir independência.
+    """
+    from . import aposta
+    from . import promessa as _promessa  # noqa: F401  (a casa do teste t)
+    x = np.asarray(serie, dtype=float)
+    if x.ndim != 1 or x.size < 2 * maxima:
+        raise ValueError("o e-valor do dia precisa de pelo menos duas janelas maximas")
+    if not 0.0 < kapa < 1.0:
+        raise ValueError("o kapa do calibrador tem de ficar em (0; 1)")
+    p_valores = np.ones(x.size)
+    for t in range(2 * minima, x.size):
+        inicio = max(0, t - maxima + 1)
+        k = t - inicio + 1
+        meio = inicio + k // 2
+        velha, nova = x[inicio:meio], x[meio:t + 1]
+        if velha.size < 2 or nova.size < 2:
+            continue
+        var_velha = float(np.var(velha, ddof=1)) / velha.size
+        var_nova = float(np.var(nova, ddof=1)) / nova.size
+        erro = float(np.sqrt(var_velha + var_nova))
+        if erro <= 0.0:
+            p_valores[t] = 1.0
+            continue
+        z = abs(float(np.mean(nova) - np.mean(velha))) / erro
+        p_valores[t] = float(2.0 * (1.0 - 0.5 * (1.0 + np.math.erf(z / np.sqrt(2.0))))) \
+            if hasattr(np, "math") else float(2.0 * (1.0 - 0.5 * (1.0 + __import__("math").erf(z / np.sqrt(2.0)))))
+    return {"p": p_valores, "e": aposta.e_calibrado(p_valores, kapa)}

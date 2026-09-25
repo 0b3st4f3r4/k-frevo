@@ -1210,6 +1210,37 @@ def auto_teste() -> list:
     if not abs(float(np.median(nuvem_operador)) - (1.0 + np.sqrt(0.05))) < 0.1:
         problemas.append("nuvem: a mediana nao acompanha o raio previsto (%.4f)"
                          % float(np.median(nuvem_operador)))
+    # --- adaptativa: o limiar que se recalibra, e o falso que se assina ---
+    rng_recalibra = np.random.default_rng(20261001)
+    parado_recalibra = mudanca.estavel(6000, rng_recalibra, 0.01)
+    limiar_recalibra = adaptativa.limiar_do_orcamento(parado_recalibra, 1.0, 21, 1008)
+    if not 0.0 < limiar_recalibra < 1.0:
+        problemas.append("limiar_do_orcamento: o limiar saiu fora de (0; 1)")
+    cadencia_recalibra = adaptativa.falsos_por_ano(
+        adaptativa.nivel(parado_recalibra, limiar_recalibra, 21, 1008)["encolhimentos"],
+        parado_recalibra.size)
+    if cadencia_recalibra > 6.0:
+        problemas.append("limiar_do_orcamento: a cadencia calibrada passou de seis por ano "
+                         "(%.3f)" % cadencia_recalibra)
+    rec_recalibra = adaptativa.nivel_recalibrado(parado_recalibra, 1.0, 0.05, 21, 1008)
+    if len(rec_recalibra["limiares"]) != parado_recalibra.size:
+        problemas.append("nivel_recalibrado: o caminho do limiar nao tem um ponto por dia")
+    if not all(l > 0.0 for _t, l, _d in rec_recalibra["limiares"]):
+        problemas.append("nivel_recalibrado: o limiar chegou a zero")
+    e_recalibra = adaptativa.e_das_metades(parado_recalibra[:4000], 21, 1008)
+    if e_recalibra["e"].shape != (4000,):
+        problemas.append("e_das_metades: o e-valor nao saiu com um por dia")
+    if not float(np.mean(e_recalibra["e"][2100:])) <= 1.0 + 1e-9:
+        problemas.append("e_das_metades: a media dos e-valores passou de um")
+    nulos_ebh = multiplicidade.selecao_ebh(np.ones(200), 0.05)
+    if nulos_ebh["quantidade"] != 0:
+        problemas.append("selecao_ebh: com e-valores nulos a selecao escolheu alguem")
+    plantados_ebh = np.ones(200)
+    plantados_ebh[:3] = 1e6
+    escolha_ebh = multiplicidade.selecao_ebh(plantados_ebh, 0.05)
+    if escolha_ebh["quantidade"] != 3:
+        problemas.append("selecao_ebh: os tres plantados nao foram os escolhidos (%d)"
+                         % escolha_ebh["quantidade"])
     # --- a rampa que nunca termina (mudanca.andando) ---
     rng_andando = np.random.default_rng(29)
     mundo_andando = mudanca.andando(4000, rng_andando, sigma=0.01, fator=2.0)

@@ -114,3 +114,30 @@ def bateria(mundos: int = MUNDOS_PADRAO, semente: int = SEMENTE_PADRAO,
             "taxa_por_comparacao": float(travessias.sum() / (int(mundos) * comparacoes(faixas=faixas))),
             "taxa_da_bateria": float((travessias > 0).mean()),
             "menor_z_media": float(np.nanmean(primeira))}
+
+def selecao_ebh(e_valores, taxa: float = ALFA_PADRAO) -> dict:
+    r"""A seleção e-BH: as descobertas escolhidas com a fração de falsos assinada.
+
+    Com os e-valores em ordem decrescente, o procedimento corta no maior $k$ com
+    $e_{(k)} \ge m/(taxa\, k)$ --- o análogo do Benjamini--Hochberg para e-valores, e ele controla
+    a fração de falsos sob dependência ARBITRÁRIA entre as comparações, porque a média de
+    e-valores é e-valor. Devolve quais entram, quantos entraram e o corte em e.
+    """
+    E = np.asarray(e_valores, dtype=float)
+    if E.ndim != 1 or E.size < 1:
+        raise ValueError("a selecao quer um vetor de e-valores")
+    if not 0.0 < taxa < 1.0:
+        raise ValueError("a taxa precisa estar entre zero e um")
+    if np.any(E < 0.0):
+        raise ValueError("e-valor nao pode ser negativo")
+    m = E.size
+    ordem = np.argsort(-E)
+    ordenados = E[ordem]
+    k_maior = 0
+    for k in range(1, m + 1):
+        if ordenados[k - 1] >= m / (taxa * k):
+            k_maior = k
+    escolhidos = ordem[:k_maior]
+    return {"indices": escolhidos, "quantidade": int(k_maior),
+            "corte": float(ordenados[k_maior - 1]) if k_maior else float("inf"),
+            "comparacoes": int(m)}
