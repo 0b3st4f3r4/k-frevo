@@ -131,6 +131,56 @@ sempre pagando em dias.
   \label{fig:aposta}
 \end{figure}
 
+\section{Quando os blocos falam}
+
+A prova da aposta comprou uma linha barata: «as violações de blocos que não se sobrepõem são
+independentes». O mundo não assina essa linha --- os blocos falam entre si, e a mesma pergunta do
+início volta pelo cano: o que sobrevive do orçamento quando a estrutura entre as leituras não é a
+da prova?
+
+O desenho é o mais honesto possível, porque é o pior possível: \numApostaBlocos{} blocos, cada um
+com um p-valor válido na margem --- uniforme, medido: \numFusaoMarginalIndep{} no mundo calado
+contra \numFusaoMarginalAcoplado{} no mundo que fala --- e uma amarra declarada entre eles: um
+fator comum de gaussianas que correlaciona os blocos sem tocar nenhuma margem. Nada mudou em bloco nenhum; o que mudou é que eles falam. Três fusões competem: o mínimo
+de Bonferroni, que não depende de estrutura nenhuma --- a união é a união; a média dos p-valores,
+calibrada no mundo calado para entregar exatamente o orçamento; e a média de e-values, cada p-valor
+convertido pelo calibrador de média um, com o limiar de Markov em um sobre a taxa --- que também
+não depende de estrutura nenhuma.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E43_fusao_1.pdf}
+  \caption{As três fusões nos dois mundos, contra o orçamento prometido (linha tracejada). A média
+    dos p-valores entrega o combinado no mundo calado e oito vezes mais no que fala; Bonferroni e a
+    média de e-values ficam abaixo da linha nos dois. O traço é o pior lote de sortes.}
+  \label{fig:fusao_taxas}
+\end{figure}
+
+O número é o da figura: a média dos p-valores entrega \numFusaoMediapIndep{}\% no mundo calado ---
+a calibração exata, o orçamento cumprido --- e \numFusaoMediapAcoplado{}\% no mundo que fala, com o
+pior lote em \numFusaoMediapAcopladoMax{}\%. O orçamento não dobrou nem triplicou: oito vezes. E as
+duas fusões que não pedem estrutura seguram a linha --- Bonferroni com \numFusaoBonferroniIndep{}\%
+e \numFusaoBonferroniAcoplado{}\%, a média de e-values com \numFusaoMediaeIndep{}\% e
+\numFusaoMediaeAcoplado{}\%, cumprindo com a folga de quem não assumiu nada. Quais fusões de
+p-valores são admissíveis quando a amarra entre eles é arbitrária --- e quais não são --- tem
+resposta conhecida \cite{vovk2022admissible}, e ela começa por esta: a média dos p não está entre
+elas. Do lado das apostas, o capital que segue válido estimando quando os blocos falam é a mesma família
+de e-values que este capítulo chama de capital \cite{waudbysmith2024estimating}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E43_fusao_2.pdf}
+  \caption{Por que uma rompe e as outras não. À esquerda, a média dos p-valores nos dois mundos:
+    o mundo que fala é mais largo, e a massa à esquerda do limiar calibrado --- o falso alarme ---
+    cresce de graça. À direita, a média dos e-values nos mesmos mundos: as duas distribuições
+    ficam longe do limiar vermelho.}
+  \label{fig:fusao_distribuicoes}
+\end{figure}
+
+O capítulo fechou com um orçamento que sobrevive a ser lido todo dia; esta seção fecha com o que
+sobrevive a mais: os blocos falarem entre si. Sobrevive --- desde que a fusão não case os
+p-valores como se o mundo fosse calado, e é a moeda do capítulo, a e-value, a que não precisa de
+silêncio para valer um.
 \section{O que fica}
 
 Fica a correção do instrumento, e ela vale para todo alarme do livro: \textbf{o orçamento declarado é

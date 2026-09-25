@@ -1,0 +1,19 @@
+{
+ "fusao_bonferroni_acoplado": 2.6,
+ "fusao_bonferroni_acoplado_max": 7.0,
+ "fusao_bonferroni_indep": 4.8,
+ "fusao_bonferroni_indep_max": 9.0,
+ "fusao_correlacao": 0.5,
+ "fusao_marginal_acoplado": 0.502,
+ "fusao_marginal_indep": 0.499,
+ "fusao_mediae_acoplado": 0.0,
+ "fusao_mediae_acoplado_max": 0.0,
+ "fusao_mediae_indep": 0.0,
+ "fusao_mediae_indep_max": 0.0,
+ "fusao_mediap_acoplado": 42.0,
+ "fusao_mediap_acoplado_max": 59.0,
+ "fusao_mediap_indep": 5.0,
+ "fusao_mediap_indep_max": 9.0,
+ "fusao_mediap_limiar": 0.4534,
+ "fusao_sortes": 2000
+}

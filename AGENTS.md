@@ -51,7 +51,7 @@ conferida por portão (§9). Onde cada degrau sobe:
 | o nível, o incremento, o retorno, o logaritmo e a banda do nível com a raiz do horizonte | 2 |
 | o quantil, o posto, a amostra e o viés | 3 |
 | a independência, a contagem do bloco, a binomial e o falso alarme | 4 |
-| o erro-padrão, a latência, o barulho sigma e o passo do deslocamento | 5 |
+| o erro-padrão, a latência, o barulho sigma, o passo do deslocamento e a fusão que sobrevive à dependência arbitrária | 5 |
 | a partição, as células e o controle | 6 |
 | a dependência, a cópula que se dispensa e a cauda | 7 |
 | a correlação de posto, o décimo e o controle da relação | 8 |
@@ -224,7 +224,7 @@ A ordem **não é escolhida**: ela sai de quem precisa de quem. Ela pode mudar q
 | parte impressa | movimento | conteúdo | por que nesta posição |
 |---|---|---|---|
 | **A raiz** | raiz | a média com a sua barra; a medição, o corte e o preço de fixar | nada acima funciona sem isso: uma afirmação sem procedimento não é afirmação, e fixar finitamente é o que cria a possibilidade de errar. É também o fracasso mais palpável para o leitor |
-| **As voltas** | voltas 1 a 4 | o orçamento; as formas que a mudança tem (cauda, rampa, deriva, calendário, dependência); a estatística que estima e não anuncia; o alerta clássico, com o par que ele nunca declarou; a geometria do condicionamento; de onde vem a cauda, com as duas famílias geradoras; a janela certa quando a lei anda, com a família localmente estacionária ajustada; a cauda conjunta | quatro famílias usam esses objetos; sem eles, A, B, C e D não podem nem ser enunciadas |
+| **As voltas** | voltas 1 a 4 | o orçamento (que sobrevive a olhar sempre e à dependência arbitrária entre blocos); as formas que a mudança tem (cauda, rampa, deriva, calendário, dependência); a estatística que estima e não anuncia; o alerta clássico, com o par que ele nunca declarou; a geometria do condicionamento; de onde vem a cauda, com as duas famílias geradoras; a janela certa quando a lei anda, com a família localmente estacionária ajustada; a cauda conjunta | quatro famílias usam esses objetos; sem eles, A, B, C e D não podem nem ser enunciadas |
 | **A travessia** | travessia | as perguntas que ninguém fez dentro de uma gaveta | F1 a F5 medem o objeto de uma família com o instrumento de outra; é onde a lista cresce sozinha; o instrumento mexe no mundo, com o laço que reage e o controle de reação nula; a janela que se escolhe sozinha, com o teste das metades e o orçamento de falsos |
 | **O que não se compra** | andar 1 | a experiência que separa relógio de causa, o mundo que faltou, o dia apagado, a margem que não conta o junto, a taxa da junta funda e a cascata que só o corte vê | o espelho do orçamento: não se compra a intervenção que identificaria a causa, não se compra o mundo que faltou, não se recupera o que foi apagado, não se vê dependência pela margem, não se identifica além do segundo momento, não se extrapola a junta funda sem medir o expoente, e o que não se compra tem preço em capital: a barreira conjunta custa vezes as margens somadas --- e com observação orçamentada o preço vira ilegível antes de ficar caro |
 | **O enquadramento** | andar 2 | tempo, memória e individuação --- e a capacidade: o teto do que se lembra é o tamanho do estado | vem depois porque a frase só vale depois de medida — a seta é o que não se reconstruiu |

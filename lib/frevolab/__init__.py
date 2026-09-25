@@ -1057,4 +1057,17 @@ def auto_teste() -> list:
     if mortas_h != 0:
         problemas.append("cascata: a intervencao mexeu no mundo do choque (%d mortas)" % mortas_h)
 
+    # a fusao sob dependencia arbitraria: marginais validas, estrutura entre elas
+    ps_t = aposta.ps_dependentes(2000, 107, 0.8, semente=91)
+    if abs(float(ps_t.mean()) - 0.5) > 0.03:
+        problemas.append("fusao: a marginal dos p-values dependentes nao e uniforme (%.3f)" % ps_t.mean())
+    es_t = aposta.e_calibrado(np.random.default_rng(92).random(100000))
+    if abs(float(es_t.mean()) - 1.0) > 0.1:
+        problemas.append("fusao: o calibrador de e-value nao tem media um (%.3f)" % es_t.mean())
+    forte_t = float(np.corrcoef(ps_t[:, 0], ps_t[:, 1])[0, 1])
+    fraco_t = aposta.ps_dependentes(2000, 107, 0.0, semente=91)
+    nulo_t = float(np.corrcoef(fraco_t[:, 0], fraco_t[:, 1])[0, 1])
+    if not (forte_t > 0.3 > nulo_t):
+        problemas.append("fusao: a copula nao gera a dependencia declarada (%.3f contra %.3f)" % (forte_t, nulo_t))
+
     return problemas

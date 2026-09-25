@@ -34,7 +34,7 @@ BLOCO_PADRAO = 60
 DIAS_UTEIS = 252
 
 __all__ = ["ALFA_PADRAO", "P_NULO_PADRAO", "P_ALTERNATIVO_PADRAO", "BLOCO_PADRAO", "DIAS_UTEIS",
-           "contagens_por_bloco", "razao", "capital", "primeiro_cruzamento", "orcamento_de_ville"]
+           "contagens_por_bloco", "razao", "capital", "primeiro_cruzamento", "orcamento_de_ville", "ps_dependentes", "e_calibrado"]
 
 
 def contagens_por_bloco(violacoes, bloco: int = BLOCO_PADRAO) -> np.ndarray:
@@ -96,3 +96,32 @@ def orcamento_de_ville(alfa: float = ALFA_PADRAO) -> float:
     if not 0.0 < float(alfa) < 1.0:
         raise ValueError("a taxa tem de estar entre zero e um")
     return 1.0 / float(alfa)
+
+
+def ps_dependentes(sortes: int, blocos: int, correlacao: float = 0.5,
+                   semente: int = 0) -> np.ndarray:
+    r"""Os p-valores de cada bloco: uniformes na margem, dependentes entre si pela copula
+    gaussiana declarada --- o mundo em que cada bloco testa certo e os blocos FALAM. A margem é a
+    hipotese nula de cada bloco; a estrutura entre eles é a dependencia arbitratia de
+    vovk2022admissible."""
+    if not 0.0 <= correlacao < 1.0:
+        raise ValueError("a correlacao da copula tem de ficar em [0; 1)")
+    rng = np.random.default_rng(semente)
+    comum = rng.standard_normal((sortes, 1))
+    proprio = rng.standard_normal((sortes, blocos))
+    z = np.sqrt(correlacao) * comum + np.sqrt(1.0 - correlacao) * proprio
+    from scipy.stats import norm
+    return norm.cdf(z)
+
+
+def e_calibrado(p, kapa: float = 0.5) -> np.ndarray:
+    r"""O p-valor convertido em e-value pelo calibrador kapa * p^(kapa-1): sob a uniforme a media
+    e um, SEM independence nenhuma --- so a linearidade da esperanca. E o tijolo da fusao que
+    sobrevive a dependencia arbitratia (a media de e-values e e-value), porque a media de waudbysmith
+    aposta com validade por Markov, e nao por estrutura."""
+    if not 0.0 < kapa < 1.0:
+        raise ValueError("o kapa do calibrador tem de ficar em (0; 1)")
+    q = np.asarray(p, dtype=float)
+    if np.any(q <= 0.0) or np.any(q > 1.0):
+        raise ValueError("p-valor fora de (0; 1]")
+    return kapa * q ** (kapa - 1.0)
