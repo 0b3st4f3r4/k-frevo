@@ -130,3 +130,8 @@ wasserstein	a distancia de Wasserstein entre duas leis: a massa pesada pela dist
 pinsker	a cota de Pinsker: a variacao total presa a raiz da metade da divergencia	termo	Pinsker	14	kullback,varTotal	14
 diametro	o diametro do suporte declarado	termo	diâmetro	14	varTotal	14
 margem-do-andar	a barra rebaixada pela distancia de Wasserstein do andar	termo	margem do andar	14	barra,quantil	14
+ganho-do-dia	a parte da oscilacao de hoje que passa para amanha	termo	ganho do dia	16	beta	16
+influencia	a influencia do dia zero: o produto acumulado dos ganhos	termo	influência do dia zero	16	ganho-do-dia	16
+expoente-do-produto	a media dos log-ganhos: o ritmo da mediana do produto	termo	expoente do produto	16	logaritmo	16
+conta-da-media	o logaritmo da media do ganho, o ritmo da media do produto	termo	conta da média	16	logaritmo,media	16
+teorema-ergodico-multiplicativo	o nome do teorema que da existencia e ritmo ao produto	termo	ergódico multiplicativo	16	expoente-do-produto	16

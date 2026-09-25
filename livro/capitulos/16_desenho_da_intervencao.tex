@@ -109,6 +109,73 @@ resposta para de descer. A segunda: a profundidade se compra em $\beta^{k}$, de 
 mais de contenção compra menos ferida do que o anterior. Uma curva que satura não é um acidente da
 medição; é a forma que a lei obriga.
 
+\section{A volta é um produto}
+
+A proposição anterior assina a metade contida da volta: com passo determinístico o ganho de cada
+dia é exatamente $\beta$, e a profundidade se compra em $\beta^k$. Falta a outra metade, e ela não
+é um detalhe --- o passo de cada dia \emph{sorteia}. A volta não é o ganho de um dia elevado a um
+expoente: ela é o \emph{produto} dos ganhos que cada dia trouxe.
+
+% aterramento: ganho-do-dia
+O \textbf{ganho do dia} é a parte da oscilação de hoje que passa para amanhã, e ele tem a forma
+$\beta + \alpha z^2$, com $z$ o sorteio daquele dia. Ganho abaixo de um apaga o que recebeu;
+acima de um, amplifica. Com $\alpha$ nulo o ganho é a constante da proposição, e é por isso que a
+proposição é o caso em que a profundidade assinada é exata.
+
+% aterramento: influencia
+A \textbf{influência do dia zero} --- quanto de um dia qualquer sobrevive ao caminho até hoje --- é
+o produto acumulado desses ganhos. É ela que a memória longa mede, e é ela que a proposição
+assinava no caso determinístico. Com ganhos que sorteiam, duas contas da mesma soltura aparecem, e
+elas não coincidem.
+
+% aterramento: expoente-do-produto
+% aterramento: conta-da-media
+A primeira é o \textbf{expoente do produto}: a média dos logaritmos dos ganhos, que é o ritmo da
+\emph{mediana} da influência entre mundos. A segunda é a \textbf{conta da média}: o logaritmo da
+média do ganho, $\log(\alpha + \beta)$, que é o ritmo da \emph{média} da influência. O logaritmo é
+côncavo, de modo que o expoente fica abaixo da conta sempre que o ganho sorteia --- e a distância
+entre os dois é o preço de ler o produto pela média. Na calibração deste capítulo o expoente medido
+é \numProdutoExpoenteCapitulo{} contra a conta de \numProdutoContaCapitulo{}, um vão de
+\numProdutoVaoCapitulo; no contraste de mesmo envelope o vão é de \numProdutoVaoContraste, sete
+vezes maior. O vão existe nas duas, e o que a calibração decide é o tamanho dele.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E49_produto_1.pdf}
+  \caption{A influência do dia zero contra o horizonte, nas duas calibrações. Em cada painel, a
+    mediana dos mundos desce abaixo da média, e as duas descem acima da linha pontilhada do ganho
+    mínimo. No painel da direita as duas curvas se abrem.}
+  \label{fig:produto}
+\end{figure}
+
+% aterramento: teorema-ergodico-multiplicativo
+O que a média esconde tem nome. Com passos que sorteiam, o ritmo do produto existe e é a média dos
+log-ganhos --- não o logaritmo da média. É o \textbf{teorema ergódico multiplicativo},
+e é ele que dá ao produto um expoente \cite{oseledets1968multiplicative}. É por isso que a
+mediana da influência desce no expoente medido e não na conta da média: a segunda descreve a média
+de muitos mundos, e a primeira descreve o mundo típico.
+
+E a composição pode sair pior do que qualquer fator anunciava. \numProdutoCresceCapituloPct\% dos
+mundos têm uma influência que \emph{cresce} antes de cair na calibração deste capítulo --- e
+\numProdutoCresceContrastePct\% no contraste ---, e \numProdutoJanelasAcimaCapituloPct\% das
+janelas de espera entregam um produto acima da conta da média. A tradução é declarada, porque a
+fonte é mais geral do que o caso medido: o resultado é de matrizes, e o ganho de um dia é o caso de
+um número só \cite{botha1998products}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E49_produto_2.pdf}
+  \caption{Os desviantes. À esquerda, a fração de mundos cuja influência cresce antes de cair; à
+    direita, a fração de janelas de espera cujo produto bate a conta da média. No contraste as duas
+    frações são maiores do que na calibração do capítulo --- menos a última.}
+  \label{fig:desviantes}
+\end{figure}
+
+Isso muda a leitura do que o capítulo mede. A cauda que mente para a álgebra, medida adiante, não é
+um acidente do mundo escondido: ela mora também aqui, no produto de ganhos inofensivos, e é o
+mecanismo que a resposta carrega. O desenho mede a resposta; esta seção diz de que número ela é
+feita.
+
 \section{A medição}
 
 \begin{table}[htbp]

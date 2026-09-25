@@ -62,7 +62,7 @@ conferida por portão (§9). Onde cada degrau sobe:
 | a semente | 13 |
 | a janela ótima por forma de mundo, a família localmente estacionária e o orçamento da variação e as três réguas do andar da lei | 14 |
 | a primeira travessia, a margem cega por construção, o instrumento que vê e o que ele cobra, a comparação e o controle | 15 |
-| a memória, o estacionário, a recursão da oscilação e o ponto fixo | 16 |
+| a memória, o estacionário, a recursão da oscilação e o ponto fixo, o produto e o expoente | 16 |
 | a padronização | 17 |
 | o laço da reação, o controle de reação nula e a recalibragem sobre a própria série | 18 |
 | o esquecimento, a meia-vida e a tolerância do degrau | 19 |

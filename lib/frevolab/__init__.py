@@ -1091,6 +1091,35 @@ def auto_teste() -> list:
     if len(set(historico["cortes"])) != 1 or len(set(historico["entregas"])) != 1:
         problemas.append("laco: com reação nula, o laço não devolve a calibragem parada")
 
+    # --- intervencao: a volta e um produto, e o produto tem duas contas ---
+    rng_produto = np.random.default_rng(20260928)
+    ganhos_produto = intervencao.ganhos((3000, 252), rng_produto, alfa=0.02, beta=0.97)
+    if ganhos_produto.shape != (3000, 252):
+        problemas.append("ganhos: a matriz de mundos nao saiu com uma linha por mundo")
+    if not np.all(ganhos_produto >= 0.97 - 1e-12):
+        problemas.append("ganhos: o ganho caiu abaixo de beta")
+    if abs(intervencao.expoente(ganhos_produto)
+           - float(np.mean(np.log(ganhos_produto)))) > 1e-12:
+        problemas.append("expoente: nao e a media dos log-ganhos")
+    if not intervencao.expoente(ganhos_produto) < intervencao.conta_da_media(0.02, 0.97):
+        problemas.append("expoente: o expoente nao ficou abaixo da conta da media")
+    if not abs(intervencao.conta_da_media(0.02, 0.97) - np.log(0.99)) < 1e-12:
+        problemas.append("conta_da_media: a conta nao e o logaritmo da media do ganho")
+    produto_resumo = intervencao.resumo_do_produto(ganhos_produto, (1, 20, 252), 20)
+    if not all(m <= u + 1e-12 for m, u in zip(produto_resumo["mediana"], produto_resumo["media"])):
+        problemas.append("resumo_do_produto: a mediana superou a media em algum horizonte")
+    if not all(v >= 0.97 ** h - 1e-9 for v, h in zip(produto_resumo["mediana"],
+                                                  produto_resumo["horizontes"])):
+        problemas.append("resumo_do_produto: a mediana caiu abaixo do chao do ganho minimo")
+    if abs(intervencao.influencia(np.array([0.5, 2.0, 3.0]))[-1] - 3.0) > 1e-12:
+        problemas.append("influencia: o produto acumulado nao bate")
+    if not 0.0 <= intervencao.cresce_antes_de_cair(ganhos_produto) <= 1.0:
+        problemas.append("cresce_antes_de_cair: a fracao saiu fora de zero e um")
+    ganho_constante = np.full((50, 20), 0.9)
+    if abs(intervencao.influencia(ganho_constante)[0, -1] - 0.9 ** 20) > 1e-12:
+        problemas.append("influencia: com ganho constante o produto nao e beta^k")
+    if intervencao.cresce_antes_de_cair(ganho_constante) != 0.0:
+        problemas.append("cresce_antes_de_cair: o mundo sem sorteio cresceu antes de cair")
     # --- a rampa que nunca termina (mudanca.andando) ---
     rng_andando = np.random.default_rng(29)
     mundo_andando = mudanca.andando(4000, rng_andando, sigma=0.01, fator=2.0)

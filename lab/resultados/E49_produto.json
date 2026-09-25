@@ -1,0 +1,22 @@
+{
+ "produto_mundos": 4000,
+ "produto_dias": 252,
+ "produto_horizontes": 9,
+ "produto_espera": 20,
+ "produto_expoente_capitulo": -0.01045,
+ "produto_conta_capitulo": -0.01006,
+ "produto_vao_capitulo": -0.00039,
+ "produto_expoente_contraste": -0.01554,
+ "produto_conta_contraste": -0.00999,
+ "produto_vao_contraste": -0.00555,
+ "produto_mediana_espera_capitulo": 0.79951,
+ "produto_media_espera_capitulo": 0.81589,
+ "produto_mediana_espera_contraste": 0.70041,
+ "produto_media_espera_contraste": 0.81748,
+ "produto_chao_capitulo": 0.54379,
+ "produto_chao_contraste": 0.15164,
+ "produto_cresce_capitulo_pct": 48.9,
+ "produto_cresce_contraste_pct": 73.05,
+ "produto_janelas_acima_capitulo_pct": 43.65,
+ "produto_janelas_acima_contraste_pct": 37.398
+}

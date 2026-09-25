@@ -20,6 +20,15 @@ e desenhar um experimento caro que não separa nada. O que a medição entrega �
 intervalos não se cruzarem. O custo em dias é o produto --- e ele tem mínimo interior, porque
 segurar mais fundo separa mais e custa mais.
 
+**A volta é um produto, e este bloco torna impossível ler o destino dele pela conta da
+média.** A metade contida da conta está na proposição: passo determinístico, ganho \emph{beta},
+profundidade \emph{beta^k}. A metade solta é a que devolve a resposta: com o mundo correndo, o
+ganho de um dia é um sorteio, \emph{g = beta + alfa z^2}, e a influência do dia zero no
+horizonte \emph{k} é o produto dos ganhos do caminho. A mediana desse produto desce no
+\texttt{expoente} --- a média dos logaritmos dos ganhos ---, e a média desce na
+\texttt{conta_da_media} --- o logaritmo da média dos ganhos. Promover a conta da média a
+profecia é prometer o mundo típico com o número de um mundo que a mediana nunca visita.
+
 Toda função que sorteia recebe o \texttt{rng} por parâmetro e não toca a semente global.
 """
 from statistics import NormalDist
@@ -41,7 +50,9 @@ LEITURAS = ("taxa", "pior", "mediana", "acima_do_dobro")
 
 __all__ = ["ALFA", "BETA", "P_AGITADO", "RAZAO", "PERMANENCIA", "AQUECIMENTO", "ESPERA_PADRAO",
            "CONFIANCA", "MUNDOS", "LEITURAS", "serie", "resposta", "replicatas", "leituras",
-           "replicatas_necessarias", "custo", "desenho", "separa"]
+           "replicatas_necessarias", "custo", "desenho", "separa",
+           "ganhos", "influencia", "expoente", "conta_da_media", "cresce_antes_de_cair",
+           "resumo_do_produto"]
 
 
 def serie(mundo: str, n: int, rng: np.random.Generator, sigma: float, segurar=None,
@@ -274,3 +285,114 @@ def separa(rng: np.random.Generator, sigma: float, contencao: int, espera: int, 
             separou += 1
     return {"meta": meta, "repeticoes": n, "separacoes": separou,
             "fracao": separou / float(meta), "confianca": confianca}
+
+
+def ganhos(n, rng: np.random.Generator, alfa: float = ALFA, beta: float = BETA) -> np.ndarray:
+    r"""Os ganhos de um dia: a parte da oscilação de amanhã que vem da de hoje.
+
+    \emph{g = beta + alfa z^2}, com \emph{z} o sorteio do dia: a influência de um dia é
+    multiplicada por um número que o próprio dia sorteia. Ganho abaixo de um apaga o que
+    recebeu; acima de um, amplifica. Com \emph{alfa} nulo o ganho é a constante \emph{beta}
+    da proposição --- e é esse o caso em que a profundidade assinada é exata.
+
+    \emph{n} é o número de dias (uma trilha) ou um par \emph{(mundos, dias)}: uma matriz,
+    uma linha por mundo, para medir mediana e média sobre muitos mundos no mesmo sorteio.
+    """
+    forma = (n,) if isinstance(n, int) else tuple(int(d) for d in n)
+    if not forma or min(forma) < 1:
+        raise ValueError("o sorteio de ganhos precisa de pelo menos um dia em cada eixo")
+    if alfa <= 0.0 or beta <= 0.0 or alfa + beta >= 1.0:
+        raise ValueError("o ganho precisa de alfa > 0, beta > 0 e alfa+beta < 1")
+    return beta + alfa * rng.standard_normal(forma) ** 2
+
+
+def influencia(ganhos: np.ndarray, eixo: int = -1) -> np.ndarray:
+    r"""A influência do dia zero: o produto acumulado dos ganhos do caminho.
+
+    O eixo é parâmetro declarado, e não acidente de chamada: uma matriz de mundos atravessada
+    sem eixo é achatada em uma trilha só, e a mediana de um mundo vira a média de outro --- é
+    o defeito que o eixo explícito torna impossível. E o produto tem chão: cada ganho é pelo
+    menos \emph{beta}, de modo que a influência fica acima de \emph{beta^k} em todo
+    horizonte.
+    """
+    g = np.asarray(ganhos, dtype=float)
+    if g.size < 1:
+        raise ValueError("a influencia precisa de pelo menos um ganho")
+    return np.cumprod(g, axis=eixo)
+
+
+def expoente(ganhos: np.ndarray) -> float:
+    r"""O expoente do produto: a média dos logaritmos dos ganhos.
+
+    É o ritmo da mediana da influência entre mundos --- e não o ritmo da média, que é a
+    \texttt{conta_da_media}. O logaritmo é côncavo, de modo que o expoente fica abaixo da
+    conta sempre que o ganho sorteia, e a distância entre os dois é o preço de ler o produto
+    pela média.
+    """
+    g = np.asarray(ganhos, dtype=float)
+    if g.size < 1 or not np.all(g > 0.0):
+        raise ValueError("o expoente pede pelo menos um ganho, e todos positivos")
+    return float(np.mean(np.log(g)))
+
+
+def conta_da_media(alfa: float, beta: float) -> float:
+    r"""A conta da média: o logaritmo da média do ganho.
+
+    A média de \emph{beta + alfa z^2} é \emph{alfa + beta}, e compor passos pela média é
+    prometer que a influência cai na razão \emph{(alfa+beta)^k}. É a conta que acerta a
+    média sobre mundos --- e erra a mediana dentro de cada um, por causa da mesma concavidade.
+    """
+    if alfa + beta <= 0.0:
+        raise ValueError("a conta da media pede alfa+beta positivo")
+    return float(np.log(alfa + beta))
+
+
+def cresce_antes_de_cair(trilhas: np.ndarray) -> float:
+    r"""A fração de mundos cuja influência cresce antes de cair.
+
+    \emph{trilhas} é a matriz de ganhos, uma linha por mundo. O expoente negativo assina o
+    destino do mundo típico, e não o caminho: um dia de sorteio forte multiplica a influência
+    acima de um, e são esses os mundos desviantes --- passos isolados inofensivos cuja
+    composição sai pior do que qualquer fator anunciava.
+    """
+    t = np.asarray(trilhas, dtype=float)
+    if t.ndim != 2 or t.shape[0] < 1:
+        raise ValueError("cresce_antes_de_cair pede uma matriz de trilhas, uma linha por mundo")
+    return float((influencia(t).max(axis=1) > 1.0).mean())
+
+
+def resumo_do_produto(trilhas: np.ndarray, horizontes, espera: int) -> dict:
+    r"""O resumo da volta: mediana, média, expoente, conta e as duas frações dos desviantes.
+
+    \emph{trilhas} é a matriz de ganhos, uma linha por mundo; \emph{horizontes} é a grade de
+    horizontes medida; \emph{espera} é a janela que conta as frações. As janelas são contadas
+    no domínio do logaritmo, deslizantes dentro de cada mundo: a influência tardia desce a
+    regiões onde o produto deixa de ser representável, e o logaritmo não afunda com ela.
+
+    Devolve a mediana e a média da influência em cada horizonte, o expoente medido, a conta da
+    média medida, a fração de mundos que cresce antes de cair e a fração de janelas de espera
+    cujo produto bate a conta da média. A mediana nunca supera a média --- e essa desigualdade
+    é a lei completa da volta, dita antes de qualquer medição.
+    """
+    t = np.asarray(trilhas, dtype=float)
+    if t.ndim != 2 or t.shape[0] < 1:
+        raise ValueError("o resumo pede uma matriz de trilhas, uma linha por mundo")
+    hs = [int(h) for h in horizontes]
+    if not hs or min(hs) < 1 or max(hs) > t.shape[1]:
+        raise ValueError("os horizontes precisam caber nas trilhas")
+    if not 1 <= int(espera) <= t.shape[1]:
+        raise ValueError("a janela de espera precisa caber nas trilhas")
+    espera = int(espera)
+    influ = influencia(t)
+    conta = float(np.log(np.mean(t)))
+    logs = np.cumsum(np.log(t), axis=1)
+    antes = np.concatenate([np.zeros((t.shape[0], 1)), logs[:, :-espera]], axis=1)
+    janelas_log = logs[:, espera - 1:] - antes
+    return {"horizontes": hs,
+            "mediana": [float(np.median(influ[:, h - 1])) for h in hs],
+            "media": [float(np.mean(influ[:, h - 1])) for h in hs],
+            "expoente": expoente(t),
+            "conta": conta,
+            "cresce_antes_de_cair": cresce_antes_de_cair(t),
+            "janelas_acima_da_conta": float((janelas_log > espera * conta).mean()),
+            "espera": espera}
