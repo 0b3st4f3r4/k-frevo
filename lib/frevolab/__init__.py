@@ -15,8 +15,8 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 from importlib.metadata import PackageNotFoundError, version
 
 from . import (alerta, aposta, calendario, centro, dados, dependencia, direcao, evidencia, esquecimento, estabilidade,
-               graficos, intervencao, mudanca, multiplicidade, nivel, operador, partilha, proporcao, promessa, ramificacao,
-               recorde, pares, regimes, resumo, vigia, volatilidade)
+               graficos, intervencao, lei, mudanca, multiplicidade, nivel, operador, partilha, proporcao, promessa,
+               ramificacao, recorde, pares, regimes, resumo, vigia, volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -27,7 +27,7 @@ except PackageNotFoundError:
     VERSAO = "0.1.0"
 
 __all__ = ["alerta", "calendario", "dados", "dependencia", "esquecimento", "estabilidade", "graficos",
-           "intervencao", "mudanca", "nivel", "partilha", "proporcao", "promessa", "ramificacao",
+           "intervencao", "lei", "mudanca", "nivel", "partilha", "proporcao", "promessa", "ramificacao",
            "recorde", "regimes", "vigia", "volatilidade", "VERSAO", "auto_teste"]
 
 
@@ -860,6 +860,44 @@ def auto_teste() -> list:
         problemas.append("ramificacao: a ramificação crítica não faz o pico que a cauda pede")
     if float(np.unique(mundo_repr).size) < 50:
         problemas.append("ramificacao: a população não visita estados demais")
+
+    # --- a lei que anda, com o orçamento da sua variação (lei.py) ---
+    rng_lei = np.random.default_rng(53)
+    # A curva recupera o coeficiente que gerou o mundo: AR(1) tem autocorrelação de defasagem um
+    # igual ao próprio coeficiente, e mundo sem memória tem curva no zero.
+    curva_ar = lei.coeficiente_rolante(mudanca.ar1(60000, rng_lei, a=0.5), 20000)
+    if abs(float(curva_ar[-1]) - 0.5) > 0.02 or not np.isnan(curva_ar[0]):
+        problemas.append("lei: a curva não recupera o coeficiente do AR(1)")
+    curva_calma = lei.coeficiente_rolante(rng_lei.normal(0.0, 0.01, 60000), 20000)
+    if abs(float(curva_calma[-1])) > 0.02:
+        problemas.append("lei: a curva do mundo sem memória não está no zero")
+    # O orçamento é conta de mão: curva parada gasta zero, reta gasta a inclinação inteira.
+    if lei.orcamento_variacao(np.full(100, 0.3)) != 0.0:
+        problemas.append("lei: o orçamento da curva parada não é zero")
+    if abs(lei.orcamento_variacao(np.linspace(0.0, 1.0, 101)) - 1.0) > 1e-12:
+        problemas.append("lei: o orçamento da reta não é a inclinação inteira")
+    # A simulação honra a lei que recebe: coeficiente constante vira autocorrelação medida de novo,
+    # e coeficiente acima do limite é cortado no limite declarado, sem explosão.
+    mundo_lei = lei.simular(np.full(60000, 0.5), 0.01, rng_lei)
+    lag1_lei = float(np.corrcoef(mundo_lei[:-1], mundo_lei[1:])[0, 1])
+    if abs(lag1_lei - 0.5) > 0.02:
+        problemas.append("lei: a simulação não devolve a lei que recebeu (%.3f)" % lag1_lei)
+    if not 0.010 < float(mundo_lei.std()) < 0.012:
+        problemas.append("lei: a escala do mundo simulado não é a declarada")
+    mundo_cortado = lei.simular(np.full(5000, 2.0), 0.01, rng_lei)
+    if not np.all(np.isfinite(mundo_cortado)) or float(np.max(np.abs(mundo_cortado))) > 1.0:
+        problemas.append("lei: o corte do coeficiente não segurou o mundo")
+    # A fração na tolerância é conta de mão: dois de quatro dias dentro.
+    if abs(lei.fracao_na_tolerancia(np.ones(4), np.array([1.0, 1.1, 1.5, 2.0]), 0.2, horizonte=4) - 0.5) > 1e-12:
+        problemas.append("lei: a fração na tolerância não é a conta de mão")
+
+    # --- a rampa que nunca termina (mudanca.andando) ---
+    rng_andando = np.random.default_rng(29)
+    mundo_andando = mudanca.andando(4000, rng_andando, sigma=0.01, fator=2.0)
+    if mundo_andando.size != 4000 or not np.all(np.isfinite(mundo_andando)):
+        problemas.append("andando: o mundo não tem o tamanho ou a finitude declarados")
+    if float(np.std(mundo_andando[3000:])) / float(np.std(mundo_andando[:1000])) < 1.5:
+        problemas.append("andando: a escala não andou o declarado")
 
     import matplotlib
     matplotlib.use("Agg")

@@ -59,13 +59,14 @@ conferida por portão (§9). Onde cada degrau sobe:
 | o episódio do alarme, o chão do mundo parado e a assimetria | 10 |
 | o recorde como instrumento de contagem, e as duas famílias geradoras da cauda | 12 |
 | a semente | 13 |
-| a memória, o estacionário, a recursão da oscilação e o ponto fixo | 15 |
-| a padronização | 16 |
-| o esquecimento, a meia-vida e a tolerância do degrau | 17 |
-| o episódio dirigido | 19 |
-| o harmônico e o mundo que não foi observado | 20 |
-| a esperança condicional e a reconstrução | 21 |
-| o choque comum e a curtose | 22 |
+| a janela ótima por forma de mundo, a família localmente estacionária e o orçamento da variação | 14 |
+| a memória, o estacionário, a recursão da oscilação e o ponto fixo | 16 |
+| a padronização | 17 |
+| o esquecimento, a meia-vida e a tolerância do degrau | 18 |
+| o episódio dirigido | 20 |
+| o harmônico e o mundo que não foi observado | 21 |
+| a esperança condicional e a reconstrução | 22 |
+| o choque comum e a curtose | 23 |
 
 Consequências duras desta escolha:
 
@@ -217,7 +218,7 @@ A ordem **não é escolhida**: ela sai de quem precisa de quem. Ela pode mudar q
 | parte impressa | movimento | conteúdo | por que nesta posição |
 |---|---|---|---|
 | **A raiz** | raiz | a média com a sua barra; a medição, o corte e o preço de fixar | nada acima funciona sem isso: uma afirmação sem procedimento não é afirmação, e fixar finitamente é o que cria a possibilidade de errar. É também o fracasso mais palpável para o leitor |
-| **As voltas** | voltas 1 a 4 | o orçamento; as formas que a mudança tem (cauda, rampa, deriva, calendário, dependência); a estatística que estima e não anuncia; o alerta clássico, com o par que ele nunca declarou; a geometria do condicionamento; de onde vem a cauda, com as duas famílias geradoras; a cauda conjunta | quatro famílias usam esses objetos; sem eles, A, B, C e D não podem nem ser enunciadas |
+| **As voltas** | voltas 1 a 4 | o orçamento; as formas que a mudança tem (cauda, rampa, deriva, calendário, dependência); a estatística que estima e não anuncia; o alerta clássico, com o par que ele nunca declarou; a geometria do condicionamento; de onde vem a cauda, com as duas famílias geradoras; a janela certa quando a lei anda, com a família localmente estacionária ajustada; a cauda conjunta | quatro famílias usam esses objetos; sem eles, A, B, C e D não podem nem ser enunciadas |
 | **A travessia** | travessia | as perguntas que ninguém fez dentro de uma gaveta | F1 a F5 medem o objeto de uma família com o instrumento de outra; é onde a lista cresce sozinha |
 | **O que não se compra** | andar 1 | o mundo que faltou, o dia apagado e a margem que não conta o junto | o espelho do orçamento: não se compra o mundo que faltou, não se recupera o que foi apagado, não se vê dependência pela margem, não se identifica além do segundo momento |
 | **O enquadramento** | andar 2 | tempo, memória e individuação | vem depois porque a frase só vale depois de medida — a seta é o que não se reconstruiu |

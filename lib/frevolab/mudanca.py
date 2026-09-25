@@ -34,7 +34,7 @@ DIAS_DE_RAMPA = 250        # quantos dias a rampa leva para chegar ao fator
 PASSO_PADRAO = -0.0005     # o deslocamento diário da média, em unidades de retorno
 
 __all__ = ["SIGMA_PADRAO", "ar1", "par_de_cauda", "FATOR_PADRAO", "QUANDO_PADRAO", "DIAS_DE_RAMPA",
-           "PASSO_PADRAO", "estavel", "degrau", "rampa", "deriva", "dependencia"]
+           "PASSO_PADRAO", "estavel", "degrau", "rampa", "deriva", "andando", "dependencia"]
 
 
 def par_de_cauda(n: int, rng: np.random.Generator, sigma: float = 0.01, rho: float = 0.5,
@@ -162,6 +162,22 @@ def rampa(n: int, rng: np.random.Generator, sigma: float = SIGMA_PADRAO,
     serie[quando:fim] *= np.linspace(1.0, fator, fim - quando)
     serie[fim:] *= fator
     return serie
+
+
+def andando(n: int, rng: np.random.Generator, sigma: float = SIGMA_PADRAO,
+             fator: float = FATOR_PADRAO) -> np.ndarray:
+    r"""A rampa que nunca termina: a escala cresce a passo relativo constante, dobrando no fim.
+
+    É o mundo da lei que anda de verdade --- nenhum dia é especial, nenhum trecho separa um antes
+    de um depois, e a janela que estima está sempre atravessando uma lei diferente da que a
+    calibrou. O passo é relativo de propósito: o andar não desacelera só porque a escala cresceu.
+    """
+    if n < 3:
+        raise ValueError("o mundo precisa de pelo menos tres dias")
+    if fator <= 0:
+        raise ValueError("o fator precisa ser positivo")
+    escala = sigma * fator ** (np.arange(n) / float(n))
+    return rng.normal(0.0, 1.0, n) * escala
 
 
 def deriva(n: int, rng: np.random.Generator, sigma: float = SIGMA_PADRAO,

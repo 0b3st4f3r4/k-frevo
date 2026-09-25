@@ -24,25 +24,25 @@ L	o número de violações do bloco; mais tarde, o nível da série	simbolo	L	4	
 prob	a probabilidade de um evento	simbolo	\Prob	4		4
 sigma	a oscilação de um dia, medida em desvio	simbolo	\sigma	2		2
 C	o número de células em que a janela é repartida	simbolo	C	7		7
-omega	o parâmetro de piso da recursão da oscilação	simbolo	\omega	15	variancia	15
-alpha	o parâmetro do choque na recursão da oscilação	simbolo	\alpha	15	variancia	15
-beta	o parâmetro da memória na recursão da oscilação	simbolo	\beta	15	variancia	15
-var	a variância declarada do dia na recursão	simbolo	v	15	variancia	15
-x	o valor da série em um dia	simbolo	x	15		15
-m	o número de dias da janela de resposta; mais tarde, os dias por vir	simbolo	m	15		15
-d	o efeito a detectar; mais tarde, o atraso do dado	simbolo	d	15		15
-s	o desvio medido entre replicatas	simbolo	s	15	replicata	15
-z	o quantil da confiança declarada; mais tarde, o incremento padronizado	simbolo	z	15		15
-c	a constante positiva que multiplica a série	simbolo	c	16		16
-lambda	a taxa de esquecimento da memória	simbolo	\lambda	17	esquecimento	17
-epsilon	a tolerância de erro, em fração do degrau	simbolo	\epsilon	17	tolerancia	17
-H	o número esperado de recordes em n dias	simbolo	H	20	recorde	20
-eta	o choque do dia — o que entra na série e não vem dela	simbolo	\eta	21		21
-theta	a fração do degrau que ainda se quer recuperar	simbolo	\theta	21		21
-a	o coeficiente da memória de um passo	simbolo	a	21		21
-e	o erro da reconstrução do passado	simbolo	e	21		21
-j	o passo da reconstrução do passado	simbolo	j	21		21
-f	o tamanho do choque comum ao par	simbolo	f	22		22
+omega	o parâmetro de piso da recursão da oscilação	simbolo	\omega	16	variancia	16
+alpha	o parâmetro do choque na recursão da oscilação	simbolo	\alpha	16	variancia	16
+beta	o parâmetro da memória na recursão da oscilação	simbolo	\beta	16	variancia	16
+var	a variância declarada do dia na recursão	simbolo	v	16	variancia	16
+x	o valor da série em um dia	simbolo	x	16		16
+m	o número de dias da janela de resposta; mais tarde, os dias por vir	simbolo	m	16		16
+d	o efeito a detectar; mais tarde, o atraso do dado	simbolo	d	16		16
+s	o desvio medido entre replicatas	simbolo	s	16	replicata	16
+z	o quantil da confiança declarada; mais tarde, o incremento padronizado	simbolo	z	16		16
+c	a constante positiva que multiplica a série	simbolo	c	17		17
+lambda	a taxa de esquecimento da memória	simbolo	\lambda	18	esquecimento	18
+epsilon	a tolerância de erro, em fração do degrau	simbolo	\epsilon	18	tolerancia	18
+H	o número esperado de recordes em n dias	simbolo	H	21	recorde	21
+eta	o choque do dia — o que entra na série e não vem dela	simbolo	\eta	22		22
+theta	a fração do degrau que ainda se quer recuperar	simbolo	\theta	22		22
+a	o coeficiente da memória de um passo	simbolo	a	22		22
+e	o erro da reconstrução do passado	simbolo	e	22		22
+j	o passo da reconstrução do passado	simbolo	j	22		22
+f	o tamanho do choque comum ao par	simbolo	f	23		23
 probabilidade	a probabilidade de um evento, medida como frequência de muitos sorteios	termo	probabilidade	1		-
 independencia	dois dias não têm nada a dizer um sobre o outro	termo	independent|independência	1	probabilidade	-
 sorteio	repetir o mundo inteiro com outra semente	termo	sorteio|sorteado|sorteamos	1		-
@@ -51,14 +51,14 @@ media	a média de muitos dias ou de muitos sorteios	termo	média	1	sorteio	-
 desvio	o desvio de um dia, e a sua média	termo	desvi	1	media	-
 variancia	a variância — o quadrado do tamanho típico do dia	termo	variância	1	media	-
 esperanca	a esperança — a média de muitos sorteios, dita em símbolo	termo	esperança	1	media	-
-curtose	a curtose — o quanto a cauda pesa, comparada com a normal	termo	curtose	22	variancia	22
+curtose	a curtose — o quanto a cauda pesa, comparada com a normal	termo	curtose	23	variancia	23
 quantil	o valor que deixa uma fração declarada dos dias abaixo dele	termo	quantil	3	probabilidade	3
 mediana	o quantil de metade	termo	mediana	3	quantil	3
 décimo	cada uma das dez fatias iguais de uma lista ordenada	termo	por d[ée]cimo\b|d[ée]cimo mais\b	9	quantil	9
 vies	o erro que a própria regra assina, antes de o dado chegar	termo	viés	3		3
 amostra	o pedaço finito de dias de que se dispõe	termo	amostra	3		3
 erro-padrao	o quanto a média de n dias erra por si mesma	termo	erro-padrão|erro padrão	6	desvio	6
-replicata	um mundo sorteado inteiro, medido uma vez	termo	replicata	15	sorteio	15
+replicata	um mundo sorteado inteiro, medido uma vez	termo	replicata	16	sorteio	16
 controle	o mundo em que nada muda, medido com a mesma rotina	termo	controle	7		7
 mundo-parado	o mundo sorteado em que nada muda	termo	mundo que nunca muda	3	sorteio	3
 tolerancia	o erro que ainda se aceita, com a unidade declarada	termo	tolerância	11		11
@@ -66,17 +66,17 @@ latencia	quantos dias o alarme demora a ver a mudança	termo	latência	6		6
 falso-alarme	o alarme que dispara num mundo que não mudou	termo	falso alarme	4	mundo-parado	4
 cauda	os dias extremos, e o que a média não vê deles	termo	cauda	9	quantil	9
 recorde	o dia que supera todos os anteriores	termo	recorde	12		12
-episodio	o episódio dirigido — a corrida de dias que começa num rompimento	termo	episódio dirigido	19		19
-padronizacao	dividir a série pelo seu próprio tamanho, e o que isso apaga	termo	padroniza	16	desvio	16
+episodio	o episódio dirigido — a corrida de dias que começa num rompimento	termo	episódio dirigido	20		20
+padronizacao	dividir a série pelo seu próprio tamanho, e o que isso apaga	termo	padroniza	17	desvio	17
 dependencia	as coisas ruins que vêm juntas	termo	\bdependência	8	independencia	8
 posto	a correlação que olha a ordem e não os valores	termo	correlação de posto	9	dependencia	9
 copula	a forma da dependência separada das margens	termo	cópula	8	dependencia	8
-condicional	a lei que vale depois de se saber alguma coisa	termo	condicional	21	probabilidade	21
-estacionaria	a lei que não muda com o dia	termo	estacionári	15	probabilidade	15
-memoria	quanto um dia carrega do anterior	termo	memória que aprende|memória efetiva|memória mora	15	estacionaria	15
-esquecimento	a taxa com que o passado cede lugar ao presente	termo	esquecimento	17	memoria	17
-meia-vida	os dias que apagam metade de um degrau	termo	meia-vida	17	esquecimento	17
-ponto-fixo	o valor que a recursão alcança e não deixa mais	termo	ponto fixo	15		15
+condicional	a lei que vale depois de se saber alguma coisa	termo	condicional	22	probabilidade	22
+estacionaria	a lei que não muda com o dia	termo	estacionári	16	probabilidade	16
+memoria	quanto um dia carrega do anterior	termo	memória que aprende|memória efetiva|memória mora	16	estacionaria	16
+esquecimento	a taxa com que o passado cede lugar ao presente	termo	esquecimento	18	memoria	18
+meia-vida	os dias que apagam metade de um degrau	termo	meia-vida	18	esquecimento	18
+ponto-fixo	o valor que a recursão alcança e não deixa mais	termo	ponto fixo	16		16
 assimetria	o quanto o lado de cima difere do lado de baixo	termo	assimetria	10	variancia	10
 logaritmo	a conta que soma onde a porcentagem multiplica	termo	logaritmo	2		2
 X	a variável aleatória do dia: um quando o índice sobe, zero quando não	simbolo	X	1		1
@@ -89,18 +89,18 @@ dispersao	de quanto uma média se mexeria se os dias fossem outros	termo	dispers
 memoria-janela	a memória do instrumento: quantos dias o alarme olha	termo	dias de memória|memória do vigia	4		4
 binomial	a contagem de altas em B sorteios independentes	termo	binomial	4	probabilidade	4
 A	o acontecimento, na escrita da probabilidade	simbolo	A	4	prob	4
-intervalo-de-confianca	a barra da média escrita como um trecho	termo	intervalo de confiança	15	barra	15
+intervalo-de-confianca	a barra da média escrita como um trecho	termo	intervalo de confiança	16	barra	16
 nivel	o nível — o preço de hoje, o que a posição carrega	termo	nível	2		2
 incremento	o incremento — o que o dia acrescentou ao nível	termo	incremento	2		2
 h	o horizonte, em dias	simbolo	h	2		2
 Y	o segundo sorteio, na prova da variância da soma	simbolo	Y	2		2
 mu	a média do incremento	simbolo	\mu	2	esperanca	2
-operador	a matriz que carrega o estado de um passo para o outro	simbolo	M	21		21
-esboco	a familia de contadores de sinal sorteado que estima o segundo momento do fluxo	termo	esboço	26		26
-contador	o valor de um contador do esboco depois de somar o fluxo inteiro	simbolo	u	26	esboco	26
-contadores	o numero de contadores guardados pelo esboco	simbolo	K	26	esboco	26
-energia	a soma dos quadrados dos incrementos: o segundo momento do caminho	simbolo	Q	26	r	26
-precisao	o erro relativo pedido ao esboco	simbolo	\varepsilon	26	esboco	26
+operador	a matriz que carrega o estado de um passo para o outro	simbolo	M	22		22
+esboco	a familia de contadores de sinal sorteado que estima o segundo momento do fluxo	termo	esboço	27		27
+contador	o valor de um contador do esboco depois de somar o fluxo inteiro	simbolo	u	27	esboco	27
+contadores	o numero de contadores guardados pelo esboco	simbolo	K	27	esboco	27
+energia	a soma dos quadrados dos incrementos: o segundo momento do caminho	simbolo	Q	27	r	27
+precisao	o erro relativo pedido ao esboco	simbolo	\varepsilon	27	esboco	27
 concordancia	a fracao de pares de dias que concordam menos a que discorda	simbolo	\tau	8		8
 sigma-um	a covariancia entre dois pares de dias que dividem um dia	simbolo	\sigma_1	8	desvio-padrao	8
 fracao-de-pares	a fracao dos pares que se conta	simbolo	\rho	8		8
