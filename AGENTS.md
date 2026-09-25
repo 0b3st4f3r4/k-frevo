@@ -75,7 +75,7 @@ conferida por portão (§9). Onde cada degrau sobe:
 | o choque comum e a curtose | 26 |
 | a profundidade do corte, o expoente da cauda conjunta e o preço da extrapolação | 27 |
 | o capital que cobre a perda conjunta, as três contas, o refutador da barreira e o canal com orçamento | 28 |
-| a capacidade de memória, o readout fora da amostra e o teto do posto | 29 |
+| a capacidade de memória, o readout fora da amostra e o teto do posto, o preço da promessa: contagem, raio e bits | 29 |
 | a resposta de um pedaço só e o que não balança | 30 |
 | o dado que chega velho, o atraso que não custa dias, o que ele cobra e o agora como janela | 31 |
 | a contagem como máximo, a medição das duas coisas e o outro teto, o dos bits | 32 |

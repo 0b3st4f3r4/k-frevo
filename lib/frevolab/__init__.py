@@ -842,6 +842,36 @@ def auto_teste() -> list:
     if abs(cobertura_boot - 0.90) > 0.15:
         problemas.append("cobertura: a barra de 90 por cento cobre %.2f nos mundos iid"
                          % cobertura_boot)
+    # --- capacidade: a promessa sobre dias que nao vieram ---
+    rng_promessa = np.random.default_rng(20260930)
+    serie_promessa = pd.Series(rng_promessa.normal(0.0, 1.0, 900))
+    estados_promessa = capacidade.estados_janela(serie_promessa, 8)
+    rademacher_promessa = capacidade.rademacher_do_readout(estados_promessa, sortes=40,
+                                                           semente=3)
+    if not (rademacher_promessa["media"] > 0.0 and rademacher_promessa["raio"] > 0.0):
+        problemas.append("rademacher_do_readout: a complexidade ou o raio saiu nulo")
+    separacoes_promessa = capacidade.fracao_de_separacoes(estados_promessa, (4, 8, 40, 200),
+                                                         sortes=20, semente=4)
+    if separacoes_promessa[8] < 0.99:
+        problemas.append("fracao_de_separacoes: com dias iguais ao posto a fracao nao e um")
+    if separacoes_promessa[200] > 0.2:
+        problemas.append("fracao_de_separacoes: muito acima do posto a fracao nao desabou")
+    alvo_promessa = serie_promessa.shift(-1).loc[estados_promessa.index]
+    cota_promessa = capacidade.cota_em_bits(estados_promessa, alvo_promessa, sigma=0.5,
+                                            sigma_prior=1.0, delta=0.05, sortes=20,
+                                            semente=6)
+    if not cota_promessa["zero"]["erro_fora"] <= cota_promessa["zero"]["cota"] + 1e-9:
+        problemas.append("cota_em_bits: a cota nao cobriu o erro fora")
+    if not cota_promessa["zero"]["kl_bits"] > 0.0:
+        problemas.append("cota_em_bits: o preco em bits saiu nao positivo")
+    uso_promessa = capacidade.teto_depois_do_uso(serie_promessa, blocos=3, n=30, lags=5,
+                                                 saturacao=False, semente=7)
+    if len(uso_promessa["teto"]) != 3 or any(v <= 0.0 for v in uso_promessa["teto"]):
+        problemas.append("teto_depois_do_uso: a medicao por bloco saiu invalida")
+    saturado_promessa = capacidade.teto_depois_do_uso(serie_promessa, blocos=3, n=30, lags=5,
+                                                      saturacao=True, semente=8)
+    if len(saturado_promessa["dormentes"]) != 3:
+        problemas.append("teto_depois_do_uso: faltou a contagem de dormentes")
     # --- o resumo e o teto dos bits (resumo.py) ---
 
     # O esboco compra o segundo momento: sem vies, com erro que cai com a raiz do numero de

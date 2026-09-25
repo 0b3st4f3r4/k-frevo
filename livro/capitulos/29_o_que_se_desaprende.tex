@@ -86,11 +86,15 @@ cegueira pela outra.
 \section{Quantos dias a memória devolve}
 
 A tabela anterior mediu o preço de escolher; falta o porquê, e ele tem número. Cada memória é um
+% aterramento: capacidade
 estado que anda com a série --- e a pergunta da capacidade é quantos dias individuais do passado
+% aterramento: readout
 esse estado devolve, por leitura linear, medida fora da amostra: o readout é ajustado numa metade
 dos dias e a capacidade é a correlação ao quadrado entre o que ele devolve e o dia, na outra metade
 --- porque capacidade medida dentro da amostra é ajuste, não memória. A soma sobre os atrasos tem
-teto: não passa do posto da matriz de controlabilidade, que não passa da dimensão do estado --- a
+teto: não passa do posto da matriz de controlabilidade, que não passa da dimensão do estado --- o
+% aterramento: posto-do-estado
+posto do estado --- a
 dinâmica distribui a capacidade, não a cria \cite{dambre2012information}.
 
 Os quatro sistemas do capítulo, agora como estados. A resposta seca:
@@ -139,6 +143,92 @@ O que o capítulo fecha, então, é a conta inteira: escolher a memória é esco
 mora --- bloco exato com parede, rampa profunda sem garantia de dia, ou uma direção que não é dia
 nenhum. O teto do que se aprende, medido no capítulo seguinte, tem o gêmeo aqui: o teto do que se
 lembra é o tamanho do estado, e nenhuma dinâmica compra memória de graça.
+
+\section{A promessa sobre dias que não vieram}
+
+A seção anterior construiu o instrumento e mediu quanto ele lembra. Falta a pergunta seguinte,
+sobre o mesmo instrumento: quanto ele pode \emph{prometer} sobre os dias que não viu. A resposta
+tem dois lados --- uma contagem e um preço --- e os dois se medem.
+
+% aterramento: funcao-de-crescimento
+O primeiro lado é de contagem \cite{vapnik1971uniform}. O readout encaixa uma dicotomia sorteada de \emph{n} dias com erro
+zero quando os dias cabem no que o estado distingue, e não encaixa quando não cabem. Medida a
+fração de dicotomias encaixadas em \numPromessaGradeSeparacoes{} tamanhos, dos
+\numPromessaDimensaoExponencial{} estado da memória exponencial ao de
+\numPromessaDimensaoReservatorio{} do reservatório, o resultado tem forma de degrau: a memória
+exponencial desaba em \numPromessaDesabaExponencial{} dias, o reservatório em
+\numPromessaDesabaReservatorio, e a janela de \numPromessaDimensaoJanela{} dias ainda encaixa tudo
+no maior tamanho medido. \textbf{O teto da promessa vem da contagem} --- a \textbf{função de crescimento} da classe ---, e não do número de
+parâmetros: e a contagem do reservatório é menor do que a dimensão dele --- o sorteio da matriz
+esparsa não põe todos os estados a trabalhar.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E53_promessa_1.pdf}
+  \caption{A fração de dicotomias encaixadas com erro zero contra o número de dias, nos três
+    estados, com a linha pontilhada da dimensão de cada um. As curvas valem um e desabam no degrau
+    de cada estado. A do reservatório desaba antes da própria dimensão, e a da memória
+    exponencial desaba no primeiro tamanho em que a fração cai abaixo de meio.}
+  \label{fig:contagem}
+\end{figure}
+
+% aterramento: rademacher
+O segundo lado é de geometria. A \textbf{complexidade de Rademacher} da classe de leituras
+lineares se mede por sorteio de rótulos \cite{kakade2008complexity}: para cada sorteio de sinais, o quanto a classe consegue
+alinhar ruído puro. Contra os dias, ela decai: em \numPromessaRademacherDias{} dias vale
+\numPromessaRademacherMedia, contra a conta fechada de \numPromessaRademacherRazao{} --- o mesmo
+número, na mesma ordem, e as duas curvas são a mesma reta no desenho. O que a cota cobra é o raio
+dos dados vezes a norma dos pesos, e não o número de pesos.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E53_promessa_2.pdf}
+  \caption{À esquerda, a complexidade por sorteio de rótulos contra os dias, com a conta fechada
+    do raio sobre a raiz dos dias: as duas curvas descem juntas. À direita, o erro fora medido e a
+    cota, nos dois braços --- a barra da cota fica acima da barra do erro.}
+  \label{fig:rademacher}
+\end{figure}
+
+% aterramento: divergencia-em-bits
+% aterramento: prior
+O preço tem nome e unidade. Com o readout perturbado, o erro fora é de \numPromessaForaZero{} com o
+prior no zero e de \numPromessaForaMetade{} com o prior que já viu a metade da amostra, e as duas
+cotas ficam acima \cite{seeger2002bayesian}: \numPromessaCotaZero{} e \numPromessaCotaMetade, com folgas de
+\numPromessaFolgaZero{} e \numPromessaFolgaMetade. O preço é a \textbf{divergência em bits} entre a
+hipótese escolhida e o \textbf{prior} --- \numPromessaKlZeroBits{} bits no braço do zero.
+
+E aqui a medição desmente o que a fonte sugere. O prior dependente da instância não abaixou o
+preço: ele o subiu, de \numPromessaKlZeroBits{} para \numPromessaKlMetadeBits{} bits ---
+\numPromessaPriorAbaixaBits{} bits a mais. A razão é a estabilidade que a fonte exige e que este
+instrumento não tem: os readouts das duas metades ficam longe um do outro, e um prior que aponta
+para o lugar errado cobra mais do que o prior que não aponta para lugar nenhum. A cota continua
+valendo nos dois braços --- ela fica \emph{acima} do erro medido nos dois ---, e o que ela carrega
+a mais é isso: o preço da instabilidade \cite{rivasplata2018bayes}.
+
+% aterramento: unidade-dormente
+Falta o teto medido depois do uso, que é a pergunta do título deste capítulo. Com o número de
+estados fixo, a sonda fresca mede a capacidade em \numPromessaBlocos{} blocos: o reservatório
+linear fica plano, de \numPromessaTetoLinearInicio{} a \numPromessaTetoLinearFim, e é o controle
+que isola a causa. O que satura perde \numPromessaSaturadoPerdaPct\% do teto no mesmo percurso ---
+pouco, e menos do que o desenho esperava. E a realocação não mudou nada: a fração de
+\textbf{unidades dormentes} ficou em \numPromessaDormentesMediaPct\% e a perda do braço realocado
+é a mesma do saturado, \numPromessaRealocadoPerdaPct\%. \textbf{A dormente não mora aqui} --- a
+saturação não engatou neste instrumento, e o contraste que a fonte descreve \cite{dohare2024loss} fica declarado sem
+medição.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E53_promessa_3.pdf}
+  \caption{O teto de capacidade medido numa sonda fresca depois de cada bloco de uso, nas três
+    curvas. A do reservatório linear fica plana; a do saturado e a do realocado descem juntas ---
+    a realocação não mudou nada, porque não havia dormente para realocar.}
+  \label{fig:uso}
+\end{figure}
+
+O que fica é a promessa com as duas metades declaradas: o teto vem da contagem --- e a contagem
+efetiva é menor do que a dimensão ---, e o preço vem em bits, cobrado do erro dentro para prometer
+o de fora. O que o capítulo seguinte acrescenta é o pedaço: a cota foi medida num trecho da série
+e num mundo que não mudou entre as metades.
 
 \section{O que fica}
 

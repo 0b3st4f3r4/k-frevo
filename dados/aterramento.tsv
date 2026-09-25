@@ -146,3 +146,11 @@ abertura-do-canto	a entrada delta no canto inferior da familia	termo	abertura do
 desdobramento	o desdobramento do espectro em raiz da abertura	termo	desdobra	25	ponto-excepcional	25
 fronteira-do-raio	a abertura em que o raio espectral toca o circulo	termo	fronteira do raio	25	abertura-do-canto	25
 abertura	a entrada delta no canto inferior da familia	simbolo	\delta	25	operador	25
+readout	a leitura linear do estado que devolve o dia do passado	termo	readout	29	capacidade	29
+capacidade	a fracao da variancia do dia que o readout devolve, fora da amostra	termo	capacidade	29	readout	29
+posto-do-estado	a dimensao efetiva do estado, que limita a soma das capacidades	termo	posto do estado	29	capacidade	29
+rademacher	a complexidade de Rademacher da classe de leituras lineares	termo	Rademacher	29	readout	29
+funcao-de-crescimento	a contagem das separacoes que a classe realiza	termo	função de crescimento	29	readout	29
+divergencia-em-bits	o preco da hipotese escolhida, medido em bits	termo	divergência em bits	29	logaritmo	29
+prior	a hipotese de partida, que a cota cobra em bits	termo	prior	29	lei	29
+unidade-dormente	a unidade do estado que satura em quase todos os dias	termo	dormente	29	capacidade	29
