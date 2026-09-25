@@ -15,7 +15,7 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 from importlib.metadata import PackageNotFoundError, version
 
 from . import (alerta, aposta, calendario, centro, dados, dependencia, direcao, evidencia, esquecimento, estabilidade,
-               graficos, intervencao, lei, mudanca, multiplicidade, nivel, operador, partilha, proporcao, promessa,
+               graficos, intervencao, laco, lei, mudanca, multiplicidade, nivel, operador, partilha, proporcao, promessa,
                ramificacao, recorde, pares, regimes, resumo, vigia, volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
@@ -27,7 +27,7 @@ except PackageNotFoundError:
     VERSAO = "0.1.0"
 
 __all__ = ["alerta", "calendario", "dados", "dependencia", "esquecimento", "estabilidade", "graficos",
-           "intervencao", "lei", "mudanca", "nivel", "partilha", "proporcao", "promessa", "ramificacao",
+           "intervencao", "laco", "lei", "mudanca", "nivel", "partilha", "proporcao", "promessa", "ramificacao",
            "recorde", "regimes", "vigia", "volatilidade", "VERSAO", "auto_teste"]
 
 
@@ -890,6 +890,26 @@ def auto_teste() -> list:
     # A fração na tolerância é conta de mão: dois de quatro dias dentro.
     if abs(lei.fracao_na_tolerancia(np.ones(4), np.array([1.0, 1.1, 1.5, 2.0]), 0.2, horizonte=4) - 0.5) > 1e-12:
         problemas.append("lei: a fração na tolerância não é a conta de mão")
+
+    # --- o laço que reage (laco) ---
+    rng_laco = np.random.default_rng(41)
+    mundo_laco = mudanca.estavel(600, rng_laco, sigma=0.01)
+    serie = pd.Series(mundo_laco)
+    linha_corte = promessa.corte_no_posto(serie, 63, 3)
+    if not np.array_equal(laco.reage(mundo_laco, linha_corte.to_numpy(), fracao=0.0, atraso=1),
+                          mundo_laco):
+        problemas.append("laco: a reação nula não devolve o mundo intacto")
+    fabricado = np.array([-0.10, -0.02, -0.03, 0.01])
+    barra = np.array([-0.05, -0.05, -0.05, -0.05])
+    saida_um = laco.reage(fabricado, barra, fracao=0.25, atraso=1)
+    if abs(saida_um[1] - (-0.015)) > 1e-12 or abs(saida_um[0] + 0.10) > 1e-12:
+        problemas.append("laco: o rompimento não amortece só o dia do atraso")
+    dois = laco.reage(np.array([-0.10, -0.20, 0.0]), barra[:3], fracao=0.5, atraso=1)
+    if abs(dois[1] - (-0.10)) > 1e-12 or abs(dois[0] + 0.10) > 1e-12:
+        problemas.append("laco: cada rompimento amortece uma vez, no dia do próprio atraso")
+    historico = laco.recalibra(mundo_laco, 63, 3, ciclos=3, fracao=0.0, atraso=1)
+    if len(set(historico["cortes"])) != 1 or len(set(historico["entregas"])) != 1:
+        problemas.append("laco: com reação nula, o laço não devolve a calibragem parada")
 
     # --- a rampa que nunca termina (mudanca.andando) ---
     rng_andando = np.random.default_rng(29)
