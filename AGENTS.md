@@ -333,6 +333,8 @@ Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções 
 >
 > Ciclos arquivados: **2026-09-23** (47 entradas, abaixo).
 
+2026-09-25 — reotimização das artes, agora **pedida pelo autor**: o infinito segue a 2200 px (350 dpi no corte) e só re-encoda a q90; o colapso --- que entra na mancha a 73,7 mm --- desce de 530 para ~390 dpi (2048 px de altura) e re-encoda junto: 4,9 MB de JPEG viram 0,8 MB. A regra da entrada anterior continua de pé: o pedido do autor é o que autoriza.
+
 2026-09-25 — epígrafe entrou: a folha que era branca --- a que o abrir-direita do sumário pedia --- carrega agora a tese do autor (a ontologia do atrito dissipativo), sem assinatura porque é dele; a numeração não se mexe, o sumário continua abrindo na mesma página ímpar e o livro segue em 376 páginas. No mesmo fôlego o autor reexportou as duas artes de capa em qualidade maior --- mesmas dimensões de corte, PDF mais pesado --- e a versão dele é a que vale: otimização de imagem sem pedido é decisão de quem assina o livro.
 
 2026-09-25 — capa e contra-capa entraram: a arte (o infinito que se abre em frevo, o colapso da grade em fluido) mora em `assets/images/` e é citada pelo caminho relativo `../assets/...`; o portão de figuras passou a isentá-la do aviso «figura citada que nenhum caderno gera» — arte não é medição, e a existência segue conferida; as medidas da composição moram nomeadas no preâmbulo do `livro.tex`, porque dígito no corpo é aviso; e a capa desce o contador a zero, para que a folha de rosto continue sendo a página um e as aberturas de capítulo não ganhem páginas em branco novas.
