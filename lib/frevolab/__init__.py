@@ -1153,6 +1153,33 @@ def auto_teste() -> list:
         problemas.append("influencia: com ganho constante o produto nao e beta^k")
     if intervencao.cresce_antes_de_cair(ganho_constante) != 0.0:
         problemas.append("cresce_antes_de_cair: o mundo sem sorteio cresceu antes de cair")
+    # --- operador: o teto de Kreiss, e o ponto em que o espectro cola ---
+    teto_operador = operador.teto(100.0, passos=60, pontos=128)
+    if not teto_operador["teto"] > teto_operador["pico"]:
+        problemas.append("teto: a cota de Kreiss ficou abaixo do pico medido")
+    if operador.kreiss(operador.matriz(0.0), pontos=128) > 1.0 + 1e-6:
+        problemas.append("kreiss: no caso escalar a constante passou de um")
+    if abs(operador.fronteira(1.0) - 0.01) > 1e-12:
+        problemas.append("fronteira: a abertura prevista nao e (1-raio)^2/c")
+    raio_fronteira = float(np.max(np.abs(np.linalg.eigvals(operador.matriz_aberta(1.0, operador.fronteira(1.0))))))
+    if abs(raio_fronteira - 1.0) > 1e-9:
+        problemas.append("fronteira: na abertura prevista o raio nao toca um (%.6f)"
+                         % raio_fronteira)
+    linhas_desdobramento = operador.desdobramento(1.0, (0.001, 0.01, 0.1))
+    razoes_desdobramento = [b["separacao"] / a["separacao"]
+                            for a, b in zip(linhas_desdobramento, linhas_desdobramento[1:])]
+    if not all(abs(r - np.sqrt(10.0)) < 0.05 for r in razoes_desdobramento):
+        problemas.append("desdobramento: a separacao nao cresce na raiz da abertura (%s)"
+                         % np.round(razoes_desdobramento, 3))
+    if not operador.sensibilidade(1.0, 0.001) > 5.0 * operador.sensibilidade(1.0, 0.1):
+        problemas.append("sensibilidade: o autovalor nao perde estabilidade no ponto "
+                         "excepcional")
+    nuvem_operador = operador.nuvem(1.0, 0.05, 60, 7)
+    if not nuvem_operador.min() < float(np.median(nuvem_operador)) < nuvem_operador.max():
+        problemas.append("nuvem: a faixa das perturbacoes saiu degenerada")
+    if not abs(float(np.median(nuvem_operador)) - (1.0 + np.sqrt(0.05))) < 0.1:
+        problemas.append("nuvem: a mediana nao acompanha o raio previsto (%.4f)"
+                         % float(np.median(nuvem_operador)))
     # --- a rampa que nunca termina (mudanca.andando) ---
     rng_andando = np.random.default_rng(29)
     mundo_andando = mudanca.andando(4000, rng_andando, sigma=0.01, fator=2.0)

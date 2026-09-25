@@ -29,9 +29,148 @@ ACOPLAMENTOS_PADRAO = (0.0, 1.0, 10.0, 100.0)
 PASSOS_PADRAO = 200
 TOLERANCIA_PADRAO = 0.15
 
+
+
+def matriz_aberta(acoplamento: float, abertura: float,
+                  radio: float = RADIO_PADRAO) -> np.ndarray:
+    r"""A família com o canto de baixo aberto: \emph{[[raio, c], [delta, raio]]}.
+
+    Com abertura nula ela é a matriz de cima --- o autovalor duplo com um bloco de Jordan, onde
+    a norma cresce em $k$. Com abertura positiva os dois autovalores se separam, e a separação
+    é o que decide o sinal do transitório: é a mesma família do capítulo, com uma porta a mais.
+    """
+    if not 0.0 < float(radio) < 1.0:
+        raise ValueError("o raio precisa estar entre zero e um")
+    if acoplamento < 0.0 or abertura < 0.0:
+        raise ValueError("o acoplamento e a abertura nao podem ser negativos")
+    return np.array([[float(radio), float(acoplamento)],
+                     [float(abertura), float(radio)]])
+
+
+def kreiss(a, raios=None, pontos: int = 512) -> float:
+    r"""A constante de Kreiss: o sup de \emph{delta} vezes a norma do resolvente em |z| = 1+delta.
+
+    É o preço declarado do transitório: ela limita a amplificação de qualquer potência, e é
+    calculada aqui pelo resolvente em um círculo de cada vez, numa grade log de raios. O sup em
+    grade SUBESTIMA a constante, e é por isso que a asserção do \texttt{auto\_teste} cobra a
+    grade mais fina quando o teto ameaça cair abaixo do pico medido.
+    """
+    m = np.asarray(a, dtype=float)
+    if m.ndim != 2 or m.shape[0] != m.shape[1]:
+        raise ValueError("a constante de Kreiss quer uma matriz quadrada")
+    if int(pontos) < 8:
+        raise ValueError("o circulo precisa de pelo menos oito pontos")
+    if raios is None:
+        raios = np.logspace(-6.0, 1.0, 60)
+    ident = np.eye(m.shape[0])
+    angulos = np.linspace(0.0, 2.0 * np.pi, int(pontos), endpoint=False)
+    melhor = 0.0
+    for delta in np.asarray(raios, dtype=float):
+        if delta <= 0.0:
+            raise ValueError("a grade de raios precisa ser positiva")
+        raio = 1.0 + delta
+        maior = 0.0
+        for theta in angulos:
+            z = raio * complex(np.cos(theta), np.sin(theta))
+            resolvente = np.linalg.solve(z * ident - m, ident)
+            maior = max(maior, float(np.linalg.norm(resolvente, 2)))
+        melhor = max(melhor, delta * maior)
+    return float(melhor)
+
+
+def teto(acoplamento: float, passos: int = PASSOS_PADRAO, radio: float = RADIO_PADRAO,
+         pontos: int = 512) -> dict:
+    r"""O teto demonstrável da norma da potência, e a folga que ele carrega.
+
+    A cota é \emph{e (k+1) K}, com \emph{k} o dia do pico medido e \emph{K} a constante de
+    Kreiss: ela não é uma previsão, é um limite --- e o que se publica dela é a folga, isto é,
+    quanto o limite fica acima do que a medição mostrou.
+    """
+    serie = normas(acoplamento, passos, radio)
+    dia = int(np.argmax(serie))
+    constante = kreiss(matriz(acoplamento, radio), pontos=pontos)
+    limite = float(np.e * (dia + 1) * constante)
+    pico = float(serie[dia])
+    return {"kreiss": constante, "dia": dia, "teto": limite, "pico": pico,
+            "folga": (limite / pico) if pico > 0.0 else float("inf")}
+
+
+def desdobramento(acoplamento: float, aberturas, radio: float = RADIO_PADRAO) -> list:
+    r"""Uma linha por abertura: os dois autovalores, a separação entre eles e o raio espectral.
+
+    É a medição do ponto excepcional: perto da abertura em que os autovetores coalescem, a
+    separação cresce na raiz da abertura, e a sensibilidade do autovalor diverge.
+    """
+    saida = []
+    for abertura in aberturas:
+        m = matriz_aberta(acoplamento, abertura, radio)
+        autovalores = np.linalg.eigvals(m)
+        ordenados = sorted(autovalores, key=lambda z: (z.real, z.imag))
+        separacao = float(abs(ordenados[0] - ordenados[1]))
+        raio = float(np.max(np.abs(autovalores)))
+        saida.append({"abertura": float(abertura), "separacao": separacao,
+                      "raio": raio,
+                      "complexos": bool(abs(ordenados[0].imag) > 1e-12)})
+    return saida
+
+
+def sensibilidade(acoplamento: float, abertura: float, radio: float = RADIO_PADRAO,
+                  passo: float = 1e-6) -> float:
+    r"""A sensibilidade do autovalor à abertura, por diferença central.
+
+    No ponto excepcional ela diverge: é a conta que o critério escalar não faz e que a seção
+    mede, para mostrar que ali o autovalor deixa de ter número estável.
+    """
+    if passo <= 0.0:
+        raise ValueError("o passo da diferenca precisa ser positivo")
+    if abertura - passo <= 0.0:
+        raise ValueError("a diferenca central precisa de abertura maior que o passo")
+    def maior_autovalor(ab):
+        return complex(np.linalg.eigvals(matriz_aberta(acoplamento, ab, radio))[0])
+    derivada = (maior_autovalor(abertura + passo) - maior_autovalor(abertura - passo))
+    return float(abs(derivada) / (2.0 * passo))
+
+
+def fronteira(acoplamento: float, radio: float = RADIO_PADRAO) -> float:
+    r"""A abertura em que o raio espectral toca o círculo: \emph{(1-raio)^2 / c}.
+
+    Ela sai da conta exata do autovalor da família aberta, $\lambda = raio \pm \sqrt{c\,delta}$,
+    e é a abertura em que o passado de memória longa deixa de desbotar.
+    """
+    if acoplamento <= 0.0:
+        raise ValueError("a fronteira pede acoplamento positivo")
+    return float((1.0 - float(radio)) ** 2 / float(acoplamento))
+
+
+def nuvem(acoplamento: float, abertura: float, sortes: int, semente: int,
+          radio: float = RADIO_PADRAO) -> np.ndarray:
+    r"""O raio espectral sob perturbações aleatórias de norma fixa: a nuvem que o critério devolve.
+
+    A perturbação é um sorteio normal de norma de Frobenius igual à abertura declarada --- a
+    mesma norma em todos os mundos, para que a comparação seja entre direções e não entre
+    tamanhos.
+    """
+    if int(sortes) < 1:
+        raise ValueError("a nuvem precisa de pelo menos uma sorte")
+    rng = np.random.default_rng(int(semente))
+    base = matriz_aberta(acoplamento, abertura, radio)
+    raios = np.empty(int(sortes))
+    for i in range(int(sortes)):
+        direcao = rng.standard_normal(base.shape)
+        norma = float(np.linalg.norm(direcao))
+        if norma == 0.0:
+            raios[i] = float(np.max(np.abs(np.linalg.eigvals(base))))
+            continue
+        perturbada = base + direcao * (float(abertura) / norma)
+        raios[i] = float(np.max(np.abs(np.linalg.eigvals(perturbada))))
+    return raios
+
+
 __all__ = ["matriz", "normas", "memoria_do_autovalor", "dias_do_autovalor",
            "memoria_da_norma", "pico_da_norma",
-           "familia", "RADIO_PADRAO", "ACOPLAMENTOS_PADRAO", "PASSOS_PADRAO", "TOLERANCIA_PADRAO"]
+           "familia", "matriz_aberta", "kreiss", "teto", "desdobramento",
+           "sensibilidade", "fronteira", "nuvem",
+           "RADIO_PADRAO", "ACOPLAMENTOS_PADRAO", "PASSOS_PADRAO", "TOLERANCIA_PADRAO"]
 
 
 def matriz(acoplamento: float, radio: float = RADIO_PADRAO) -> np.ndarray:

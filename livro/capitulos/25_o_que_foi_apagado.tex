@@ -192,6 +192,88 @@ a influência vai parar, e não o quanto ela cresce no caminho. Num sistema de u
 coincidem, e é por isso que o capítulo pôde medir tudo com um escalar --- e é por isso que a conta
 não atravessa para o caso em que os passos se acoplam.
 
+\section{O teto que se demonstra, e o ponto em que o espectro cola}
+
+A seção anterior fechou com uma frase e três números: o autovalor não é a memória --- os picos
+medidos no nono dia ficam em centenas, onde a conta escalar anunciava décimos. Se o autovalor
+não basta, é preciso dar ao que ele não vê um teto. O teto existe, é demonstrável, e o que ele
+revela é que é frouxo.
+
+% aterramento: kreiss
+% aterramento: identidade
+O instrumento é a \textbf{constante de Kreiss}, $\kappa$: o maior valor de $\delta$ vezes a norma do
+resolvente $(z\bm{I} - M)^{-1}$ sobre o círculo $|z| = 1 + \delta$. Ela sai do resolvente, e não da
+potência, e é o preço declarado do transitório \cite{ariq2026pseudospectral}. Medida na família das \numEspectroAcoplamentos{}
+colunas, a mediana é de \numEspectroKreissFamilia, e a coluna do acoplamento de cem chega a
+\numEspectroKreissMaior.
+
+Com a constante na mão o teto é $e\,(k+1)\, \kappa$: no pico do nono dia ele vale \numEspectroTetoMaior
+contra o pico medido de \numEspectroPicoMaior. A folga mediana é de \numEspectroFolgaMediana{}
+vezes, e o pico fica em \numEspectroFracaoDoPico\% do teto. \textbf{O teto é demonstrável e é
+frouxo} --- e a frouxidão é o achado, não o defeito: um limite justo sobre a medição não seria um
+limite.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E52_teto_e_ponto_1.pdf}
+  \caption{A norma da potência dia a dia nas quatro colunas da família, em escala logarítmica, com
+    a linha pontilhada do teto de cada uma. As quatro curvas picam, e as quatro linhas ficam acima
+    do pico correspondente.}
+  \label{fig:teto-kreiss}
+\end{figure}
+
+% aterramento: ponto-excepcional
+% aterramento: abertura
+% aterramento: abertura-do-canto
+% aterramento: desdobramento
+Falta o que a família esconde: ela mora toda no \textbf{ponto excepcional}. Abrindo o canto
+inferior --- a matriz passa a ter $\delta$ onde tinha zero, e a essa entrada chamamos
+\textbf{abertura do canto}, $\delta$ --- os dois autovalores se separam, e a separação cresce na
+\emph{raiz} da abertura. Medida nas \numEspectroAberturas{} aberturas da varredura, a inclinação em
+log-log é de \numEspectroInclinacaoFamilia{} --- meio, como a raiz manda. O controle simétrico
+desdobra linear, com inclinação de \numEspectroInclinacaoControle, e as duas retas se cruzam: o que
+está em jogo é o \textbf{desdobramento} do espectro, e não o valor dele.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E52_teto_e_ponto_2.pdf}
+  \caption{A separação dos autovalores contra a abertura, nos dois eixos em escala logarítmica. A
+    reta da família é mais deitada (inclinação de meio) e a do controle simétrico é mais em pé
+    (inclinação de um); as duas se cruzam.}
+  \label{fig:desdobramento}
+\end{figure}
+
+% aterramento: fronteira-do-raio
+Da mesma conta sai a \textbf{fronteira do raio}: os autovalores são $\rho \pm \sqrt{c\,\delta}$, de
+modo que o raio espectral toca o círculo em $\delta = (1-\rho)^2/c$ --- \numEspectroFronteiraUm{} no
+acoplamento de um e \numEspectroFronteiraCem{} no de cem. É a abertura em que o passado de memória
+longa deixa de desbotar, e ela não é posta: é medida. E a sensibilidade do autovalor à abertura
+diverge ali, porque ela é a inversa da raiz \cite{heiss2012physics}: \numEspectroSensibilidadePequena{} na menor abertura
+contra \numEspectroSensibilidadeGrande{} na maior, razão de \numEspectroSensibilidadeRazao. No ponto
+excepcional o critério escalar não perde só a memória --- perde o número.
+
+Por fim, o que o critério devolve quando a direção da perturbação não é conhecida: uma
+\numEspectroNuvemSortes{} perturbações de mesma norma em torno do mesmo ponto dão mediana de
+\numEspectroNuvemMediana, com faixa de \numEspectroNuvemFaixaBaixa{} a \numEspectroNuvemFaixaAlta, e
+\numEspectroNuvemAcimaPct\% dos mundos acima de um. Na varredura determinística, em que as duas
+entradas conservam o sinal, os dois autovalores seguem reais: \numEspectroFracaoComplexaPct\% de
+pares complexos.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E52_teto_e_ponto_3.pdf}
+  \caption{O raio espectral contra a abertura, com a linha vertical da fronteira
+    $\delta = (1-\rho)^2/c$ e a faixa de cinco a noventa e cinco por cento da nuvem em torno do
+    ponto marcado. O raio cruza a linha de um exatamente na vertical da fronteira.}
+  \label{fig:raio}
+\end{figure}
+
+O que fica desta seção é a medida da frouxidão e a localização da cegueira. O teto demonstrável
+existe, e é \numEspectroFolgaMediana{} vezes maior do que o pico que ele limita; e o critério
+escalar não perde o número em um caso raro, mas em toda a família --- que mora no ponto
+excepcional, e ali o autovalor se desdobra em raiz. O capítulo seguinte mede o que acontece quando
+o passado é preenchido em vez de medido.
+
 \section{O que fica}
 
 Fica a resposta do segundo pedaço do andar, e ela tem uma parte que se compra e uma que fica fora do

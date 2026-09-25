@@ -71,7 +71,7 @@ conferida por portão (§9). Onde cada degrau sobe:
 | o episódio dirigido | 22 |
 | o relógio contra a causa, os alinhamentos declarados, o controle de canal impossível, a cascata calibrada e a intervenção que separa | 23 |
 | o harmônico e o mundo que não foi observado | 24 |
-| a esperança condicional e a reconstrução | 25 |
+| a esperança condicional e a reconstrução, o teto de Kreiss e o ponto excepcional | 25 |
 | o choque comum e a curtose | 26 |
 | a profundidade do corte, o expoente da cauda conjunta e o preço da extrapolação | 27 |
 | o capital que cobre a perda conjunta, as três contas, o refutador da barreira e o canal com orçamento | 28 |

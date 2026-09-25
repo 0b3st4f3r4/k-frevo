@@ -139,3 +139,10 @@ plasticidade	a rapidez com que o estimador reaprende depois de um degrau	termo	p
 recomeco	o recomeco da media acumulada no dia declarado, que zera a idade	termo	recomeço	19	plasticidade	19
 piso	o erro estacionario da taxa fixa no mundo que nao muda	termo	piso estacion	19	esquecimento	19
 temperatura	a temperatura da verossimilhanca temperada, analogo bayesiano do esquecimento	termo	temperatura	19	esquecimento	19
+kreiss	a constante de Kreiss: o sup de delta vezes a norma do resolvente em |z| = um mais delta	simbolo	\kappa	25	operador	25
+identidade	a matriz identidade do resolvente	simbolo	I	25	operador	25
+ponto-excepcional	o ponto em que os autovetores coalescem e o autovalor perde estabilidade	termo	ponto excepcional	25	operador	25
+abertura-do-canto	a entrada delta no canto inferior da familia	termo	abertura do canto	25	operador	25
+desdobramento	o desdobramento do espectro em raiz da abertura	termo	desdobra	25	ponto-excepcional	25
+fronteira-do-raio	a abertura em que o raio espectral toca o circulo	termo	fronteira do raio	25	abertura-do-canto	25
+abertura	a entrada delta no canto inferior da familia	simbolo	\delta	25	operador	25
