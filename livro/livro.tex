@@ -134,11 +134,59 @@
 \newcommand{\Prob}{\mathbb{P}}
 \newcommand{\E}{\mathbb{E}}
 
+% -----------------------------------------------------------------------------
+% CAPA E CONTRA-CAPA: as folhas de fora. A arte não é medição --- nenhum
+% caderno a gera ---, mora em assets/images/ e entra no livro pelo caminho
+% relativo ../assets/..., que o portão de figuras confere e isenta do aviso
+% de caderno. As medidas da composição moram aqui, nomeadas: dígito no corpo
+% do livro é aviso, porque grandeza medida se cita --- e medida de página se
+% nomeia.
+% -----------------------------------------------------------------------------
+\newlength{\folgaTopoCapa}    \setlength{\folgaTopoCapa}{30mm}
+\newlength{\folgaSubtitulo}   \setlength{\folgaSubtitulo}{5mm}
+\newlength{\folgaPeCapa}      \setlength{\folgaPeCapa}{18mm}
+\newlength{\topoContraCapa}   \setlength{\topoContraCapa}{10mm}
+\newlength{\alturaArteContra} \setlength{\alturaArteContra}{132mm}
+\newlength{\folgaContraCapa}  \setlength{\folgaContraCapa}{9mm}
+\newlength{\larguraSinopse}   \setlength{\larguraSinopse}{106mm}
+\newcommand{\tituloCapa}{\fontsize{28}{34}\selectfont\bfseries}
+\newcommand{\corpoSinopse}{\singlespacing\setlength{\parindent}{0pt}%
+  \setlength{\parskip}{0.35em}\setlength{\leftskip}{0pt}\setlength{\rightskip}{0pt}}
+
 \title{Kolmogorov-Frevo: A incerteza quando o mundo muda}
 \author{O Besta Fera.}
 \date{\the\year}
 
 \begin{document}
+% -----------------------------------------------------------------------------
+% Capa: o infinito que se abre em frevo --- a curva fechada à esquerda, o
+% turbilhão que se desfaz à direita. Folha de fora: sem margem, sem número e
+% fora do sumário. O contador desce a zero para que esta folha não empurre a
+% numeração: a folha de rosto continua sendo a página um, e as aberturas de
+% capítulo não ganham páginas em branco novas.
+% -----------------------------------------------------------------------------
+\setcounter{page}{0}% numeros-ok (maquinaria de página, não grandeza medida)
+\thispagestyle{empty}
+\newgeometry{margin=0pt}% numeros-ok (folha de fora: sangria total, não grandeza)
+% O \centering vai em grupo: solto, ele vaza para o resto do livro e recompõe
+% cada parágrafo --- o texto inteiro deriva uma página aqui, ganha outra ali.
+\begingroup
+\centering
+\vspace*{\folgaTopoCapa}
+{\tituloCapa KOLMOGOROV-FREVO\par}
+\vspace{\folgaSubtitulo}
+{\Large A incerteza quando o mundo muda\par}
+\vfill
+\includegraphics[width=\paperwidth]{../assets/images/infinito_frevo.jpeg}
+\vfill
+{\Large O Besta Fera.\par}
+\vspace{\folgaPeCapa}
+\par
+\endgroup
+% O \restoregeometry embaralha a página sozinho (ele mesmo dá o \clearpage): um
+% \clearpage na mão aqui embaralha duas com o hyperref pendurado, e sai folha em branco.
+\restoregeometry
+
 \maketitle
 \tableofcontents
 
@@ -474,5 +522,40 @@ cada número daqui apareceu, e é assim que os que faltam vão aparecer.
 \chapter*{Proposições e definições}
 \markboth{PROPOSIÇÕES E DEFINIÇÕES}{}
 \input{proposicoes.tex}
+
+% -----------------------------------------------------------------------------
+% Contra-capa: o colapso --- a grade que se despedaça e desce em fluido --- e
+% a sinopse para quem ainda não abriu. Folha de fora: sem margem, sem número
+% e fora do sumário.
+% -----------------------------------------------------------------------------
+% Sem \clearpage na mão: o \newgeometry embaralha a página sozinho, e um segundo
+% embaralhamento sai folha em branco com o hyperref.
+\newgeometry{margin=0pt}% numeros-ok (folha de fora: sangria total, não grandeza)
+\thispagestyle{empty}
+\begingroup
+\centering
+\vspace*{\topoContraCapa}
+\includegraphics[height=\alturaArteContra]{../assets/images/colapso_capiba.jpeg}
+\vspace{\folgaContraCapa}
+\begin{minipage}{\larguraSinopse}
+\corpoSinopse
+O mercado fecha, a regra do país muda, a máquina que aprendeu ontem erra hoje. Nos
+três casos a pergunta é a mesma: o que se pode \emph{garantir}, \emph{medir} e
+\emph{otimizar} quando o mundo não para de mudar?
+
+Este livro responde com medição. Cada capítulo abre num fracasso concreto, constrói
+o princípio mínimo que o resolve e mede o que o princípio promete. O caminho começa
+num sorteio e numa média, e sobe até as proposições sem pular degrau --- e nenhum
+número é digitado: todo número sai de um caderno de experimento que o leitor pode
+executar.
+
+Para quem tem dezesseis anos e vontade: começa na primeira página e chega à última
+sem precisar de outra coisa.
+
+\end{minipage}
+\vfill
+\par
+\endgroup
+\restoregeometry
 
 \end{document}

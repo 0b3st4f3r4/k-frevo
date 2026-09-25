@@ -245,7 +245,7 @@ O motivo que reaparece em três voltas — **promessa × entrega**, em cobertura
 
 ## 7. Artefatos
 
-Um artefato central, uma biblioteca e três insumos. Nada além disso existe por herança.
+Um artefato central, uma biblioteca e quatro insumos. Nada além disso existe por herança.
 
 | artefato | o que é | quem manda nele |
 |---|---|---|
@@ -254,6 +254,7 @@ Um artefato central, uma biblioteca e três insumos. Nada além disso existe por
 | `lab/` | **o laboratório**: um **caderno por experimento** em `lab/experimentos/`, executável sozinho, com os parâmetros no topo marcados `# <- brinque com:`; cada caderno grava `lab/resultados/<id>.json` e as figuras em `livro/figuras/`, em `.pdf` e em `.png` | os cadernos; `lab/executar.py` executa os que mudaram e escreve `livro/numeros.tex` |
 | `dados/aterramento.tsv` | **o registro do aterramento**: uma linha por objeto do livro (símbolo ou termo), com o padrão que o acha, o capítulo em que ele aterra, o que ele exige e onde está o exemplo mínimo. Guarda **endereço, nunca definição** --- a prosa vive só no capítulo, e não existe segunda cópia para divergir | curadoria manual; `lab/aterramento.py` lê o registro, e o `conferir_aterramento` cobra cada linha (§9) |
 | `dados/fontes.tsv` | **o corpus** de fontes: uma linha por fonte, o número da linha é o identificador, e a chave de citação sai do sobrenome do primeiro autor mais o ano | curadoria manual; `lab/fontes.py` gera `livro/fontes.tex` e confere que toda citação do livro tem linha no corpus |
+| `assets/` | **a arte**: as imagens de capa e contra-capa, que atravessaram do projeto anterior --- não são medição, e nenhum caderno as gera | o autor; o portão de figuras confere a existência e as isenta do aviso de caderno |
 
 **O que não existe, e não deve ser criado sem necessidade demonstrada:** caderno executável **monolítico** — um caderno por experimento é a regra, e o que não volta é o caderno único que carrega o projeto inteiro; grafo de conhecimento com nós, arestas e camadas; tabela de agentes; auditoria cruzada entre artefatos. O projeto anterior pagou caro pela manutenção de quatro artefatos que precisavam ser reconciliados. Aqui são cinco, e a reconciliação é estrutural (seção 9), não um portão a mais.
 
@@ -331,6 +332,8 @@ Em `.old/` está tudo o que o projeto anterior produziu: o livro em 25 seções 
 > é **registro, não contrato**: onde ele divergir deste documento, **este documento manda**.
 >
 > Ciclos arquivados: **2026-09-23** (47 entradas, abaixo).
+
+2026-09-25 — capa e contra-capa entraram: a arte (o infinito que se abre em frevo, o colapso da grade em fluido) mora em `assets/images/` e é citada pelo caminho relativo `../assets/...`; o portão de figuras passou a isentá-la do aviso «figura citada que nenhum caderno gera» — arte não é medição, e a existência segue conferida; as medidas da composição moram nomeadas no preâmbulo do `livro.tex`, porque dígito no corpo é aviso; e a capa desce o contador a zero, para que a folha de rosto continue sendo a página um e as aberturas de capítulo não ganhem páginas em branco novas.
 
 2026-09-25 — a auditoria de estrutura fechou três dívidas: os sete degraus que faltavam no §4 (11, 15, 21, 30, 31, 32, 33) foram preenchidos; os fechos variantes são por desenho — 23 fecha com «O preço, na moeda da intervenção», 27 com «O que escapa da compressão, quarta vez», 28 com «O que o andar fecha» (cuja barra de comando da seção, comida por edição, foi restaurada no commit 17a7b61); e os capítulos sem citação são por motivo declarado — 02, 06 e 31 são instrumento da casa (a aritmética do nível, as formas geradoras, o dado que chega velho), 22 mede o par com os mundos da casa (a teoria de recordes clássica é de iid e não carrega a afirmação), e 33 é o fecho.
 

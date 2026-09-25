@@ -312,7 +312,11 @@ def conferir_figuras(avisos: list, falhas: list) -> None:
         geradas = {p.relative_to(LIVRO).as_posix() for p in FIGURAS.glob("*.pdf")}
     for nome in sorted(geradas - citadas):
         avisos.append("figura medida e não citada: %s" % nome)
-    for nome in sorted(citadas - geradas):
+    # A arte de capa mora em assets/ e nenhum caderno a gera --- e não é dívida: este aviso
+    # existe para pegar figura medida que o laboratório perdeu, e cobrir arte com ele seria
+    # avisar para sempre o que a casa decidiu de propósito. A existência segue conferida.
+    arte = {nome for nome in citadas if nome.startswith("../assets/")}
+    for nome in sorted(citadas - geradas - arte):
         avisos.append("figura citada que nenhum caderno gera: %s" % nome)
 
 
