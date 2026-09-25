@@ -72,6 +72,7 @@ conferida por portão (§9). Onde cada degrau sobe:
 | o choque comum e a curtose | 26 |
 | a profundidade do corte, o expoente da cauda conjunta e o preço da extrapolação | 27 |
 | o capital que cobre a perda conjunta, as três contas, o refutador da barreira e o canal com orçamento | 28 |
+| a capacidade de memória, o readout fora da amostra e o teto do posto | 29 |
 
 Consequências duras desta escolha:
 
@@ -226,7 +227,7 @@ A ordem **não é escolhida**: ela sai de quem precisa de quem. Ela pode mudar q
 | **As voltas** | voltas 1 a 4 | o orçamento; as formas que a mudança tem (cauda, rampa, deriva, calendário, dependência); a estatística que estima e não anuncia; o alerta clássico, com o par que ele nunca declarou; a geometria do condicionamento; de onde vem a cauda, com as duas famílias geradoras; a janela certa quando a lei anda, com a família localmente estacionária ajustada; a cauda conjunta | quatro famílias usam esses objetos; sem eles, A, B, C e D não podem nem ser enunciadas |
 | **A travessia** | travessia | as perguntas que ninguém fez dentro de uma gaveta | F1 a F5 medem o objeto de uma família com o instrumento de outra; é onde a lista cresce sozinha; o instrumento mexe no mundo, com o laço que reage e o controle de reação nula; a janela que se escolhe sozinha, com o teste das metades e o orçamento de falsos |
 | **O que não se compra** | andar 1 | a experiência que separa relógio de causa, o mundo que faltou, o dia apagado, a margem que não conta o junto e a taxa da junta funda | o espelho do orçamento: não se compra a intervenção que identificaria a causa, não se compra o mundo que faltou, não se recupera o que foi apagado, não se vê dependência pela margem, não se identifica além do segundo momento, não se extrapola a junta funda sem medir o expoente, e o que não se compra tem preço em capital: a barreira conjunta custa vezes as margens somadas --- e com observação orçamentada o preço vira ilegível antes de ficar caro |
-| **O enquadramento** | andar 2 | tempo, memória e individuação | vem depois porque a frase só vale depois de medida — a seta é o que não se reconstruiu |
+| **O enquadramento** | andar 2 | tempo, memória e individuação --- e a capacidade: o teto do que se lembra é o tamanho do estado | vem depois porque a frase só vale depois de medida — a seta é o que não se reconstruiu |
 | **O fecho** | fecho | a pergunta da raiz, refeita com tudo o que se tem | fecha a espiral sem repeti-la: o corte agora se paga com preço conhecido |
 
 Cada movimento tem a sua **parte impressa**, e é ela que o leitor encontra no sumário. A classe `book.cls` não reinicia o contador de capítulo no `\part` — conferido no `book.cls` —, e o livro não imprime número de capítulo em prosa: a parte é estrutura de leitura, não de numeração.

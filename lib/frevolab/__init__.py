@@ -14,7 +14,7 @@ em `frevolab.dados.ARQUIVO`: o empréstimo é explícito, e o número que sai de
 """
 from importlib.metadata import PackageNotFoundError, version
 
-from . import (adaptativa, alerta, aposta, calendario, centro, dados, dependencia, direcao, evidencia, esquecimento,
+from . import (adaptativa, alerta, aposta, calendario, capacidade, centro, dados, dependencia, direcao, evidencia, esquecimento,
                estabilidade, graficos, intervencao, laco, lei, mudanca, multiplicidade, nivel, operador, partilha,
                pares, profundidade, proporcao, promessa, protecao, ramificacao, recorde, regimes, relogio,
                 resumo, vigia, volatilidade)
@@ -27,7 +27,7 @@ try:
 except PackageNotFoundError:
     VERSAO = "0.1.0"
 
-__all__ = ["adaptativa", "alerta", "calendario", "dados", "dependencia", "esquecimento", "estabilidade",
+__all__ = ["adaptativa", "alerta", "calendario", "capacidade", "dados", "dependencia", "esquecimento", "estabilidade",
            "graficos", "intervencao", "laco", "lei", "mudanca", "nivel", "partilha", "pares", "profundidade",
            "proporcao", "protecao",
            "promessa", "ramificacao", "recorde", "regimes", "relogio", "resumo", "vigia", "volatilidade",
@@ -1024,5 +1024,22 @@ def auto_teste() -> list:
     if not 0.3 * fino["verdadeiros"] * 0.01 <= fino["detectados"] <= 2.5 * fino["verdadeiros"] * 0.01:
         problemas.append("protecao: o canal fino nao aproxima o quadrado da fracao (%d contra ~%.1f)" % (
             fino["detectados"], fino["verdadeiros"] * 0.01))
+
+
+    # a capacidade de memoria: conservada no posto do estado, e o lugar onde mora separa
+    rng_cap = np.random.default_rng(71)
+    ruido = pd.Series(rng_cap.normal(0.0, 1.0, 4000))
+    janela_cap = capacidade.capacidade_total(capacidade.capacidade_por_lag(
+        capacidade.estados_janela(ruido, 40), ruido, 60))
+    if abs(janela_cap - 40.0) > 0.5:
+        problemas.append("capacidade: a janela devolve a capacidade exata (%.3f contra 40)" % janela_cap)
+    exp_cap = capacidade.capacidade_total(capacidade.capacidade_por_lag(
+        capacidade.estados_exponencial(ruido, 0.05), ruido, 200))
+    if exp_cap > 1.5:
+        problemas.append("capacidade: o estado escalar devolve mais de uma direcao (%.3f)" % exp_cap)
+    res_cap = capacidade.capacidade_total(capacidade.capacidade_por_lag(
+        capacidade.estados_reservatorio(ruido, 50, semente=65), ruido, 300))
+    if not 25.0 <= res_cap <= 52.5:
+        problemas.append("capacidade: o reservatorio fora da conservacao (%.2f contra n=50)" % res_cap)
 
     return problemas

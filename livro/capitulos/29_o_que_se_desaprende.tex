@@ -83,6 +83,63 @@ cegueira pela outra.
   \label{fig:conserto}
 \end{figure}
 
+\section{Quantos dias a memória devolve}
+
+A tabela anterior mediu o preço de escolher; falta o porquê, e ele tem número. Cada memória é um
+estado que anda com a série --- e a pergunta da capacidade é quantos dias individuais do passado
+esse estado devolve, por leitura linear, medida fora da amostra: o readout é ajustado numa metade
+dos dias e a capacidade é a correlação ao quadrado entre o que ele devolve e o dia, na outra metade
+--- porque capacidade medida dentro da amostra é ajuste, não memória. A soma sobre os atrasos tem
+teto: não passa do posto da matriz de controlabilidade, que não passa da dimensão do estado --- a
+dinâmica distribui a capacidade, não a cria \cite{dambre2012information}.
+
+Os quatro sistemas do capítulo, agora como estados. A resposta seca:
+
+\begin{itemize}
+\item a acumulada devolve \numCapacidadeAcumuladaTotal{} --- zero dias: a direção que ela guarda é a
+média, e média nenhuma é dia;
+\item a exponencial da meia-vida de vinte e um dias devolve \numCapacidadeExponencialTotal{} ---
+menos de uma direção inteira: um número só carrega no máximo um passado, e nem inteiro;
+\item a janela devolve \numCapacidadeJanelaTotal{}: os duzentos e cinquenta, inteiros, e nada além
+--- mais os empréstimos do acaso nos mil e duzentos e cinquenta atrasos além da parede, que somam
+menos que um dia;
+\item o reservatório --- estado de cem números, matriz esparsa com raio espectral abaixo de um, a
+condição de estado de eco \cite{jaeger2001echo}, da família que computa em tempo real sem estados
+estáveis \cite{maass2002real} e cuja aproximação tem teorema \cite{hart2020embedding} --- devolve
+\numCapacidadeReservatorioTotal{} [\numCapacidadeReservatorioTotalMin;
+\numCapacidadeReservatorioTotalMax] de cem.
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E41_capacidade_1.pdf}
+  \caption{O perfil da capacidade por atraso. A janela é bloco exato com parede; o reservatório é
+    rampa que desce --- no atraso \numCapacidadeReservatorioLagMetade{} a capacidade por atraso cai à
+    metade do primeiro atraso; e as duas que envelhecem ficam rente ao chão desde o primeiro dia.}
+  \label{fig:capacidade_perfil}
+\end{figure}
+
+E aqui está o porquê da tabela. A acumulada perde porque não tem onde pôr os dias: capacidade zero
+para dias individuais é cegueira de fabricação, não erro de cálculo. A janela ganha dentro dos seus
+duzentos e cinquenta dias porque guarda os dias, um por número --- e o preço dela é a parede. O
+reservatório é a terceira via: espalha os seus cem números por um passado profundo, não devolve dia
+nenhum inteiro e não tem parede --- mas não enche o posto: com os dias que o mercado deu, dois terços
+da dimensão. O teto do teorema é o teto; o dado é que não chega.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{figuras/E41_capacidade_2.pdf}
+  \caption{A capacidade acumulada contra o atraso, com o tamanho de cada estado pontilhado. A janela
+    satura na parede e para; o reservatório sobe devagar e satura antes do seu tamanho; as que
+    envelhecem nem saem do chão.}
+  \label{fig:capacidade_acumulada}
+\end{figure}
+
+O que o capítulo fecha, então, é a conta inteira: escolher a memória é escolher onde a capacidade
+mora --- bloco exato com parede, rampa profunda sem garantia de dia, ou uma direção que não é dia
+nenhum. O teto do que se aprende, medido no capítulo seguinte, tem o gêmeo aqui: o teto do que se
+lembra é o tamanho do estado, e nenhuma dinâmica compra memória de graça.
+
 \section{O que fica}
 
 Fica a resposta, e ela é estreita: o estimador mais barato de escrever é o mais caro de usar. A

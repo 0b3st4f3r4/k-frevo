@@ -1,0 +1,10 @@
+{
+ "capacidade_acumulada_total": 0.198,
+ "capacidade_exponencial_total": 0.822,
+ "capacidade_janela_total": 250.686,
+ "capacidade_reservatorio_lag_metade": 68,
+ "capacidade_reservatorio_primeiro": 1.0,
+ "capacidade_reservatorio_total": 68.38,
+ "capacidade_reservatorio_total_max": 74.66,
+ "capacidade_reservatorio_total_min": 47.32
+}
