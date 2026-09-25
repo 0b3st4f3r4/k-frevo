@@ -16,7 +16,8 @@ from importlib.metadata import PackageNotFoundError, version
 
 from . import (adaptativa, alerta, aposta, calendario, centro, dados, dependencia, direcao, evidencia, esquecimento,
                estabilidade, graficos, intervencao, laco, lei, mudanca, multiplicidade, nivel, operador, partilha,
-               pares, proporcao, promessa, ramificacao, recorde, regimes, relogio, resumo, vigia, volatilidade)
+               pares, profundidade, proporcao, promessa, ramificacao, recorde, regimes, relogio, resumo, vigia,
+                volatilidade)
 
 # A versão tem uma fonte só, e ela é o pyproject.toml: duas cópias divergem, e a
 # divergência é silenciosa. O fallback existe para o caso de o pacote ser lido da
@@ -27,7 +28,8 @@ except PackageNotFoundError:
     VERSAO = "0.1.0"
 
 __all__ = ["adaptativa", "alerta", "calendario", "dados", "dependencia", "esquecimento", "estabilidade",
-           "graficos", "intervencao", "laco", "lei", "mudanca", "nivel", "partilha", "pares", "proporcao",
+           "graficos", "intervencao", "laco", "lei", "mudanca", "nivel", "partilha", "pares", "profundidade",
+           "proporcao",
            "promessa", "ramificacao", "recorde", "regimes", "relogio", "resumo", "vigia", "volatilidade",
            "VERSAO", "auto_teste"]
 
@@ -972,5 +974,27 @@ def auto_teste() -> list:
         for caminho in caminhos:
             if not caminho.exists() or caminho.stat().st_size == 0:
                 problemas.append("figura não foi gravada: %s" % caminho.name)
+
+    # --- a profundidade como eixo (profundidade.py) ---
+    rng_prof = np.random.default_rng(51)
+    caixas_ind = profundidade.razoes(pd.Series(rng_prof.normal(0.0, 0.01, 60000)),
+                                    pd.Series(rng_prof.normal(0.0, 0.012, 60000)), janela=252)
+    if abs(float(caixas_ind[0.05]["excesso"]) - 1.0) > 0.15 or abs(float(caixas_ind[0.02]["excesso"]) - 1.0) > 0.25:
+        problemas.append("profundidade: pernas independentes não dão razão um no corte raso")
+    if abs(profundidade.expoente(list(caixas_ind), caixas_ind) - 2.0) > 0.25:
+        problemas.append("profundidade: o par independente não carrega o expoente dois da independência")
+    ga, gb = profundidade.controle_gaussiano(60000, np.random.default_rng(52), 0.5)
+    caixas_g = profundidade.razoes(pd.Series(0.01 * ga.to_numpy()), pd.Series(0.012 * gb.to_numpy()), janela=252)
+    alfa_g = profundidade.expoente(list(caixas_g), caixas_g)
+    ta, tb = profundidade.controle_t(60000, np.random.default_rng(53), 0.5, 4)
+    caixas_t = profundidade.razoes(pd.Series(0.01 * ta.to_numpy()), pd.Series(0.012 * tb.to_numpy()), janela=252)
+    alfa_t = profundidade.expoente(list(caixas_t), caixas_t)
+    if not alfa_g - alfa_t > 0.15:
+        problemas.append("profundidade: a gaussiana não ficou acima da t na mesma janela (%.3f contra %.3f)"
+                         % (alfa_g, alfa_t))
+    gc, gd = profundidade.controle_gaussiano(60000, np.random.default_rng(54), 0.7)
+    caixas_g7 = profundidade.razoes(pd.Series(0.01 * gc.to_numpy()), pd.Series(0.012 * gd.to_numpy()), janela=252)
+    if profundidade.expoente(list(caixas_g7), caixas_g7) >= alfa_g:
+        problemas.append("profundidade: mais correlação não abaixou o expoente da gaussiana")
 
     return problemas

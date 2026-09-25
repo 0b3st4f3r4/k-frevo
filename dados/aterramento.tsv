@@ -96,11 +96,11 @@ h	o horizonte, em dias	simbolo	h	2		2
 Y	o segundo sorteio, na prova da variância da soma	simbolo	Y	2		2
 mu	a média do incremento	simbolo	\mu	2	esperanca	2
 operador	a matriz que carrega o estado de um passo para o outro	simbolo	M	25		25
-esboco	a familia de contadores de sinal sorteado que estima o segundo momento do fluxo	termo	esboço	30		30
-contador	o valor de um contador do esboco depois de somar o fluxo inteiro	simbolo	u	30	esboco	30
-contadores	o numero de contadores guardados pelo esboco	simbolo	K	30	esboco	30
-energia	a soma dos quadrados dos incrementos: o segundo momento do caminho	simbolo	Q	30	r	30
-precisao	o erro relativo pedido ao esboco	simbolo	\varepsilon	30	esboco	30
+esboco	a familia de contadores de sinal sorteado que estima o segundo momento do fluxo	termo	esboço	31		31
+contador	o valor de um contador do esboco depois de somar o fluxo inteiro	simbolo	u	31	esboco	31
+contadores	o numero de contadores guardados pelo esboco	simbolo	K	31	esboco	31
+energia	a soma dos quadrados dos incrementos: o segundo momento do caminho	simbolo	Q	31	r	31
+precisao	o erro relativo pedido ao esboco	simbolo	\varepsilon	31	esboco	31
 concordancia	a fracao de pares de dias que concordam menos a que discorda	simbolo	\tau	8		8
 sigma-um	a covariancia entre dois pares de dias que dividem um dia	simbolo	\sigma_1	8	desvio-padrao	8
 fracao-de-pares	a fracao dos pares que se conta	simbolo	\rho	8		8
